@@ -18,4 +18,11 @@ public class User {
                 this.converter = "Administrator";
         }
     }
+
+    public static int getId() {
+        return id;
+    }
+    public String converter(){
+        return converter;
+    }
 }
