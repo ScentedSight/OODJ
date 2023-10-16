@@ -1,21 +1,21 @@
 public class User {
-    private static int userID;
+    private static int id;
     private String password;
     private byte roles;
     private int balance;
-    private String role_converter;
+    private String converter;
 
     public User() {
 
         switch (roles) {
             case 1:
-                this.role_converter = "Customer";
+                this.converter = "Customer";
             case 2:
-                this.role_converter = "Vendor";
+                this.converter = "Vendor";
             case 3:
-                this.role_converter = "Delivery Runner";
+                this.converter = "Delivery Runner";
             case 4:
-                this.role_converter = "Administrator";
+                this.converter = "Administrator";
         }
     }
 }
