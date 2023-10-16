@@ -1,0 +1,51 @@
+Last login: Sun Oct 15 18:25:44 on console
+johan@Johans-MacBook-Air ~ % cd /Users/johan/Desktop/Software Engineering Y2S1/Object-oriented development with java/OODJ Assignment
+cd: too many arguments
+johan@Johans-MacBook-Air ~ % cd /Users
+johan@Johans-MacBook-Air /Users % /johan
+zsh: no such file or directory: /johan
+johan@Johans-MacBook-Air /Users % /Desktop
+zsh: no such file or directory: /Desktop
+johan@Johans-MacBook-Air /Users % /johan
+zsh: no such file or directory: /johan
+johan@Johans-MacBook-Air /Users % cd /johan
+cd: no such file or directory: /johan
+johan@Johans-MacBook-Air /Users % /
+zsh: permission denied: /
+johan@Johans-MacBook-Air /Users % cd /Users/johan
+johan@Johans-MacBook-Air ~ % cd /desktop
+cd: no such file or directory: /desktop
+johan@Johans-MacBook-Air ~ % desktop
+zsh: command not found: desktop
+johan@Johans-MacBook-Air ~ % cd desktop
+johan@Johans-MacBook-Air desktop % cd Software Engineering Y2S1
+cd: too many arguments
+johan@Johans-MacBook-Air desktop % cd "Software Engineering Y2S1"
+johan@Johans-MacBook-Air Software Engineering Y2S1 % cd "Object-oriented development with java"
+johan@Johans-MacBook-Air Object-oriented development with java % cd "OODJ Assignment"
+johan@Johans-MacBook-Air OODJ Assignment % nano .gitignore
+
+  UW PICO 5.09                        File: .gitignore                          
+
+.DS_Store
+
+# Misc  
+*.swp
+release.properties
+pom.xml.releaseBackup
+pom.xml.tag
+/shelf/
+/workspace.xml
+
+
+
+
+
+
+
+
+
+
+                               [ Wrote 59 lines ]                               
+^G Get Help  ^O WriteOut  ^R Read File ^Y Prev Pg   ^K Cut Text  ^C Cur Pos   
+^X Exit      ^J Justify   ^W Where is  ^V Next Pg   ^U UnCut Text^T To Spell  
