@@ -3,10 +3,15 @@ public class Order {
     private static int id = 001;
     private String converter;
     private byte status;
-    public User user;
-    public Food food;
+    private String review;
+    private User user;
+    private Food food;
+    private Time time;
+
 
     public Order(byte status, User user, Food food) {
+        Time time = new Time();
+        this.time = time;
         id++;
         switch (status) {
             case 1:
@@ -45,6 +50,14 @@ public class Order {
     public String getStatus(){
         return converter;
     }
+
+    public void setReview(String review){
+        this.review = review;
+    }
+
+    public String getReview(){
+        return review;
+    }
     
     public int getUser(){
         return user.getId();
@@ -58,5 +71,9 @@ public class Order {
         double foodPrice = food.getCost();
         double userBal = user.getBal();
         user.setBal(foodPrice - userBal);
+    }
+
+    public String getTime(){
+        return time.toString();
     }
 }
