@@ -2,10 +2,13 @@ public class Food {
     
     private String name;
     private static int id = 001;
+    private int foodId;
     private double cost;
+    private Vendor vendor;
     
-    public Food() {
+    public Food(Vendor vendor) {
         id++;
+        foodId = id;
     }
     
     public void setName(String name){
@@ -17,7 +20,7 @@ public class Food {
     }
     
     public int getId(){
-        return id;
+        return foodId;
     }
     
     public void setCost(double cost){
@@ -28,4 +31,12 @@ public class Food {
         return cost;
     }
 
+    public int getVendor(){
+        return vendor.getId();
+    }
+
+    @Override
+    public String toString() {
+        return foodId + "," + name + "," + cost;
+    }
 }

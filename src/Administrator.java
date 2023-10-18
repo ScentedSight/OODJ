@@ -1,7 +1,15 @@
 public class Administrator extends User{
 
-    public Administrator(Object object){
+    private static int id = 001;
+    private int administratorId;
 
+    public Administrator(Object object){
+        id++;
+        administratorId = id;
+    }
+
+    public int getId(){
+        return administratorId;
     }
 
     public static void addBal(double amount){
@@ -10,5 +18,10 @@ public class Administrator extends User{
 
     public static void setBal(double amount){
 
+    }
+
+    @Override
+    public String toString() {
+        return "A" + administratorId;
     }
 }

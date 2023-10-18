@@ -1,8 +1,9 @@
 public class Order {
     
     private static int id = 001;
+    private int orderId;
     private String review;
-    private User user;
+    private Customer customer;
     private Food food;
     private Time time;
 
@@ -14,14 +15,15 @@ public class Order {
         DELIVERED
     }
 
-    public Order(User user, Food food) {
+    public Order(Customer customer, Food food) {
         Time time = new Time();
         this.time = time;
         id++;
+        orderId = id;
     }
     
     public int getId(){
-        return id;
+        return orderId;
     }
 
     public void setReview(String review){
@@ -32,8 +34,8 @@ public class Order {
         return review;
     }
     
-    public int getUser(){
-        return user.getId();
+    public int getCustomer(){
+        return customer.getId();
     }
     
     public String getFood(){
@@ -50,6 +52,6 @@ public class Order {
 
     @Override
     public String toString() {
-        return id + "," + user.getId()+ "," + food.getId()+ "," + food.getCost()+ "," + time + review;
+        return orderId + "," + customer.getId()+ "," + food.getId()+ "," + food.getCost()+ "," + time + "," + review;
     }
 }
