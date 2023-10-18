@@ -17,6 +17,10 @@ public class Customer extends User{
         return balance;
     }
 
+    public void deductBal(Food food){
+        this.balance = balance - food.getCost();
+    }
+
     @Override
     public String toString() {
         return "C" + customerId;

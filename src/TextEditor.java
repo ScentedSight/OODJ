@@ -1,12 +1,15 @@
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
+import java.io.FileReader;
 
 public class TextEditor {
 
     private User user;
+    private Food food;
     private Order order;
 
     public TextEditor(Order order){
@@ -17,40 +20,58 @@ public class TextEditor {
         this.user = user;
     }
 
-    public void logIn(){
+    public enum FilePaths{
 
+        USERS("path = USERS.txt"),
+        MENU("path = MENU.txt"),
+        HISTORY("path = HISTORY.txt");
+
+        private String filePath;
+
+        FilePaths(String filePath) {
+            this.filePath = filePath;
+        }
+
+        public String getFilePath(){
+            return filePath;
+        }
     }
-    public void register(){
+
+    public void fileReader(){
         try {
-            File newUser = new File("UserList.txt");
-            if (newUser.createNewFile()) {
-                System.out.println("File created: " + newUser.getName());
-            } else {
-                try {
-                    FileWriter writer = new FileWriter("UserList.txt");
-                    writer.write(user.toString()+"\n");
-                    writer.close();
-                    System.out.println("Successfully wrote to the file.");
-                } catch (IOException e) {
-                    System.out.println("An error occurred.");
-                    e.printStackTrace();
+            String filePath = "path/to/your/textfile.txt";
+            FileReader reader = new FileReader(filePath);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String searchFor = "specificString";
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                // Check if the line contains the specific string
+                if (line.contains(searchFor)) {
+                    // Desired action
                 }
             }
+            bufferedReader.close();
         } catch (IOException e) {
-            System.out.println("An error occurred.");
             e.printStackTrace();
         }
     }
 
-    public void recordOrder(){
+    public void fileWrite(FilePaths paths){
+        //How to use:
+        //First create an object from FilePaths enum and specify paths -> Ex. FilePaths addToMenu = FilePaths.MENU
+        //Then this method can be called -> Ex. TextEditor.fileWrite(addToMenu)
         try {
-            File newOrder = new File("OrderHistory.txt");
-            if (newOrder.createNewFile()) {
-                System.out.println("File created: " + newOrder.getName());
+            File newFile = new File(paths.getFilePath());
+            if (newFile.createNewFile()) {
+                System.out.println("File created: " + newFile.getName());
+                FileWriter writer = new FileWriter(paths.name());
+                writer.write(user.toString()+"\n");
+                writer.close();
+                System.out.println("Successfully wrote to the file.");
             } else {
                 try {
-                    FileWriter writer = new FileWriter("OrderHistory.txt");
-                    writer.write(order.toString()+"\n");
+                    FileWriter writer = new FileWriter(paths.name());
+                    writer.write(user.toString()+"\n");
                     writer.close();
                     System.out.println("Successfully wrote to the file.");
                 } catch (IOException e) {

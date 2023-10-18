@@ -3,6 +3,8 @@ public class Order {
     private static int id = 001;
     private int orderId;
     private String review;
+    private Vendor vendor;
+    private DeliveryRunner runner;
     private Customer customer;
     private Food food;
     private Time time;
@@ -15,7 +17,14 @@ public class Order {
         DELIVERED
     }
 
-    public Order(Customer customer, Food food) {
+    public Order(Vendor vendor, Customer customer, Food food) {
+        Time time = new Time();
+        this.time = time;
+        id++;
+        orderId = id;
+    }
+
+    public Order(Vendor vendor, Customer customer, Food food, DeliveryRunner runner) {
         Time time = new Time();
         this.time = time;
         id++;
@@ -41,13 +50,21 @@ public class Order {
     public String getFood(){
         return food.getName();
     }
-    
-    public void deductBal(){
-
-    }
 
     public String getTime(){
         return time.toString();
+    }
+
+    public void payment(){
+        customer.deductBal(food);
+    }
+
+    public void vendorProfit(){
+        vendor.addBal(food);
+    }
+
+    public void runnerProfit(){
+        runner.addBal();
     }
 
     @Override

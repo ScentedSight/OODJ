@@ -1,24 +1,28 @@
 public class DeliveryRunner extends User{
 
     private static int id = 001;
-    private int deliveryRunnerId;
+    private int runnerId;
     private double balance = 0;
 
     public DeliveryRunner(){
         id++;
-        deliveryRunnerId = id;
+        runnerId = id;
     }
 
     public int getId(){
-        return deliveryRunnerId;
+        return runnerId;
     }
 
     public double getBal(){
         return balance;
     }
 
+    public void addBal(){
+
+    }
+
     @Override
     public String toString() {
-        return "D" + deliveryRunnerId;
+        return "D" + runnerId;
     }
 }

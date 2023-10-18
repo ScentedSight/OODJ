@@ -17,6 +17,10 @@ public class Vendor extends User{
         return balance;
     }
 
+    public void addBal(Food food){
+        this.balance = balance + food.getCost();
+    }
+
     @Override
     public String toString() {
         return "V" + vendorId;
