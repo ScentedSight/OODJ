@@ -3,7 +3,7 @@ public class Administrator extends User{
     private static int id = 001;
     private int administratorId;
 
-    public Administrator(Object object){
+    public Administrator(){
         id++;
         administratorId = id;
     }
