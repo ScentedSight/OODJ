@@ -37,16 +37,18 @@ public class TextEditor {
         }
     }
 
-    public void fileReader(){
+    public void fileReader(FilePaths paths, IdProvider provider){
+        //How to use:
+        //First create an object from FilePaths enum and specify paths -> Ex. FilePaths addToHistory = FilePaths.HISTORY
+        //Then this method can be called -> Ex. TextEditor.fileReader(addToHistory, provider)
         try {
-            String filePath = "path/to/your/textfile.txt";
-            FileReader reader = new FileReader(filePath);
+            FileReader reader = new FileReader(paths.getFilePath());
             BufferedReader bufferedReader = new BufferedReader(reader);
-            String searchFor = "specificString";
+            String search = String.valueOf(provider.getId());
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 // Check if the line contains the specific string
-                if (line.contains(searchFor)) {
+                if (line.contains(search)) {
                     // Desired action
                 }
             }

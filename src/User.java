@@ -1,4 +1,4 @@
-public class User {
+public class User implements IdProvider {
     
     private int id;
     private String password;

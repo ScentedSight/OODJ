@@ -1,4 +1,4 @@
-public class Order {
+public class Order implements IdProvider {
     
     private static int id = 001;
     private int orderId;

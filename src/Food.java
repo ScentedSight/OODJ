@@ -1,4 +1,4 @@
-public class Food {
+public class Food implements IdProvider {
     
     private String name;
     private static int id = 001;
