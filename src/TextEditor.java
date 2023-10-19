@@ -37,14 +37,14 @@ public class TextEditor {
         }
     }
 
-    public void fileReader(FilePaths paths, IdProvider provider){
+    public void fileReader(FilePaths paths, DataProvider IdProvider){
         //How to use:
         //First create an object from FilePaths enum and specify paths -> Ex. FilePaths addToHistory = FilePaths.HISTORY
         //Then this method can be called -> Ex. TextEditor.fileReader(addToHistory, provider)
         try {
             FileReader reader = new FileReader(paths.getFilePath());
             BufferedReader bufferedReader = new BufferedReader(reader);
-            String search = String.valueOf(provider.getId());
+            String search = String.valueOf(IdProvider.getId());
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 // Check if the line contains the specific string
@@ -58,7 +58,7 @@ public class TextEditor {
         }
     }
 
-    public void fileWrite(FilePaths paths, Object object){
+    public void fileWrite(FilePaths paths, DataProvider dataProvider){
         //How to use:
         //First create an object from FilePaths enum and specify paths -> Ex. FilePaths addToMenu = FilePaths.MENU
         //Then this method can be called -> Ex. TextEditor.fileWrite(addToMenu, object)
@@ -67,13 +67,13 @@ public class TextEditor {
             if (newFile.createNewFile()) {
                 System.out.println("File created: " + newFile.getName());
                 FileWriter writer = new FileWriter(paths.name());
-                writer.write(object.toString()+"\n");
+                writer.write(dataProvider.toString()+"\n");
                 writer.close();
                 System.out.println("Successfully wrote to the file.");
             } else {
                 try {
                     FileWriter writer = new FileWriter(paths.name());
-                    writer.write(object.toString()+"\n");
+                    writer.write(dataProvider.toString()+"\n");
                     writer.close();
                     System.out.println("Successfully wrote to the file.");
                 } catch (IOException e) {
