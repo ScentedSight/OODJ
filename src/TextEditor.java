@@ -56,22 +56,22 @@ public class TextEditor {
         }
     }
 
-    public void fileWrite(FilePaths paths){
+    public void fileWrite(FilePaths paths, Object object){
         //How to use:
         //First create an object from FilePaths enum and specify paths -> Ex. FilePaths addToMenu = FilePaths.MENU
-        //Then this method can be called -> Ex. TextEditor.fileWrite(addToMenu)
+        //Then this method can be called -> Ex. TextEditor.fileWrite(addToMenu, object)
         try {
             File newFile = new File(paths.getFilePath());
             if (newFile.createNewFile()) {
                 System.out.println("File created: " + newFile.getName());
                 FileWriter writer = new FileWriter(paths.name());
-                writer.write(user.toString()+"\n");
+                writer.write(object.toString()+"\n");
                 writer.close();
                 System.out.println("Successfully wrote to the file.");
             } else {
                 try {
                     FileWriter writer = new FileWriter(paths.name());
-                    writer.write(user.toString()+"\n");
+                    writer.write(object.toString()+"\n");
                     writer.close();
                     System.out.println("Successfully wrote to the file.");
                 } catch (IOException e) {
