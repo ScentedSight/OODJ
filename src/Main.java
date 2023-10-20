@@ -5,7 +5,6 @@ import java.util.TimeZone;
 public class Main {
 
     public static void main(String[] args){
-        fgdtr
-        System.out.println("Hello World");
+        
     }
 }
