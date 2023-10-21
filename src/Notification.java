@@ -6,7 +6,7 @@ public class Notification {
 
     }
 
-    public int getUser() {
+    public String getUser() {
         return user.getId();
     }
 }

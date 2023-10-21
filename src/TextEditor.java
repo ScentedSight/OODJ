@@ -9,8 +9,11 @@ import java.io.FileReader;
 public class TextEditor {
 
     private User user;
-    private Food food;
     private Order order;
+
+    public TextEditor(){
+
+    }
 
     public TextEditor(Order order){
         this.order = order;
@@ -23,7 +26,6 @@ public class TextEditor {
     public enum FilePaths{
 
         USERS("path = USERS.txt"),
-        MENU("path = MENU.txt"),
         HISTORY("path = HISTORY.txt");
 
         private String filePath;
@@ -39,8 +41,9 @@ public class TextEditor {
 
     public void fileReader(FilePaths paths, DataProvider IdProvider){
         //How to use:
-        //First create an object from FilePaths enum and specify paths -> Ex. FilePaths addToHistory = FilePaths.HISTORY
-        //Then this method can be called -> Ex. TextEditor.fileReader(addToHistory, provider)
+        //First create an object from the current class TextEditor textEditor = new TextEditor();
+        //Secondly create an object from FilePaths enum and specify paths -> Ex. FilePaths addToHistory = FilePaths.HISTORY
+        //Then this method can be called -> Ex. textEditor.fileReader(addToHistory, IdProvider)
         try {
             FileReader reader = new FileReader(paths.getFilePath());
             BufferedReader bufferedReader = new BufferedReader(reader);
@@ -60,8 +63,9 @@ public class TextEditor {
 
     public void fileWrite(FilePaths paths, DataProvider dataProvider){
         //How to use:
-        //First create an object from FilePaths enum and specify paths -> Ex. FilePaths addToMenu = FilePaths.MENU
-        //Then this method can be called -> Ex. TextEditor.fileWrite(addToMenu, object)
+        //First create an object from the current class TextEditor textEditor = new TextEditor();
+        //Second create an object from FilePaths enum and specify paths -> Ex. FilePaths addToMenu = FilePaths.MENU
+        //Then this method can be called -> Ex. textEditor.fileWrite(addToMenu, dataProvider)
         try {
             File newFile = new File(paths.getFilePath());
             if (newFile.createNewFile()) {

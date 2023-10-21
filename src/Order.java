@@ -1,8 +1,11 @@
 public class Order implements DataProvider {
     
     private static int id = 001;
-    private int orderId;
+    private String orderId;
+    private String status;
     private String review;
+    private double total;
+    private double deliveryFee = 2.50;
     private Vendor vendor;
     private DeliveryRunner runner;
     private Customer customer;
@@ -12,7 +15,9 @@ public class Order implements DataProvider {
     enum Status{
         PREPARING,
         READY,
+        DONE,
         CANCELED,
+        SEARCHING,
         DELIVERING,
         DELIVERED
     }
@@ -20,18 +25,20 @@ public class Order implements DataProvider {
     public Order(Vendor vendor, Customer customer, Food food) {
         Time time = new Time();
         this.time = time;
+        orderId = Integer.toString(id);
+        total = food.getCost();
         id++;
-        orderId = id;
     }
 
     public Order(Vendor vendor, Customer customer, Food food, DeliveryRunner runner) {
         Time time = new Time();
         this.time = time;
+        orderId = Integer.toString(id);
+        total = food.getCost() + deliveryFee;
         id++;
-        orderId = id;
     }
     
-    public int getId(){
+    public String getId(){
         return orderId;
     }
 
@@ -43,7 +50,7 @@ public class Order implements DataProvider {
         return review;
     }
     
-    public int getCustomer(){
+    public String getCustomer(){
         return customer.getId();
     }
     
@@ -56,19 +63,20 @@ public class Order implements DataProvider {
     }
 
     public void payment(){
-        customer.deductBal(food);
+        customer.deductBal(total);
+        vendor.addBal(food.getCost());
     }
 
-    public void vendorProfit(){
-        vendor.addBal(food);
+    public void runnerProfit(){ //Can only be called if status = DELIVERED
+        runner.addBal(total - food.getCost());
     }
 
-    public void runnerProfit(){
-        runner.addBal();
+    public void setStatus(Status status){
+        this.status = status.toString();
     }
 
     @Override
     public String toString() {
-        return orderId + "," + customer.getId()+ "," + food.getId()+ "," + food.getCost()+ "," + time + "," + review;
+        return orderId + "," + customer.getId() + "," + food.getId() + "," + total + "," + time + "," + status + "," + review;
     }
 }
