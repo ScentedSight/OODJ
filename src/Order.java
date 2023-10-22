@@ -1,7 +1,5 @@
 public class Order implements DataProvider {
-    
-    private static int id = 001;
-    private String orderId;
+
     private String status;
     private String review;
     private double total;
@@ -25,21 +23,17 @@ public class Order implements DataProvider {
     public Order(Vendor vendor, Customer customer, Food food) {
         Time time = new Time();
         this.time = time;
-        orderId = Integer.toString(id);
         total = food.getCost();
-        id++;
     }
 
     public Order(Vendor vendor, Customer customer, Food food, DeliveryRunner runner) {
         Time time = new Time();
         this.time = time;
-        orderId = Integer.toString(id);
         total = food.getCost() + deliveryFee;
-        id++;
     }
     
     public String getId(){
-        return orderId;
+        return vendor.getId() + ":" + customer.getId() + ":" + (runner != null ? runner.getId() : "");
     }
 
     public void setReview(String review){
@@ -77,6 +71,6 @@ public class Order implements DataProvider {
 
     @Override
     public String toString() {
-        return orderId + "," + customer.getId() + "," + food.getId() + "," + total + "," + time + "," + status + "," + review;
+        return vendor.getId() + ":" + customer.getId() + ":" + (runner != null ? runner.getId() : "") + "," + food.getId() + "," + food.getName() + "," + total + "," + time + "," + status + "," + review;
     }
 }

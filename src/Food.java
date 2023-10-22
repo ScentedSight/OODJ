@@ -39,6 +39,6 @@ public class Food implements DataProvider {
 
     @Override
     public String toString() { //Writing to textfile
-        return vendor.getId() + "," + foodId + "," + name + "," + cost;
+        return vendor.getId() + ",F" + foodId + "," + name + "," + cost;
     }
 }
