@@ -1,7 +1,7 @@
 public class Food implements DataProvider {
     
     private String name;
-    private static int id = 001; //Static to keep unique id for any subsequently created foods
+    private static int id = 001;
     private String foodId;
     private double cost;
     private Vendor vendor; //Pass vendor's details when food is created to list it under the vendor's menu
@@ -16,10 +16,6 @@ public class Food implements DataProvider {
     public String getName(){
         return name;
     }
-
-    public void setName(String name){
-        this.name = name;
-    }
     
     public String getId(){
         return foodId;
@@ -33,11 +29,7 @@ public class Food implements DataProvider {
         return cost;
     }
 
-    public String getVendor(){
-        return vendor.getId();
-    }
-
-    @Override
+    @Override //For writing to menu text file
     public String toString() { //Writing to textfile
         return vendor.getId() + ",F" + foodId + "," + name + "," + cost;
     }

@@ -62,32 +62,6 @@ public class TextEditor {
         }
     }
 
-    public void fileEdit(FilePaths paths, DataProvider IdProvider) {
-        List<String> content = new ArrayList<>(fileReader(paths, IdProvider));
-        //Use [content] to edit elements extracted from user/menu text file for vendor's and admin's update function
-        textAppend(paths.getFilePath(), content);
-    }
-
-    public void textDelete(FilePaths paths, DataProvider IdProvider) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(paths.getFilePath()));
-            List<String> lines = new ArrayList<>();
-            String currentLine;
-
-            while ((currentLine = reader.readLine()) != null) {
-                if (!currentLine.contains(IdProvider.getId())){
-                    lines.add(currentLine);
-                }
-            }
-
-            reader.close();
-            textAppend(paths.getFilePath(), lines); //Call class's internal function
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-    }
-
     public List<String> fileReader(FilePaths paths, DataProvider IdProvider) { //Used for any file-reading process, including reading before delete or update functions, returns general List<> which can be transformed into any implementations for output
         List<String> lines = new ArrayList<>();
 
@@ -107,6 +81,18 @@ public class TextEditor {
             e.printStackTrace();
         }
         return lines;
+    }
+
+    public void textEdit(FilePaths paths, DataProvider IdProvider) { //Incomplete
+        List<String> content = new ArrayList<>(fileReader(paths, IdProvider));
+        //Use [content] to edit elements extracted from user/menu text file for vendor's and admin's update function
+        textAppend(paths.getFilePath(), content); //Call class's internal function to rewrite edited text back
+    }
+
+    public void textDelete(FilePaths paths, DataProvider IdProvider) {
+        List<String> content = new ArrayList<>(fileReader(paths, IdProvider));
+        //Use [content] to delete needed elements extracted from user/menu text file for vendor's and admin's delete function
+        textAppend(paths.getFilePath(), content); //Call class's internal function to write text back without the deleted part
     }
 
     private void textAppend(String paths, List<String> lines) { //Class's internal function for editing textfile's line

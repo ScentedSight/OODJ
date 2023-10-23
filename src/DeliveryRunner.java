@@ -24,6 +24,6 @@ public class DeliveryRunner extends User{
 
     @Override
     public String toString() { //For writing to TextFile during registration
-        return "D" + runnerId + "," + balance;
+        return "D" + runnerId + "," + super.getPass() + "," + balance;
     }
 }

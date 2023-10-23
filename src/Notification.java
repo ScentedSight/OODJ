@@ -1,9 +1,9 @@
-public class Notification {
+public class Notification { //Incomplete
 
     private String notification;
     private User user;
 
-    public Notification(String notification){
+    public Notification(String notification) {
 
     }
 

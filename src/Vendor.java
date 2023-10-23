@@ -26,6 +26,6 @@ public class Vendor extends User{
 
     @Override
     public String toString() { //For writing to TextFile during registration
-        return "V" + vendorId + "," + vendorName + balance;
+        return "V" + vendorId + "," + super.getPass() + "," + vendorName + "," + balance;
     }
 }
