@@ -64,13 +64,7 @@ public class TextEditor {
 
     public void fileEdit(FilePaths paths, DataProvider IdProvider) {
         List<String> content = new ArrayList<>(fileReader(paths, IdProvider));
-        if (IdProvider.getId()) {
-
-        } else if () {
-
-        } else {
-
-        }
+        //Use [content] to edit elements extracted from user/menu text file for vendor's and admin's update function
         textAppend(paths.getFilePath(), content);
     }
 

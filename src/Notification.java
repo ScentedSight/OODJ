@@ -1,4 +1,5 @@
 public class Notification {
+
     private String notification;
     private User user;
 
