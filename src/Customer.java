@@ -1,6 +1,6 @@
 public class Customer extends User{
 
-    private static int id = 001;
+    private static int id = 1;
     private String customerId;
     private double balance = 0;
     private String address;
@@ -29,7 +29,7 @@ public class Customer extends User{
     }
 
     public void deductBal(double payment){ //Deducting balance from payment of foods
-        this.balance = balance - payment;
+        balance = balance - payment;
     }
 
     public String getAddress(){ //Retrieve address for ordering processes

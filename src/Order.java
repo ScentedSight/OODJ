@@ -10,7 +10,7 @@ public class Order implements DataProvider {
     private Food food;
     private Time time;
 
-    enum Status{
+    enum Status {
         PREPARING,
         READY,
         DONE,
@@ -23,12 +23,19 @@ public class Order implements DataProvider {
     public Order(Vendor vendor, Customer customer, Food food) { //For dine-in
         Time time = new Time();
         this.time = time;
+        this.vendor = vendor;
+        this.customer = customer;
+        this.food = food;
         total = food.getCost();
     }
 
     public Order(Vendor vendor, Customer customer, Food food, DeliveryRunner runner) { //For deliveries
         Time time = new Time();
         this.time = time;
+        this.vendor = vendor;
+        this.customer = customer;
+        this.food = food;
+        this.runner = runner;
         total = food.getCost() + deliveryFee;
     }
     
@@ -75,6 +82,6 @@ public class Order implements DataProvider {
 
     @Override
     public String toString() { //For writing to order history
-        return vendor.getId() + ":" + customer.getId() + ":" + (runner != null ? runner.getId() : "") + "," + food.getId() + "," + food.getName() + "," + total + "," + time + "," + status + "," + review;
+        return vendor.getId() + ":" + customer.getId() + ":" + (runner != null ? runner.getId() : "") + "," + vendor.getName() + "," + food.getId() + "," + food.getName() + "," + total + "," + time + "," + status + "," + review;
     }
 }

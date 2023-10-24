@@ -18,7 +18,7 @@ public class TextEditor {
 
         private String filePath;
 
-        FilePaths(String filePath) {
+        FilePaths(String filePath) { //Constructor for enum class
             this.filePath = filePath;
         }
 
@@ -89,7 +89,7 @@ public class TextEditor {
         textAppend(paths.getFilePath(), content); //Call class's internal function to rewrite edited text back
     }
 
-    public void textDelete(FilePaths paths, DataProvider IdProvider) {
+    public void textDelete(FilePaths paths, DataProvider IdProvider) { //Incomplete
         List<String> content = new ArrayList<>(fileReader(paths, IdProvider));
         //Use [content] to delete needed elements extracted from user/menu text file for vendor's and admin's delete function
         textAppend(paths.getFilePath(), content); //Call class's internal function to write text back without the deleted part

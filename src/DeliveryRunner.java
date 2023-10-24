@@ -19,7 +19,7 @@ public class DeliveryRunner extends User{
     }
 
     public void addBal(double deliveryFee){ //Profit for delivering food
-        this.balance = balance + deliveryFee;
+        balance = balance + deliveryFee;
     }
 
     @Override

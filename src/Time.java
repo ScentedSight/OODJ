@@ -9,18 +9,18 @@ public class Time {
     byte months;
     short years;
 
-    public Time(){
+    public Time() {
         long time = System.currentTimeMillis();
         TimeZone timeZone = TimeZone.getDefault();
         long offSet = timeZone.getOffset(time);
         long currentTime = time + offSet;
-        this.hours = (byte) ((currentTime/((1000*60)*60))%24);
-        this.minutes = (byte) ((currentTime/(1000*60))%60);
-        this.seconds = (byte) ((currentTime/1000)%60);
+        hours = (byte) ((currentTime/((1000*60)*60))%24);
+        minutes = (byte) ((currentTime/(1000*60))%60);
+        seconds = (byte) ((currentTime/1000)%60);
         GregorianCalendar calendar = new GregorianCalendar();
-        this.days = (byte) calendar.get(GregorianCalendar.DAY_OF_MONTH);
-        this.months = (byte) calendar.get(GregorianCalendar.MONTH + 1);
-        this.years = (short) calendar.get(GregorianCalendar.YEAR);
+        days = (byte) calendar.get(GregorianCalendar.DAY_OF_MONTH);
+        months = (byte) calendar.get(GregorianCalendar.MONTH + 1);
+        years = (short) calendar.get(GregorianCalendar.YEAR);
     }
 
     @Override //For writing to order history for time retrieval functions etc

@@ -1,6 +1,6 @@
 public class Vendor extends User{
 
-    private static int id = 001;
+    private static int id = 1;
     private String vendorId;
     private String vendorName;
     private double balance = 0;
@@ -20,8 +20,12 @@ public class Vendor extends User{
         return vendorId;
     }
 
+    public String getName() { //
+        return vendorName;
+    }
+
     public void addBal(Double profit){ //Profit for ordered foods
-        this.balance = balance + profit;
+        balance = balance + profit;
     }
 
     @Override
