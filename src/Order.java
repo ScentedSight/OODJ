@@ -1,6 +1,7 @@
 public class Order implements DataProvider {
 
-    private String status;
+    private Status status;
+    private Status statusRunner;
     private String review;
     private double total;
     private double deliveryFee = 2.50; //Delivery is for within campus only, thus distance is fixed and delivery fee too
@@ -11,9 +12,10 @@ public class Order implements DataProvider {
     private Time time;
 
     enum Status {
+        PENDING,
         PREPARING,
         READY,
-        DONE,
+        COMPLETED,
         CANCELED,
         SEARCHING,
         DELIVERING,
@@ -21,6 +23,7 @@ public class Order implements DataProvider {
     }
 
     public Order(Vendor vendor, Customer customer, Food food) { //For dine-in
+        status = Status.PENDING;
         Time time = new Time();
         this.time = time;
         this.vendor = vendor;
@@ -30,6 +33,8 @@ public class Order implements DataProvider {
     }
 
     public Order(Vendor vendor, Customer customer, Food food, DeliveryRunner runner) { //For deliveries
+        statusRunner = Status.SEARCHING;
+        status = Status.PENDING;
         Time time = new Time();
         this.time = time;
         this.vendor = vendor;
@@ -76,10 +81,14 @@ public class Order implements DataProvider {
         runner.addBal(total - food.getCost());
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(Status status) { //For vendor and customer to set statuses
         this.status = status.toString();
     }
-
+    
+    public void setRunnerStatus(Status status) { //For runner to set statuses
+        
+    }
+    
     @Override
     public String toString() { //For writing to order history
         return vendor.getId() + ":" + customer.getId() + ":" + (runner != null ? runner.getId() : "") + "," + vendor.getName() + "," + food.getId() + "," + food.getName() + "," + total + "," + time + "," + status + "," + review;

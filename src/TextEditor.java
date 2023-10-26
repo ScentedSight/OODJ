@@ -12,8 +12,9 @@ public class TextEditor {
 
     public enum FilePaths {
 
-        USERS("path = USERS.txt"),
+        USER("path = USERS.txt"),
         MENU("path = MENU.txt"),
+        ORDER("path = ORDER.txt"),
         HISTORY("path = HISTORY.txt");
 
         private String filePath;
