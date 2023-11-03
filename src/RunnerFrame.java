@@ -1,3 +1,7 @@
+
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -281,11 +285,11 @@ public class RunnerFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RunnerFrame().setVisible(true);
-                int i = 5
+                int i = 5;
                 TextEditor textEditor = new TextEditor();
                 while (i > 0) {
-                textEditor.fileReader(TextEditor.FilePaths.ORDER, runner);
-                runnerHomeTasklst.
+                List<String> test = new ArrayList<>();
+                ArrayList<String> test = textEditor.fileReader(TextEditor.FilePaths.ORDER, runner);
             }
             }
         });
