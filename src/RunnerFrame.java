@@ -32,10 +32,6 @@ public class RunnerFrame extends javax.swing.JFrame {
 
         runnerHomeTitlelbl = new javax.swing.JLabel();
         runnerHomeLogOutbtn = new javax.swing.JButton();
-        runnerHomeTaskpnl = new javax.swing.JScrollPane();
-        runnerHomeTasklst = new javax.swing.JList<>();
-        runnerHomePendingpnl = new javax.swing.JScrollPane();
-        runnerHomePendinglst = new javax.swing.JList<>();
         runnerTaskAcceptbtn = new javax.swing.JButton();
         runnerTaskDeclinebtn = new javax.swing.JButton();
         runnerHomeTaskHistbtn = new javax.swing.JButton();
@@ -49,7 +45,10 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTotallbl = new javax.swing.JLabel();
         runnerHomeTotaltxt = new javax.swing.JTextField();
         runnerHomeDaytxt = new javax.swing.JTextField();
-        jCalendar1 = new com.toedter.calendar.JCalendar();
+        runnerHomeTaskpn = new javax.swing.JScrollPane();
+        runnerHomeTasktbl = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Delivery Runner Home Page");
@@ -70,21 +69,6 @@ public class RunnerFrame extends javax.swing.JFrame {
                 runnerHomeLogOutbtnActionPerformed(evt);
             }
         });
-
-        runnerHomeTaskpnl.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tasks", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
-        runnerHomeTaskpnl.setName("Runner Home Page Task List"); // NOI18N
-
-        runnerHomeTasklst.setBorder(null);
-        runnerHomeTasklst.setName("Runner Home Page Task Listbox"); // NOI18N
-        runnerHomeTaskpnl.setViewportView(runnerHomeTasklst);
-
-        runnerHomePendingpnl.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Pending Tasks", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
-        runnerHomePendingpnl.setName("Runner Home Page Pending Task Scrollpanel"); // NOI18N
-
-        runnerHomePendinglst.setBorder(null);
-        runnerHomePendinglst.setName("Runner Home Page Pending Task Listbox"); // NOI18N
-        runnerHomePendingpnl.setViewportView(runnerHomePendinglst);
-        runnerHomePendinglst.getAccessibleContext().setAccessibleParent(this);
 
         runnerTaskAcceptbtn.setText("Accept");
         runnerTaskAcceptbtn.setName("Runner Home Page Accept Task Button"); // NOI18N
@@ -135,7 +119,41 @@ public class RunnerFrame extends javax.swing.JFrame {
             }
         });
 
-        jCalendar1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Revenue", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        runnerHomeTaskpn.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Task List", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+
+        runnerHomeTasktbl.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Order Placed", "Vendor", "Customer ID", "Food", "Address"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        runnerHomeTaskpn.setViewportView(runnerHomeTasktbl);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -148,47 +166,38 @@ public class RunnerFrame extends javax.swing.JFrame {
                         .addComponent(runnerHomeTitlelbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(runnerTaskAcceptbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
+                                .addGap(55, 55, 55)
                                 .addComponent(runnerTaskDeclinebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(30, 30, 30)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(runnerHomeTaskHistbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(runnerHomeTaskpnl, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 25, Short.MAX_VALUE)
+                            .addComponent(runnerHomeTaskpn, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(runnerHomePendingpnl, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGap(0, 55, Short.MAX_VALUE)
                                 .addComponent(runnerHomeDeliveredbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(79, 79, 79)
-                                .addComponent(runnerHomeFailedbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(69, 69, 69)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(runnerHomeFailedbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGap(87, 87, 87)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(runnerHomeDaylbl, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(runnerHomeMonthlbl, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(runnerHomeTotallbl, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(runnerHomeYearlbl, javax.swing.GroupLayout.Alignment.TRAILING))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(runnerHomeDaytxt)
-                                            .addComponent(runnerHomeMonthtxt)
-                                            .addComponent(runnerHomeYeartxt)
-                                            .addComponent(runnerHomeTotaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(31, 31, 31))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(runnerHomeDaylbl, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(runnerHomeMonthlbl, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(runnerHomeTotallbl, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(runnerHomeYearlbl, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(runnerHomeDaytxt)
+                                    .addComponent(runnerHomeMonthtxt)
+                                    .addComponent(runnerHomeYeartxt)
+                                    .addComponent(runnerHomeTotaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(31, 31, 31))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,11 +207,13 @@ public class RunnerFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(runnerHomeDaytxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(runnerHomeDaylbl))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(runnerHomeDaylbl)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(runnerHomeMonthlbl)
@@ -216,21 +227,18 @@ public class RunnerFrame extends javax.swing.JFrame {
                             .addComponent(runnerHomeTotaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(runnerHomeTotallbl))
                         .addGap(44, 44, 44)
-                        .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
+                        .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(runnerHomeTaskpnl)
-                            .addComponent(runnerHomePendingpnl, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE))
+                        .addComponent(runnerHomeTaskpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(runnerTaskAcceptbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(runnerTaskDeclinebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(runnerHomeTaskHistbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(runnerHomeTaskHistbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(runnerHomeDeliveredbtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(runnerHomeFailedbtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                .addContainerGap(21, Short.MAX_VALUE))
+                                .addComponent(runnerHomeFailedbtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(runnerTaskDeclinebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -281,18 +289,18 @@ public class RunnerFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RunnerFrame().setVisible(true);
-                int i = 5
+                int i = 5;
                 TextEditor textEditor = new TextEditor();
                 while (i > 0) {
                 textEditor.fileReader(TextEditor.FilePaths.ORDER, runner);
-                runnerHomeTasklst.
             }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JCalendar jCalendar1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel runnerHomeDaylbl;
     private javax.swing.JTextField runnerHomeDaytxt;
     private javax.swing.JButton runnerHomeDeliveredbtn;
@@ -300,11 +308,9 @@ public class RunnerFrame extends javax.swing.JFrame {
     private javax.swing.JButton runnerHomeLogOutbtn;
     private javax.swing.JLabel runnerHomeMonthlbl;
     private javax.swing.JTextField runnerHomeMonthtxt;
-    private javax.swing.JList<String> runnerHomePendinglst;
-    private javax.swing.JScrollPane runnerHomePendingpnl;
     private javax.swing.JButton runnerHomeTaskHistbtn;
-    private javax.swing.JList<String> runnerHomeTasklst;
-    private javax.swing.JScrollPane runnerHomeTaskpnl;
+    private javax.swing.JScrollPane runnerHomeTaskpn;
+    private javax.swing.JTable runnerHomeTasktbl;
     private javax.swing.JLabel runnerHomeTitlelbl;
     private javax.swing.JLabel runnerHomeTotallbl;
     private javax.swing.JTextField runnerHomeTotaltxt;
