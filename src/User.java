@@ -1,4 +1,4 @@
-public class User implements DataProvider {
+public abstract class User implements DataProvider {
 
     //User class mainly used for logging in
     private String id;

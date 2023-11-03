@@ -82,7 +82,7 @@ public class Order implements DataProvider {
     }
 
     public void setStatus(Status status) { //For vendor and customer to set statuses
-        this.status = status.toString();
+
     }
     
     public void setRunnerStatus(Status status) { //For runner to set statuses
