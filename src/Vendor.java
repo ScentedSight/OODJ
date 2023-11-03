@@ -1,23 +1,24 @@
 public class Vendor extends User{
 
-    private static int id = 1;
-    private String vendorId;
     private String vendorName;
     private double balance = 0;
 
-    public Vendor(){ //For logging in purpose, attributes will be filled from TextFiles
+    private Vendor() { //Private default constructor to prevent instantiation due to class having factory methods for instantiation
 
     }
 
-    public Vendor(String password, String vendorName){ //Only for registration, passing password parameter back into inherited attribute
-        super(password);
-        this.vendorName = vendorName;
-        vendorId = Integer.toString(id);
-        id++;
+    public static Vendor createForLogin(String id, String password){ //Static factory method for login due to same parameter types cant be used in overloading constructor, used like -> Vendor vendorLogIn = vendorLogIn.createForLogin("V123", "pass123")
+        Vendor vendor = new Vendor();
+        vendor.setId(id);
+        vendor.setPass(password);
+        return vendor;
     }
 
-    public String getId(){ //For retrieving Id in ordering process and menu creation
-        return vendorId;
+    public static Vendor createForRegistration(String password, String vendorName){ //Static factory method for registration due to same parameter types cant be used in overloading constructor, used like -> Vendor vendorRegistration = Vendor.createForRegistration("V123", "Chinese Food")
+        Vendor vendor = new Vendor();
+        vendor.setPass(password);
+        vendor.vendorName = vendorName;
+        return vendor;
     }
 
     public String getName() { //
@@ -30,6 +31,6 @@ public class Vendor extends User{
 
     @Override
     public String toString() { //For writing to TextFile during registration
-        return "V" + vendorId + "," + super.getPass() + "," + vendorName + "," + balance;
+        return "V" + super.getId() + "," + super.getPass() + "," + vendorName + "," + balance;
     }
 }

@@ -1,31 +1,37 @@
 public abstract class User implements DataProvider {
 
-    //User class mainly used for logging in
+    private static int idCounter = 1;
     private String id;
     private String password;
 
-    public User(){ //Default constructor for inheritance
+    public User() { //Default constructor for inheritance
 
     }
 
-    public User(String id, String password) { //Input id and password when logging in
+    public User(String password) { //For registering users
+        id = String.valueOf(idCounter);
+        idCounter++;
+        this.password = password;
+    }
+
+    public User(String id, String password) { //For user log-in
         this.id = id;
         this.password = password;
     }
 
-    public User(String password){ //Input password for registering as Id are assigned on specific user classes
-        this.password = password;
-    }
-
-    public String getId() { //Not used due to individual users having their own specific Id assignment, this is for implementing DataProvider as all getId methods in-use are child's class of User
+    public String getId() { //Used for writing to text file in child class toString methods and other various id retrieval functions
         return id;
     }
 
-    public void setPass(String password){ //Parent's class method
-        this.password = password;
+    public void setId(String id) { //Inserting the Id back into the newly created child objects when the Id handler is found in TextFile during the log-in process
+        this.id = id;
     }
 
-    public String getPass(){ //Parent's class method
+    public String getPass(){ //Parent's class method to provide password for writing to file in child class toString method
         return password;
+    }
+
+    public void setPass(String password) { //To set password for factory methods in child classes
+        this.password = password;
     }
 }

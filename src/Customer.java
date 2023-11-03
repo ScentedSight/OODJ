@@ -1,27 +1,28 @@
 public class Customer extends User{
 
-    private static int id = 1;
-    private String customerId;
     private double balance = 0;
     private String address;
 
-    public Customer(){ //For logging in purpose, attributes will be filled from TextFiles
+    private Customer() { //Private default constructor to prevent instantiation due to class having factory methods for instantiation
 
     }
 
-    public Customer(String password, String address){ //Only for registration, passing password parameter back into inherited attribute
-        super(password);
-        this.address = address;
-        customerId = Integer.toString(id);
-        id++;
+    public static Customer createForLogin(String id, String password){ //Static factory method for login due to same parameter types cant be used in overloading constructor, used like -> Customer customerLogin = Customer.createForLogin("C123", "pass123")
+        Customer customer = new Customer();
+        customer.setId(id);
+        customer.setPass(password);
+        return customer;
+    }
+
+    public static Customer createForRegistration(String password, String address){ //Static factory method for registration due to same parameter types cant be used in overloading constructor, used like -> Customer customerRegister = Customer.createForRegistration("pass123", "67, Oakland Streets, Portland")
+        Customer customer = new Customer();
+        customer.setPass(password);
+        customer.address = address;
+        return customer;
     }
 
     public String getId(){ //For retrieving Id in ordering process
-        return customerId;
-    }
-
-    public void setId(String customerId){ //Inserting the Id back into the newly created Customer object when the Id handler is found in TextFile during the log-in process
-        this.customerId = customerId;
+        return super.getId();
     }
 
     public void setBal(String balance){ //Inserting the balance back into the newly created Customer object when the Id handler is found in TextFile during the log-in process
@@ -41,7 +42,7 @@ public class Customer extends User{
     }
 
     @Override
-    public String toString() { //For writing to TextFile during registration
-        return "C" + customerId + "," + super.getPass() + "," + address + "," + balance;
+    public String toString() { //Format for writing to TextFile during registration
+        return "C" + super.getId() + "," + super.getPass() + "," + address + "," + balance;
     }
 }
