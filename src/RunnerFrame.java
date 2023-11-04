@@ -294,7 +294,6 @@ public class RunnerFrame extends javax.swing.JFrame {
                 int i = 5;
                 TextEditor textEditor = new TextEditor();
                 while (i > 0) {
-                textEditor.fileReader(TextEditor.FilePaths.ORDER, runner);
             }
             }
         });
