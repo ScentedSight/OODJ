@@ -1,7 +1,9 @@
 import org.w3c.dom.Text;
 
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TextEditor {
@@ -101,15 +103,59 @@ public class TextEditor {
         return lines;
     }
 
-    public void textEdit(FilePaths paths, DataProvider IdProvider, int selection, String content) { //Mainly for editing menu and user list
-        List<String> contents = new ArrayList<>(fileReader(paths, IdProvider));
+    public void textEdit(User user, int selection, String content) { //Mainly for editing user list, pass integer selection parameter to edit respective elements delimited by ","
+        List<String> contents = new ArrayList<>(fileReader(FilePaths.USER, user));
         switch (selection) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
+            case 1 -> {
+                String[] container = contents.get(0).split(",");
+                container[1] = content;
+                String updatedContainer = String.join(",", container);
+                textDelete(user);
+                textAppend(FilePaths.USER.getFilePath(), updatedContainer);
+            }
+            case 2 -> {
+                String[] container = contents.get(0).split(",");
+                container[2] = content;
+                String updatedContainer = String.join(",", container);
+                textDelete(user);
+                textAppend(FilePaths.USER.getFilePath(), updatedContainer);
+            }
+            case 3 -> {
+                String[] container = contents.get(0).split(",");
+                container[3] = content;
+                String updatedContainer = String.join(",", container);
+                textDelete(user);
+                textAppend(FilePaths.USER.getFilePath(), updatedContainer);
+            }
         }
-        textWrite(paths.getFilePath(), contents); //Call class's internal function to rewrite edited text back
+    }
+
+    public void textEdit(Vendor vendor, String foodID,  int selection, String content) { //Mainly for editing menu, pass integer selection parameter to edit respective elements delimited by ","
+        List<String> contents = new ArrayList<>(fileReader(FilePaths.MENU, vendor));
+        switch (selection) {
+            case 1 -> {
+                for (String line : contents) {
+                    String[] currentLine = line.split(",");
+                    if (currentLine[1].equals(foodID)) {
+                        currentLine[2] = content;
+                        String updatedLine = String.join(",", currentLine);
+                        textDelete(vendor, foodID);
+                        textAppend(FilePaths.MENU.getFilePath(), updatedLine);
+                    }
+                }
+            }
+            case 2 -> {
+                for (String line : contents) {
+                    String[] currentLine = line.split(",");
+                    if (currentLine[1].equals(foodID)) {
+                        currentLine[3] = content;
+                        String updatedLine = String.join(",", currentLine);
+                        textDelete(vendor, foodID);
+                        textAppend(FilePaths.MENU.getFilePath(), updatedLine);
+                    }
+                }
+            }
+        }
     }
 
     public void textDelete(DataProvider IdProvider) { //Method overloading for deleting a line in the users text file or used internally in other methods
@@ -138,13 +184,11 @@ public class TextEditor {
         textWrite(FilePaths.MENU.getFilePath(), newContent); //Calling class's internal function to rewrite it back
     }
 
-    private void textAppend(String paths, List<String> lines) { //Class's internal function for appending to a textfile
+    private void textAppend(String paths, String line) { //Class's internal function for appending to a textfile
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(paths));
-            for (String line : lines) {
-                writer.write(line);
-                writer.newLine();
-            }
+            BufferedWriter writer = new BufferedWriter(new FileWriter(paths, true));
+            writer.write(line);
+            writer.newLine();
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
