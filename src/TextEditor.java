@@ -64,7 +64,7 @@ public class TextEditor {
         }
     }
 
-    public List<String> fileReader(FilePaths paths) { //Overloaded method for any file-reading process, also can be used for login/registration and view menu while including reading before delete or update functions, returns general List<> format which can be transformed into any implementations for output
+    public List<String> fileReader(FilePaths paths) { //Read lines of text from text files, returns general List<> format
         List<String> lines = new ArrayList<>();
 
         try {
@@ -82,7 +82,8 @@ public class TextEditor {
         return lines;
     }
 
-    public List<String> fileReader(FilePaths paths, DataProvider IdProvider) { //Overloaded method mainly for view order history, read reviews, read transaction history, read task history, read users and view revenue dashboard, specifically returns general List<> embedded with user ID from IdProvider which can be transformed into any implementations for output
+    /* SAMPLE CODE
+    public List<String> fileReader(FilePaths paths, DataProvider IdProvider) { //mainly for view order history, read reviews, read transaction history, read task history, read users and view revenue dashboard, specifically returns general List<> embedded with user ID from IdProvider which can be transformed into any implementations for output
         List<String> lines = new ArrayList<>();
 
         try {
@@ -102,39 +103,39 @@ public class TextEditor {
         }
         return lines;
     }
+    */
 
-    public void textEdit(User user, int selection, String content) { //Mainly for editing user list, pass integer selection parameter to edit respective elements delimited by ","
-        List<String> contents = new ArrayList<>(fileReader(FilePaths.USER, user));
+    public void textEdit(FilePaths paths, String id, List<String> lines, byte selection, String content) { //Editing pre-processed list passed from fileReader method
         switch (selection) {
             case 1 -> {
-                String[] container = contents.get(0).split(",");
+                String[] container = lines.get(0).split(",");
                 container[1] = content;
                 String updatedContainer = String.join(",", container);
-                textDelete(user);
-                textAppend(FilePaths.USER.getFilePath(), updatedContainer);
+                textDelete(paths, id);
+                textAppend(paths.getFilePath(), updatedContainer);
             }
             case 2 -> {
-                String[] container = contents.get(0).split(",");
+                String[] container = lines.get(0).split(",");
                 container[2] = content;
                 String updatedContainer = String.join(",", container);
-                textDelete(user);
-                textAppend(FilePaths.USER.getFilePath(), updatedContainer);
+                textDelete(paths, id);
+                textAppend(paths.getFilePath(), updatedContainer);
             }
             case 3 -> {
-                String[] container = contents.get(0).split(",");
+                String[] container = lines.get(0).split(",");
                 container[3] = content;
                 String updatedContainer = String.join(",", container);
-                textDelete(user);
-                textAppend(FilePaths.USER.getFilePath(), updatedContainer);
+                textDelete(paths, id);
+                textAppend(paths.getFilePath(), updatedContainer);
             }
         }
     }
 
-    public void textEdit(Vendor vendor, String foodID,  int selection, String content) { //Mainly for editing menu, pass integer selection parameter to edit respective elements delimited by ","
-        List<String> contents = new ArrayList<>(fileReader(FilePaths.MENU, vendor));
+    /* SAMPLE CODE
+    public void textEdit(List<String> lines, String foodID,  byte selection, String content) { //Mainly for editing menu, pass integer selection parameter to edit respective elements delimited by ","
         switch (selection) {
             case 1 -> {
-                for (String line : contents) {
+                for (String line : lines) {
                     String[] currentLine = line.split(",");
                     if (currentLine[1].equals(foodID)) {
                         currentLine[2] = content;
@@ -145,7 +146,7 @@ public class TextEditor {
                 }
             }
             case 2 -> {
-                for (String line : contents) {
+                for (String line : lines) {
                     String[] currentLine = line.split(",");
                     if (currentLine[1].equals(foodID)) {
                         currentLine[3] = content;
@@ -157,37 +158,24 @@ public class TextEditor {
             }
         }
     }
+     */
 
-    public void textDelete(DataProvider IdProvider) { //Method overloading for deleting a line in the users text file or used internally in other methods
-        List<String> content = new ArrayList<>(fileReader(FilePaths.USER));
+    public void textDelete(FilePaths paths, String id) { //Deleting a line in user or menu textfile based on the ID
+        List<String> content = new ArrayList<>(fileReader(paths));
         List<String> newContent = new ArrayList<>();
         for (String currentLine : content) {
             String[] delimiter = currentLine.split(",");
-            if (!delimiter[0].equals(IdProvider.getId())) {
+            if (!delimiter[0].equals(id) || !delimiter[1].equals(id)) {
                 newContent.add(currentLine);
             }
         }
-        textWrite(FilePaths.USER.getFilePath(), newContent); //Calling class's internal function to rewrite it back
+        textWrite(paths.getFilePath(), newContent); //Call internal function to re-write it back
     }
 
-    public void textDelete(Vendor vendor, String foodID) { //Method overloading for deleting a line in the menu text file
-        List<String> content = new ArrayList<>(fileReader(FilePaths.MENU));
-        List<String> newContent = new ArrayList<>();
-        for (String currentLine : content) {
-            String[] delimiter = currentLine.split(",");
-            while (delimiter[0].equals(vendor.getId())) {
-                if (!delimiter[1].equals(foodID)) {
-                    newContent.add(currentLine);
-                }
-            }
-        }
-        textWrite(FilePaths.MENU.getFilePath(), newContent); //Calling class's internal function to rewrite it back
-    }
-
-    private void textAppend(String paths, String line) { //Class's internal function for appending to a textfile
+    private void textAppend(String paths, String lines) { //Class's internal function for appending to a textfile, mainly used for appending line back to textfile after elements manipulation
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(paths, true));
-            writer.write(line);
+            writer.write(lines);
             writer.newLine();
             writer.close();
         } catch (IOException e) {
@@ -195,7 +183,7 @@ public class TextEditor {
         }
     }
 
-    private void textWrite(String paths, List<String> lines) { //Class's internal function for overwriting a textfile
+    private void textWrite(String paths, List<String> lines) { //Class's internal function for overwriting a textfile, mainly used for rewriting lines back to textfile after list manipulation
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(paths));
             for (String line : lines) {
