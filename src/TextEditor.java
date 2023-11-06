@@ -1,6 +1,5 @@
 import org.w3c.dom.Text;
 
-import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -106,28 +105,39 @@ public class TextEditor {
     */
 
     public void textEdit(FilePaths paths, String id, List<String> lines, byte selection, String content) { //Editing pre-processed list passed from fileReader method
-        switch (selection) {
-            case 1 -> {
-                String[] container = lines.get(0).split(",");
-                container[1] = content;
-                String updatedContainer = String.join(",", container);
-                textDelete(paths, id);
-                textAppend(paths.getFilePath(), updatedContainer);
+        try {
+            switch (selection) {
+                case 1 -> {
+                    String[] container = lines.get(0).split(",");
+                    container[1] = content;
+                    String updatedContainer = String.join(",", container);
+                    textDelete(paths, id);
+                    textAppend(paths.getFilePath(), updatedContainer);
+                }
+                case 2 -> {
+                    String[] container = lines.get(0).split(",");
+                    container[2] = content;
+                    String updatedContainer = String.join(",", container);
+                    textDelete(paths, id);
+                    textAppend(paths.getFilePath(), updatedContainer);
+                }
+                case 3 -> {
+                    String[] container = lines.get(0).split(",");
+                    container[3] = content;
+                    String updatedContainer = String.join(",", container);
+                    textDelete(paths, id);
+                    textAppend(paths.getFilePath(), updatedContainer);
+                }
+                case 4 -> {
+                    String[] container = lines.get(0).split(",");
+                    container[4] = content;
+                    String updatedContainer = String.join(",", container);
+                    textDelete(paths, id);
+                    textAppend(paths.getFilePath(), updatedContainer);
+                }
             }
-            case 2 -> {
-                String[] container = lines.get(0).split(",");
-                container[2] = content;
-                String updatedContainer = String.join(",", container);
-                textDelete(paths, id);
-                textAppend(paths.getFilePath(), updatedContainer);
-            }
-            case 3 -> {
-                String[] container = lines.get(0).split(",");
-                container[3] = content;
-                String updatedContainer = String.join(",", container);
-                textDelete(paths, id);
-                textAppend(paths.getFilePath(), updatedContainer);
-            }
+        } catch(ArrayIndexOutOfBoundsException e) {
+            System.err.println("Array index is out of bound.");
         }
     }
 
@@ -160,7 +170,7 @@ public class TextEditor {
     }
      */
 
-    public void textDelete(FilePaths paths, String id) { //Deleting a line in user or menu textfile based on the ID
+    public void textDelete(FilePaths paths, String id) { //Deleting a line in user or menu textfile based on the ID set, for menu format is (vendor_ID + : + food_name), user format just plain user ID
         List<String> content = new ArrayList<>(fileReader(paths));
         List<String> newContent = new ArrayList<>();
         for (String currentLine : content) {

@@ -5,10 +5,11 @@ public class Order implements DataProvider {
     private String review;
     private double total;
     private double deliveryFee = 2.50; //Delivery is for within campus only, thus distance is fixed and delivery fee too
+    private String foodId;
+    private double foodCost;
     private Vendor vendor;
     private DeliveryRunner runner;
     private Customer customer;
-    private Food food;
     private Time time;
 
     enum Status {
@@ -22,26 +23,26 @@ public class Order implements DataProvider {
         DELIVERED
     }
 
-    public Order(Vendor vendor, Customer customer, Food food) { //For dine-in
+    public Order(Vendor vendor, Customer customer, String foodId, double foodCost) { //For dine-in
         status = Status.PENDING;
         Time time = new Time();
         this.time = time;
         this.vendor = vendor;
         this.customer = customer;
-        this.food = food;
-        total = food.getCost();
+        this.foodId = foodId;
+        total = foodCost;
     }
 
-    public Order(Vendor vendor, Customer customer, Food food, DeliveryRunner runner) { //For deliveries
+    public Order(Vendor vendor, Customer customer, String foodId, double foodCost, DeliveryRunner runner) { //For deliveries
         statusRunner = Status.SEARCHING;
         status = Status.PENDING;
         Time time = new Time();
         this.time = time;
         this.vendor = vendor;
         this.customer = customer;
-        this.food = food;
+        this.foodId = foodId;
         this.runner = runner;
-        total = food.getCost() + deliveryFee;
+        total = foodCost + deliveryFee;
     }
     
     public String getId() { //Order ID is made of vendor ID + customer ID + runner ID (If it was a delivery)
@@ -57,7 +58,11 @@ public class Order implements DataProvider {
     }
     
     public String getFood() {
-        return food.getName();
+        return foodId;
+    }
+
+    public double getCost() {
+        return foodCost;
     }
 
     public String getVendor() {
@@ -74,23 +79,23 @@ public class Order implements DataProvider {
 
     public void payment() {
         customer.deductBal(total);
-        vendor.addBal(food.getCost());
+        vendor.addBal(foodCost);
     }
 
     public void runnerProfit() { //Can only be called if status = DELIVERED, before this object is deleted after saving to history
-        runner.addBal(total - food.getCost());
+        runner.addBal(total - foodCost);
     }
 
     public void setStatus(Status status) { //For vendor and customer to set statuses
-
+        this.status = status;
     }
     
     public void setRunnerStatus(Status status) { //For runner to set statuses
-        
+        statusRunner = status;
     }
     
     @Override
     public String toString() { //For writing to order history
-        return vendor.getId() + ":" + customer.getId() + ":" + (runner != null ? runner.getId() : "") + "," + vendor.getName() + "," + food.getId() + "," + food.getName() + "," + total + "," + time + "," + status + "," + review;
+        return vendor.getId() + ":" + customer.getId() + ":" + (runner != null ? runner.getId() : "") + "," + vendor.getName() + "," + foodId + "," + total + "," + time + "," + status + "," + review;
     }
 }

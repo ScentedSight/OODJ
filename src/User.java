@@ -1,6 +1,5 @@
 public abstract class User implements DataProvider {
 
-    private static int idCounter = 1;
     private String id;
     private String password;
 
@@ -8,13 +7,7 @@ public abstract class User implements DataProvider {
 
     }
 
-    public User(String password) { //For registering users
-        id = String.valueOf(idCounter);
-        idCounter++;
-        this.password = password;
-    }
-
-    public User(String id, String password) { //For user log-in
+    public User(String id, String password) { //For registering users & Log-in
         this.id = id;
         this.password = password;
     }

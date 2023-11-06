@@ -3,22 +3,13 @@ public class Customer extends User{
     private double balance = 0;
     private String address;
 
-    private Customer() { //Private default constructor to prevent instantiation due to class having factory methods for instantiation
-
+    public Customer (String id, String password) { //Log in
+        super(id, password);
     }
 
-    public static Customer createForLogin(String id, String password){ //Static factory method for login due to same parameter types cant be used in overloading constructor, used like -> Customer customerLogin = Customer.createForLogin("C123", "pass123")
-        Customer customer = new Customer();
-        customer.setId(id);
-        customer.setPass(password);
-        return customer;
-    }
-
-    public static Customer createForRegistration(String password, String address){ //Static factory method for registration due to same parameter types cant be used in overloading constructor, used like -> Customer customerRegister = Customer.createForRegistration("pass123", "67, Oakland Streets, Portland")
-        Customer customer = new Customer();
-        customer.setPass(password);
-        customer.address = address;
-        return customer;
+    public Customer (String id, String password, String address) { //Registration
+        super(id, password);
+        this.address = address;
     }
 
     public String getId(){ //For retrieving Id in ordering process
@@ -43,6 +34,6 @@ public class Customer extends User{
 
     @Override
     public String toString() { //Format for writing to TextFile during registration
-        return "C" + super.getId() + "," + super.getPass() + "," + address + "," + balance;
+        return "C," + super.getId() + "," + super.getPass() + "," + address + "," + balance;
     }
 }
