@@ -1,3 +1,7 @@
+
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -10,6 +14,8 @@
 public class RunnerFrame extends javax.swing.JFrame {
 
     private DeliveryRunner runner;
+    private DefaultTableModel model = new DefaultTableModel();
+    private String[] columns = {"Order Placed", "Vendor", "Customer ID", "Food", "Address"};
     
     public RunnerFrame() { //Default constructor for testing purposes
         initComponents();
@@ -17,8 +23,13 @@ public class RunnerFrame extends javax.swing.JFrame {
     
     public RunnerFrame(DeliveryRunner runner) {
         initComponents();
+        model.setColumnIdentifiers(columns); //Set column for JTable model
         this.runner = runner;
-        runnerHomeTitlelbl.setText("Welcome Runner " + runner.getId());
+        runnerHomeTitlelbl.setText("Welcome Runner " + runner.getId()); //Set title
+        
+        TextEditor reader = new TextEditor();
+        List<String> content = reader.fileReader(TextEditor.FilePaths.HISTORY);
+        
     }
 
     /**
@@ -49,6 +60,7 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTasktbl = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jCalendar1 = new com.toedter.calendar.JCalendar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Delivery Runner Home Page");
@@ -198,7 +210,8 @@ public class RunnerFrame extends javax.swing.JFrame {
                                     .addComponent(runnerHomeDaytxt)
                                     .addComponent(runnerHomeMonthtxt)
                                     .addComponent(runnerHomeYeartxt)
-                                    .addComponent(runnerHomeTotaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(runnerHomeTotaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31))))
         );
         layout.setVerticalGroup(
@@ -210,12 +223,13 @@ public class RunnerFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(runnerHomeDaytxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(runnerHomeDaylbl)))
+                            .addComponent(runnerHomeDaylbl)
+                            .addComponent(runnerHomeDaytxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(runnerHomeMonthlbl)
@@ -291,15 +305,13 @@ public class RunnerFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RunnerFrame().setVisible(true);
-                int i = 5;
-                TextEditor textEditor = new TextEditor();
-                while (i > 0) {
-            }
+                
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel runnerHomeDaylbl;

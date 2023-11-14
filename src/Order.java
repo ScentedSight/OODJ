@@ -7,38 +7,38 @@ public class Order implements DataProvider {
     private double deliveryFee = 2.50; //Delivery is for within campus only, thus distance is fixed and delivery fee too
     private String foodId;
     private double foodCost;
-    private Vendor vendor;
+    private String vendorId;
     private DeliveryRunner runner;
     private Customer customer;
     private Time time;
 
     enum Status {
-        PENDING,
-        PREPARING,
-        READY,
-        COMPLETED,
-        CANCELED,
-        SEARCHING,
-        DELIVERING,
-        DELIVERED
+        PENDING, //Order placed but awaiting confirmation from vendor
+        PREPARING, //Preparing food
+        READY, //Ready for pickup
+        COMPLETED, //Order completed
+        CANCELED, //Order canceled by either party
+        SEARCHING, //Searching for runner
+        DELIVERING, //Runner delivering
+        DELIVERED //Runner has delivered
     }
 
-    public Order(Vendor vendor, Customer customer, String foodId, double foodCost) { //For dine-in
+    public Order(String vendorId, Customer customer, String foodId, double foodCost) { //For dine-in
         status = Status.PENDING;
         Time time = new Time();
         this.time = time;
-        this.vendor = vendor;
+        this.vendorId = vendorId;
         this.customer = customer;
         this.foodId = foodId;
         total = foodCost;
     }
 
-    public Order(Vendor vendor, Customer customer, String foodId, double foodCost, DeliveryRunner runner) { //For deliveries
+    public Order(String vendorId, Customer customer, String foodId, double foodCost, DeliveryRunner runner) { //For deliveries
         statusRunner = Status.SEARCHING;
         status = Status.PENDING;
         Time time = new Time();
         this.time = time;
-        this.vendor = vendor;
+        this.vendorId = vendorId;
         this.customer = customer;
         this.foodId = foodId;
         this.runner = runner;
@@ -46,7 +46,7 @@ public class Order implements DataProvider {
     }
     
     public String getId() { //Order ID is made of vendor ID + customer ID + runner ID (If it was a delivery)
-        return vendor.getId() + ":" + customer.getId() + ":" + (runner != null ? runner.getId() : "");
+        return vendorId + ":" + customer.getId() + ":" + (runner != null ? runner.getId() : "");
     }
 
     public void setReview(String review) { //Review should only be set when food status is done or delivered
@@ -66,7 +66,7 @@ public class Order implements DataProvider {
     }
 
     public String getVendor() {
-        return vendor.getId();
+        return vendorId;
     }
 
     public String getRunner() { //Ternary operator, if it is a dine-in, runner ID will return empty string, else if delivery it will return runner ID
