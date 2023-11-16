@@ -1,11 +1,11 @@
 public class DeliveryOrder extends Order{
     
     private DeliveryRunner runner;
-    private double deliveryFee = 2.50; //Delivery is for within campus only, thus distance is fixed and delivery fee too
+    private double deliveryFee = 2.50; //Delivery is for within campus only, thus distance and delivery fee are fixed
     private Status statusRunner;
     
-    public DeliveryOrder(String vendorId, Customer customer, String foodName, String foodId, double foodCost) {
-        super(vendorId, customer, foodName, foodId, foodCost);
+    public DeliveryOrder(String vendorId, String vendorName, Customer customer, String foodName, String foodId, double foodCost) {
+        super(vendorId, vendorName, customer, foodName, foodId, foodCost);
         super.setCost(foodCost + deliveryFee);
     }
     
@@ -32,6 +32,6 @@ public class DeliveryOrder extends Order{
     
     @Override
     public String toString() { //For writing to order history
-        return runner.getId() + ":" + super.toString();
+        return runner.getId() + super.toString() + "," + super.getAddress();
     }
 }

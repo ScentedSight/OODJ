@@ -5,6 +5,7 @@ public class Order implements DataProvider {
     private String foodName;
     private String foodId; 
     private double total;
+    private String vendorName;
     private String vendorId;
     private Customer customer;
     private Time time;
@@ -20,11 +21,12 @@ public class Order implements DataProvider {
         DELIVERED //Runner has delivered
     }
     
-    public Order(String vendorId, Customer customer, String foodName, String foodId, double foodCost) {
+    public Order(String vendorId, String vendorName, Customer customer, String foodName, String foodId, double foodCost) {
         status = Status.PENDING;
         Time time = new Time();
         this.time = time;
         this.vendorId = vendorId;
+        this.vendorName = vendorName;
         this.customer = customer;
         this.foodName = foodName;
         this.foodId = foodId;
@@ -36,7 +38,7 @@ public class Order implements DataProvider {
     }
 
     public void setReview(String review) { //Review should only be set when food status is done or delivered
-        this.review = review;
+        this.review = "," + review;
     }
 
     public String getCustomer() {
@@ -72,8 +74,12 @@ public class Order implements DataProvider {
         this.status = status;
     }
     
+    public String getAddress() {
+        return customer.getAddress();
+    }
+    
     @Override
     public String toString() { //For writing to order history
-        return vendorId + ":" + customer.getId() + "," + foodName + "," + foodId + "," + total + "," + time + "," + status + "," + review;
+        return ":" + vendorId + ":" + customer.getId() + "," + vendorName + "," + foodName + "," + foodId + "," + total + "," + time + "," + status + review;
     }
 }

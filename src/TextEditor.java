@@ -1,5 +1,3 @@
-import org.w3c.dom.Text;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +13,7 @@ public class TextEditor {
 
         USER("path = USERS.txt"),
         MENU("path = MENU.txt"),
+        ORDERS("path = ORDER.txt"),
         HISTORY("path = HISTORY.txt");
 
         private String filePath;
@@ -28,7 +27,7 @@ public class TextEditor {
         }
     }
 
-    public void fileWrite(FilePaths paths, DataProvider dataProvider) { //Any objects implementing DataProvider can be passed to this method
+    public void fileWrite(FilePaths paths, DataProvider data) { //Any objects implementing DataProvider can be passed to this method
         //How to use:
         //First create an object from the current class TextEditor textEditor = new TextEditor();
         //Second create an object from FilePaths enum and specify paths -> Ex. FilePaths addToMenu = FilePaths.MENU
@@ -39,7 +38,7 @@ public class TextEditor {
             if (newFile.createNewFile()) {
                 System.out.println("File created: " + newFile.getName());
                 FileWriter writer = new FileWriter(paths.name());
-                writer.write(dataProvider.toString()+"\n");
+                writer.write(data.toString()+"\n");
                 writer.close();
                 System.out.println("Successfully wrote to the file.");
 
@@ -47,7 +46,7 @@ public class TextEditor {
 
                 try {
                     FileWriter writer = new FileWriter(paths.name(), true); //Append mode, or else the entire textfile will be overwritten
-                    writer.write(dataProvider.toString()+"\n");
+                    writer.write(data.toString()+"\n");
                     writer.close();
                     System.out.println("Successfully wrote to the file.");
 

@@ -1,4 +1,4 @@
-public abstract class User implements DataProvider {
+public abstract class User implements DataProvider{
 
     private String id;
     private String password;
