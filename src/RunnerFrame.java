@@ -1,16 +1,6 @@
-
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-
-/**
- *
- * @author Johan
- */
 public class RunnerFrame extends javax.swing.JFrame {
 
     private DeliveryRunner runner;
@@ -28,8 +18,23 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTitlelbl.setText("Welcome Runner " + runner.getId()); //Set title
         
         TextEditor reader = new TextEditor();
-        List<String> content = reader.fileReader(TextEditor.FilePaths.HISTORY);
         
+        List<String> content = reader.fileReader(TextEditor.FilePaths.ORDERS);
+        for (String lines : content) { //Adds row to model
+            String[] firstSplit = lines.split(",");
+            String container = firstSplit[0];
+            String[] secondSplit = container.split(":");
+            if (!secondSplit[0].isEmpty()) {
+                String[] rowDataArray = {
+                    firstSplit[5], //Time when order was placed
+                    secondSplit[2], //Vendor's name
+                    secondSplit[2], //Customer ID
+                    firstSplit[2], //Food name
+                    firstSplit[firstSplit.length - 1]
+                };
+                model.addRow(rowDataArray);
+            }
+        }
     }
 
     /**
@@ -133,25 +138,7 @@ public class RunnerFrame extends javax.swing.JFrame {
 
         runnerHomeTaskpn.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Task List", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        runnerHomeTasktbl.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Order Placed", "Vendor", "Customer ID", "Food", "Address"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        runnerHomeTasktbl.setModel(model);
         runnerHomeTaskpn.setViewportView(runnerHomeTasktbl);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -305,7 +292,6 @@ public class RunnerFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RunnerFrame().setVisible(true);
-                
             }
         });
     }
