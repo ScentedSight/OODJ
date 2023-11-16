@@ -12,13 +12,13 @@ public class Order implements DataProvider {
 
     enum Status {
         PENDING, //Order placed but awaiting confirmation from vendor
-        PREPARING, //Preparing food
-        READY, //Ready for pickup
-        COMPLETED, //Order completed
+        PREPARING, //Preparing food, vendor's status
+        READY, //Ready for pickup, vendor's status
+        COMPLETED, //Order completed, vendor's status
         CANCELED, //Order canceled by either party
-        SEARCHING, //Searching for runner
-        DELIVERING, //Runner delivering
-        DELIVERED //Runner has delivered
+        SEARCHING, //Searching for runner, runner's status
+        DELIVERING, //Runner delivering, runner's status
+        DELIVERED //Runner has delivered, runner's status
     }
     
     public Order(String vendorId, String vendorName, Customer customer, String foodName, String foodId, double foodCost) {

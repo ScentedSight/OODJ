@@ -13,7 +13,6 @@ public class TextEditor {
 
         USER("path = USERS.txt"),
         MENU("path = MENU.txt"),
-        ORDERS("path = ORDER.txt"),
         HISTORY("path = HISTORY.txt");
 
         private String filePath;

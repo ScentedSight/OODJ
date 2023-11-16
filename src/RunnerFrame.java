@@ -1,38 +1,43 @@
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 public class RunnerFrame extends javax.swing.JFrame {
 
     private DeliveryRunner runner;
-    private DefaultTableModel model = new DefaultTableModel();
-    private String[] columns = {"Order Placed", "Vendor", "Customer ID", "Food", "Address"};
+    private DefaultTableModel taskListModel = new DefaultTableModel();
+    private DefaultTableModel tasksModel = new DefaultTableModel();
+    private String[] taskListColumns = {"Order Placed", "Vendor", "Customer ID", "Food", "Address"};
+    private String[] tasksColumns = {"Time Elapsed", "Vendor", "Customer ID", "Food", "Address"};
+    private int row = -1; //-1 = absence of a selected row, can be used as conditions
     
     public RunnerFrame() { //Default constructor for testing purposes
         initComponents();
     }
     
-    public RunnerFrame(DeliveryRunner runner) {
+    public RunnerFrame(DeliveryRunner runner) { //Runner object read from textfile and passed to runner frame after log in
         initComponents();
-        model.setColumnIdentifiers(columns); //Set column for JTable model
+        taskListModel.setColumnIdentifiers(taskListColumns);
+        tasksModel.setColumnIdentifiers(tasksColumns);
         this.runner = runner;
         runnerHomeTitlelbl.setText("Welcome Runner " + runner.getId()); //Set title
         
         TextEditor reader = new TextEditor();
         
-        List<String> content = reader.fileReader(TextEditor.FilePaths.ORDERS);
-        for (String lines : content) { //Adds row to model
+        List<String> content = reader.fileReader(TextEditor.FilePaths.HISTORY);
+        for (String lines : content) { //Fill up task list table model
             String[] firstSplit = lines.split(",");
-            String container = firstSplit[0];
-            String[] secondSplit = container.split(":");
-            if (!secondSplit[0].isEmpty()) {
+            if ((firstSplit[firstSplit.length - 2].equals("SEARCHING"))) { //Using SEARCHING status as handler for delivery orders only
+                String container = firstSplit[0];
+                String[] secondSplit = container.split(":");
                 String[] rowDataArray = {
                     firstSplit[5], //Time when order was placed
-                    secondSplit[2], //Vendor's name
+                    secondSplit[1], //Vendor's name
                     secondSplit[2], //Customer ID
                     firstSplit[2], //Food name
-                    firstSplit[firstSplit.length - 1]
+                    firstSplit[firstSplit.length - 1] //Always select the last element which is address in this case
                 };
-                model.addRow(rowDataArray);
+                taskListModel.addRow(rowDataArray);
             }
         }
     }
@@ -49,7 +54,6 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTitlelbl = new javax.swing.JLabel();
         runnerHomeLogOutbtn = new javax.swing.JButton();
         runnerTaskAcceptbtn = new javax.swing.JButton();
-        runnerTaskDeclinebtn = new javax.swing.JButton();
         runnerHomeTaskHistbtn = new javax.swing.JButton();
         runnerHomeDeliveredbtn = new javax.swing.JButton();
         runnerHomeFailedbtn = new javax.swing.JButton();
@@ -62,9 +66,9 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTotaltxt = new javax.swing.JTextField();
         runnerHomeDaytxt = new javax.swing.JTextField();
         runnerHomeTaskpn = new javax.swing.JScrollPane();
-        runnerHomeTasktbl = new javax.swing.JTable();
+        runnerHomeTaskListtbl = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        runnerHomeTaskstbl = new javax.swing.JTable();
         jCalendar1 = new com.toedter.calendar.JCalendar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -89,14 +93,16 @@ public class RunnerFrame extends javax.swing.JFrame {
 
         runnerTaskAcceptbtn.setText("Accept");
         runnerTaskAcceptbtn.setName("Runner Home Page Accept Task Button"); // NOI18N
+        runnerTaskAcceptbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                runnerTaskAcceptbtnMouseClicked(evt);
+            }
+        });
         runnerTaskAcceptbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runnerTaskAcceptbtnActionPerformed(evt);
             }
         });
-
-        runnerTaskDeclinebtn.setText("Decline");
-        runnerTaskDeclinebtn.setName("Runner Home Page Decline Task Button"); // NOI18N
 
         runnerHomeTaskHistbtn.setText("Task History");
         runnerHomeTaskHistbtn.setName("Runner Home Page Task History Button"); // NOI18N
@@ -138,21 +144,21 @@ public class RunnerFrame extends javax.swing.JFrame {
 
         runnerHomeTaskpn.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Task List", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        runnerHomeTasktbl.setModel(model);
-        runnerHomeTaskpn.setViewportView(runnerHomeTasktbl);
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Time Elapsed", "Vendor", "Customer ID", "Food", "Address"
+        runnerHomeTaskListtbl.setModel(taskListModel);
+        runnerHomeTaskListtbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                runnerHomeTaskListtblMouseReleased(evt);
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        });
+        runnerHomeTaskpn.setViewportView(runnerHomeTaskListtbl);
+
+        runnerHomeTaskstbl.setModel(tasksModel);
+        runnerHomeTaskstbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                runnerHomeTaskstblMouseReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(runnerHomeTaskstbl);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,32 +167,26 @@ public class RunnerFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(runnerHomeTitlelbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(runnerHomeTitlelbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(runnerTaskAcceptbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(55, 55, 55)
-                                .addComponent(runnerTaskDeclinebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(runnerHomeTaskHistbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(runnerHomeTaskpn, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(36, 36, 36)
+                        .addComponent(runnerTaskAcceptbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(136, 136, 136)
+                        .addComponent(runnerHomeTaskHistbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(137, 137, 137)
+                        .addComponent(runnerHomeDeliveredbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67)
+                        .addComponent(runnerHomeFailedbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(runnerHomeTaskpn, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(runnerHomeDeliveredbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(79, 79, 79)
-                                .addComponent(runnerHomeFailedbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(87, 87, 87))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(runnerHomeDaylbl, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(runnerHomeMonthlbl, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -198,8 +198,10 @@ public class RunnerFrame extends javax.swing.JFrame {
                                     .addComponent(runnerHomeMonthtxt)
                                     .addComponent(runnerHomeYeartxt)
                                     .addComponent(runnerHomeTotaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(31, 31, 31))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,12 +209,9 @@ public class RunnerFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(runnerHomeTitlelbl, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(runnerHomeDaylbl)
@@ -228,20 +227,18 @@ public class RunnerFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(runnerHomeTotaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(runnerHomeTotallbl))
-                        .addGap(44, 44, 44)
-                        .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(runnerHomeTaskpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(runnerTaskAcceptbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(runnerHomeTaskHistbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(runnerHomeDeliveredbtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(runnerHomeFailedbtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(runnerTaskDeclinebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(runnerHomeTotallbl)))
+                    .addComponent(jScrollPane1)
+                    .addComponent(runnerHomeTaskpn))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(runnerHomeTaskHistbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(runnerHomeDeliveredbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(runnerTaskAcceptbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(runnerHomeFailedbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -260,6 +257,25 @@ public class RunnerFrame extends javax.swing.JFrame {
     private void runnerHomeDaytxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnerHomeDaytxtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_runnerHomeDaytxtActionPerformed
+
+    private void runnerHomeTaskstblMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskstblMouseReleased
+        
+    }//GEN-LAST:event_runnerHomeTaskstblMouseReleased
+
+    private void runnerHomeTaskListtblMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskListtblMouseReleased
+        row = runnerHomeTaskstbl.getSelectedRow();
+    }//GEN-LAST:event_runnerHomeTaskListtblMouseReleased
+
+    private void runnerTaskAcceptbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerTaskAcceptbtnMouseClicked
+        if (row != -1) { //Fill tasks table with accepted deliveries
+            String[] valuesForRow = new String[5];
+            for (int columnCounter = 0; columnCounter <= 4; columnCounter++) {
+                String columnValues = String.valueOf(taskListModel.getValueAt(row, columnCounter));
+                valuesForRow[columnCounter] = columnValues;
+            }
+            tasksModel.addRow(valuesForRow);
+        }
+    }//GEN-LAST:event_runnerTaskAcceptbtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -299,7 +315,6 @@ public class RunnerFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel runnerHomeDaylbl;
     private javax.swing.JTextField runnerHomeDaytxt;
     private javax.swing.JButton runnerHomeDeliveredbtn;
@@ -308,14 +323,14 @@ public class RunnerFrame extends javax.swing.JFrame {
     private javax.swing.JLabel runnerHomeMonthlbl;
     private javax.swing.JTextField runnerHomeMonthtxt;
     private javax.swing.JButton runnerHomeTaskHistbtn;
+    private javax.swing.JTable runnerHomeTaskListtbl;
     private javax.swing.JScrollPane runnerHomeTaskpn;
-    private javax.swing.JTable runnerHomeTasktbl;
+    private javax.swing.JTable runnerHomeTaskstbl;
     private javax.swing.JLabel runnerHomeTitlelbl;
     private javax.swing.JLabel runnerHomeTotallbl;
     private javax.swing.JTextField runnerHomeTotaltxt;
     private javax.swing.JLabel runnerHomeYearlbl;
     private javax.swing.JTextField runnerHomeYeartxt;
     private javax.swing.JButton runnerTaskAcceptbtn;
-    private javax.swing.JButton runnerTaskDeclinebtn;
     // End of variables declaration//GEN-END:variables
 }

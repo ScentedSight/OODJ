@@ -7,6 +7,7 @@ public class DeliveryOrder extends Order{
     public DeliveryOrder(String vendorId, String vendorName, Customer customer, String foodName, String foodId, double foodCost) {
         super(vendorId, vendorName, customer, foodName, foodId, foodCost);
         super.setCost(foodCost + deliveryFee);
+        statusRunner = Status.SEARCHING; //Set status so that runner frame code can read orders for deliveries, if order (status = canceled *MUST* statusRunner = canceled)
     }
     
     public void setRunner (DeliveryRunner runner) { //To set designated runner after found
@@ -22,7 +23,7 @@ public class DeliveryOrder extends Order{
         return runner.getId();
     }
     
-    public void setRunnerStatus(Status status) { //For runner to set statuses
+    public void setRunnerStatus(Status status) {
         statusRunner = status;
     }
     
@@ -32,6 +33,6 @@ public class DeliveryOrder extends Order{
     
     @Override
     public String toString() { //For writing to order history
-        return runner.getId() + super.toString() + "," + super.getAddress();
+        return runner.getId() + super.toString() + "," + statusRunner + "," + super.getAddress();
     }
 }
