@@ -1,13 +1,15 @@
-public class Order implements DataProvider {
+import java.io.Serializable;
+
+public class Order implements Serializable {
 
     private Status status;
     private String review;
-    private String foodName;
-    private String foodId; 
+    private String food;
     private double total;
     private String vendorName;
     private String vendorId;
     private Customer customer;
+    private String customerID;
     private Time time;
 
     enum Status {
@@ -21,32 +23,28 @@ public class Order implements DataProvider {
         DELIVERED //Runner has delivered, runner's status
     }
     
-    public Order(String vendorId, String vendorName, Customer customer, String foodName, String foodId, double foodCost) {
+    public Order(String vendorId, String vendorName, Customer customer, String food, double foodCost) {
         status = Status.PENDING;
         Time time = new Time();
         this.time = time;
         this.vendorId = vendorId;
         this.vendorName = vendorName;
         this.customer = customer;
-        this.foodName = foodName;
-        this.foodId = foodId;
+        this.food = food;
+        customerID = customer.getId();
         total = foodCost;
-    }
-    
-    public String getId() { //Order ID is made of vendor ID + customer ID
-        return vendorId + ":" + customer.getId();
     }
 
     public void setReview(String review) { //Review should only be set when food status is done or delivered
-        this.review = "," + review;
+        this.review = review;
     }
 
     public String getCustomer() {
-        return customer.getId();
+        return customerID;
     }
     
     public String getFood() {
-        return foodId;
+        return food;
     }
 
     public void setCost (double cost) { //For child class to set total cost
@@ -76,10 +74,5 @@ public class Order implements DataProvider {
     
     public String getAddress() {
         return customer.getAddress();
-    }
-    
-    @Override
-    public String toString() { //For writing to order history
-        return ":" + vendorId + ":" + customer.getId() + "," + vendorName + "," + foodName + "," + foodId + "," + total + "," + time + "," + status + review;
     }
 }

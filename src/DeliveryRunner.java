@@ -9,9 +9,4 @@ public class DeliveryRunner extends User{
     public void addBal(double deliveryFee){ //Profit for delivering food
         balance = balance + deliveryFee;
     }
-
-    @Override
-    public String toString() { //For writing to TextFile during registration
-        return "D," + super.getId() + "," + super.getPass() + "," + balance;
-    }
 }

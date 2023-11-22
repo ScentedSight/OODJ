@@ -19,9 +19,4 @@ public class Vendor extends User{
     public void addBal(Double profit){ //Profit for ordered foods
         balance = balance + profit;
     }
-
-    @Override
-    public String toString() { //For writing to TextFile during registration
-        return "V," + super.getId() + "," + super.getPass() + "," + vendorName + "," + balance;
-    }
 }
