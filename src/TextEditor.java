@@ -31,11 +31,13 @@ public class TextEditor {
             File newFile = new File(paths.getFilePath());
 
             if (newFile.createNewFile()) { //Checking if there are existing files
+
                 System.out.println("File created: " + newFile.getName());
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath));
                 oos.writeObject(data);
                 System.out.println("Successfully wrote to the file.");
                 oos.close();
+
             } else {
 
                 try {
@@ -64,6 +66,7 @@ public class TextEditor {
                 try {
                     container.add(ois.readObject());
                 } catch (EOFException e) { //Catch EOFException to handle the end of file
+                    ois.close();
                     break;
                 }
             }
@@ -75,6 +78,7 @@ public class TextEditor {
         return container;
     }
 
+    /*
     public void textEdit(FilePaths paths, String id, List<String> lines, byte selection, String content) { //Editing pre-processed list passed from fileReader method
         try {
             switch (selection) {
@@ -111,19 +115,33 @@ public class TextEditor {
             System.err.println("Array index is out of bound.");
         }
     }
+    */
 
-    public void textDelete(FilePaths paths, String id) { //Deleting a line in user or menu textfile based on the ID set, for menu format is (vendor_ID + : + food_name), user format just plain user ID
-        List<String> content = new ArrayList<>(fileReader(paths));
-        List<String> newContent = new ArrayList<>();
-        for (String currentLine : content) {
-            String[] delimiter = currentLine.split(",");
-            if (!delimiter[0].equals(id) || !delimiter[1].equals(id)) {
-                newContent.add(currentLine);
+    public void textDelete(String userID) { //Deleting a line of object in user textfile based on the ID set
+        List<Object> container = new ArrayList<>(fileReader(FilePaths.USER));
+        List<Object> appendContainer = new ArrayList<>();
+        for (Object object : container) {
+            User user = (User) object;
+            if (!user.getId().equals(userID)) {
+                appendContainer.add(user);
             }
         }
-        textWrite(paths.getFilePath(), newContent); //Call internal function to re-write it back
+        textWrite(FilePaths.USER.getFilePath(), appendContainer); //Call class's internal function to rewrite the array back to textfile without the deleted object
     }
 
+    public void textDelete(String userID, String foodName) { //Deleting a line of object in user textfile based on the ID set
+        List<Object> container = new ArrayList<>(fileReader(FilePaths.MENU));
+        List<Object> appendContainer = new ArrayList<>();
+        for (Object object : container) {
+            Food food = (Food) object;
+            if (food.getVendorID().equals(userID) && !food.getDescription().equals(foodName)) {
+                appendContainer.add(food);
+            }
+        }
+        textWrite(FilePaths.MENU.getFilePath(), appendContainer); //Call class's internal function to rewrite the array back to textfile without the deleted object
+    }
+
+    /*
     private void textAppend(String paths, String lines) { //Class's internal function for appending to a textfile, mainly used for appending line back to textfile after elements manipulation
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(paths, true));
@@ -134,15 +152,15 @@ public class TextEditor {
             e.printStackTrace();
         }
     }
+    */
 
-    private void textWrite(String paths, List<String> lines) { //Class's internal function for overwriting a textfile, mainly used for rewriting lines back to textfile after list manipulation
+    private void textWrite(String paths, List<Object> appendContainer) { //Class's internal function for overwriting a textfile, mainly used for rewriting objects back to textfile after deletion
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(paths));
-            for (String line : lines) {
-                writer.write(line);
-                writer.newLine();
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths));
+            for (Object object : appendContainer) {
+                oos.writeObject(object);
             }
-            writer.close();
+            oos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

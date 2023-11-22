@@ -23,4 +23,8 @@ public class Food implements Serializable {
     public double getCost(){
         return cost;
     }
+
+    public String getVendorID() {
+        return vendorID;
+    }
 }
