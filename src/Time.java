@@ -2,12 +2,12 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 public class Time {
 
-    byte hours;
-    byte minutes;
-    byte seconds;
-    byte days;
-    byte months;
-    short years;
+    private byte hours;
+    private byte minutes;
+    private byte seconds;
+    private byte days;
+    private byte months;
+    private short years;
 
     public Time() {
         long time = System.currentTimeMillis();
@@ -21,10 +21,5 @@ public class Time {
         days = (byte) calendar.get(GregorianCalendar.DAY_OF_MONTH);
         months = (byte) calendar.get(GregorianCalendar.MONTH + 1);
         years = (short) calendar.get(GregorianCalendar.YEAR);
-    }
-
-    @Override //For writing to order history for time retrieval functions etc
-    public String toString() {
-        return hours+ ":" + minutes + ":" + seconds + "," + days + ":" + months + ":" + years;
     }
 }

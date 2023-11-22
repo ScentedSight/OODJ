@@ -26,28 +26,23 @@ public class TextEditor {
         }
     }
 
-    public void fileWrite(FilePaths paths, DataProvider data) { //Any objects implementing DataProvider can be passed to this method
-        //How to use:
-        //First create an object from the current class TextEditor textEditor = new TextEditor();
-        //Second create an object from FilePaths enum and specify paths -> Ex. FilePaths addToMenu = FilePaths.MENU
-        //Then this method can be called -> Ex. textEditor.fileWrite(addToMenu, dataProvider)
+    public void fileWrite(FilePaths paths, Serializable data) { //Any objects implementing DataProvider can be passed to this method
         try {
             File newFile = new File(paths.getFilePath());
 
-            if (newFile.createNewFile()) {
+            if (newFile.createNewFile()) { //Checking if there are existing files
                 System.out.println("File created: " + newFile.getName());
-                FileWriter writer = new FileWriter(paths.name());
-                writer.write(data.toString()+"\n");
-                writer.close();
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath));
+                oos.writeObject(data);
                 System.out.println("Successfully wrote to the file.");
-
+                oos.close();
             } else {
 
                 try {
-                    FileWriter writer = new FileWriter(paths.name(), true); //Append mode, or else the entire textfile will be overwritten
-                    writer.write(data.toString()+"\n");
-                    writer.close();
+                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath, true)); //Append mode, or else the entire textfile will be overwritten
+                    oos.writeObject(data);
                     System.out.println("Successfully wrote to the file.");
+                    oos.close();
 
                 } catch (IOException e) {
                     System.out.println("An error occurred.");
@@ -61,46 +56,24 @@ public class TextEditor {
         }
     }
 
-    public List<String> fileReader(FilePaths paths) { //Read lines of text from text files, returns general List<> format
-        List<String> lines = new ArrayList<>();
+    public List<Object> fileReader(FilePaths paths) { //Read objects from text files, returns object type array
+        List<Object> container = new ArrayList<>();
 
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(paths.getFilePath()));
-            String currentLine;
-
-            while ((currentLine = reader.readLine()) != null) {
-                lines.add(currentLine);
-            }
-
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return lines;
-    }
-
-    /* SAMPLE CODE
-    public List<String> fileReader(FilePaths paths, DataProvider IdProvider) { //mainly for view order history, read reviews, read transaction history, read task history, read users and view revenue dashboard, specifically returns general List<> embedded with user ID from IdProvider which can be transformed into any implementations for output
-        List<String> lines = new ArrayList<>();
-
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(paths.getFilePath()));
-            String currentLine;
-
-            while ((currentLine = reader.readLine()) != null) {
-                String[] delimiter = currentLine.split(",");
-                if (delimiter[0].contains(IdProvider.getId())) {
-                    lines.add(currentLine);
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(paths.getFilePath()))) {
+            while (true) {
+                try {
+                    container.add(ois.readObject());
+                } catch (EOFException e) { //Catch EOFException to handle the end of file
+                    break;
                 }
             }
 
-            reader.close();
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return lines;
+
+        return container;
     }
-    */
 
     public void textEdit(FilePaths paths, String id, List<String> lines, byte selection, String content) { //Editing pre-processed list passed from fileReader method
         try {
@@ -138,35 +111,6 @@ public class TextEditor {
             System.err.println("Array index is out of bound.");
         }
     }
-
-    /* SAMPLE CODE
-    public void textEdit(List<String> lines, String foodID,  byte selection, String content) { //Mainly for editing menu, pass integer selection parameter to edit respective elements delimited by ","
-        switch (selection) {
-            case 1 -> {
-                for (String line : lines) {
-                    String[] currentLine = line.split(",");
-                    if (currentLine[1].equals(foodID)) {
-                        currentLine[2] = content;
-                        String updatedLine = String.join(",", currentLine);
-                        textDelete(vendor, foodID);
-                        textAppend(FilePaths.MENU.getFilePath(), updatedLine);
-                    }
-                }
-            }
-            case 2 -> {
-                for (String line : lines) {
-                    String[] currentLine = line.split(",");
-                    if (currentLine[1].equals(foodID)) {
-                        currentLine[3] = content;
-                        String updatedLine = String.join(",", currentLine);
-                        textDelete(vendor, foodID);
-                        textAppend(FilePaths.MENU.getFilePath(), updatedLine);
-                    }
-                }
-            }
-        }
-    }
-     */
 
     public void textDelete(FilePaths paths, String id) { //Deleting a line in user or menu textfile based on the ID set, for menu format is (vendor_ID + : + food_name), user format just plain user ID
         List<String> content = new ArrayList<>(fileReader(paths));

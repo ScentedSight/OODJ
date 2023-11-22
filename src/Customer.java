@@ -31,9 +31,4 @@ public class Customer extends User{
     public void setAddress(String address){ //Change address, Admin's function
         this.address = address;
     }
-
-    @Override
-    public String toString() { //Format for writing to TextFile during registration
-        return "C," + super.getId() + "," + super.getPass() + "," + address + "," + balance;
-    }
 }
