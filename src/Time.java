@@ -22,4 +22,9 @@ public class Time {
         months = (byte) calendar.get(GregorianCalendar.MONTH + 1);
         years = (short) calendar.get(GregorianCalendar.YEAR);
     }
+    
+    @Override
+    public String toString() {
+        return hours + ":" + minutes + ":" + seconds;
+    }
 }

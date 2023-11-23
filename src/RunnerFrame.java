@@ -23,23 +23,21 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTitlelbl.setText("Welcome Runner " + runner.getId()); //Set title
         
         TextEditor reader = new TextEditor();
-        
-        List<String> content = reader.fileReader(TextEditor.FilePaths.HISTORY);
-        for (String lines : content) { //Fill up task list table model
-            String[] firstSplit = lines.split(",");
-            if ((firstSplit[firstSplit.length - 2].equals("SEARCHING"))) { //Using SEARCHING status as handler for delivery orders only
-                String container = firstSplit[0];
-                String[] secondSplit = container.split(":");
+        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+        for (Object obj : container) {
+            DeliveryOrder dOrder = (DeliveryOrder) obj;
+            if (dOrder.getStatusRunner().equals("SEARCHING")) {
                 String[] rowDataArray = {
-                    firstSplit[5], //Time when order was placed
-                    secondSplit[1], //Vendor's name
-                    secondSplit[2], //Customer ID
-                    firstSplit[2], //Food name
-                    firstSplit[firstSplit.length - 1] //Always select the last element which is address in this case
+                    dOrder.getTime(), //Retrieve time when order was placed
+                    dOrder.getVendorName(), //Retrieve vendor's name
+                    dOrder.getCustomer(), //Retrieve customer ID
+                    dOrder.getFood(), //Retrieve food name
+                    dOrder.getAddress() //Retrieve address
                 };
                 taskListModel.addRow(rowDataArray);
             }
         }
+        reader.close();
     }
 
     /**

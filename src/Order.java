@@ -55,8 +55,12 @@ public class Order implements Serializable {
         return total;
     }
    
-    public String getVendor() {
+    public String getVendorID() {
         return vendorId;
+    }
+    
+    public String getVendorName() {
+        return vendorName;
     }
 
     public String getTime() {
