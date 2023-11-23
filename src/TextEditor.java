@@ -78,45 +78,6 @@ public class TextEditor {
         return container;
     }
 
-    /*
-    public void textEdit(FilePaths paths, String id, List<String> lines, byte selection, String content) { //Editing pre-processed list passed from fileReader method
-        try {
-            switch (selection) {
-                case 1 -> {
-                    String[] container = lines.get(0).split(",");
-                    container[1] = content;
-                    String updatedContainer = String.join(",", container);
-                    textDelete(paths, id);
-                    textAppend(paths.getFilePath(), updatedContainer);
-                }
-                case 2 -> {
-                    String[] container = lines.get(0).split(",");
-                    container[2] = content;
-                    String updatedContainer = String.join(",", container);
-                    textDelete(paths, id);
-                    textAppend(paths.getFilePath(), updatedContainer);
-                }
-                case 3 -> {
-                    String[] container = lines.get(0).split(",");
-                    container[3] = content;
-                    String updatedContainer = String.join(",", container);
-                    textDelete(paths, id);
-                    textAppend(paths.getFilePath(), updatedContainer);
-                }
-                case 4 -> {
-                    String[] container = lines.get(0).split(",");
-                    container[4] = content;
-                    String updatedContainer = String.join(",", container);
-                    textDelete(paths, id);
-                    textAppend(paths.getFilePath(), updatedContainer);
-                }
-            }
-        } catch(ArrayIndexOutOfBoundsException e) {
-            System.err.println("Array index is out of bound.");
-        }
-    }
-    */
-
     public void textDelete(String userID) { //Deleting a line of object in user textfile based on the ID set
         List<Object> container = new ArrayList<>(fileReader(FilePaths.USER));
         List<Object> appendContainer = new ArrayList<>();
@@ -140,19 +101,6 @@ public class TextEditor {
         }
         textWrite(FilePaths.MENU.getFilePath(), appendContainer); //Call class's internal function to rewrite the array back to textfile without the deleted object
     }
-
-    /*
-    private void textAppend(String paths, String lines) { //Class's internal function for appending to a textfile, mainly used for appending line back to textfile after elements manipulation
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(paths, true));
-            writer.write(lines);
-            writer.newLine();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    */
 
     private void textWrite(String paths, List<Object> appendContainer) { //Class's internal function for overwriting a textfile, mainly used for rewriting objects back to textfile after deletion
         try {
