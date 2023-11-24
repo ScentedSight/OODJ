@@ -104,6 +104,11 @@ public class RunnerFrame extends javax.swing.JFrame {
 
         runnerHomeFailedbtn.setText("Failed");
         runnerHomeFailedbtn.setName("Runner Home Page Delivery Failed Button"); // NOI18N
+        runnerHomeFailedbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                runnerHomeFailedbtnMouseClicked(evt);
+            }
+        });
 
         runnerHomeDeliveredbtn.setText("Delivered");
         runnerHomeDeliveredbtn.setName("Runner Home Page Delivered Button"); // NOI18N
@@ -288,7 +293,7 @@ public class RunnerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_runnerTaskAcceptbtnMouseClicked
 
     private void runnerHomeDeliveredbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeDeliveredbtnMouseClicked
-        if (tasksRow != -1) { //Fill tasks table with accepted deliveries
+        if (tasksRow != -1) { //Remove row after delivery success and set status
             tasksModel.removeRow(tasksRow);
             List<Object> tasksContainer = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
             for (Object obj : tasksContainer) { //Finalise delivery order by plugging in extra properties
@@ -296,7 +301,7 @@ public class RunnerFrame extends javax.swing.JFrame {
                 if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
                     dOrder.setRunnerStatus(Order.Status.DELIVERED); //Set status
                     dOrder.setTime(); //Set current time
-                    dOrder.runnerProfit();
+                    dOrder.runnerProfit(); //Pay runner
                     reader.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
                     reader.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
                     break;
@@ -304,6 +309,22 @@ public class RunnerFrame extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_runnerHomeDeliveredbtnMouseClicked
+
+    private void runnerHomeFailedbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeFailedbtnMouseClicked
+        if (tasksRow != -1) { //Remove row after delivery failed and set status
+            tasksModel.removeRow(tasksRow);
+            List<Object> tasksContainer = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+            for (Object obj : tasksContainer) { //Finalise delivery order by plugging in extra properties
+                DeliveryOrder dOrder = (DeliveryOrder) obj;
+                if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
+                    dOrder.setRunnerStatus(Order.Status.CANCELED); //Set status
+                    reader.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
+                    reader.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
+                    break;
+                }
+            }
+        }
+    }//GEN-LAST:event_runnerHomeFailedbtnMouseClicked
 
     /**
      * @param args the command line arguments

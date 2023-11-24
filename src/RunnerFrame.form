@@ -177,6 +177,9 @@
         <Property name="text" type="java.lang.String" value="Failed"/>
         <Property name="name" type="java.lang.String" value="Runner Home Page Delivery Failed Button" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeFailedbtnMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="runnerHomeDeliveredbtn">
       <Properties>
