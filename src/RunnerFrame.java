@@ -7,13 +7,12 @@ public class RunnerFrame extends javax.swing.JFrame {
     private DeliveryRunner runner;
     private DefaultTableModel taskListModel = new DefaultTableModel();
     private DefaultTableModel tasksModel = new DefaultTableModel();
-    private String[] taskListColumns = {"Order Placed", "Vendor", "Customer ID", "Food", "Address"};
-    private String[] tasksColumns = {"Time Elapsed", "Vendor", "Customer ID", "Food", "Address"};
-    private int row = -1; //-1 = absence of a selected row, can be used as conditions
-    
-    public RunnerFrame() { //Default constructor for testing purposes
-        initComponents();
-    }
+    private String[] taskListColumns = {"Order ID", "Order Placed", "Vendor", "Customer ID", "Food", "Address"};
+    private String[] tasksColumns = {"Order ID", "Time Elapsed", "Vendor", "Customer ID", "Food", "Address"};
+    private int taskListRow = -1; //-1 = absence of a selected row, can be used as conditions
+    private int tasksRow = -1; //Different row selector for different tables
+    TextEditor reader = new TextEditor();
+    List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
     
     public RunnerFrame(DeliveryRunner runner) { //Runner object read from textfile and passed to runner frame after log in
         initComponents();
@@ -22,12 +21,11 @@ public class RunnerFrame extends javax.swing.JFrame {
         this.runner = runner;
         runnerHomeTitlelbl.setText("Welcome Runner " + runner.getId()); //Set title
         
-        TextEditor reader = new TextEditor();
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) {
             DeliveryOrder dOrder = (DeliveryOrder) obj;
             if (dOrder.getStatusRunner().equals("SEARCHING")) {
                 String[] rowDataArray = {
+                    dOrder.getId(),
                     dOrder.getTime(), //Retrieve time when order was placed
                     dOrder.getVendorName(), //Retrieve vendor's name
                     dOrder.getCustomer(), //Retrieve customer ID
@@ -37,7 +35,6 @@ public class RunnerFrame extends javax.swing.JFrame {
                 taskListModel.addRow(rowDataArray);
             }
         }
-        reader.close();
     }
 
     /**
@@ -53,8 +50,8 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeLogOutbtn = new javax.swing.JButton();
         runnerTaskAcceptbtn = new javax.swing.JButton();
         runnerHomeTaskHistbtn = new javax.swing.JButton();
-        runnerHomeDeliveredbtn = new javax.swing.JButton();
         runnerHomeFailedbtn = new javax.swing.JButton();
+        runnerHomeDeliveredbtn = new javax.swing.JButton();
         runnerHomeYeartxt = new javax.swing.JTextField();
         runnerHomeMonthtxt = new javax.swing.JTextField();
         runnerHomeDaylbl = new javax.swing.JLabel();
@@ -105,11 +102,16 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTaskHistbtn.setText("Task History");
         runnerHomeTaskHistbtn.setName("Runner Home Page Task History Button"); // NOI18N
 
-        runnerHomeDeliveredbtn.setText("Delivered");
-        runnerHomeDeliveredbtn.setName("Runner Home Page Delivered Button"); // NOI18N
-
         runnerHomeFailedbtn.setText("Failed");
         runnerHomeFailedbtn.setName("Runner Home Page Delivery Failed Button"); // NOI18N
+
+        runnerHomeDeliveredbtn.setText("Delivered");
+        runnerHomeDeliveredbtn.setName("Runner Home Page Delivered Button"); // NOI18N
+        runnerHomeDeliveredbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                runnerHomeDeliveredbtnMouseClicked(evt);
+            }
+        });
 
         runnerHomeYeartxt.setText("jTextField2");
         runnerHomeYeartxt.setName("Runner Home Page Yearly Revenue Text Field"); // NOI18N
@@ -257,23 +259,51 @@ public class RunnerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_runnerHomeDaytxtActionPerformed
 
     private void runnerHomeTaskstblMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskstblMouseReleased
-        
+        taskListRow = runnerHomeTaskListtbl.getSelectedRow();
     }//GEN-LAST:event_runnerHomeTaskstblMouseReleased
 
     private void runnerHomeTaskListtblMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskListtblMouseReleased
-        row = runnerHomeTaskstbl.getSelectedRow();
+        tasksRow = runnerHomeTaskstbl.getSelectedRow();
     }//GEN-LAST:event_runnerHomeTaskListtblMouseReleased
 
     private void runnerTaskAcceptbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerTaskAcceptbtnMouseClicked
-        if (row != -1) { //Fill tasks table with accepted deliveries
-            String[] valuesForRow = new String[5];
-            for (int columnCounter = 0; columnCounter <= 4; columnCounter++) {
-                String columnValues = String.valueOf(taskListModel.getValueAt(row, columnCounter));
-                valuesForRow[columnCounter] = columnValues;
+        if (taskListRow != -1) { //Fill tasks table with accepted deliveries
+            String[] valuesForRow = new String[6];
+            for (int columnCounter = 0; columnCounter <= 5; columnCounter++) {
+                valuesForRow[columnCounter] = String.valueOf(taskListModel.getValueAt(taskListRow, columnCounter)); //Insert value into tasks table column by column in the selected row from tasks list table
             }
-            tasksModel.addRow(valuesForRow);
+            taskListModel.addRow(valuesForRow);
+            for (Object obj : container) { //Finalise delivery order by plugging in extra properties
+                DeliveryOrder dOrder = (DeliveryOrder) obj;
+                if (dOrder.getId().equals(String.valueOf(taskListModel.getValueAt(taskListRow, 0)))) {
+                    dOrder.setRunner(runner); //Set the current runner
+                    dOrder.setRunnerStatus(Order.Status.DELIVERING); //Set status
+                    dOrder.setTime(); //Set current time
+                    reader.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
+                    reader.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
+                    break;
+                }
+            }
         }
     }//GEN-LAST:event_runnerTaskAcceptbtnMouseClicked
+
+    private void runnerHomeDeliveredbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeDeliveredbtnMouseClicked
+        if (tasksRow != -1) { //Fill tasks table with accepted deliveries
+            tasksModel.removeRow(tasksRow);
+            List<Object> tasksContainer = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+            for (Object obj : tasksContainer) { //Finalise delivery order by plugging in extra properties
+                DeliveryOrder dOrder = (DeliveryOrder) obj;
+                if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
+                    dOrder.setRunnerStatus(Order.Status.DELIVERED); //Set status
+                    dOrder.setTime(); //Set current time
+                    dOrder.runnerProfit();
+                    reader.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
+                    reader.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
+                    break;
+                }
+            }
+        }
+    }//GEN-LAST:event_runnerHomeDeliveredbtnMouseClicked
 
     /**
      * @param args the command line arguments

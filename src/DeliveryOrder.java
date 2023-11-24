@@ -12,6 +12,7 @@ public class DeliveryOrder extends Order{
     
     public void setRunner (DeliveryRunner runner) { //To set designated runner after found
         this.runner = runner;
+        super.setId(super.getId() + ":" + runner.getId()); //Include runner ID to integrate as a whole order ID
     }
     
     public String getRunner() {

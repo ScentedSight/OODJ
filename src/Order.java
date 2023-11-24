@@ -1,7 +1,6 @@
-import java.io.Serializable;
+public class Order implements DataProvider {
 
-public class Order implements Serializable {
-
+    private String id;
     private Status status;
     private String review;
     private String food;
@@ -9,7 +8,6 @@ public class Order implements Serializable {
     private String vendorName;
     private String vendorId;
     private Customer customer;
-    private String customerID;
     private Time time;
 
     enum Status {
@@ -24,6 +22,7 @@ public class Order implements Serializable {
     }
     
     public Order(String vendorId, String vendorName, Customer customer, String food, double foodCost) {
+        id = vendorId + ":" + customer.getId();
         status = Status.PENDING;
         Time time = new Time();
         this.time = time;
@@ -31,16 +30,19 @@ public class Order implements Serializable {
         this.vendorName = vendorName;
         this.customer = customer;
         this.food = food;
-        customerID = customer.getId();
         total = foodCost;
+    }
+    
+    public String getId() {
+        return id;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setReview(String review) { //Review should only be set when food status is done or delivered
         this.review = review;
-    }
-
-    public String getCustomer() {
-        return customerID;
     }
     
     public String getFood() {
@@ -78,5 +80,14 @@ public class Order implements Serializable {
     
     public String getAddress() {
         return customer.getAddress();
+    }
+    
+    public String getCustomer() {
+        return customer.getId();
+    }
+    
+    public void setTime() {
+        Time time = new Time();
+        this.time = time;
     }
 }
