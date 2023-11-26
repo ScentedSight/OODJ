@@ -71,7 +71,7 @@
                           </Group>
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jCalendar1" pref="260" max="32767" attributes="0"/>
+                              <Component id="runnerHomeCld" pref="260" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -88,7 +88,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jCalendar1" min="-2" pref="306" max="-2" attributes="0"/>
+                      <Component id="runnerHomeCld" min="-2" pref="306" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="runnerHomeDaylbl" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -354,7 +354,10 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="com.toedter.calendar.JCalendar" name="jCalendar1">
+    <Component class="com.toedter.calendar.JCalendar" name="runnerHomeCld">
+      <Events>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="runnerHomeCldPropertyChange"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

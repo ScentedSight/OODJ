@@ -9,7 +9,7 @@ public class Time {
     private byte months;
     private short years;
 
-    public Time() {
+    public Time() { //Constructor for current time the moment this object is created
         long time = System.currentTimeMillis();
         TimeZone timeZone = TimeZone.getDefault();
         long offSet = timeZone.getOffset(time);

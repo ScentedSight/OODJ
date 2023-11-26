@@ -1,3 +1,4 @@
+import com.toedter.calendar.JCalendar;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -13,6 +14,11 @@ public class RunnerFrame extends javax.swing.JFrame {
     private int tasksRow = -1; //Different row selector for different tables
     TextEditor reader = new TextEditor();
     List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+    JCalendar calendar = new JCalendar();
+    
+    public RunnerFrame() { //Default constructor for testing purposes
+        
+    }
     
     public RunnerFrame(DeliveryRunner runner) { //Runner object read from textfile and passed to runner frame after log in
         initComponents();
@@ -64,7 +70,7 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTaskListtbl = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         runnerHomeTaskstbl = new javax.swing.JTable();
-        jCalendar1 = new com.toedter.calendar.JCalendar();
+        runnerHomeCld = new com.toedter.calendar.JCalendar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Delivery Runner Home Page");
@@ -165,6 +171,12 @@ public class RunnerFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(runnerHomeTaskstbl);
 
+        runnerHomeCld.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                runnerHomeCldPropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -205,7 +217,7 @@ public class RunnerFrame extends javax.swing.JFrame {
                                     .addComponent(runnerHomeTotaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)))))
+                                .addComponent(runnerHomeCld, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -216,7 +228,7 @@ public class RunnerFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(runnerHomeCld, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(runnerHomeDaylbl)
@@ -277,7 +289,8 @@ public class RunnerFrame extends javax.swing.JFrame {
             for (int columnCounter = 0; columnCounter <= 5; columnCounter++) {
                 valuesForRow[columnCounter] = String.valueOf(taskListModel.getValueAt(taskListRow, columnCounter)); //Insert value into tasks table column by column in the selected row from tasks list table
             }
-            taskListModel.addRow(valuesForRow);
+            tasksModel.addRow(valuesForRow);
+            taskListModel.removeRow(taskListRow);
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 DeliveryOrder dOrder = (DeliveryOrder) obj;
                 if (dOrder.getId().equals(String.valueOf(taskListModel.getValueAt(taskListRow, 0)))) {
@@ -317,7 +330,7 @@ public class RunnerFrame extends javax.swing.JFrame {
             for (Object obj : tasksContainer) { //Finalise delivery order by plugging in extra properties
                 DeliveryOrder dOrder = (DeliveryOrder) obj;
                 if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
-                    dOrder.setRunnerStatus(Order.Status.CANCELED); //Set status
+                    dOrder.setRunnerStatus(Order.Status.SEARCHING); //Set status
                     reader.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
                     reader.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
                     break;
@@ -325,6 +338,10 @@ public class RunnerFrame extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_runnerHomeFailedbtnMouseClicked
+
+    private void runnerHomeCldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_runnerHomeCldPropertyChange
+        calendar.getDate();
+    }//GEN-LAST:event_runnerHomeCldPropertyChange
 
     /**
      * @param args the command line arguments
@@ -362,8 +379,8 @@ public class RunnerFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private com.toedter.calendar.JCalendar runnerHomeCld;
     private javax.swing.JLabel runnerHomeDaylbl;
     private javax.swing.JTextField runnerHomeDaytxt;
     private javax.swing.JButton runnerHomeDeliveredbtn;
