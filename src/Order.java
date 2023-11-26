@@ -1,3 +1,5 @@
+import java.util.Date;
+
 public class Order implements DataProvider {
 
     private String id;
@@ -65,6 +67,10 @@ public class Order implements DataProvider {
         return vendorName;
     }
 
+    public Date getDate() { //Return date object stored upon creation of order for user viewing past order records function
+        return time.getDate();
+    }
+    
     public String getTime() {
         return time.toString();
     }
