@@ -12,7 +12,8 @@ public class TextEditor {
 
         USER("path = USERS.txt"),
         MENU("path = MENU.txt"),
-        HISTORY("path = HISTORY.txt");
+        HISTORY("path = HISTORY.txt"),
+        ID("path = IDGenerator.txt");
 
         private String filePath;
 
@@ -98,5 +99,21 @@ public class TextEditor {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public static String orderIDGenerator() { //To create a randomized order ID while saving the concurrent ID for every software restarts, static so it can be used without creating the object
+        String line = "";
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(FilePaths.ID.getFilePath()));
+            line = reader.readLine();
+            reader.close();
+            int incrementValue = Integer.parseInt(line) + 1;
+            BufferedWriter writer = new BufferedWriter(new FileWriter(FilePaths.ID.getFilePath()));
+            writer.write(incrementValue);
+            writer.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return line;
     }
 }

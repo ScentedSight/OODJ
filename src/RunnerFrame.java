@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -8,23 +8,27 @@ public class RunnerFrame extends javax.swing.JFrame {
     private DeliveryRunner runner;
     private DefaultTableModel taskListModel = new DefaultTableModel();
     private DefaultTableModel tasksModel = new DefaultTableModel();
-    private String[] taskListColumns = {"Order ID", "Order Placed", "Vendor", "Customer ID", "Food", "Address"};
-    private String[] tasksColumns = {"Order ID", "Time Elapsed", "Vendor", "Customer ID", "Food", "Address"};
+    private DefaultTableModel taskHistory = new DefaultTableModel();
+    private final String[] taskListColumns = {"Order ID", "Order Placed", "Vendor", "Customer ID", "Food", "Address"};
+    private final String[] tasksColumns = {"Order ID", "Time Elapsed", "Vendor", "Customer ID", "Food", "Address"};
+    private final String[] taskHistoryColumns = {"Order ID", "Order Completion", "Vendor", "Customer", "Food", "Address", "Profit", "Review"};
     private int taskListRow = -1; //-1 = absence of a selected row, can be used as conditions
     private int tasksRow = -1; //Different row selector for different tables
     TextEditor reader = new TextEditor();
     
     public RunnerFrame() { //Default constructor for testing purposes
-        
+        initComponents();
     }
     
     public RunnerFrame(DeliveryRunner runner) { //Runner object read from textfile and passed to runner frame after log in
         initComponents();
         taskListModel.setColumnIdentifiers(taskListColumns);
         tasksModel.setColumnIdentifiers(tasksColumns);
+        taskHistory.setColumnIdentifiers(taskHistoryColumns);
         this.runner = runner;
         runnerHomeTitlelbl.setText("Welcome Runner " + runner.getId()); //Set title
         runnerHomeLoadTaskProcess(); //Load tasks
+        generateTotalRevenue(); //Set total revenue text for it's textbox
     }
 
     /**
@@ -36,6 +40,9 @@ public class RunnerFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        runnerTskHistorydialog = new javax.swing.JDialog();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        runnerTskHistorytbl = new javax.swing.JTable();
         runnerHomeTitlelbl = new javax.swing.JLabel();
         runnerHomeLogOutbtn = new javax.swing.JButton();
         runnerTaskAcceptbtn = new javax.swing.JButton();
@@ -56,6 +63,27 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTaskstbl = new javax.swing.JTable();
         runnerHomeCld = new com.toedter.calendar.JCalendar();
 
+        runnerTskHistorydialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        runnerTskHistorydialog.setTitle("Task History");
+
+        runnerTskHistorytbl.setModel(taskHistory);
+        jScrollPane2.setViewportView(runnerTskHistorytbl);
+
+        javax.swing.GroupLayout runnerTskHistorydialogLayout = new javax.swing.GroupLayout(runnerTskHistorydialog.getContentPane());
+        runnerTskHistorydialog.getContentPane().setLayout(runnerTskHistorydialogLayout);
+        runnerTskHistorydialogLayout.setHorizontalGroup(
+            runnerTskHistorydialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(runnerTskHistorydialogLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 961, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        runnerTskHistorydialogLayout.setVerticalGroup(
+            runnerTskHistorydialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(runnerTskHistorydialogLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 806, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Delivery Runner Home Page");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -70,6 +98,11 @@ public class RunnerFrame extends javax.swing.JFrame {
 
         runnerHomeLogOutbtn.setText("LOG OUT");
         runnerHomeLogOutbtn.setName("Runner Home Page Log Out Button"); // NOI18N
+        runnerHomeLogOutbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                runnerHomeLogOutbtnMouseClicked(evt);
+            }
+        });
         runnerHomeLogOutbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runnerHomeLogOutbtnActionPerformed(evt);
@@ -91,6 +124,11 @@ public class RunnerFrame extends javax.swing.JFrame {
 
         runnerHomeTaskHistbtn.setText("Task History");
         runnerHomeTaskHistbtn.setName("Runner Home Page Task History Button"); // NOI18N
+        runnerHomeTaskHistbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                runnerHomeTaskHistbtnMouseClicked(evt);
+            }
+        });
 
         runnerHomeFailedbtn.setText("Failed");
         runnerHomeFailedbtn.setName("Runner Home Page Delivery Failed Button"); // NOI18N
@@ -108,10 +146,8 @@ public class RunnerFrame extends javax.swing.JFrame {
             }
         });
 
-        runnerHomeYeartxt.setText("jTextField2");
         runnerHomeYeartxt.setName("Runner Home Page Yearly Revenue Text Field"); // NOI18N
 
-        runnerHomeMonthtxt.setText("jTextField3");
         runnerHomeMonthtxt.setName("Runner Home Page Monthly Revenue Text Field"); // NOI18N
 
         runnerHomeDaylbl.setText("Day:");
@@ -126,10 +162,8 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTotallbl.setText("Total:");
         runnerHomeTotallbl.setName("Runner Home Page Total Revenue Label"); // NOI18N
 
-        runnerHomeTotaltxt.setText("jTextField4");
         runnerHomeTotaltxt.setName("Runner Home Page Total Revenue Text Field"); // NOI18N
 
-        runnerHomeDaytxt.setText("jTextField1");
         runnerHomeDaytxt.setName("Runner Home Page Daily Revenue Textfield"); // NOI18N
         runnerHomeDaytxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -254,10 +288,10 @@ public class RunnerFrame extends javax.swing.JFrame {
             DeliveryOrder dOrder = (DeliveryOrder) obj;
             if (dOrder.getStatusRunner().equals("SEARCHING")) {
                 String[] rowDataArray = {
-                    dOrder.getId(),
+                    dOrder.getId(), //Retrieve order ID
                     dOrder.getTime(), //Retrieve time when order was placed
                     dOrder.getVendorName(), //Retrieve vendor's name
-                    dOrder.getCustomer(), //Retrieve customer ID
+                    dOrder.getCustomerID(), //Retrieve customer ID
                     dOrder.getFood(), //Retrieve food name
                     dOrder.getAddress() //Retrieve address
                 };
@@ -271,12 +305,12 @@ public class RunnerFrame extends javax.swing.JFrame {
         List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) {
             DeliveryOrder dOrder = (DeliveryOrder) obj;
-            if (dOrder.getStatusRunner().equals("DELIVERING")) {
+            if (dOrder.getStatusRunner().equals("DELIVERING") && dOrder.getRunner().equals(runner.getId())) {
                 String[] rowDataArray = {
-                    dOrder.getId(),
+                    dOrder.getId(), //Retrieve order ID
                     dOrder.getTime(), //Retrieve time when order was placed
                     dOrder.getVendorName(), //Retrieve vendor's name
-                    dOrder.getCustomer(), //Retrieve customer ID
+                    dOrder.getCustomerID(), //Retrieve customer ID
                     dOrder.getFood(), //Retrieve food name
                     dOrder.getAddress() //Retrieve address
                 };
@@ -284,6 +318,19 @@ public class RunnerFrame extends javax.swing.JFrame {
             }
         }
     }    
+    
+    private void generateTotalRevenue() { //Private internal function to generate total revenue earned by runner
+        double total = 0;
+        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+        for (Object obj : container) {
+            DeliveryOrder dOrder = (DeliveryOrder) obj;
+            if (dOrder.getRunner().equals(runner.getId())) {
+                total += dOrder.getFee();
+            }
+        }
+        runnerHomeTotaltxt.setText(String.valueOf(total));
+    }
+    
     private void runnerHomeLogOutbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnerHomeLogOutbtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_runnerHomeLogOutbtnActionPerformed
@@ -315,7 +362,7 @@ public class RunnerFrame extends javax.swing.JFrame {
                     dOrder.setTime(); //Set current time
                     reader.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
                     reader.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
-                    break;
+                    break; //Break out of the loop once done since only one order should be edited at a time
                 }
             }
             runnerHomeLoadTaskProcess(); //Reload the tasks table
@@ -331,14 +378,15 @@ public class RunnerFrame extends javax.swing.JFrame {
                 if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
                     dOrder.setRunnerStatus(Order.Status.DELIVERED); //Set status
                     dOrder.setTime(); //Set current time
-                    dOrder.runnerProfit(); //Pay runner
+                    dOrder.payment(); //Pay runner and vendor
                     reader.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
                     reader.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
-                    break;
+                    break; //Break out of the loop once done since only one order should be edited at a time
                 }
             }
             runnerHomeLoadTaskProcess(); //Reload the tasks table
             runnerHomeLoadTaskListProcess(); //Reload the tasks
+            generateTotalRevenue(); //Add to total revenue textbox
         }
     }//GEN-LAST:event_runnerHomeDeliveredbtnMouseClicked
 
@@ -351,7 +399,7 @@ public class RunnerFrame extends javax.swing.JFrame {
                     dOrder.setRunnerStatus(Order.Status.SEARCHING); //Set status
                     reader.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
                     reader.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
-                    break;
+                    break; //Break out of the loop once done since only one order should be edited at a time
                 }
             }
             runnerHomeLoadTaskProcess(); //Reload the tasks table
@@ -360,15 +408,59 @@ public class RunnerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_runnerHomeFailedbtnMouseClicked
 
     private void runnerHomeCldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_runnerHomeCldPropertyChange
-        Date date = runnerHomeCld.getDate();
+        Calendar date = runnerHomeCld.getCalendar(); //Retrieval of dates from jCalendar
+        int day = date.get(date.DAY_OF_MONTH);
+        int month = date.get(date.MONTH + 1);
+        int year = date.get(date.YEAR);
+
+        double dayFeeTxt = 0; //Initializes as zero everytime date changes so it doesnt accumulate from previous date selection
+        double monthFeeTxt= 0;
+        double yearFeeTxt = 0;
+        
+        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+        for (Object obj : container) { //Conditional statement to filter revenue based on year, month and days
+            DeliveryOrder dOrder = (DeliveryOrder) obj;
+            if (dOrder.getStatusRunner().equals("DELIVERED") && dOrder.getRunner().equals(runner.getId())) {
+                if (dOrder.getOrderYear() == year) {
+                    yearFeeTxt += dOrder.getFee();
+                    if (dOrder.getOrderMonth() == month) {
+                        monthFeeTxt += dOrder.getFee();
+                        if (dOrder.getOrderDay() == day) {
+                            dayFeeTxt += dOrder.getFee();
+                        }
+                    }        
+                }    
+            }        
+        }
+        runnerHomeYeartxt.setText(String.valueOf(yearFeeTxt));
+        runnerHomeMonthtxt.setText(String.valueOf(monthFeeTxt));
+        runnerHomeDaytxt.setText(String.valueOf(dayFeeTxt));
+    }//GEN-LAST:event_runnerHomeCldPropertyChange
+
+    private void runnerHomeLogOutbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeLogOutbtnMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_runnerHomeLogOutbtnMouseClicked
+
+    private void runnerHomeTaskHistbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskHistbtnMouseClicked
         List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) {
-                DeliveryOrder dOrder = (DeliveryOrder) obj;
-                if (dOrder.getStatusRunner().equals("DELIVERED") && dOrder.equals(dOrder.getDate())) {
-                    
-                }
+            DeliveryOrder dOrder = (DeliveryOrder) obj;
+            if (dOrder.getRunner().equals(runner.getId())) {
+                String[] rowDataArray = {
+                    dOrder.getId(), //Retrieve order ID
+                    dOrder.getTime(), //Retrieve time when order was placed
+                    dOrder.getVendorName(), //Retrieve vendor's name
+                    dOrder.getCustomerID(), //Retrieve customer ID
+                    dOrder.getFood(), //Retrieve food name
+                    dOrder.getAddress(), //Retrieve address
+                    String.valueOf(dOrder.getFee()), //Retrieve runner profits
+                    dOrder.getReview() //Retrieve reviews
+                };
+                taskHistory.addRow(rowDataArray);
             }
-    }//GEN-LAST:event_runnerHomeCldPropertyChange
+        }
+        runnerTskHistorydialog.setVisible(true); //Opens up a new dialog
+    }//GEN-LAST:event_runnerHomeTaskHistbtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -407,6 +499,7 @@ public class RunnerFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private com.toedter.calendar.JCalendar runnerHomeCld;
     private javax.swing.JLabel runnerHomeDaylbl;
     private javax.swing.JTextField runnerHomeDaytxt;
@@ -425,5 +518,7 @@ public class RunnerFrame extends javax.swing.JFrame {
     private javax.swing.JLabel runnerHomeYearlbl;
     private javax.swing.JTextField runnerHomeYeartxt;
     private javax.swing.JButton runnerTaskAcceptbtn;
+    private javax.swing.JDialog runnerTskHistorydialog;
+    private javax.swing.JTable runnerTskHistorytbl;
     // End of variables declaration//GEN-END:variables
 }

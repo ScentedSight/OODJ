@@ -1,4 +1,5 @@
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Order implements DataProvider {
 
@@ -24,7 +25,7 @@ public class Order implements DataProvider {
     }
     
     public Order(String vendorId, String vendorName, Customer customer, String food, double foodCost) {
-        id = vendorId + ":" + customer.getId();
+        id = "O" + TextEditor.orderIDGenerator(); //Order ID starts with an "O" letter
         status = Status.PENDING;
         Time time = new Time();
         this.time = time;
@@ -37,10 +38,6 @@ public class Order implements DataProvider {
     
     public String getId() {
         return id;
-    }
-    
-    public void setId(String id) {
-        this.id = id;
     }
 
     public void setReview(String review) { //Review should only be set when food status is done or delivered
@@ -67,17 +64,40 @@ public class Order implements DataProvider {
         return vendorName;
     }
 
-    public Date getDate() { //Return date object stored upon creation of order for user viewing past order records function
-        return time.getDate();
+    public int getOrderDay() {
+        return time.getDay();
+    }
+    
+    public int getOrderMonth() {
+        return time.getMonth();
+    }
+    
+    public int getOrderYear() {
+        return time.getYear();
     }
     
     public String getTime() {
         return time.toString();
     }
 
+    public Customer getCustomer() { //Getter for delivery order child class usage
+        return customer;
+    }
+    
     public void payment() {
         customer.deductBal(total);
-        //vendor.addBal(total);
+        TextEditor reader = new TextEditor();
+        
+        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.USER));
+        for (Object obj : container) { //Adds profit to the vendor object
+            Vendor vendor = (Vendor) obj;
+            if (vendor.getId().equals(vendorId)) {
+                vendor.addProfit(total);
+                reader.textDelete(TextEditor.FilePaths.USER, vendor);
+                reader.fileWrite(TextEditor.FilePaths.USER, vendor); //Rewrite it all back
+                break; //Break out of the loop once done since payment is only given to one vendor per order
+            }
+        }
     }
 
     public void setStatus(Status status) { //For vendor and customer to set statuses
@@ -88,12 +108,16 @@ public class Order implements DataProvider {
         return customer.getAddress();
     }
     
-    public String getCustomer() {
+    public String getCustomerID() {
         return customer.getId();
     }
     
     public void setTime() {
         Time time = new Time();
         this.time = time;
+    }
+    
+    public String getReview() {
+        return review;
     }
 }
