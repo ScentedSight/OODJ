@@ -7,6 +7,9 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -19,8 +22,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
     private int row = -1;
     
     private DefaultTableModel model2 = new DefaultTableModel();
-    private String[] column2 = {"OrderID", "Details", "Quantity", "Total", "Status"};
+    private String[] column2 = {"OrderID", "Details", "Total", "Status"};
     private int row2 = -1;
+    
+    private DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
     
     private double originalPrice;
     
@@ -29,14 +34,20 @@ public class C_MenuFrame extends javax.swing.JFrame {
     /**
      * Creates new form Menu
      */
+    
+    public C_MenuFrame() {
+        initComponents();
+    }
+    
     public C_MenuFrame(Customer customer) {
         initComponents();
         this.customer = customer;
         model.setColumnIdentifiers(column);
         model2.setColumnIdentifiers(column2);
-        loadBalanceAndUsernameFromFile();
+        balance.setText(String.valueOf(customer.getBal()));
+        username.setText(customer.getId());
         populateMenuTable();
-        populateCOrderTable();
+        populateCurrentOrderTable();
         
         cbCuisine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -46,199 +57,55 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }
     
     
-    
-    private void loadBalanceAndUsernameFromFile() {
-        try {
-            String balanceFilePath = "C:\\Users\\User\\Desktop\\APU\\Degree Lvl 2\\OODJ\\OODJ_txt\\balance.txt";
-            FileReader balanceFileReader = new FileReader(balanceFilePath);
-            BufferedReader balanceBufferedReader = new BufferedReader(balanceFileReader);
-
-            // Read the balance from the file
-            String balanceString = balanceBufferedReader.readLine();
-            double loadedBalance = Double.parseDouble(balanceString);
-
-            // Format the balance with two decimal points
-            String formattedBalance = String.format("%.2f", loadedBalance);
-
-            // Update the "balance" JLabel
-            balance.setText("RM" + formattedBalance);
-
-            // Close the balance file readers
-            balanceBufferedReader.close();
-            balanceFileReader.close();
-
-            String usernameFilePath = "C:\\Users\\User\\Desktop\\APU\\Degree Lvl 2\\OODJ\\OODJ_txt\\username.txt";
-            FileReader usernameFileReader = new FileReader(usernameFilePath);
-            BufferedReader usernameBufferedReader = new BufferedReader(usernameFileReader);
-
-            // Read the username from the file
-            String usernameString = usernameBufferedReader.readLine();
-
-            // Update the "username" JLabel
-            username.setText(usernameString);
-
-            // Close the username file readers
-            usernameBufferedReader.close();
-            usernameFileReader.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error loading balance and username from file.", "Error", JOptionPane.ERROR_MESSAGE);
+    private void populateComboBox() {
+        TextEditor reader = new TextEditor();
+        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.USER));
+        
+        List<String> vendors = new ArrayList<>();
+        
+        for (Object object: container) {
+            Vendor vendor = (Vendor) object;
+            String vendorName = vendor.getName();
+            vendors.add(vendorName);
+            
+            //comboBoxModel.addAll(vendors.toArray());
         }
-    }
-    
-    private void clearTextField(){
-        tfNumber.setText("");
-        tfDetails.setText("");
-        tfPrice.setText("");
-
-    }
-   
-    private void addQuantity() {
-        int currentValue = Integer.parseInt(tfQuantity.getText());
-        tfQuantity.setText(String.valueOf(currentValue + 1));
-
-        updatePrice();
-    }
-    
-    private void minusQuantity() {
-        int currentValue = Integer.parseInt(tfQuantity.getText());
-        if (currentValue > 1) {
-            tfQuantity.setText(String.valueOf(currentValue - 1));
-            updatePrice();
-        }
-    }
-    
-    private void updatePrice() {
-        int quantity = Integer.parseInt(tfQuantity.getText());
-        double totalPrice = originalPrice * quantity;
-        tfPrice.setText(String.format("%.2f", totalPrice));
+        
     }
     
     private void populateMenuTable() {
-        // Specify the path to your menu text files
-        String chineseMenuFilePath = "C:\\Users\\User\\Desktop\\APU\\Degree Lvl 2\\OODJ\\OODJ_txt\\chinese.txt";
-        String indianMenuFilePath = "C:\\Users\\User\\Desktop\\APU\\Degree Lvl 2\\OODJ\\OODJ_txt\\indian.txt";
-        String malayMenuFilePath = "C:\\Users\\User\\Desktop\\APU\\Degree Lvl 2\\OODJ\\OODJ_txt\\malay.txt";
-        String westernMenuFilePath = "C:\\Users\\User\\Desktop\\APU\\Degree Lvl 2\\OODJ\\OODJ_txt\\western.txt";
-
-        // Read data from the selected menu text file and populate the menu table
-        String selectedCuisine = cbCuisine.getSelectedItem().toString();
-        String menuFilePath = switch (selectedCuisine) {
-            case "Chinese" -> chineseMenuFilePath;
-            case "Indian" -> indianMenuFilePath;
-            case "Malay" -> malayMenuFilePath;
-            case "Western" -> westernMenuFilePath;
-            default -> ""; // Handle the default case appropriately
-        };
-
-        Object[][] menuData = readMenuFile(menuFilePath);
-        model.setDataVector(menuData, column);
-}
-    
-    private void populateCOrderTable() {
-    // Specify the path to your menu text file
-    
-
-    // Read data from the file and populate the menu table
-    Object[][] COrderData = readCOrderFile(COrderFilePath);
-    model2.setDataVector(COrderData, column2);
-    }
-    
-    
-    private static Object[][] readMenuFile(String menuFilePath) {
-        // Initialize a 2D array to hold the data
-        Object[][] data = null;
-
-        try (BufferedReader br = new BufferedReader(new FileReader(menuFilePath))) {
-            // Assuming each line in the file represents a row in the table
-            // You may need to modify this based on the actual format of your text file
-            String line;
-            int rowCount = 0;
-
-            // Count the number of lines in the file
-            while (br.readLine() != null) {
-                rowCount++;
+        TextEditor reader = new TextEditor();
+        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.MENU));
+        
+        for (Object object: container) {
+            Food food = (Food) object;
+            
+            if (food.getVendor().equals(object)){
+                
+            //String[] menu = {food.getId(), food.getDescription(), String.valueOf(food.getCost())};
+            //model.addRow(menu);
             }
-
-            // Reset the reader using a separate variable
-            BufferedReader resetReader = new BufferedReader(new FileReader(menuFilePath));
-
-            // Initialize the 2D array based on the row count
-            data = new Object[rowCount][3];
-
-            // Read each line and populate the 2D array
-            int i = 0;
-            while ((line = resetReader.readLine()) != null) {
-                // Assuming the data is separated by some delimiter (e.g., comma)
-                String[] parts = line.split(",");
-                if (parts.length == 3) {
-                    data[i][0] = parts[0].trim();
-                    data[i][1] = parts[1].trim();
-                    data[i][2] = parts[2].trim();
-                    i++;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
-        return data;
     }
     
-    
-    private static Object[][] readCOrderFile(String COrderFilePath) {
-        // Initialize a 2D array to hold the data
-        Object[][] data = null;
-
-        try (BufferedReader br = new BufferedReader(new FileReader(COrderFilePath))) {
-            // Assuming each line in the file represents a row in the table
-            // You may need to modify this based on the actual format of your text file
-            String line;
-            int rowCount = 0;
-
-            // Count the number of lines in the file
-            while (br.readLine() != null) {
-                rowCount++;
+    private void populateCurrentOrderTable() {
+        // Specify the path to your menu text file
+        TextEditor reader = new TextEditor();
+        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY)); 
+        
+        for (Object object: container){
+            Order order = (Order) object;
+            if (order.getStatus().equals("PENDING") && order.getCustomerID().equals(customer.getId())) {
+                String[] currentOrder = {order.getId(), order.getFood(), String.valueOf(order.getTotal()), String.valueOf(order.getStatus())};
+                model2.addRow(currentOrder);
             }
-
-            // Reset the reader using a separate variable
-            BufferedReader resetReader = new BufferedReader(new FileReader(COrderFilePath));
-
-            // Initialize the 2D array based on the row count
-            data = new Object[rowCount][5];
-
-            // Read each line and populate the 2D array
-            int i = 0;
-            while ((line = resetReader.readLine()) != null) {
-                // Assuming the data is separated by some delimiter (e.g., comma)
-                String[] parts = line.split(",");
-                if (parts.length == 5) {
-                    data[i][0] = parts[0].trim();
-                    data[i][1] = parts[1].trim();
-                    data[i][2] = parts[2].trim();
-                    data[i][3] = parts[3].trim();
-                    data[i][4] = parts[4].trim();
-                    i++;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
-        return data;
+ 
+        
     }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -377,7 +244,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(Menu);
 
-        cbCuisine.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chinese", "Malay", "Indian", "Western" }));
+        cbCuisine.setModel(comboBoxModel);
         cbCuisine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbCuisineActionPerformed(evt);
@@ -478,7 +345,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCurrentOrder)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -559,7 +426,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
     private void bAddQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddQuantityActionPerformed
         // TODO add your handling code here:
-        addQuantity();
+        
     }//GEN-LAST:event_bAddQuantityActionPerformed
 
     private void MenuMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuMouseReleased
@@ -576,7 +443,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
     private void bReduceQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReduceQuantityActionPerformed
         // TODO add your handling code here:
-        minusQuantity();
+        
     }//GEN-LAST:event_bReduceQuantityActionPerformed
 
     private void CurrentOrderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CurrentOrderMouseReleased
@@ -591,16 +458,8 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
     private void bCancelOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelOrderActionPerformed
         // TODO add your handling code here:
-        // NEED TO DELETE FROM FILE
-        if(row2 == -1){
-            JOptionPane.showMessageDialog(this, "Please select a row");
-        } else {
-            model2.removeRow(row2);
-            clearTextField();
-            row2 = -1;
-        }
-        model2.removeRow(row2);
-        clearTextField();
+        
+        
     }//GEN-LAST:event_bCancelOrderActionPerformed
 
     private void bPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPlaceOrderActionPerformed

@@ -16,7 +16,7 @@ public class Vendor extends User{
         return vendorName;
     }
 
-    public void addBal(Double profit){ //Profit for ordered foods
+    public void addProfit(Double profit){ //Profit for ordered foods
         balance = balance + profit;
     }
 }

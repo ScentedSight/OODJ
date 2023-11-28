@@ -20,6 +20,10 @@ public class Customer extends User{
         this.balance = Double.parseDouble(balance);
     }
 
+    public double getBal(){
+        return balance;
+    }
+    
     public void deductBal(double payment){ //Deducting balance from payment of foods
         balance = balance - payment;
     }

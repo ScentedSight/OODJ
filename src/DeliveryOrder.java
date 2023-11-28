@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class DeliveryOrder extends Order{
     
     private DeliveryRunner runner;
@@ -12,7 +15,6 @@ public class DeliveryOrder extends Order{
     
     public void setRunner (DeliveryRunner runner) { //To set designated runner after found
         this.runner = runner;
-        super.setId(super.getId() + ":" + runner.getId()); //Include runner ID to integrate as a whole order ID
     }
     
     public String getRunner() {
@@ -27,7 +29,25 @@ public class DeliveryOrder extends Order{
         statusRunner = status;
     }
     
-    public void runnerProfit() { //Can only be called if status = DELIVERED, before this object is deleted after saving to history
-        runner.addBal(deliveryFee);
+    public double getFee() {
+        return deliveryFee;
+    }
+    
+    @Override
+    public void payment() {
+        super.getCustomer().deductBal(super.getCost()); //Deduct customer's balance
+        runner.addBal(deliveryFee); //Pay runner
+        
+        TextEditor reader = new TextEditor();
+        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.USER));
+        for (Object obj : container) { //Adds profit to the vendor object
+            Vendor vendor = (Vendor) obj;
+            if (vendor.getId().equals(super.getVendorID())) {
+                vendor.addProfit(super.getCost() - deliveryFee);
+                reader.textDelete(TextEditor.FilePaths.USER, vendor);
+                reader.fileWrite(TextEditor.FilePaths.USER, vendor); //Rewrite it all back
+                break; //Break out of the loop once done since payment is only given to one vendor per order
+            }
+        }
     }
 }
