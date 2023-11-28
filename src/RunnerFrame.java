@@ -48,6 +48,10 @@ public class RunnerFrame extends javax.swing.JFrame {
 
         runnerHomeTitlelbl = new javax.swing.JLabel();
         runnerHomeLogOutbtn = new javax.swing.JButton();
+        runnerHomeTaskpnl = new javax.swing.JScrollPane();
+        runnerHomeTasklst = new javax.swing.JList<>();
+        runnerHomePendingpnl = new javax.swing.JScrollPane();
+        runnerHomePendinglst = new javax.swing.JList<>();
         runnerTaskAcceptbtn = new javax.swing.JButton();
         runnerHomeTaskHistbtn = new javax.swing.JButton();
         runnerHomeFailedbtn = new javax.swing.JButton();
@@ -60,11 +64,6 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTotallbl = new javax.swing.JLabel();
         runnerHomeTotaltxt = new javax.swing.JTextField();
         runnerHomeDaytxt = new javax.swing.JTextField();
-        runnerHomeTaskpn = new javax.swing.JScrollPane();
-        runnerHomeTaskListtbl = new javax.swing.JTable();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        runnerHomeTaskstbl = new javax.swing.JTable();
-        jCalendar1 = new com.toedter.calendar.JCalendar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Delivery Runner Home Page");
@@ -77,6 +76,7 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTitlelbl.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
         runnerHomeTitlelbl.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         runnerHomeTitlelbl.setName("Runner Homepage Title"); // NOI18N
+        getContentPane().add(runnerHomeTitlelbl);
 
         runnerHomeLogOutbtn.setText("LOG OUT");
         runnerHomeLogOutbtn.setName("Runner Home Page Log Out Button"); // NOI18N
@@ -85,6 +85,24 @@ public class RunnerFrame extends javax.swing.JFrame {
                 runnerHomeLogOutbtnActionPerformed(evt);
             }
         });
+        getContentPane().add(runnerHomeLogOutbtn);
+
+        runnerHomeTaskpnl.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tasks", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        runnerHomeTaskpnl.setName("Runner Home Page Task List"); // NOI18N
+
+        runnerHomeTasklst.setName("Runner Home Page Task Listbox"); // NOI18N
+        runnerHomeTaskpnl.setViewportView(runnerHomeTasklst);
+
+        getContentPane().add(runnerHomeTaskpnl);
+
+        runnerHomePendingpnl.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Pending Tasks", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        runnerHomePendingpnl.setName("Runner Home Page Pending Task Scrollpanel"); // NOI18N
+
+        runnerHomePendinglst.setName("Runner Home Page Pending Task Listbox"); // NOI18N
+        runnerHomePendingpnl.setViewportView(runnerHomePendinglst);
+        runnerHomePendinglst.getAccessibleContext().setAccessibleParent(this);
+
+        getContentPane().add(runnerHomePendingpnl);
 
         runnerTaskAcceptbtn.setText("Accept");
         runnerTaskAcceptbtn.setName("Runner Home Page Accept Task Button"); // NOI18N
@@ -98,12 +116,15 @@ public class RunnerFrame extends javax.swing.JFrame {
                 runnerTaskAcceptbtnActionPerformed(evt);
             }
         });
+        getContentPane().add(runnerTaskAcceptbtn);
 
         runnerHomeTaskHistbtn.setText("Task History");
         runnerHomeTaskHistbtn.setName("Runner Home Page Task History Button"); // NOI18N
+        getContentPane().add(runnerHomeTaskHistbtn);
 
         runnerHomeFailedbtn.setText("Failed");
         runnerHomeFailedbtn.setName("Runner Home Page Delivery Failed Button"); // NOI18N
+        getContentPane().add(runnerHomeFailedbtn);
 
         runnerHomeDeliveredbtn.setText("Delivered");
         runnerHomeDeliveredbtn.setName("Runner Home Page Delivered Button"); // NOI18N
@@ -112,27 +133,35 @@ public class RunnerFrame extends javax.swing.JFrame {
                 runnerHomeDeliveredbtnMouseClicked(evt);
             }
         });
+        getContentPane().add(runnerHomeDeliveredbtn);
 
         runnerHomeYeartxt.setText("jTextField2");
         runnerHomeYeartxt.setName("Runner Home Page Yearly Revenue Text Field"); // NOI18N
+        getContentPane().add(runnerHomeYeartxt);
 
         runnerHomeMonthtxt.setText("jTextField3");
         runnerHomeMonthtxt.setName("Runner Home Page Monthly Revenue Text Field"); // NOI18N
+        getContentPane().add(runnerHomeMonthtxt);
 
         runnerHomeDaylbl.setText("Day:");
         runnerHomeDaylbl.setName("Runner Home Page Daily Revenue Label"); // NOI18N
+        getContentPane().add(runnerHomeDaylbl);
 
         runnerHomeMonthlbl.setText("Month:");
         runnerHomeMonthlbl.setName("Runner Home Page Monthly Revenue Label"); // NOI18N
+        getContentPane().add(runnerHomeMonthlbl);
 
         runnerHomeYearlbl.setText("Year:");
         runnerHomeYearlbl.setName("Runner Home Page Yearly Revenue Label"); // NOI18N
+        getContentPane().add(runnerHomeYearlbl);
 
         runnerHomeTotallbl.setText("Total:");
         runnerHomeTotallbl.setName("Runner Home Page Total Revenue Label"); // NOI18N
+        getContentPane().add(runnerHomeTotallbl);
 
         runnerHomeTotaltxt.setText("jTextField4");
         runnerHomeTotaltxt.setName("Runner Home Page Total Revenue Text Field"); // NOI18N
+        getContentPane().add(runnerHomeTotaltxt);
 
         runnerHomeDaytxt.setText("jTextField1");
         runnerHomeDaytxt.setName("Runner Home Page Daily Revenue Textfield"); // NOI18N
@@ -141,105 +170,7 @@ public class RunnerFrame extends javax.swing.JFrame {
                 runnerHomeDaytxtActionPerformed(evt);
             }
         });
-
-        runnerHomeTaskpn.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Task List", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
-
-        runnerHomeTaskListtbl.setModel(taskListModel);
-        runnerHomeTaskListtbl.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                runnerHomeTaskListtblMouseReleased(evt);
-            }
-        });
-        runnerHomeTaskpn.setViewportView(runnerHomeTaskListtbl);
-
-        runnerHomeTaskstbl.setModel(tasksModel);
-        runnerHomeTaskstbl.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                runnerHomeTaskstblMouseReleased(evt);
-            }
-        });
-        jScrollPane1.setViewportView(runnerHomeTaskstbl);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(runnerHomeTitlelbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(runnerTaskAcceptbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(136, 136, 136)
-                        .addComponent(runnerHomeTaskHistbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(137, 137, 137)
-                        .addComponent(runnerHomeDeliveredbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67)
-                        .addComponent(runnerHomeFailedbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(runnerHomeTaskpn, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(40, 40, 40)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(runnerHomeDaylbl, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(runnerHomeMonthlbl, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(runnerHomeTotallbl, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(runnerHomeYearlbl, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(runnerHomeDaytxt)
-                                    .addComponent(runnerHomeMonthtxt)
-                                    .addComponent(runnerHomeYeartxt)
-                                    .addComponent(runnerHomeTotaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCalendar1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)))))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(runnerHomeTitlelbl, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(runnerHomeDaylbl)
-                            .addComponent(runnerHomeDaytxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(runnerHomeMonthlbl)
-                            .addComponent(runnerHomeMonthtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(runnerHomeYeartxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(runnerHomeYearlbl))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(runnerHomeTotaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(runnerHomeTotallbl)))
-                    .addComponent(jScrollPane1)
-                    .addComponent(runnerHomeTaskpn))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(runnerHomeTaskHistbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(runnerHomeDeliveredbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(runnerTaskAcceptbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(runnerHomeFailedbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
+        getContentPane().add(runnerHomeDaytxt);
 
         getAccessibleContext().setAccessibleDescription("");
 
@@ -336,13 +267,17 @@ public class RunnerFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RunnerFrame().setVisible(true);
+                int i = 5;
+                TextEditor textEditor = new TextEditor();
+                while (i > 0) {
+                textEditor.fileReader(TextEditor.FilePaths.ORDER, runner);
+                runnerHomeTasklst.
+            }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JCalendar jCalendar1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel runnerHomeDaylbl;
     private javax.swing.JTextField runnerHomeDaytxt;
     private javax.swing.JButton runnerHomeDeliveredbtn;
@@ -350,10 +285,11 @@ public class RunnerFrame extends javax.swing.JFrame {
     private javax.swing.JButton runnerHomeLogOutbtn;
     private javax.swing.JLabel runnerHomeMonthlbl;
     private javax.swing.JTextField runnerHomeMonthtxt;
+    private javax.swing.JList<String> runnerHomePendinglst;
+    private javax.swing.JScrollPane runnerHomePendingpnl;
     private javax.swing.JButton runnerHomeTaskHistbtn;
-    private javax.swing.JTable runnerHomeTaskListtbl;
-    private javax.swing.JScrollPane runnerHomeTaskpn;
-    private javax.swing.JTable runnerHomeTaskstbl;
+    private javax.swing.JList<String> runnerHomeTasklst;
+    private javax.swing.JScrollPane runnerHomeTaskpnl;
     private javax.swing.JLabel runnerHomeTitlelbl;
     private javax.swing.JLabel runnerHomeTotallbl;
     private javax.swing.JTextField runnerHomeTotaltxt;
