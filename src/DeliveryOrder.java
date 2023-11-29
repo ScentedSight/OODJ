@@ -21,8 +21,8 @@ public class DeliveryOrder extends Order{
         return runner.getId();
     }
     
-    public Status getStatusRunner() {
-        return statusRunner;
+    public String getStatusRunner() {
+        return String.valueOf(statusRunner);
     }
     
     public void setRunnerStatus(Status status) {

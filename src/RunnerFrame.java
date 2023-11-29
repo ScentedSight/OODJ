@@ -146,8 +146,10 @@ public class RunnerFrame extends javax.swing.JFrame {
             }
         });
 
+        runnerHomeYeartxt.setEditable(false);
         runnerHomeYeartxt.setName("Runner Home Page Yearly Revenue Text Field"); // NOI18N
 
+        runnerHomeMonthtxt.setEditable(false);
         runnerHomeMonthtxt.setName("Runner Home Page Monthly Revenue Text Field"); // NOI18N
 
         runnerHomeDaylbl.setText("Day:");
@@ -162,8 +164,10 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTotallbl.setText("Total:");
         runnerHomeTotallbl.setName("Runner Home Page Total Revenue Label"); // NOI18N
 
+        runnerHomeTotaltxt.setEditable(false);
         runnerHomeTotaltxt.setName("Runner Home Page Total Revenue Text Field"); // NOI18N
 
+        runnerHomeDaytxt.setEditable(false);
         runnerHomeDaytxt.setName("Runner Home Page Daily Revenue Textfield"); // NOI18N
         runnerHomeDaytxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

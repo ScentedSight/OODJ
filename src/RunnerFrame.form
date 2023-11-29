@@ -241,11 +241,13 @@
     </Component>
     <Component class="javax.swing.JTextField" name="runnerHomeYeartxt">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="Runner Home Page Yearly Revenue Text Field" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="runnerHomeMonthtxt">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="Runner Home Page Monthly Revenue Text Field" noResource="true"/>
       </Properties>
     </Component>
@@ -275,11 +277,13 @@
     </Component>
     <Component class="javax.swing.JTextField" name="runnerHomeTotaltxt">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="Runner Home Page Total Revenue Text Field" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="runnerHomeDaytxt">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="Runner Home Page Daily Revenue Textfield" noResource="true"/>
       </Properties>
       <Events>
