@@ -29,71 +29,47 @@ public class TextEditor {
         }
     }
 
-    public void fileWrite(FilePaths paths, DataProvider data) { //Any objects implementing DataProvider can be passed to this method
+    public void fileWrite(FilePaths paths, DataProvider data) {
         try {
             File newFile = new File(paths.getFilePath());
 
-            if (newFile.createNewFile()) { //Checking if there are existing files
-
+            if (newFile.createNewFile()) {
                 System.out.println("File created: " + newFile.getName());
-                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath));
+            }
+
+            try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(paths.filePath, true)))) {
                 oos.writeObject(data);
                 System.out.println("Successfully wrote to the file.");
-                oos.close();
-
-            } else {
-
-                try {
-                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath, true)); //Append mode, or else the entire textfile will be overwritten
-                    oos.writeObject(data);
-                    System.out.println("Successfully wrote to the file.");
-                    oos.close();
-
-                } catch (IOException e) {
-                    System.out.println("An error occurred.");
-                    e.printStackTrace();
-                }
+            } catch (IOException e) {
+                System.out.println("An error occurred while writing.");
+                e.printStackTrace();
             }
 
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred while creating the file.");
             e.printStackTrace();
         }
     }
 
-    public List<DataProvider> fileReader(FilePaths paths) { //Read objects from text files, returns DataProvider type array
-        List<DataProvider> container = new ArrayList<>();
-        ObjectInputStream ois = null;
 
-        try {
-            ois = new ObjectInputStream(new FileInputStream(paths.getFilePath()));
+    public List<DataProvider> fileReader(FilePaths paths) {
+        List<DataProvider> container = new ArrayList<>();
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(paths.getFilePath()))) {
             while (true) {
-                
                 try {
                     container.add((DataProvider) ois.readObject());
-                    
-                } catch (EOFException e) { //Catch EOFException to handle the end of file
-                    break;
+                } catch (EOFException e) {
+                    break; // Handle end of file
                 }
             }
-
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            
-        } finally {
-            
-            try {
-                
-                if (ois != null) {
-                    ois.close();
-                }
-                
-            } catch (IOException e) {
-                e.printStackTrace();
         }
-    }
+
         return container;
     }
+
 
     public void textDelete(FilePaths paths, DataProvider data) { //Deleting a line of object in any textfile based on the ID
         List<DataProvider> container = new ArrayList<>(fileReader(paths));

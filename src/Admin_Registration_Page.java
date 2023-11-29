@@ -355,6 +355,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
     }//GEN-LAST:event_Female_RBActionPerformed
 
     private void Regd_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Regd_BTNActionPerformed
+    try {
         admin.setPhoneNo(PN_TF.getText().trim());
         admin.setEmail(Email_TF.getText().trim());
         admin.setPass(Pass_Field.getText());
@@ -362,66 +363,73 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
         Male_RB.setActionCommand("Male");
         Female_RB.setActionCommand("Female");
         admin.setGender(buttonGroup1.getSelection().getActionCommand().trim());
-        try{
-            if(!admin.getEmail().equals("") && validateEmail(admin.getEmail())){
-                if(!admin.getPhoneNo().equals("") && validatePhoneNo(admin.getPhoneNo())){
-                    if(validatePassword(admin.getPass(), admin.getConfirmPass()).equals("Valid")){
-                        String ID = generateID(Role_CB.getSelectedItem(), admin.getid());
-                        if(Role_CB.getSelectedItem().equals("Customer")){
-                            if(validateAddress(Address_TF.getText()).equals("Valid")){
-                                customer = new Customer(ID, customer.getEmail(), customer.getPhoneNo(), customer.getGender(), customer.getAddress(), customer.getPass(), customer.getBal());
-                                text.fileWrite(TextEditor.FilePaths.CUSTOMER, customer);
-                                JOptionPane.showMessageDialog(this,"Your Registration was Succesful");
-                                JOptionPane.showMessageDialog(this,"Generated ID is "+ID);
-                            }else{
-                                JOptionPane.showMessageDialog(this,validateAddress(Address_TF.getText()),"ERROR",JOptionPane.ERROR_MESSAGE);
-                            }
-                        }else if(Role_CB.getSelectedItem().equals("Vendor")){
-                            if(validateVendorName(VN_TF.getText()).equals("Valid")){
-                                setVendorDetails(ID);
-                                vendor = new Vendor(vendor.getId(), vendor.getName(), vendor.getEmail(), vendor.getPhoneNo(), vendor.getGender(), vendor.getPass(), vendor.getBal());
-                                text.fileWrite(TextEditor.FilePaths.VENDOR, vendor);
-                                JOptionPane.showMessageDialog(this,"Your Registration was Succesful");
-                                JOptionPane.showMessageDialog(this,"Generated ID is "+ID);
-                            }else{
-                                JOptionPane.showMessageDialog(this,validateVendorName(VN_TF.getText()),"ERROR",JOptionPane.ERROR_MESSAGE);
-                            }
-                        }else{
-                            runner = new DeliveryRunner(ID, runner.getEmail(), runner.getPhoneNo(), runner.getGender(), runner.getPass());
-                            text.fileWrite(TextEditor.FilePaths.RUNNER, runner);
-                            JOptionPane.showMessageDialog(this,"Your Registration was Succesful");
-                            JOptionPane.showMessageDialog(this,"Generated ID is "+ID);
+
+        if (!admin.getEmail().equals("") && validateEmail(admin.getEmail())) {
+            if (!admin.getPhoneNo().equals("") && validatePhoneNo(admin.getPhoneNo())) {
+                if (validatePassword(admin.getPass(), admin.getConfirmPass()).equals("Valid")) {
+                    String ID = generateID(Role_CB.getSelectedItem(), admin.getid());
+
+                    if (Role_CB.getSelectedItem().equals("Customer")) {
+                        if (validateAddress(Address_TF.getText()).equals("Valid")) {
+                            customer = new Customer(ID, admin.getEmail(), admin.getPhoneNo(), admin.getGender(), Address_TF.getText().trim(), admin.getPass(), customer.getBal());
+                            text.fileWrite(TextEditor.FilePaths.CUSTOMER, customer);
+                        } else {
+                            JOptionPane.showMessageDialog(this, validateAddress(Address_TF.getText()), "ERROR", JOptionPane.ERROR_MESSAGE);
+                            return; // exit the method if there's an error
                         }
-                        List <DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.VENDOR));
-                        
-                        for (DataProvider value : container) {
-                                Vendor vendor = (Vendor) value;
-                                String Id = vendor.getId();
-                                String VendorName = vendor.getName();
-                                String Email = vendor.getEmail();
-                                String PhoneNo = vendor.getPhoneNo();
-                                String Gender = vendor.getGender();
-                                String Password = vendor.getPass();
-                                String Bal = String.valueOf(vendor.getBal());
-                                System.out.println("Vendor Name: " + VendorName);
-                                System.out.println("Email: " + Email);
-                                System.out.println("Phone: " + PhoneNo);
-                                System.out.println("Gender: " + Gender);
-                                System.out.println("Password: " + Password);
-                                System.out.println("Balance: " + Bal);
+                    } else if (Role_CB.getSelectedItem().equals("Vendor")) {
+                        if (validateVendorName(VN_TF.getText()).equals("Valid")) {
+                            setVendorDetails(ID);
+                            vendor = new Vendor(vendor.getId(), vendor.getName(), vendor.getEmail(), vendor.getPhoneNo(), vendor.getGender(), vendor.getPass(), vendor.getBal());
+                            text.fileWrite(TextEditor.FilePaths.VENDOR, vendor);
+                        } else {
+                            JOptionPane.showMessageDialog(this, validateVendorName(VN_TF.getText()), "ERROR", JOptionPane.ERROR_MESSAGE);
+                            return; // exit the method if there's an error
                         }
-                    }else{
-                        JOptionPane.showMessageDialog(this,validatePassword(admin.getPass(), admin.getConfirmPass()),"ERROR",JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        runner = new DeliveryRunner(ID, admin.getEmail(), admin.getPhoneNo(), admin.getGender(), admin.getPass());
+                        text.fileWrite(TextEditor.FilePaths.RUNNER, runner);
                     }
-                }else{
-                    JOptionPane.showMessageDialog(this,"Phone number is invalid.","ERROR",JOptionPane.ERROR_MESSAGE);
+
+                    // Common code for success messages
+                    JOptionPane.showMessageDialog(this, "Your Registration was Successful");
+                    JOptionPane.showMessageDialog(this, "Generated ID is " + ID);
+
+                    // Read and print details of registered Vendor users
+                    List<DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.VENDOR));
+                    for (DataProvider value : container) {
+                        if (value instanceof Vendor) {
+                            Vendor vendor = (Vendor) value;
+                            String vendorId = vendor.getId();
+                            String vendorName = vendor.getName();
+                            String vendorEmail = vendor.getEmail();
+                            String vendorPhoneNo = vendor.getPhoneNo();
+                            String vendorGender = vendor.getGender();
+                            String vendorPassword = vendor.getPass();
+                            String vendorBalance = String.valueOf(vendor.getBal());
+
+                            System.out.println("Vendor ID: " + vendorId);
+                            System.out.println("Vendor Name: " + vendorName);
+                            System.out.println("Vendor Email: " + vendorEmail);
+                            System.out.println("Vendor Phone: " + vendorPhoneNo);
+                            System.out.println("Vendor Gender: " + vendorGender);
+                            System.out.println("Vendor Password: " + vendorPassword);
+                            System.out.println("Vendor Balance: " + vendorBalance);
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, validatePassword(admin.getPass(), admin.getConfirmPass()), "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
-            }else{
-                JOptionPane.showMessageDialog(this,"Email is invalid.","ERROR",JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Phone number is invalid.", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
-        }catch(HeadlessException e){
-            JOptionPane.showMessageDialog(this,"Something is not working","ERROR",JOptionPane.ERROR_MESSAGE);
-       }
+        } else {
+            JOptionPane.showMessageDialog(this, "Email is invalid.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (HeadlessException e) {
+        JOptionPane.showMessageDialog(this, "Something is not working", "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
+
     }//GEN-LAST:event_Regd_BTNActionPerformed
 
     private void Back_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Back_BTNActionPerformed
