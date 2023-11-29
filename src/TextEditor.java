@@ -1,3 +1,5 @@
+
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +11,8 @@ public class TextEditor {
     }
 
     public enum FilePaths {
-                
-        USER("path = USER.txt"),
-        CUSTOMER("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\Customer.txt"),
-        VENDOR("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\Vendor.txt"),
-        RUNNER("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\DeliveryRunner.txt"),
+
+        USER("path = USERS.txt"),
         MENU("path = MENU.txt"),
         HISTORY("path = HISTORY.txt"),
         ID("path = IDGenerator.txt");
@@ -29,48 +28,57 @@ public class TextEditor {
         }
     }
 
-    public void fileWrite(FilePaths paths, DataProvider data) {
+    public void fileWrite(FilePaths paths, DataProvider data) { //Any objects implementing DataProvider can be passed to this method
         try {
             File newFile = new File(paths.getFilePath());
 
-            if (newFile.createNewFile()) {
-                System.out.println("File created: " + newFile.getName());
-            }
+            if (newFile.createNewFile()) { //Checking if there are existing files
 
-            try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(paths.filePath, true)))) {
+                System.out.println("File created: " + newFile.getName());
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath));
                 oos.writeObject(data);
-                oos.writeObject(null); //Using null as delimiter between objects written to ensure proper separation
                 System.out.println("Successfully wrote to the file.");
-            } catch (IOException e) {
-                System.out.println("An error occurred while writing.");
-                e.printStackTrace();
+                oos.close();
+
+            } else {
+
+                try {
+                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath, true)); //Append mode, or else the entire textfile will be overwritten
+                    oos.writeObject(data);
+                    System.out.println("Successfully wrote to the file.");
+                    oos.close();
+
+                } catch (IOException e) {
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                }
             }
 
         } catch (IOException e) {
-            System.out.println("An error occurred while creating the file.");
+            System.out.println("An error occurred.");
             e.printStackTrace();
         }
     }
 
-
-    public List<DataProvider> fileReader(FilePaths paths) {
+    public List<DataProvider> fileReader(FilePaths paths) { //Read objects from text files, returns DataProvider type array
         List<DataProvider> container = new ArrayList<>();
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(paths.getFilePath()))) {
             while (true) {
                 try {
                     container.add((DataProvider) ois.readObject());
-                } catch (EOFException e) {
-                    break; // Handle end of file
+                } catch (EOFException e) { //Catch EOFException to handle the end of file
+                    ois.close();
+                    break;
                 }
             }
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
         return container;
     }
-
 
     public void textDelete(FilePaths paths, DataProvider data) { //Deleting a line of object in any textfile based on the ID
         List<DataProvider> container = new ArrayList<>(fileReader(paths));
@@ -88,7 +96,6 @@ public class TextEditor {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths));
             for (DataProvider objects : appendContainer) {
                 oos.writeObject(objects);
-                oos.writeObject(null); //Using null as delimiter between objects written to ensure proper separation
             }
             oos.close();
         } catch (IOException e) {
