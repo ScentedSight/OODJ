@@ -104,6 +104,10 @@ public class Order implements DataProvider {
         this.status = status;
     }
     
+    public String getStatus(){      //convert enum to String
+        return status.name();
+    }
+    
     public String getAddress() {
         return customer.getAddress();
     }
