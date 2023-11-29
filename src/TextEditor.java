@@ -35,6 +35,7 @@ public class TextEditor {
                 System.out.println("File created: " + newFile.getName());
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath));
                 oos.writeObject(data);
+                oos.writeObject(null); //Using null as delimiter between objects written to ensure proper separation
                 System.out.println("Successfully wrote to the file.");
                 oos.close();
 
@@ -43,6 +44,7 @@ public class TextEditor {
                 try {
                     ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath, true)); //Append mode, or else the entire textfile will be overwritten
                     oos.writeObject(data);
+                    oos.writeObject(null); //Using null as delimiter between objects written to ensure proper separation
                     System.out.println("Successfully wrote to the file.");
                     oos.close();
 
@@ -60,35 +62,21 @@ public class TextEditor {
 
     public List<DataProvider> fileReader(FilePaths paths) { //Read objects from text files, returns DataProvider type array
         List<DataProvider> container = new ArrayList<>();
-        ObjectInputStream ois = null;
 
-        try {
-            ois = new ObjectInputStream(new FileInputStream(paths.getFilePath()));
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(paths.getFilePath()))) {
             while (true) {
-                
                 try {
                     container.add((DataProvider) ois.readObject());
-                    
                 } catch (EOFException e) { //Catch EOFException to handle the end of file
+                    ois.close();
                     break;
                 }
             }
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            
-        } finally {
-            
-            try {
-                
-                if (ois != null) {
-                    ois.close();
-                }
-                
-            } catch (IOException e) {
-                e.printStackTrace();
         }
-    }
+
         return container;
     }
 
@@ -108,6 +96,7 @@ public class TextEditor {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths));
             for (DataProvider objects : appendContainer) {
                 oos.writeObject(objects);
+                oos.writeObject(null); //Using null as delimiter between objects written to ensure proper separation
             }
             oos.close();
         } catch (IOException e) {
