@@ -3,12 +3,16 @@ public class Customer extends User{
     private double balance = 0;
     private String address;
 
+    public Customer(){
+        
+    }
+    
     public Customer (String id, String password) { //Log in
         super(id, password);
     }
 
-    public Customer (String id, String password, String address) { //Registration
-        super(id, password);
+    public Customer (String id, String email, String phoneNo, String gender, String address, String password, double balance) { //Registration
+        super(id, email, phoneNo, gender, password);
         this.address = address;
     }
 
@@ -23,7 +27,11 @@ public class Customer extends User{
     public void deductBal(double payment){ //Deducting balance from payment of foods
         balance = balance - payment;
     }
-
+    
+    public double getBal(){
+        return balance;
+    }
+    
     public String getAddress(){ //Retrieve address for ordering processes
         return address;
     }
