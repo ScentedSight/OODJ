@@ -13,6 +13,9 @@ public class TextEditor {
     public enum FilePaths {
 
         USER("path = USERS.txt"),
+        VENDOR("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\Vendor.txt"),
+        CUSTOMER("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\Customer.txt"),
+        RUNNER("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\Runner.txt"),
         MENU("path = MENU.txt"),
         HISTORY("path = HISTORY.txt"),
         ID("path = IDGenerator.txt");
@@ -33,7 +36,6 @@ public class TextEditor {
             File newFile = new File(paths.getFilePath());
 
             if (newFile.createNewFile()) { //Checking if there are existing files
-
                 System.out.println("File created: " + newFile.getName());
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath));
                 oos.writeObject(data);

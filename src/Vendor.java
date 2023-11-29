@@ -11,7 +11,7 @@ public class Vendor extends User{
         super(id, password);
     }
 
-    public Vendor (String id, String vendorName, String email, String phoneNo, String gender,  String password, double balance) { //Registration
+    public Vendor (String id, String vendorName, String email, String phoneNo, String gender,  String password) { //Registration
         super(id, email, phoneNo, gender, password);
         this.vendorName = vendorName;
     }

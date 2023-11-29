@@ -16,8 +16,6 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
     public Admin_Registration_Page(){
         initComponents();
         admin = new Administrator(1);
-        customer = new Customer();
-        vendor = new Vendor();
         text = new TextEditor();
     }
     @SuppressWarnings("unchecked")
@@ -368,10 +366,9 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
             if (!admin.getPhoneNo().equals("") && validatePhoneNo(admin.getPhoneNo())) {
                 if (validatePassword(admin.getPass(), admin.getConfirmPass()).equals("Valid")) {
                     String ID = generateID(Role_CB.getSelectedItem(), admin.getid());
-
                     if (Role_CB.getSelectedItem().equals("Customer")) {
                         if (validateAddress(Address_TF.getText()).equals("Valid")) {
-                            customer = new Customer(ID, admin.getEmail(), admin.getPhoneNo(), admin.getGender(), Address_TF.getText().trim(), admin.getPass(), customer.getBal());
+                            customer = new Customer(ID, customer.getEmail(), customer.getPhoneNo(), customer.getGender(), Address_TF.getText().trim(), customer.getPass(), customer.getBal());
                             text.fileWrite(TextEditor.FilePaths.CUSTOMER, customer);
                         } else {
                             JOptionPane.showMessageDialog(this, validateAddress(Address_TF.getText()), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -379,8 +376,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
                         }
                     } else if (Role_CB.getSelectedItem().equals("Vendor")) {
                         if (validateVendorName(VN_TF.getText()).equals("Valid")) {
-                            setVendorDetails(ID);
-                            vendor = new Vendor(vendor.getId(), vendor.getName(), vendor.getEmail(), vendor.getPhoneNo(), vendor.getGender(), vendor.getPass(), vendor.getBal());
+                            vendor = new Vendor(ID, VN_TF.getText().trim(), Email_TF.getText().trim(), PN_TF.getText().trim(), buttonGroup1.getSelection().getActionCommand().trim() , Pass_Field.getText());
                             text.fileWrite(TextEditor.FilePaths.VENDOR, vendor);
                         } else {
                             JOptionPane.showMessageDialog(this, validateVendorName(VN_TF.getText()), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -395,27 +391,25 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Your Registration was Successful");
                     JOptionPane.showMessageDialog(this, "Generated ID is " + ID);
 
-                    // Read and print details of registered Vendor users
+                    //Read and print details of registered Vendor users
                     List<DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.VENDOR));
                     for (DataProvider value : container) {
-                        if (value instanceof Vendor) {
-                            Vendor vendor = (Vendor) value;
-                            String vendorId = vendor.getId();
-                            String vendorName = vendor.getName();
-                            String vendorEmail = vendor.getEmail();
-                            String vendorPhoneNo = vendor.getPhoneNo();
-                            String vendorGender = vendor.getGender();
-                            String vendorPassword = vendor.getPass();
-                            String vendorBalance = String.valueOf(vendor.getBal());
+                        Vendor vendor = (Vendor) value;
+                        String vendorId = vendor.getId();
+                        String vendorName = vendor.getName();
+                        String vendorEmail = vendor.getEmail();
+                        String vendorPhoneNo = vendor.getPhoneNo();
+                        String vendorGender = vendor.getGender();
+                        String vendorPassword = vendor.getPass();
+                        String vendorBalance = String.valueOf(vendor.getBal());
 
-                            System.out.println("Vendor ID: " + vendorId);
-                            System.out.println("Vendor Name: " + vendorName);
-                            System.out.println("Vendor Email: " + vendorEmail);
-                            System.out.println("Vendor Phone: " + vendorPhoneNo);
-                            System.out.println("Vendor Gender: " + vendorGender);
-                            System.out.println("Vendor Password: " + vendorPassword);
-                            System.out.println("Vendor Balance: " + vendorBalance);
-                        }
+                        System.out.println("Vendor ID: " + vendorId);
+                        System.out.println("Vendor Name: " + vendorName);
+                        System.out.println("Vendor Email: " + vendorEmail);
+                        System.out.println("Vendor Phone: " + vendorPhoneNo);
+                        System.out.println("Vendor Gender: " + vendorGender);
+                        System.out.println("Vendor Password: " + vendorPassword);
+                        System.out.println("Vendor Balance: " + vendorBalance);
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, validatePassword(admin.getPass(), admin.getConfirmPass()), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -447,42 +441,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
             }
         });
     }
-    
-    public void setVendorDetails(String ID){
-        vendor.setId(ID);
-        vendor.setName(VN_TF.getText().trim());
-        vendor.setPhoneNo(PN_TF.getText().trim());
-        vendor.setEmail(Email_TF.getText().trim());
-        vendor.setPass(Pass_Field.getText());
-        vendor.setConfirmPass(ConfirmPass_Field.getText());
-        Male_RB.setActionCommand("Male");
-        Female_RB.setActionCommand("Female");
-        vendor.setGender(buttonGroup1.getSelection().getActionCommand().trim());
-    }
-    
-    public void setRunnerDetails(String ID){
-        runner.setId(ID);
-        runner.setPhoneNo(PN_TF.getText().trim());
-        runner.setEmail(Email_TF.getText().trim());
-        runner.setPass(Pass_Field.getText());
-        runner.setConfirmPass(ConfirmPass_Field.getText());
-        Male_RB.setActionCommand("Male");
-        Female_RB.setActionCommand("Female");
-        runner.setGender(buttonGroup1.getSelection().getActionCommand().trim());
-    }
-    
-    public void setCustomerDetails(String ID){
-        customer.setId(ID);
-        customer.setPhoneNo(PN_TF.getText().trim());
-        customer.setEmail(Email_TF.getText().trim());
-        customer.setPass(Pass_Field.getText());
-        customer.setConfirmPass(ConfirmPass_Field.getText());
-        Male_RB.setActionCommand("Male");
-        Female_RB.setActionCommand("Female");
-        customer.setGender(buttonGroup1.getSelection().getActionCommand().trim());
-    }
-    
-    
+   
     public String validateVendorName(String VN){
         String checkVN;
         if(!VN.equals("")){
