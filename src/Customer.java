@@ -11,7 +11,7 @@ public class Customer extends User{
         super(id, password);
     }
 
-    public Customer (String id, String email, String phoneNo, String gender, String address, String password, double balance) { //Registration
+    public Customer (String id, String email, String phoneNo, String gender, String address, String password) { //Registration
         super(id, email, phoneNo, gender, password);
         this.address = address;
     }

@@ -13,6 +13,9 @@ public class TextEditor {
     public enum FilePaths {
 
         USER("path = USERS.txt"),
+        CUSTOMER("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\Customer.txt"),
+        VENDOR("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\Vendor.txt"),
+        RUNNER("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\DeliveryRunner.txt"),
         MENU("path = MENU.txt"),
         HISTORY("path = HISTORY.txt"),
         ID("path = IDGenerator.txt");

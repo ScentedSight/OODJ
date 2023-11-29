@@ -354,37 +354,40 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
 
     private void Regd_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Regd_BTNActionPerformed
     try {
-        admin.setPhoneNo(PN_TF.getText().trim());
-        admin.setEmail(Email_TF.getText().trim());
-        admin.setPass(Pass_Field.getText());
-        admin.setConfirmPass(ConfirmPass_Field.getText());
+        String PhoneNo = PN_TF.getText().trim();
+        String Email = Email_TF.getText().trim();
+        String Password = Pass_Field.getText();
+        String ConfirmPass = ConfirmPass_Field.getText();
+        String Address = Address_TF.getText().trim();
+        String VendorName = VN_TF.getText().trim();
         Male_RB.setActionCommand("Male");
         Female_RB.setActionCommand("Female");
-        admin.setGender(buttonGroup1.getSelection().getActionCommand().trim());
+        Object Gender = buttonGroup1.getSelection().getActionCommand().trim();
+        Object Role = Role_CB.getSelectedItem();
 
-        if (!admin.getEmail().equals("") && validateEmail(admin.getEmail())) {
-            if (!admin.getPhoneNo().equals("") && validatePhoneNo(admin.getPhoneNo())) {
-                if (validatePassword(admin.getPass(), admin.getConfirmPass()).equals("Valid")) {
-                    String ID = generateID(Role_CB.getSelectedItem(), admin.getid());
-                    if (Role_CB.getSelectedItem().equals("Customer")) {
-                        if (validateAddress(Address_TF.getText()).equals("Valid")) {
-                            customer = new Customer(ID, customer.getEmail(), customer.getPhoneNo(), customer.getGender(), Address_TF.getText().trim(), customer.getPass(), customer.getBal());
-                            text.fileWrite(TextEditor.FilePaths.CUSTOMER, customer);
+        if (!Email.equals("") && validateEmail(Email)) {
+            if (!PhoneNo.equals("") && validatePhoneNo(PhoneNo)) {
+                if (validatePassword(Password, ConfirmPass).equals("Valid")) {
+                    String ID = generateID(Role, admin.getid());
+                    if (Role.equals("Customer")) {
+                        if (validateAddress(Address).equals("Valid")) {
+                            //customer = new Customer();
+                            //text.fileWrite(TextEditor.FilePaths.CUSTOMER, customer);
                         } else {
-                            JOptionPane.showMessageDialog(this, validateAddress(Address_TF.getText()), "ERROR", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, validateAddress(Address), "ERROR", JOptionPane.ERROR_MESSAGE);
                             return; // exit the method if there's an error
                         }
-                    } else if (Role_CB.getSelectedItem().equals("Vendor")) {
-                        if (validateVendorName(VN_TF.getText()).equals("Valid")) {
-                            vendor = new Vendor(ID, VN_TF.getText().trim(), Email_TF.getText().trim(), PN_TF.getText().trim(), buttonGroup1.getSelection().getActionCommand().trim() , Pass_Field.getText());
+                    } else if (Role.equals("Vendor")) {
+                        if (validateVendorName(VendorName).equals("Valid")) {
+                            vendor = new Vendor(ID, VendorName, Email, PhoneNo, String.valueOf(Gender), Password);
                             text.fileWrite(TextEditor.FilePaths.VENDOR, vendor);
                         } else {
-                            JOptionPane.showMessageDialog(this, validateVendorName(VN_TF.getText()), "ERROR", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, validateVendorName(VendorName), "ERROR", JOptionPane.ERROR_MESSAGE);
                             return; // exit the method if there's an error
                         }
                     } else {
-                        runner = new DeliveryRunner(ID, admin.getEmail(), admin.getPhoneNo(), admin.getGender(), admin.getPass());
-                        text.fileWrite(TextEditor.FilePaths.RUNNER, runner);
+                        //runner = new DeliveryRunner();
+                        //text.fileWrite(TextEditor.FilePaths.RUNNER, runner);
                     }
 
                     // Common code for success messages
