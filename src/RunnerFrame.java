@@ -14,7 +14,7 @@ public class RunnerFrame extends javax.swing.JFrame {
     private final String[] taskHistoryColumns = {"Order ID", "Order Completion", "Vendor", "Customer", "Food", "Address", "Profit", "Review"};
     private int taskListRow = -1; //-1 = absence of a selected row, can be used as conditions
     private int tasksRow = -1; //Different row selector for different tables
-    TextEditor reader = new TextEditor();
+    TextEditor textEditor = new TextEditor();
     
     public RunnerFrame() { //Default constructor for testing purposes
         initComponents();
@@ -287,7 +287,7 @@ public class RunnerFrame extends javax.swing.JFrame {
 
     private void runnerHomeLoadTaskListProcess() { //Private internal function to reload task lists table
         taskListModel.setRowCount(0); //Clearing the model before adding
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+        List<Object> container = new ArrayList(textEditor.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) {
             DeliveryOrder dOrder = (DeliveryOrder) obj;
             if (dOrder.getStatusRunner().equals("SEARCHING")) {
@@ -306,7 +306,7 @@ public class RunnerFrame extends javax.swing.JFrame {
     
     private void runnerHomeLoadTaskProcess() { //Private internal function to reload tasks table
         tasksModel.setRowCount(0); //Clearing the model before adding
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+        List<Object> container = new ArrayList(textEditor.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) {
             DeliveryOrder dOrder = (DeliveryOrder) obj;
             if (dOrder.getStatusRunner().equals("DELIVERING") && dOrder.getRunner().equals(runner.getId())) {
@@ -325,7 +325,7 @@ public class RunnerFrame extends javax.swing.JFrame {
     
     private void generateTotalRevenue() { //Private internal function to generate total revenue earned by runner
         double total = 0;
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+        List<Object> container = new ArrayList(textEditor.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) {
             DeliveryOrder dOrder = (DeliveryOrder) obj;
             if (dOrder.getRunner().equals(runner.getId())) {
@@ -357,15 +357,15 @@ public class RunnerFrame extends javax.swing.JFrame {
 
     private void runnerTaskAcceptbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerTaskAcceptbtnMouseClicked
         if (taskListRow != -1) { //Fill tasks table with accepted deliveries
-            List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+            List<Object> container = new ArrayList(textEditor.fileReader(TextEditor.FilePaths.HISTORY));
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 DeliveryOrder dOrder = (DeliveryOrder) obj;
                 if (dOrder.getId().equals(String.valueOf(taskListModel.getValueAt(taskListRow, 0)))) {
                     dOrder.setRunner(runner); //Set the current runner
                     dOrder.setRunnerStatus(Order.Status.DELIVERING); //Set status
                     dOrder.setTime(); //Set current time
-                    reader.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
-                    reader.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
+                    textEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
+                    textEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
                     break; //Break out of the loop once done since only one order should be edited at a time
                 }
             }
@@ -376,15 +376,15 @@ public class RunnerFrame extends javax.swing.JFrame {
 
     private void runnerHomeDeliveredbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeDeliveredbtnMouseClicked
         if (tasksRow != -1) { //Remove row after delivery success and set status
-            List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+            List<Object> container = new ArrayList(textEditor.fileReader(TextEditor.FilePaths.HISTORY));
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 DeliveryOrder dOrder = (DeliveryOrder) obj;
                 if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
                     dOrder.setRunnerStatus(Order.Status.DELIVERED); //Set status
                     dOrder.setTime(); //Set current time
                     dOrder.payment(); //Pay runner and vendor
-                    reader.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
-                    reader.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
+                    textEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
+                    textEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
                     break; //Break out of the loop once done since only one order should be edited at a time
                 }
             }
@@ -396,13 +396,13 @@ public class RunnerFrame extends javax.swing.JFrame {
 
     private void runnerHomeFailedbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeFailedbtnMouseClicked
         if (tasksRow != -1) { //Remove row after delivery failed and set status
-            List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+            List<Object> container = new ArrayList(textEditor.fileReader(TextEditor.FilePaths.HISTORY));
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 DeliveryOrder dOrder = (DeliveryOrder) obj;
                 if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
                     dOrder.setRunnerStatus(Order.Status.SEARCHING); //Set status
-                    reader.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
-                    reader.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
+                    textEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
+                    textEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
                     break; //Break out of the loop once done since only one order should be edited at a time
                 }
             }
@@ -421,7 +421,7 @@ public class RunnerFrame extends javax.swing.JFrame {
         double monthFeeTxt= 0;
         double yearFeeTxt = 0;
         
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+        List<Object> container = new ArrayList(textEditor.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) { //Conditional statement to filter revenue based on year, month and days
             DeliveryOrder dOrder = (DeliveryOrder) obj;
             if (dOrder.getStatusRunner().equals("DELIVERED") && dOrder.getRunner().equals(runner.getId())) {
@@ -446,7 +446,7 @@ public class RunnerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_runnerHomeLogOutbtnMouseClicked
 
     private void runnerHomeTaskHistbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskHistbtnMouseClicked
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+        List<Object> container = new ArrayList(textEditor.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) {
             DeliveryOrder dOrder = (DeliveryOrder) obj;
             if (dOrder.getRunner().equals(runner.getId())) {

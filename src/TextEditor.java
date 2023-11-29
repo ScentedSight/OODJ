@@ -10,7 +10,7 @@ public class TextEditor {
 
     public enum FilePaths {
 
-        USER("path = USERS.txt"),
+        USER("C:\\Users\\Johan\\Desktop\\USERS.txt"),
         MENU("path = MENU.txt"),
         HISTORY("path = HISTORY.txt"),
         ID("path = IDGenerator.txt");
@@ -25,7 +25,7 @@ public class TextEditor {
             return filePath;
         }
     }
-
+    
     public void fileWrite(FilePaths paths, DataProvider data) { //Any objects implementing DataProvider can be passed to this method
         try {
             File newFile = new File(paths.getFilePath());
@@ -35,16 +35,18 @@ public class TextEditor {
                 System.out.println("File created: " + newFile.getName());
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath));
                 oos.writeObject(data);
-                oos.writeObject(null); //Using null as delimiter between objects written to ensure proper separation
                 System.out.println("Successfully wrote to the file.");
                 oos.close();
 
             } else {
 
-                try {
-                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath, true)); //Append mode, or else the entire textfile will be overwritten
-                    oos.writeObject(data);
-                    oos.writeObject(null); //Using null as delimiter between objects written to ensure proper separation
+                try { //Append block, or else the entire textfile will be overwritten
+                    List<DataProvider> container = fileReader(paths);
+                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath));
+                    for (DataProvider object : container) {
+                        oos.writeObject(object);
+                    }
+                    oos.writeObject(data); // Appending new object after writing from list
                     System.out.println("Successfully wrote to the file.");
                     oos.close();
 
@@ -96,7 +98,6 @@ public class TextEditor {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths));
             for (DataProvider objects : appendContainer) {
                 oos.writeObject(objects);
-                oos.writeObject(null); //Using null as delimiter between objects written to ensure proper separation
             }
             oos.close();
         } catch (IOException e) {
