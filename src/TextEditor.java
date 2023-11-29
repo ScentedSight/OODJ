@@ -63,21 +63,35 @@ public class TextEditor {
 
     public List<DataProvider> fileReader(FilePaths paths) { //Read objects from text files, returns DataProvider type array
         List<DataProvider> container = new ArrayList<>();
+        ObjectInputStream ois = null;
 
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(paths.getFilePath()))) {
+        try {
+            ois = new ObjectInputStream(new FileInputStream(paths.getFilePath()));
             while (true) {
+                
                 try {
                     container.add((DataProvider) ois.readObject());
+                    
                 } catch (EOFException e) { //Catch EOFException to handle the end of file
-                    ois.close();
                     break;
                 }
             }
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            
+        } finally {
+            
+            try {
+                
+                if (ois != null) {
+                    ois.close();
+                }
+                
+            } catch (IOException e) {
+                e.printStackTrace();
         }
-
+    }
         return container;
     }
 
