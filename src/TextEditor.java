@@ -39,6 +39,7 @@ public class TextEditor {
 
             try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(paths.filePath, true)))) {
                 oos.writeObject(data);
+                oos.writeObject(null); //Using null as delimiter between objects written to ensure proper separation
                 System.out.println("Successfully wrote to the file.");
             } catch (IOException e) {
                 System.out.println("An error occurred while writing.");
@@ -87,6 +88,7 @@ public class TextEditor {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths));
             for (DataProvider objects : appendContainer) {
                 oos.writeObject(objects);
+                oos.writeObject(null); //Using null as delimiter between objects written to ensure proper separation
             }
             oos.close();
         } catch (IOException e) {
