@@ -1,6 +1,4 @@
 
-
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
@@ -23,9 +21,6 @@ public class Admin_Main_Page extends javax.swing.JFrame {
     public Admin_Main_Page() {
         initComponents();
         text = new TextEditor();
-        customer = new Customer();
-        vendor = new Vendor();
-        runner = new DeliveryRunner();
     }
     
     @SuppressWarnings("unchecked")
@@ -467,6 +462,7 @@ public class Admin_Main_Page extends javax.swing.JFrame {
                 }
             }
             text.textWrite(path, appenedcontainer);
+            JOptionPane.showMessageDialog(this, "The record has been successfully updated!");
         }else{
             JOptionPane.showMessageDialog(this, "Please select a record from the table!", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -482,14 +478,17 @@ public class Admin_Main_Page extends javax.swing.JFrame {
                     case "C":
                         customer.setId(ID);
                         text.textDelete(TextEditor.FilePaths.USER, customer);
+                        JOptionPane.showMessageDialog(this, "The record has been successfully deleted!");
                         break;
                     case "V":
                         vendor.setId(ID);
                         text.textDelete(TextEditor.FilePaths.USER, vendor);
+                        JOptionPane.showMessageDialog(this, "The record has been successfully deleted!");
                         break;
                     case "D":
                         runner.setId(ID);
                         text.textDelete(TextEditor.FilePaths.USER, runner);
+                        JOptionPane.showMessageDialog(this, "The record has been successfully deleted!");
                         break;
             }
         }else{
