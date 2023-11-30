@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -16,9 +17,15 @@ import javax.swing.table.DefaultTableModel;
 
 public class Admin_Main_Page extends javax.swing.JFrame {
     TextEditor text;
+    Customer customer;
+    Vendor vendor;
+    DeliveryRunner runner;
     public Admin_Main_Page() {
         initComponents();
         text = new TextEditor();
+        customer = new Customer();
+        vendor = new Vendor();
+        runner = new DeliveryRunner();
     }
     
     @SuppressWarnings("unchecked")
@@ -422,16 +429,72 @@ public class Admin_Main_Page extends javax.swing.JFrame {
         String password = Pass_TF.getText();
         String address = Address_TF.getText().trim();
         String vendorName = VN_TF.getText().trim();
-        
+        String gender = String.valueOf(Gender_CB.getSelectedItem());
+        String path = "C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\USERS.txt";
         
         if(!ID.equals("")){
-            
+            List<DataProvider> appenedcontainer = new ArrayList<>(text.fileReader(TextEditor.FilePaths.USER));
+            for(DataProvider value : appenedcontainer){
+                if (value instanceof Vendor) {
+                    Vendor vendor = (Vendor) value;
+                    if (ID.equals(vendor.getId())) {
+                        vendor.setName(vendorName);
+                        vendor.setEmail(email);
+                        vendor.setPhoneNo(phoneNo);
+                        vendor.setGender(gender);
+                        vendor.setPass(password);
+                        break;
+                    }
+                } else if (value instanceof Customer) {
+                    Customer customer = (Customer) value;
+                    if (ID.equals(customer.getId())) {
+                        customer.setEmail(email);
+                        customer.setPhoneNo(phoneNo);
+                        customer.setGender(gender);
+                        customer.setAddress(address);
+                        customer.setPass(password);
+                        break;
+                    }
+                } else if (value instanceof DeliveryRunner) {
+                    DeliveryRunner runner = (DeliveryRunner) value;
+                    if (ID.equals(runner.getId())) {
+                        runner.setEmail(email);
+                        runner.setPhoneNo(phoneNo);
+                        runner.setGender(gender);
+                        runner.setPass(password);
+                        break;
+                    }
+                }
+            }
+            text.textWrite(path, appenedcontainer);
+        }else{
+            JOptionPane.showMessageDialog(this, "Please select a record from the table!", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         
     }//GEN-LAST:event_Update_BTNActionPerformed
 
     private void Delete_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Delete_BTNActionPerformed
-
+        String ID = ID_TF.getText().trim();
+        
+        if(!ID.equals("")){
+            char user = ID.charAt(0);
+            switch(String.valueOf(user)){
+                    case "C":
+                        customer.setId(ID);
+                        text.textDelete(TextEditor.FilePaths.USER, customer);
+                        break;
+                    case "V":
+                        vendor.setId(ID);
+                        text.textDelete(TextEditor.FilePaths.USER, vendor);
+                        break;
+                    case "D":
+                        runner.setId(ID);
+                        text.textDelete(TextEditor.FilePaths.USER, runner);
+                        break;
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Please select a record from the table!", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_Delete_BTNActionPerformed
 
     private void SortCustomer_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SortCustomer_BTNActionPerformed
