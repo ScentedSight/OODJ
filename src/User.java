@@ -1,3 +1,5 @@
+
+
 public abstract class User implements DataProvider {
     private String id, email, gender, phoneNo, password, confirm_password;
     
@@ -22,13 +24,13 @@ public abstract class User implements DataProvider {
     public String getId(){
         return id;
     }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
     
      public void setId(String id){
         this.id = id;
-    }
-     
-    public String getPhoneNo() {
-        return phoneNo;
     }
 
     public void setPhoneNo(String phone_number) {
