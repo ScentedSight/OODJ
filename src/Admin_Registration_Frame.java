@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 public class Admin_Registration_Frame extends javax.swing.JFrame {
     Customer customer;
     Vendor vendor;
-    DeliveryRunner Deliveryrunner;
+    DeliveryRunner deliveryrunner;
     TextEditor text;
     public Admin_Registration_Frame(){
         initComponents();
@@ -416,56 +416,43 @@ public class Admin_Registration_Frame extends javax.swing.JFrame {
                     if (role.equals("Customer") && !validateAddress(address).equals("Valid")) {
                         JOptionPane.showMessageDialog(this, validateAddress(address), "ERROR", JOptionPane.ERROR_MESSAGE);
                         return;
-                    } else if (role.equals("Vendor") && validateVendorName(vendorName).equals("Valid")) {
-                        for (int i = 0; i < numRows; i++) {
-                            if (vendorName.equals(userDetails[i][1])) {
-                                JOptionPane.showMessageDialog(this, "Vendor name exists!", "ERROR", JOptionPane.ERROR_MESSAGE);
-                                return;
+                    } else if (role.equals("Vendor")){
+                        if(validateVendorName(vendorName).equals("Valid")) {
+                            for (int i = 0; i < numRows; i++) {
+                                if (vendorName.equals(userDetails[i][1])) {
+                                    JOptionPane.showMessageDialog(this, "Vendor name exists!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                    return;
+                                }
                             }
+                        }else {
+                            JOptionPane.showMessageDialog(this, validateVendorName(vendorName), "ERROR", JOptionPane.ERROR_MESSAGE);
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(this, validateVendorName(vendorName), "ERROR", JOptionPane.ERROR_MESSAGE);
-                        return;
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "Passwords do not match", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    return;
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Phone number is invalid.", "ERROR", JOptionPane.ERROR_MESSAGE);
-                return;
             }
         } else {
             JOptionPane.showMessageDialog(this, "Email is invalid.", "ERROR", JOptionPane.ERROR_MESSAGE);
-            return;
         }
-
-
 
         for (DataProvider value : container) {
             String id = generateID(role, countCustomer, countVendor, countRunner);
             if (role.equals("Customer") && value instanceof Customer) {
-                Customer cust = (Customer) value;
-                if (validateAddress(address).equals("Valid")) {
-                    // Handle customer registration
-                    customer = new Customer(id, email, phoneNo, gender, address, password);
-                    text.fileWrite(TextEditor.FilePaths.USER, customer);
-                    JOptionPane.showMessageDialog(this, "Your Registration was Successful");
-                    JOptionPane.showMessageDialog(this, "Generated ID is " + id);
-                    break;
-                } else {
-                    JOptionPane.showMessageDialog(this, validateAddress(address), "ERROR", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+                customer = new Customer(id, email, phoneNo, gender, address, password);
+                text.fileWrite(TextEditor.FilePaths.USER, customer);
+                JOptionPane.showMessageDialog(this, "Your Registration was Successful");
+                JOptionPane.showMessageDialog(this, "Generated ID is " + id);
+                break;
             } else if (role.equals("Vendor") && value instanceof Vendor) {
-                    Vendor vend = (Vendor) value;
-                    vendor = new Vendor(id, vendorName, email, phoneNo, gender, password);
-                    text.fileWrite(TextEditor.FilePaths.USER, vendor);
-                    break;
-            } else if (role.equals("DeliveryRunner") && value instanceof DeliveryRunner) {
-                DeliveryRunner runner = (DeliveryRunner) value;
-                Deliveryrunner = new DeliveryRunner(id, email, phoneNo, gender, password);
-                text.fileWrite(TextEditor.FilePaths.USER, Deliveryrunner);
+                vendor = new Vendor(id, vendorName, email, phoneNo, gender, password);
+                text.fileWrite(TextEditor.FilePaths.USER, vendor);
+                break;
+            } else if (role.equals("Delivery Runner") && value instanceof DeliveryRunner) {
+                deliveryrunner = new DeliveryRunner(id, email, phoneNo, gender, password);
+                text.fileWrite(TextEditor.FilePaths.USER, deliveryrunner);
                 JOptionPane.showMessageDialog(this, "Your Registration was Successful");
                 JOptionPane.showMessageDialog(this, "Generated ID is " + id);
                 break;
@@ -487,10 +474,10 @@ public class Admin_Registration_Frame extends javax.swing.JFrame {
                 System.out.println("Email: " + customer.getEmail());
                 System.out.println("Phone Number: " + customer.getPhoneNo());
             } else if (value instanceof DeliveryRunner) {
-                DeliveryRunner runner = (DeliveryRunner) value;
-                System.out.println("RunnerID: " + runner.getId());
-                System.out.println("Email: " + runner.getEmail());
-                System.out.println("Phone Number: " + runner.getPhoneNo());
+                DeliveryRunner deliveryrunner = (DeliveryRunner) value;
+                System.out.println("RunnerID: " + deliveryrunner.getId());
+                System.out.println("Email: " + deliveryrunner.getEmail());
+                System.out.println("Phone Number: " + deliveryrunner.getPhoneNo());
             }
         }
 

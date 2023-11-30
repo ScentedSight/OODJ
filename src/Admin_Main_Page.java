@@ -507,7 +507,7 @@ public class Admin_Main_Page extends javax.swing.JFrame {
     }//GEN-LAST:event_SortVendor_BTNActionPerformed
 
     private void SortRunner_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SortRunner_BTNActionPerformed
-        String role = "Runner";
+        String role = "Delivery Runner";
         displayRecord(role);
     }//GEN-LAST:event_SortRunner_BTNActionPerformed
 

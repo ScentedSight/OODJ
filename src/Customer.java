@@ -16,10 +16,6 @@ public class Customer extends User{
         this.address = address;
     }
 
-    public String getId(){ //For retrieving Id in ordering process
-        return super.getId();
-    }
-
     public void setBal(String balance){ //Inserting the balance back into the newly created Customer object when the Id handler is found in TextFile during the log-in process
         this.balance = Double.parseDouble(balance);
     }
