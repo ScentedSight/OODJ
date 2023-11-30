@@ -10,7 +10,7 @@ public abstract class User implements DataProvider {
         this.password = password;
     }
     
-    public User(String id, String email, String gender, String phoneNo, String password){
+    public User(String id, String email, String phoneNo,String gender, String password){
         this.id = id;
         this.email = email;
         this.gender = gender;

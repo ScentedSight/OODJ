@@ -6,7 +6,7 @@ public class DeliveryRunner extends User {
         super(id, password);
     }
     
-    public DeliveryRunner(String id, String email, String gender, String phoneNo, String password) { //Registration
+    public DeliveryRunner(String id, String email, String phoneNo,String gender, String password) { //Registration
         super(id, email, phoneNo, gender, password);
     }
 

@@ -10,10 +10,7 @@ public class TextEditor {
 
     public enum FilePaths {
 
-        USER("C:\\Users\\Johan\\Desktop\\USERS.txt"),
-        CUSTOMER("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\Customer.txt"),
-        VENDOR("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\Vendor.txt"),
-        RUNNER("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\DeliveryRunner.txt"),
+        USER("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\USERS.txt"),
         MENU("path = MENU.txt"),
         HISTORY("C:\\Users\\Johan\\Desktop\\HISTORY.txt"),
         ID("path = IDGenerator.txt");
