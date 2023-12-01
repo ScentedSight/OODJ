@@ -8,9 +8,13 @@ import javax.swing.JOptionPane;
 
 public class Admin_Login_Page extends javax.swing.JFrame {
     TextEditor text;
+    Customer customer;
+    Vendor vendor;
+    DeliveryRunner runner;
     public Admin_Login_Page() {
         initComponents();
         text = new TextEditor();
+        
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -146,17 +150,17 @@ public class Admin_Login_Page extends javax.swing.JFrame {
         int row = 0;
         for (DataProvider value : container) {
             if (value instanceof Vendor) {
-                Vendor vendor = (Vendor) value;
-                userDetails[row][0] = vendor.getId();
-                userDetails[row][1] = vendor.getPass();
+                Vendor vend = (Vendor) value;
+                userDetails[row][0] = vend.getId();
+                userDetails[row][1] = vend.getPass();
             } else if (value instanceof Customer) {
-                Customer customer = (Customer) value;
-                userDetails[row][0] = customer.getId();
-                userDetails[row][1] = customer.getPass();  
+                Customer cust = (Customer) value;
+                userDetails[row][0] = cust.getId();
+                userDetails[row][1] = cust.getPass();  
             } else if (value instanceof DeliveryRunner) {
-                DeliveryRunner runner = (DeliveryRunner) value;
-                userDetails[row][0] = runner.getId();
-                userDetails[row][1] = runner.getPass();  
+                DeliveryRunner drunner = (DeliveryRunner) value;
+                userDetails[row][0] = drunner.getId();
+                userDetails[row][1] = drunner.getPass();  
             }
             row++;
         }
@@ -169,7 +173,7 @@ public class Admin_Login_Page extends javax.swing.JFrame {
                     if(ID.equals(userDetails[i][0])){
                         if(Pass.equals(userDetails[i][1])){
                             char User = ID.charAt(0);
-                            userLogin(User);
+                            userLogin(User, ID, Pass);
                             return;
                         }else{
                             Pass_Check.setText("Incorrect Password!");
@@ -201,17 +205,20 @@ public class Admin_Login_Page extends javax.swing.JFrame {
         });
     }
     
-    public void userLogin(char UserChar){
+    public void userLogin(char UserChar, String ID, String Pass){
         String user = String.valueOf(UserChar);
         switch (user) {
             case "C":
-                JOptionPane.showMessageDialog(this,"Welcome Back Customer!");
+                customer = new Customer(ID, Pass);
+                JOptionPane.showMessageDialog(this,"Welcome Back " +customer.getId()+ " !");
                 break;
             case "V":
-                JOptionPane.showMessageDialog(this,"Welcome Back Vendor!");
+                vendor = new Vendor(ID, Pass);
+                JOptionPane.showMessageDialog(this,"Welcome Back " +vendor.getId()+ " !");
                 break;
             case "D":
-                JOptionPane.showMessageDialog(this,"Welcome Back Runner!");
+                runner = new DeliveryRunner(ID, Pass);
+                JOptionPane.showMessageDialog(this,"Welcome Back " +runner.getId()+ " !");
                 break;
             default:
                 JOptionPane.showMessageDialog(this,"Please try again!","Error",JOptionPane.ERROR_MESSAGE);

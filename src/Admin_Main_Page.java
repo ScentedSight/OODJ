@@ -256,19 +256,16 @@ public class Admin_Main_Page extends javax.swing.JFrame {
                                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(Email_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(Update_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGap(24, 24, 24)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(PN_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(Pass_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(Pass_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(Update_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(Pass_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(37, 37, 37)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -295,7 +292,7 @@ public class Admin_Main_Page extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(343, 343, 343)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -310,12 +307,13 @@ public class Admin_Main_Page extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(Pass_Label)
                                     .addComponent(jLabel9)
                                     .addComponent(jLabel8)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(22, 22, 22)
-                                .addComponent(jLabel2)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(Pass_Label))))
                         .addGap(7, 7, 7)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Pass_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -371,8 +369,8 @@ public class Admin_Main_Page extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(Logout_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -385,7 +383,7 @@ public class Admin_Main_Page extends javax.swing.JFrame {
                 .addComponent(ManageRecord_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(TopUP_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
                 .addComponent(Logout_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(146, 146, 146))
             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 634, Short.MAX_VALUE)
@@ -395,7 +393,7 @@ public class Admin_Main_Page extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1170, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1205, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -414,7 +412,10 @@ public class Admin_Main_Page extends javax.swing.JFrame {
     }//GEN-LAST:event_TopUP_BTNActionPerformed
 
     private void Regd_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Regd_BTNActionPerformed
-
+        Admin_Registration_Page regd = new Admin_Registration_Page();
+        regd.setVisible(true);
+        this.dispose();
+        
     }//GEN-LAST:event_Regd_BTNActionPerformed
 
     private void Update_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Update_BTNActionPerformed
@@ -425,43 +426,53 @@ public class Admin_Main_Page extends javax.swing.JFrame {
         String address = Address_TF.getText().trim();
         String vendorName = VN_TF.getText().trim();
         String gender = String.valueOf(Gender_CB.getSelectedItem());
-        String path = "C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\USERS.txt";
         
         if(!ID.equals("")){
             List<DataProvider> appenedcontainer = new ArrayList<>(text.fileReader(TextEditor.FilePaths.USER));
             for(DataProvider value : appenedcontainer){
                 if (value instanceof Vendor) {
-                    Vendor vendor = (Vendor) value;
-                    if (ID.equals(vendor.getId())) {
-                        vendor.setName(vendorName);
-                        vendor.setEmail(email);
-                        vendor.setPhoneNo(phoneNo);
-                        vendor.setGender(gender);
-                        vendor.setPass(password);
+                    Vendor vend = (Vendor) value;
+                    if (ID.equals(vend.getId())) {
+                        String vend_role = "Vendor";
+                        vend.setName(vendorName);
+                        vend.setEmail(email);
+                        vend.setPhoneNo(phoneNo);
+                        vend.setGender(gender);
+                        vend.setPass(password);
+                        text.textDelete(TextEditor.FilePaths.USER, vend);
+                        text.fileWrite(TextEditor.FilePaths.USER, vend);
+                        displayRecord(vend_role);
                         break;
                     }
                 } else if (value instanceof Customer) {
-                    Customer customer = (Customer) value;
-                    if (ID.equals(customer.getId())) {
-                        customer.setEmail(email);
-                        customer.setPhoneNo(phoneNo);
-                        customer.setGender(gender);
-                        customer.setAddress(address);
-                        customer.setPass(password);
+                    Customer cust = (Customer) value;
+                    if (ID.equals(cust.getId())) {
+                        String cust_role = "Customer";
+                        cust.setEmail(email);
+                        cust.setPhoneNo(phoneNo);
+                        cust.setGender(gender);
+                        cust.setAddress(address);
+                        cust.setPass(password);
+                        text.textDelete(TextEditor.FilePaths.USER, cust);
+                        text.fileWrite(TextEditor.FilePaths.USER, cust);
+                        displayRecord(cust_role);
                         break;
                     }
                 } else if (value instanceof DeliveryRunner) {
-                    DeliveryRunner runner = (DeliveryRunner) value;
-                    if (ID.equals(runner.getId())) {
-                        runner.setEmail(email);
-                        runner.setPhoneNo(phoneNo);
-                        runner.setGender(gender);
-                        runner.setPass(password);
+                    DeliveryRunner drunner = (DeliveryRunner) value;
+                    if (ID.equals(drunner.getId())) {
+                        String drunner_role = "Delivery Runner";
+                        drunner.setEmail(email);
+                        drunner.setPhoneNo(phoneNo);
+                        drunner.setGender(gender);
+                        drunner.setPass(password);
+                        text.textDelete(TextEditor.FilePaths.USER, drunner);
+                        text.fileWrite(TextEditor.FilePaths.USER, drunner);
+                        displayRecord(drunner_role);
                         break;
                     }
                 }
             }
-            text.textWrite(path, appenedcontainer);
             JOptionPane.showMessageDialog(this, "The record has been successfully updated!");
         }else{
             JOptionPane.showMessageDialog(this, "Please select a record from the table!", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -471,25 +482,32 @@ public class Admin_Main_Page extends javax.swing.JFrame {
 
     private void Delete_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Delete_BTNActionPerformed
         String ID = ID_TF.getText().trim();
+        String password = Pass_TF.getText();
         
         if(!ID.equals("")){
             char user = ID.charAt(0);
             switch(String.valueOf(user)){
-                    case "C":
-                        customer.setId(ID);
-                        text.textDelete(TextEditor.FilePaths.USER, customer);
-                        JOptionPane.showMessageDialog(this, "The record has been successfully deleted!");
-                        break;
-                    case "V":
-                        vendor.setId(ID);
-                        text.textDelete(TextEditor.FilePaths.USER, vendor);
-                        JOptionPane.showMessageDialog(this, "The record has been successfully deleted!");
-                        break;
-                    case "D":
-                        runner.setId(ID);
-                        text.textDelete(TextEditor.FilePaths.USER, runner);
-                        JOptionPane.showMessageDialog(this, "The record has been successfully deleted!");
-                        break;
+                case "C":
+                    String cust_role = "Customer";
+                    customer = new Customer(ID, password);
+                    text.textDelete(TextEditor.FilePaths.USER, customer);
+                    JOptionPane.showMessageDialog(this, "The record has been successfully deleted!");
+                    displayRecord(cust_role);
+                    break;
+                case "V":
+                    String vend_role = "Vendor";
+                    vendor = new Vendor(ID, password);
+                    text.textDelete(TextEditor.FilePaths.USER, vendor);
+                    JOptionPane.showMessageDialog(this, "The record has been successfully deleted!");
+                    displayRecord(vend_role);
+                    break;
+                case "D":
+                    String drunner_role = "Delivery Runner";
+                    runner = new DeliveryRunner(ID, password);
+                    text.textDelete(TextEditor.FilePaths.USER, runner);
+                    JOptionPane.showMessageDialog(this, "The record has been successfully deleted!");
+                    displayRecord(drunner_role);
+                    break;
             }
         }else{
             JOptionPane.showMessageDialog(this, "Please select a record from the table!", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -569,36 +587,36 @@ public class Admin_Main_Page extends javax.swing.JFrame {
         for (DataProvider value : container) {
             if (value instanceof Vendor) {
                 if (role.equals("Vendor")) {
-                    Vendor vendor = (Vendor) value;
-                    userDetails[row][0] = vendor.getId();
-                    userDetails[row][1] = vendor.getName();
-                    userDetails[row][2] = vendor.getEmail();
-                    userDetails[row][3] = vendor.getPhoneNo();
-                    userDetails[row][4] = vendor.getGender();
+                    Vendor vend = (Vendor) value;
+                    userDetails[row][0] = vend.getId();
+                    userDetails[row][1] = vend.getName();
+                    userDetails[row][2] = vend.getEmail();
+                    userDetails[row][3] = vend.getPhoneNo();
+                    userDetails[row][4] = vend.getGender();
                     userDetails[row][5] = "";
-                    userDetails[row][6] = vendor.getPass();
+                    userDetails[row][6] = vend.getPass();
                 }
             } else if (value instanceof Customer) {
                 if (role.equals("Customer")) {
-                    Customer customer = (Customer) value;
-                    userDetails[row][0] = customer.getId();
+                    Customer cust = (Customer) value;
+                    userDetails[row][0] = cust.getId();
                     userDetails[row][1] = "";  // Assuming there's a getName() method in Customer
-                    userDetails[row][2] = customer.getEmail();
-                    userDetails[row][3] = customer.getPhoneNo();
-                    userDetails[row][4] = customer.getGender();
-                    userDetails[row][5] = customer.getAddress();
-                    userDetails[row][6] = customer.getPass();
+                    userDetails[row][2] = cust.getEmail();
+                    userDetails[row][3] = cust.getPhoneNo();
+                    userDetails[row][4] = cust.getGender();
+                    userDetails[row][5] = cust.getAddress();
+                    userDetails[row][6] = cust.getPass();
                 }
             } else if (value instanceof DeliveryRunner) {
                 if (role.equals("Delivery Runner")) {
-                    DeliveryRunner runner = (DeliveryRunner) value;
-                    userDetails[row][0] = runner.getId();
+                    DeliveryRunner drunner = (DeliveryRunner) value;
+                    userDetails[row][0] = drunner.getId();
                     userDetails[row][1] = "";  // Assuming there's no getName() method in DeliveryRunner
-                    userDetails[row][2] = runner.getEmail();
-                    userDetails[row][3] = runner.getPhoneNo();
-                    userDetails[row][4] = runner.getGender();
+                    userDetails[row][2] = drunner.getEmail();
+                    userDetails[row][3] = drunner.getPhoneNo();
+                    userDetails[row][4] = drunner.getGender();
                     userDetails[row][5] = "";
-                    userDetails[row][6] = runner.getPass();
+                    userDetails[row][6] = drunner.getPass();
                 }
             }
 
@@ -610,11 +628,9 @@ public class Admin_Main_Page extends javax.swing.JFrame {
                     break;
                 }
             }
-
             if (!isEmptyRow) {
                 model.addRow(userDetails[row]);
             }
-
             row++;
         }
 

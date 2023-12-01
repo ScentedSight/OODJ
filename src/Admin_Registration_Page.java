@@ -7,12 +7,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
-public class Admin_Registration_Frame extends javax.swing.JFrame {
+public class Admin_Registration_Page extends javax.swing.JFrame {
     Customer customer;
     Vendor vendor;
     DeliveryRunner deliveryrunner;
     TextEditor text;
-    public Admin_Registration_Frame(){
+    public Admin_Registration_Page(){
         initComponents();
         text = new TextEditor();
     }
@@ -378,27 +378,27 @@ public class Admin_Registration_Frame extends javax.swing.JFrame {
         int row = 0;
         for (DataProvider value : container) {
             if (value instanceof Vendor) {
-                Vendor vendor = (Vendor) value;
-                userDetails[row][0] = vendor.getId();
-                userDetails[row][1] = vendor.getName();
-                userDetails[row][2] = vendor.getEmail();
-                userDetails[row][3] = vendor.getPhoneNo();
+                Vendor vend = (Vendor) value;
+                userDetails[row][0] = vend.getId();
+                userDetails[row][1] = vend.getName();
+                userDetails[row][2] = vend.getEmail();
+                userDetails[row][3] = vend.getPhoneNo();
                 row++;
                 countVendor++;
             } else if (value instanceof Customer) {
-                Customer customer = (Customer) value;
-                userDetails[row][0] = customer.getId();
+                Customer  cust = (Customer) value;
+                userDetails[row][0] = cust.getId();
                 userDetails[row][1] = "";  // Assuming there's a getName() method in Customer
-                userDetails[row][2] = customer.getEmail();
-                userDetails[row][3] = customer.getPhoneNo();
+                userDetails[row][2] = cust.getEmail();
+                userDetails[row][3] = cust.getPhoneNo();
                 row++;
                 countCustomer++;
             } else if (value instanceof DeliveryRunner) {
-                DeliveryRunner runner = (DeliveryRunner) value;
-                userDetails[row][0] = runner.getId();
+                DeliveryRunner drunner = (DeliveryRunner) value;
+                userDetails[row][0] = drunner.getId();
                 userDetails[row][1] = "";  // Assuming there's no getName() method in DeliveryRunner
-                userDetails[row][2] = runner.getEmail();
-                userDetails[row][3] = runner.getPhoneNo();
+                userDetails[row][2] = drunner.getEmail();
+                userDetails[row][3] = drunner.getPhoneNo();
                 row++;
                 countRunner++;
             }
@@ -408,8 +408,11 @@ public class Admin_Registration_Frame extends javax.swing.JFrame {
             if (!phoneNo.equals("") && validatePhoneNo(phoneNo)) {
                 if (validatePassword(password, confirmPass).equals("Valid")) {
                     for (int i = 0; i < numRows; i++) {
-                        if (email.equals(userDetails[i][2]) || phoneNo.equals(userDetails[i][3])) {
-                            JOptionPane.showMessageDialog(this, "Phone Number or Email exists!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        if (email.equals(userDetails[i][2])) {
+                            JOptionPane.showMessageDialog(this, "Email exists!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }else if(phoneNo.equals(userDetails[i][3])){
+                            JOptionPane.showMessageDialog(this, "Phone Number exist!", "ERROR", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
                     }
@@ -429,7 +432,7 @@ public class Admin_Registration_Frame extends javax.swing.JFrame {
                         }
                     }
                 } else {
-                    JOptionPane.showMessageDialog(this, "Passwords do not match", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, validatePassword(password, confirmPass), "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Phone number is invalid.", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -449,6 +452,8 @@ public class Admin_Registration_Frame extends javax.swing.JFrame {
             } else if (role.equals("Vendor") && value instanceof Vendor) {
                 vendor = new Vendor(id, vendorName, email, phoneNo, gender, password);
                 text.fileWrite(TextEditor.FilePaths.USER, vendor);
+                JOptionPane.showMessageDialog(this, "Your Registration was Successful");
+                JOptionPane.showMessageDialog(this, "Generated ID is " + id);                
                 break;
             } else if (role.equals("Delivery Runner") && value instanceof DeliveryRunner) {
                 deliveryrunner = new DeliveryRunner(id, email, phoneNo, gender, password);
@@ -463,21 +468,21 @@ public class Admin_Registration_Frame extends javax.swing.JFrame {
         List<DataProvider> container1 = new ArrayList<>(text.fileReader(TextEditor.FilePaths.USER));
         for (DataProvider value : container1) {
             if (value instanceof Vendor) {
-                Vendor vendor = (Vendor) value;
-                System.out.println("VendorID: " + vendor.getId());
-                System.out.println("Name: " + vendor.getName());
-                System.out.println("Email: " + vendor.getEmail());
-                System.out.println("Phone Number: " + vendor.getPhoneNo());
+                Vendor vend = (Vendor) value;
+                System.out.println("VendorID: " + vend.getId());
+                System.out.println("Name: " + vend.getName());
+                System.out.println("Email: " + vend.getEmail());
+                System.out.println("Phone Number: " + vend.getPhoneNo());
             } else if (value instanceof Customer) {
-                Customer customer = (Customer) value;
-                System.out.println("CustomerID: " + customer.getId());
-                System.out.println("Email: " + customer.getEmail());
-                System.out.println("Phone Number: " + customer.getPhoneNo());
+                Customer cust = (Customer) value;
+                System.out.println("CustomerID: " + cust.getId());
+                System.out.println("Email: " + cust.getEmail());
+                System.out.println("Phone Number: " + cust.getPhoneNo());
             } else if (value instanceof DeliveryRunner) {
-                DeliveryRunner deliveryrunner = (DeliveryRunner) value;
-                System.out.println("RunnerID: " + deliveryrunner.getId());
-                System.out.println("Email: " + deliveryrunner.getEmail());
-                System.out.println("Phone Number: " + deliveryrunner.getPhoneNo());
+                DeliveryRunner drunner = (DeliveryRunner) value;
+                System.out.println("RunnerID: " + drunner.getId());
+                System.out.println("Email: " + drunner.getEmail());
+                System.out.println("Phone Number: " + drunner.getPhoneNo());
             }
         }
 
@@ -489,13 +494,13 @@ public class Admin_Registration_Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_Back_BTNActionPerformed
 
     private void PN_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PN_TFActionPerformed
-        // TODO add your handling code here:
+      
     }//GEN-LAST:event_PN_TFActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Admin_Registration_Frame().setVisible(true);
+                new Admin_Registration_Page().setVisible(true);
             }
         });
     } 
