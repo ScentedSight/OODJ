@@ -15,7 +15,6 @@ public class Admin_Registration_Frame_Write extends javax.swing.JFrame {
     TextEditor text;
     public Admin_Registration_Frame_Write(){
         initComponents();
-        admin = new Administrator(1);
         text = new TextEditor();
     }
     @SuppressWarnings("unchecked")
@@ -87,7 +86,7 @@ public class Admin_Registration_Frame_Write extends javax.swing.JFrame {
         Role_CB.setBackground(new java.awt.Color(102, 153, 255));
         Role_CB.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         Role_CB.setForeground(new java.awt.Color(255, 255, 255));
-        Role_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Customer", "Vendor", "Delivery Runner" }));
+        Role_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Customer", "Vendor", "Delivery Runner", "Admin" }));
         Role_CB.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Role_CB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -389,6 +388,11 @@ public class Admin_Registration_Frame_Write extends javax.swing.JFrame {
                         text.fileWrite(TextEditor.FilePaths.USER, runner);
                         JOptionPane.showMessageDialog(this, "Your Registration was Successful");
                         JOptionPane.showMessageDialog(this, "Generated ID is " + id);
+                    }else if(role.equals("Admin")){
+                        admin = new Administrator();
+                        text.fileWrite(TextEditor.FilePaths.USER, admin);
+                        JOptionPane.showMessageDialog(this, "Your Registration was Successful");
+                        JOptionPane.showMessageDialog(this, "Generated ID is " + admin.getid());                    
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "Passwords do not match", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -400,7 +404,6 @@ public class Admin_Registration_Frame_Write extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Email is invalid.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         
-        /*
         List<DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.USER));
 
         for (DataProvider value : container) {
@@ -420,9 +423,11 @@ public class Admin_Registration_Frame_Write extends javax.swing.JFrame {
                 System.out.println("RunnerID: " + runner.getId());
                 System.out.println("Email: " + runner.getEmail());
                 System.out.println("Phone Number: " + runner.getPhoneNo());
+            }else if(value instanceof Administrator){
+                Administrator ad = (Administrator) value;
+                System.out.println("AdminID: " + ad.getId());
             }
         }
-        */
 
 
     }//GEN-LAST:event_Regd_BTNActionPerformed

@@ -11,6 +11,7 @@ public class Admin_Login_Page extends javax.swing.JFrame {
     Customer customer;
     Vendor vendor;
     DeliveryRunner runner;
+    Administrator admin;
     public Admin_Login_Page() {
         initComponents();
         text = new TextEditor();
@@ -161,6 +162,10 @@ public class Admin_Login_Page extends javax.swing.JFrame {
                 DeliveryRunner drunner = (DeliveryRunner) value;
                 userDetails[row][0] = drunner.getId();
                 userDetails[row][1] = drunner.getPass();  
+            }else if(value instanceof Administrator){
+                Administrator ad = (Administrator) value;
+                userDetails[row][0] = ad.getId();
+                userDetails[row][1] = ad.getPass();  
             }
             row++;
         }
@@ -220,6 +225,9 @@ public class Admin_Login_Page extends javax.swing.JFrame {
                 runner = new DeliveryRunner(ID, Pass);
                 JOptionPane.showMessageDialog(this,"Welcome Back " +runner.getId()+ " !");
                 break;
+            case "A":
+                admin = new Administrator();
+                JOptionPane.showMessageDialog(this,"Welcome Back " +admin.getId()+ " !");
             default:
                 JOptionPane.showMessageDialog(this,"Please try again!","Error",JOptionPane.ERROR_MESSAGE);
                 break;
