@@ -52,7 +52,7 @@
                   <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="FN_TF" min="-2" pref="160" max="-2" attributes="0"/>
+                          <Component id="Email_TF" min="-2" pref="160" max="-2" attributes="0"/>
                           <Component id="jLabel2" min="-2" pref="97" max="-2" attributes="0"/>
                           <Component id="InitialBalance_TF" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
                       </Group>
@@ -124,7 +124,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="ID_TF" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="FN_TF" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="Email_TF" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="PN_TF" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="SortAll_BTN" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
@@ -266,7 +266,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Fullname:"/>
+            <Property name="text" type="java.lang.String" value="Email:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
@@ -280,7 +280,7 @@
             <Property name="text" type="java.lang.String" value="Add balance: (RM)"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="FN_TF">
+        <Component class="javax.swing.JTextField" name="Email_TF">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>

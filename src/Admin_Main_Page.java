@@ -408,7 +408,9 @@ public class Admin_Main_Page extends javax.swing.JFrame {
     }//GEN-LAST:event_ManageRecord_BTNActionPerformed
 
     private void TopUP_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TopUP_BTNActionPerformed
-
+        Admin_TopUpCredit_Page creditPage = new Admin_TopUpCredit_Page();
+        creditPage.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_TopUP_BTNActionPerformed
 
     private void Regd_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Regd_BTNActionPerformed

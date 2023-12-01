@@ -27,7 +27,7 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
         SortAll_BTN = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        FN_TF = new javax.swing.JTextField();
+        Email_TF = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         PN_TF = new javax.swing.JTextField();
@@ -106,13 +106,13 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Fullname:");
+        jLabel2.setText("Email:");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Add balance: (RM)");
 
-        FN_TF.setEditable(false);
+        Email_TF.setEditable(false);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -260,7 +260,7 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                 .addGap(43, 43, 43)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(FN_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Email_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(InitialBalance_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(Confirm_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -315,7 +315,7 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ID_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(FN_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Email_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(PN_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SortAll_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -391,18 +391,18 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
         ManageRecord_Table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1) { // Check for single-click
+                if (e.getClickCount() == 1){ // Check for single-click
                     int row = ManageRecord_Table.getSelectedRow();
                     if (row >= 0) {
                         // Get data from the selected row and set it in your text fields
                         String ID = ManageRecord_Table.getModel().getValueAt(row, 0).toString();
                         ID_TF.setText(ID);
-                        String data1 = ManageRecord_Table.getModel().getValueAt(row, 1).toString();
-                        FN_TF.setText(data1);
-                        String data3 = ManageRecord_Table.getModel().getValueAt(row, 2).toString();
-                        PN_TF.setText(data3); 
-                        String data4 = ManageRecord_Table.getModel().getValueAt(row, 4).toString();
-                        InitialBalance_TF.setText(data4); 
+                        String Email = ManageRecord_Table.getModel().getValueAt(row, 1).toString();
+                        Email_TF.setText(Email);
+                        String PhoneNo = ManageRecord_Table.getModel().getValueAt(row, 2).toString();
+                        PN_TF.setText(PhoneNo); 
+                        String initialBalance = ManageRecord_Table.getModel().getValueAt(row, 4).toString();
+                        InitialBalance_TF.setText(initialBalance); 
                     }
                 }
             }
@@ -435,35 +435,35 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
         int numCols = 20;  
         List<DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.USER));
         String[][] userDetails = new String[numRows][numCols];
-        
+
         DefaultTableModel model = (DefaultTableModel) ManageRecord_Table.getModel();
         model.setRowCount(0);
         int row = 0;
+
         for (DataProvider value : container) {
-                if (value instanceof Customer){
-                    if(ID.equals("")){
-                        Customer cust = (Customer) value;
-                        userDetails[row][0] = cust.getId();
-                        userDetails[row][1] = "";  // Assuming there's a getName() method in Customer
-                        userDetails[row][2] = cust.getEmail();
-                        userDetails[row][3] = cust.getPhoneNo();
-                        userDetails[row][4] = cust.getGender();
-                        userDetails[row][5] = cust.getAddress();
-                        userDetails[row][6] = cust.getPass();
-                    }else if(!ID.equals("") && ID.equals(ID)){
-                        Customer cust = (Customer) value;
-                        userDetails[row][0] = cust.getId();
-                        userDetails[row][1] = "";  // Assuming there's a getName() method in Customer
-                        userDetails[row][2] = cust.getEmail();
-                        userDetails[row][3] = cust.getPhoneNo();
-                        userDetails[row][4] = cust.getGender();
-                        userDetails[row][5] = cust.getAddress();
-                        userDetails[row][6] = cust.getPass();
-                        break;
-                    }
-                } 
+            if (value instanceof Customer) {
+                Customer cust = (Customer) value;
+                if (ID.equals(cust.getId())) {
+                    // Customer found by ID
+                    userDetails[row][0] = cust.getId();
+                    userDetails[row][1] = cust.getEmail();
+                    userDetails[row][2] = cust.getPhoneNo();
+                    userDetails[row][3] = cust.getPass();
+                    userDetails[row][4] = String.valueOf(cust.getBal());
+                    break; // No need to continue searching if customer is found
+                }else if(ID.equals("")){
+                    // No specific ID provided, populate all customers
+                    userDetails[row][0] = cust.getId();
+                    userDetails[row][1] = cust.getEmail();
+                    userDetails[row][2] = cust.getPhoneNo();
+                    userDetails[row][3] = cust.getPass();
+                    userDetails[row][4] = String.valueOf(cust.getBal());
+                }else{
+                    JOptionPane.showMessageDialog(this, "Customer ID does not exist!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             }
-        
+            // Continue with the rest of your code to check and add rows to the table
             boolean isEmptyRow = true;
             for (int col = 0; col < userDetails[row].length; col++) {
                 if (userDetails[row][col] != null && !userDetails[row][col].isEmpty()) {
@@ -475,13 +475,15 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                 model.addRow(userDetails[row]);
             }
             row++;
+        }
     }
+    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> AddBalance_CB;
     private javax.swing.JButton Confirm_BTN;
-    private javax.swing.JTextField FN_TF;
+    private javax.swing.JTextField Email_TF;
     private javax.swing.JTextField ID_TF;
     private javax.swing.JTextField InitialBalance_TF;
     private javax.swing.JButton Logout_BTN;
