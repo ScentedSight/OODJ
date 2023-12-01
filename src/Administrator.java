@@ -3,10 +3,6 @@ public class Administrator extends User {
     private double balance;
 
     public Administrator(){
-        
-    }
-    
-    public Administrator(String id, String password){
         this.id = "A1";
         this.password = "admin123";
     }
