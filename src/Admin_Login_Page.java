@@ -174,16 +174,22 @@ public class Admin_Login_Page extends javax.swing.JFrame {
         
         if (!ID.equals("")){
             if(!Pass.equals("")){
-                for (int i = 0; i < numRows; i++) {
-                    if(ID.equals(userDetails[i][0])){
-                        if(Pass.equals(userDetails[i][1])){
-                            char User = ID.charAt(0);
-                            userLogin(User, ID, Pass);
-                            return;
-                        }else{
-                            Pass_Check.setText("Incorrect Password!");
-                            error = 2;
-                            break;
+                if(ID.equals(admin.getid()) && Pass.equals(admin.getPass())){
+                    Admin_Main_Page mainPage = new Admin_Main_Page();
+                    mainPage.setVisible(true);
+                    this.dispose();
+                }else{
+                    for (int i = 0; i < numRows; i++) {
+                        if(ID.equals(userDetails[i][0])){
+                            if(Pass.equals(userDetails[i][1])){
+                                char User = ID.charAt(0);
+                                userLogin(User, ID, Pass);
+                                return;
+                            }else{
+                                Pass_Check.setText("Incorrect Password!");
+                                error = 2;
+                                break;
+                            }
                         }
                     }
                 }
@@ -225,9 +231,6 @@ public class Admin_Login_Page extends javax.swing.JFrame {
                 runner = new DeliveryRunner(ID, Pass);
                 JOptionPane.showMessageDialog(this,"Welcome Back " +runner.getId()+ " !");
                 break;
-            case "A":
-                admin = new Administrator();
-                JOptionPane.showMessageDialog(this,"Welcome Back " +admin.getId()+ " !");
             default:
                 JOptionPane.showMessageDialog(this,"Please try again!","Error",JOptionPane.ERROR_MESSAGE);
                 break;

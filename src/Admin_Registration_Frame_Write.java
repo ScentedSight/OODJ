@@ -388,11 +388,6 @@ public class Admin_Registration_Frame_Write extends javax.swing.JFrame {
                         text.fileWrite(TextEditor.FilePaths.USER, runner);
                         JOptionPane.showMessageDialog(this, "Your Registration was Successful");
                         JOptionPane.showMessageDialog(this, "Generated ID is " + id);
-                    }else if(role.equals("Admin")){
-                        admin = new Administrator();
-                        text.fileWrite(TextEditor.FilePaths.USER, admin);
-                        JOptionPane.showMessageDialog(this, "Your Registration was Successful");
-                        JOptionPane.showMessageDialog(this, "Generated ID is " + admin.getid());                    
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "Passwords do not match", "ERROR", JOptionPane.ERROR_MESSAGE);

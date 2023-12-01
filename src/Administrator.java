@@ -3,28 +3,24 @@ public class Administrator extends User {
     private double balance;
 
     public Administrator(){
-        this.id = "A1";
-        this.password = "admin123";
+        
     }
     
     public Administrator(String id, String password){
-        this.id = id;
-        this.password = password;
+        this.id = "A1";
+        this.password = "admin123";
     }
     
     public String getid(){
         return id;
     }
     
-    public void setid(String id){
-        this.id = id;
-    }
-    
     public  double getbal(){
         return balance;
     }
     
-    public String getPassword(){
+    @Override
+    public String getPass(){
         return password;
     }
     
