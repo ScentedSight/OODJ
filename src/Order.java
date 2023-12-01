@@ -14,15 +14,25 @@ public class Order implements DataProvider {
     private Time time;
 
     enum Status {
+        //Status Sequence for different order options (ONLY VENDOR CAN SET THESE FOLLOWING STATUSES)
+
         PENDING, //Order placed but awaiting confirmation from vendor
         PREPARING, //Preparing food, vendor's status
         READY, //Ready for pickup, vendor's status
         PICKED_UP, //Order has picked up, vendor's status
         COMPLETED, //Order completed, vendor's status
         CANCELED, //Order canceled by either party
+
+        //Dine-in -> Pending, Preparing, Ready, Completed
+        //Take-away -> Pending, Preparing, Ready, Picked_Up
+        //Delivery -> Pending, Preparing, Ready, Picked_Up
+
+        //Status Sequence for delivery orders (ONLY DELIVERY RUNNER CAN SET THESE FOLLOWING STATUSES)
         SEARCHING, //Searching for runner, runner's status
         DELIVERING, //Runner delivering, runner's status
         DELIVERED //Runner has delivered, runner's status
+
+        //Delivery runner status (Child class attribute) = Searching, Delivering, Delivered
     }
     
     public Order(String vendorId, String vendorName, Customer customer, String food, double foodCost) {
