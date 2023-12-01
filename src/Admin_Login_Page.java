@@ -15,6 +15,7 @@ public class Admin_Login_Page extends javax.swing.JFrame {
     public Admin_Login_Page() {
         initComponents();
         text = new TextEditor();
+        admin = new Administrator();
         
     }
     @SuppressWarnings("unchecked")
@@ -171,13 +172,17 @@ public class Admin_Login_Page extends javax.swing.JFrame {
         }
         
         int error = 0;
-        
         if (!ID.equals("")){
             if(!Pass.equals("")){
-                if(ID.equals(admin.getid()) && Pass.equals(admin.getPass())){
-                    Admin_Main_Page mainPage = new Admin_Main_Page();
-                    mainPage.setVisible(true);
-                    this.dispose();
+                if(ID.equals(admin.getid())){
+                    if(Pass.equals(admin.getPass())){
+                        Admin_Main_Page mainPage = new Admin_Main_Page();
+                        mainPage.setVisible(true);
+                        this.dispose();
+                    }else{
+                        Pass_Check.setText("Incorrect Password!");
+                        error = 2;
+                    }
                 }else{
                     for (int i = 0; i < numRows; i++) {
                         if(ID.equals(userDetails[i][0])){
