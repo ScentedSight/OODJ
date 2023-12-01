@@ -9,9 +9,11 @@ import javax.swing.table.DefaultTableModel;
 
 public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
     TextEditor text;
+    Administrator admin;
     public Admin_TopUpCredit_Page() {
         initComponents();
         text = new TextEditor();
+        admin = new Administrator();
     }
     
     @SuppressWarnings("unchecked")
@@ -370,7 +372,35 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
     }//GEN-LAST:event_Regd_BTNActionPerformed
 
     private void Confirm_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Confirm_BTNActionPerformed
+        String ID = ID_TF.getText().trim();
+        String phoneNo = PN_TF.getText().trim();
+        String email = Email_TF.getText().trim();
+        double Initialbalance = Double.parseDouble(InitialBalance_TF.getText());
+        double topup = Double.parseDouble(String.valueOf(AddBalance_CB.getSelectedItem()));
         
+        if(!ID.equals("")){
+            admin.setBal(Initialbalance);
+            admin.addBal(topup);
+            String balance = String.valueOf(admin.getbal());
+            List<DataProvider> appenedcontainer = new ArrayList<>(text.fileReader(TextEditor.FilePaths.USER));
+            for(DataProvider value : appenedcontainer){
+                if (value instanceof Customer) {
+                    Customer cust = (Customer) value;
+                    if (ID.equals(cust.getId())) {
+                        cust.setEmail(email);
+                        cust.setPhoneNo(phoneNo);
+                        cust.setBal(balance);
+                        text.textDelete(TextEditor.FilePaths.USER, cust);
+                        text.fileWrite(TextEditor.FilePaths.USER, cust);
+                        customerRecord(ID);
+                        break;
+                    }
+                }
+            }
+            JOptionPane.showMessageDialog(this, "The Balance has been successfully updated!");
+        }else{
+            JOptionPane.showMessageDialog(this, "Please select a record from the table!", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_Confirm_BTNActionPerformed
 
     private void ViewReceipt_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewReceipt_BTNActionPerformed
@@ -383,7 +413,7 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
     }//GEN-LAST:event_Logout_BTNActionPerformed
 
     private void SortAll_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SortAll_BTNActionPerformed
-        String ID = "";
+        String ID = "All";
         customerRecord(ID);
     }//GEN-LAST:event_SortAll_BTNActionPerformed
 
@@ -401,7 +431,7 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                         Email_TF.setText(Email);
                         String PhoneNo = ManageRecord_Table.getModel().getValueAt(row, 2).toString();
                         PN_TF.setText(PhoneNo); 
-                        String initialBalance = ManageRecord_Table.getModel().getValueAt(row, 4).toString();
+                        String initialBalance = ManageRecord_Table.getModel().getValueAt(row, 3).toString();
                         InitialBalance_TF.setText(initialBalance); 
                     }
                 }
@@ -443,21 +473,12 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
         for (DataProvider value : container) {
             if (value instanceof Customer) {
                 Customer cust = (Customer) value;
-                if (ID.equals(cust.getId())) {
+                if (ID.equals(cust.getId()) || ID.equals("All")){
                     // Customer found by ID
                     userDetails[row][0] = cust.getId();
                     userDetails[row][1] = cust.getEmail();
                     userDetails[row][2] = cust.getPhoneNo();
-                    userDetails[row][3] = cust.getPass();
-                    userDetails[row][4] = String.valueOf(cust.getBal());
-                    break; // No need to continue searching if customer is found
-                }else if(ID.equals("")){
-                    // No specific ID provided, populate all customers
-                    userDetails[row][0] = cust.getId();
-                    userDetails[row][1] = cust.getEmail();
-                    userDetails[row][2] = cust.getPhoneNo();
-                    userDetails[row][3] = cust.getPass();
-                    userDetails[row][4] = String.valueOf(cust.getBal());
+                    userDetails[row][3] = String.valueOf(cust.getBal());
                 }else{
                     JOptionPane.showMessageDialog(this, "Customer ID does not exist!", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -465,7 +486,7 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
             }
             // Continue with the rest of your code to check and add rows to the table
             boolean isEmptyRow = true;
-            for (int col = 0; col < userDetails[row].length; col++) {
+            for (int col = 0; col < userDetails[row].length; col++){
                 if (userDetails[row][col] != null && !userDetails[row][col].isEmpty()) {
                     isEmptyRow = false;
                     break;
