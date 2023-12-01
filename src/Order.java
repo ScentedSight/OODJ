@@ -17,6 +17,7 @@ public class Order implements DataProvider {
         PENDING, //Order placed but awaiting confirmation from vendor
         PREPARING, //Preparing food, vendor's status
         READY, //Ready for pickup, vendor's status
+        PICKED_UP, //Order has picked up, vendor's status
         COMPLETED, //Order completed, vendor's status
         CANCELED, //Order canceled by either party
         SEARCHING, //Searching for runner, runner's status
