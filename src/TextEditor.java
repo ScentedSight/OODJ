@@ -11,6 +11,7 @@ public class TextEditor {
     public enum FilePaths {
 
         USER("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\USERS.txt"),
+        NOTIFICATION("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\NOTIFICATION.txt"),
         MENU("path = MENU.txt"),
         HISTORY("C:\\Users\\Johan\\Desktop\\HISTORY.txt"),
         ID("path = IDGenerator.txt");
