@@ -490,7 +490,9 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
     }//GEN-LAST:event_Regd_BTNActionPerformed
 
     private void Back_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Back_BTNActionPerformed
-
+        Admin_Main_Page MP = new Admin_Main_Page();
+        MP.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_Back_BTNActionPerformed
 
     private void PN_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PN_TFActionPerformed

@@ -505,9 +505,6 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                     userDetails[row][1] = cust.getEmail();
                     userDetails[row][2] = cust.getPhoneNo();
                     userDetails[row][3] = String.valueOf(cust.getBal());
-                }else{
-                    JOptionPane.showMessageDialog(this, "Customer ID does not exist!", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    return;
                 }
             }
             // Continue with the rest of your code to check and add rows to the table
