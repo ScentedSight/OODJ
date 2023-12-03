@@ -433,7 +433,9 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
     }//GEN-LAST:event_ViewReceipt_BTNActionPerformed
 
     private void Logout_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Logout_BTNActionPerformed
-        
+        Admin_Login_Page LP = new Admin_Login_Page();
+        LP.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_Logout_BTNActionPerformed
 
     private void SortAll_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SortAll_BTNActionPerformed

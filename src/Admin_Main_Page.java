@@ -404,7 +404,7 @@ public class Admin_Main_Page extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ManageRecord_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ManageRecord_BTNActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_ManageRecord_BTNActionPerformed
 
     private void TopUP_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TopUP_BTNActionPerformed
@@ -414,8 +414,8 @@ public class Admin_Main_Page extends javax.swing.JFrame {
     }//GEN-LAST:event_TopUP_BTNActionPerformed
 
     private void Regd_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Regd_BTNActionPerformed
-        Admin_Registration_Page regd = new Admin_Registration_Page();
-        regd.setVisible(true);
+        Admin_Registration_Page RP = new Admin_Registration_Page();
+        RP.setVisible(true);
         this.dispose();
         
     }//GEN-LAST:event_Regd_BTNActionPerformed
@@ -532,7 +532,9 @@ public class Admin_Main_Page extends javax.swing.JFrame {
     }//GEN-LAST:event_SortRunner_BTNActionPerformed
 
     private void Logout_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Logout_BTNActionPerformed
-
+        Admin_Login_Page LP = new Admin_Login_Page();
+        LP.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_Logout_BTNActionPerformed
 
     private void ManageRecord_TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManageRecord_TableMouseClicked
