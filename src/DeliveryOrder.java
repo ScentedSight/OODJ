@@ -41,12 +41,14 @@ public class DeliveryOrder extends Order{
         TextEditor reader = new TextEditor();
         List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.USER));
         for (Object obj : container) { //Adds profit to the vendor object
-            Vendor vendor = (Vendor) obj;
-            if (vendor.getId().equals(super.getVendorID())) {
-                vendor.addProfit(super.getCost() - deliveryFee);
-                reader.textDelete(TextEditor.FilePaths.USER, vendor);
-                reader.fileWrite(TextEditor.FilePaths.USER, vendor); //Rewrite it all back
-                break; //Break out of the loop once done since payment is only given to one vendor per order
+            if (obj instanceof Vendor) {
+                Vendor vendor = (Vendor) obj;
+                if (vendor.getId().equals(super.getVendorID())) {
+                    vendor.addProfit(super.getCost() - deliveryFee);
+                    reader.textDelete(TextEditor.FilePaths.USER, vendor);
+                    reader.fileWrite(TextEditor.FilePaths.USER, vendor); //Rewrite it all back
+                    break; //Break out of the loop once done since payment is only given to one vendor per order
+                }
             }
         }
     }

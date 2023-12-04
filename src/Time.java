@@ -1,6 +1,8 @@
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
-public class Time {
+
+public class Time implements Serializable {
 
     private byte hours, minutes, seconds;
     private int days, months, years;

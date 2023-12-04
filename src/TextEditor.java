@@ -12,7 +12,7 @@ public class TextEditor {
 
         USER("C:\\Users\\Johan\\Desktop\\USERS.txt"),
         MENU("path = MENU.txt"),
-        HISTORY("path = HISTORY.txt"),
+        HISTORY("C:\\Users\\Johan\\Desktop\\HISTORY.txt"),
         ID("path = IDGenerator.txt");
 
         private String filePath;
