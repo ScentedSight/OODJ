@@ -83,21 +83,13 @@ public class TextEditor {
     }
 
     public void textDelete(FilePaths paths, DataProvider data) { //Deleting a line of object in any textfile based on the ID
-        List<DataProvider> container = new ArrayList<>(fileReader(paths));
-        List<DataProvider> appendContainer = new ArrayList<>();
-        for (DataProvider objects : container) {
-            if (!objects.getId().equals(data.getId())) {
-                appendContainer.add(objects);
-            }
-        }
-        textWrite(paths.getFilePath(), appendContainer); //Call class's internal function to rewrite the array back to textfile without the deleted object
-    }
-    
-    private void textWrite(String paths, List<DataProvider> appendContainer) { //Class's internal function for overwriting a textfile, mainly used for rewriting objects back to textfile after deletion
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths));
-            for (DataProvider objects : appendContainer) {
-                oos.writeObject(objects);
+            List<DataProvider> container = new ArrayList<>(fileReader(paths));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.getFilePath()));
+            for (DataProvider objects : container) {
+                if (!objects.getId().equals(data.getId())) {
+                    oos.writeObject(objects);
+                }
             }
             oos.close();
         } catch (IOException e) {
