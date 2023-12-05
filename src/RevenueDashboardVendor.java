@@ -89,6 +89,74 @@ public class RevenueDashboardVendor extends JFrame {
             lblaverage.setText("RM"+profit/rowsCount);
         
     }
+    
+    public void filterMonth(){
+        comboMonth.setSelectedIndex(-1);        //do not selected item in initial
+        int i=comboMonth.getSelectedIndex();        //get selected month
+        
+        switch(i){
+            case 0:
+                month=" ";
+                break;
+            case 1:
+                month="January";
+                break;
+            case 2:
+                month="February";
+                break;
+            case 3:
+                month="March";
+                break;
+            case 4:
+                month="April";
+                break;
+            case 5:
+                month="May";
+                break;
+            case 6:
+                month="June";
+                break;
+            case 7:
+                month="July";
+                break;
+            case 8:
+                month="August";
+                break;
+            case 9:
+                month="September";
+                break;
+            case 10:
+                month="October";
+                break;
+            case 11:
+                month="November";
+                break;
+            case 12:
+                month="December";
+                break;
+            default:
+                break;
+        }
+    }
+    
+    public void filterYear(){
+        comboYear.setSelectedIndex(-1);       //do not selected item in initial
+        int i=comboYear.getSelectedIndex();         //get selected year
+        
+        switch(i){
+            case 0:
+                year="2021";
+                break;
+            case 1:
+                year="2022";
+                break;  
+            case 2:
+                year="2023";
+                break;
+            default:
+                break;
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -268,52 +336,8 @@ public class RevenueDashboardVendor extends JFrame {
 
       
     private void comboMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMonthActionPerformed
-        comboMonth.setSelectedIndex(-1);        //do not selected item in initial
-        int i=comboMonth.getSelectedIndex();       //get selected month
+            filterMonth();
         
-        switch(i){
-            case 0:
-                month=" ";
-                break;
-            case 1:
-                month="Jan";
-                break;
-            case 2:
-                month="Feb";
-                break;
-            case 3:
-                month="Mac";
-                break;
-            case 4:
-                month="April";
-                break;
-            case 5:
-                month="May";
-                break;
-            case 6:
-                month="June";
-                break;
-            case 7:
-                month="July";
-                break;
-            case 8:
-                month="Aug";
-                break;
-            case 9:
-                month="Sep";
-                break;
-            case 10:
-                month="Oct";
-                break;
-            case 11:
-                month="Nov";
-                break;
-            case 12:
-                month="Dec";
-                break;
-            default:
-                break;
-        }
     }//GEN-LAST:event_comboMonthActionPerformed
 
     private void comboMonthComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_comboMonthComponentMoved
@@ -337,22 +361,7 @@ public class RevenueDashboardVendor extends JFrame {
     }//GEN-LAST:event_lblTotalPropertyChange
 
     private void comboYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboYearActionPerformed
-        comboYear.setSelectedIndex(-1);       //do not selected item in initial
-        int i=comboYear.getSelectedIndex();     //get selected year
-        
-        switch(i){
-            case 0:
-                year="2021";
-                break;
-            case 1:
-                year="2022";
-                break;  
-            case 2:
-                year="2023";
-                break;
-            default:
-                break;
-        }
+        filterYear();
     }//GEN-LAST:event_comboYearActionPerformed
 
     private void tableRevenueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableRevenueMouseClicked
