@@ -499,7 +499,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
     private void bCancelOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelOrderActionPerformed
         // TODO add your handling code here:
-        populateCurrentOrderTable();
+        deleteCurrentOrder();
     }//GEN-LAST:event_bCancelOrderActionPerformed
 
     private void bPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPlaceOrderActionPerformed
