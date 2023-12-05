@@ -31,7 +31,7 @@ public class TextEditor {
         try {
             File newFile = new File(paths.getFilePath());
 
-            if (newFile.createNewFile()) {
+            if (newFile.createNewFile()) { //Checking if there are existing files
                 
                 System.out.println("File created: " + newFile.getName());
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath));
