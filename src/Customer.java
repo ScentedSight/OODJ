@@ -2,10 +2,6 @@ public class Customer extends User{
 
     private double balance = 0;
     private String address;
-
-    public Customer(){
-        
-    }
     
     public Customer (String id, String password) { //Log in
         super(id, password);

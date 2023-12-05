@@ -1,5 +1,7 @@
+import com.toedter.calendar.JDayChooser;
+import com.toedter.calendar.JMonthChooser;
+import com.toedter.calendar.JYearChooser;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -38,7 +40,8 @@ public class RunnerFrame extends javax.swing.JFrame {
         tasksModel.setColumnIdentifiers(tasksColumns);
         taskHistory.setColumnIdentifiers(taskHistoryColumns);
         runnerHomeTitlelbl.setText("Welcome Runner " + runner.getId()); //Set title
-        runnerHomeLoadTaskListProcess(); //Load tasks
+        runnerHomeLoadTaskListProcess(); //Load tasks list
+        runnerHomeLoadTaskProcess(); //Load tasks
         generateTotalRevenue(); //Set total revenue text for it's textbox
     }
     
@@ -49,7 +52,8 @@ public class RunnerFrame extends javax.swing.JFrame {
         taskHistory.setColumnIdentifiers(taskHistoryColumns);
         this.runner = runner;
         runnerHomeTitlelbl.setText("Welcome Runner " + runner.getId()); //Set title
-        runnerHomeLoadTaskListProcess(); //Load tasks
+        runnerHomeLoadTaskListProcess(); //Load tasks list
+        runnerHomeLoadTaskProcess(); //Load tasks
         generateTotalRevenue(); //Set total revenue text for it's textbox
     }
 
@@ -137,6 +141,9 @@ public class RunnerFrame extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 runnerTaskAcceptbtnMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                runnerTaskAcceptbtnMousePressed(evt);
+            }
         });
         runnerTaskAcceptbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -150,6 +157,9 @@ public class RunnerFrame extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 runnerHomeTaskHistbtnMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                runnerHomeTaskHistbtnMousePressed(evt);
+            }
         });
 
         runnerHomeFailedbtn.setText("Failed");
@@ -157,6 +167,9 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeFailedbtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 runnerHomeFailedbtnMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                runnerHomeFailedbtnMousePressed(evt);
             }
         });
 
@@ -166,6 +179,9 @@ public class RunnerFrame extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 runnerHomeDeliveredbtnMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                runnerHomeDeliveredbtnMousePressed(evt);
+            }
         });
 
         runnerHomeYeartxt.setEditable(false);
@@ -174,16 +190,16 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeMonthtxt.setEditable(false);
         runnerHomeMonthtxt.setName("Runner Home Page Monthly Revenue Text Field"); // NOI18N
 
-        runnerHomeDaylbl.setText("Day:");
+        runnerHomeDaylbl.setText("Daily Earnings:");
         runnerHomeDaylbl.setName("Runner Home Page Daily Revenue Label"); // NOI18N
 
-        runnerHomeMonthlbl.setText("Month:");
+        runnerHomeMonthlbl.setText("Monthly Earnings:");
         runnerHomeMonthlbl.setName("Runner Home Page Monthly Revenue Label"); // NOI18N
 
-        runnerHomeYearlbl.setText("Year:");
+        runnerHomeYearlbl.setText("Yearly Earnings:");
         runnerHomeYearlbl.setName("Runner Home Page Yearly Revenue Label"); // NOI18N
 
-        runnerHomeTotallbl.setText("Total:");
+        runnerHomeTotallbl.setText("Total Earnings:");
         runnerHomeTotallbl.setName("Runner Home Page Total Revenue Label"); // NOI18N
 
         runnerHomeTotaltxt.setEditable(false);
@@ -200,10 +216,15 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTaskListpn.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Task List", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         runnerHomeTaskListtbl.setModel(taskListModel);
+        runnerHomeTaskListtbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        runnerHomeTaskListtbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         runnerHomeTaskListtbl.getTableHeader().setReorderingAllowed(false);
         runnerHomeTaskListtbl.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 runnerHomeTaskListtblMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                runnerHomeTaskListtblMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 runnerHomeTaskListtblMouseReleased(evt);
@@ -214,10 +235,15 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTaskspn.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Accepted Tasks", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         runnerHomeTaskstbl.setModel(tasksModel);
+        runnerHomeTaskstbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        runnerHomeTaskstbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         runnerHomeTaskstbl.getTableHeader().setReorderingAllowed(false);
         runnerHomeTaskstbl.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 runnerHomeTaskstblMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                runnerHomeTaskstblMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 runnerHomeTaskstblMouseReleased(evt);
@@ -225,6 +251,7 @@ public class RunnerFrame extends javax.swing.JFrame {
         });
         runnerHomeTaskspn.setViewportView(runnerHomeTaskstbl);
 
+        runnerHomeCld.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Revenue Dashboard", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         runnerHomeCld.setNullDateButtonText("");
         runnerHomeCld.setTodayButtonText("");
         runnerHomeCld.setWeekOfYearVisible(false);
@@ -239,40 +266,41 @@ public class RunnerFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(runnerHomeTitlelbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(runnerHomeTaskListpn, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(runnerHomeTaskspn, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(runnerHomeDaylbl, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(runnerHomeMonthlbl, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(runnerHomeTotallbl, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(runnerHomeYearlbl, javax.swing.GroupLayout.Alignment.TRAILING))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(runnerHomeYeartxt, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(runnerHomeMonthtxt, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(runnerHomeDaytxt, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(runnerHomeTotaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(runnerHomeCld, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(runnerHomeTitlelbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(110, 110, 110)
                         .addComponent(runnerTaskAcceptbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(136, 136, 136)
+                        .addGap(140, 140, 140)
                         .addComponent(runnerHomeTaskHistbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(137, 137, 137)
+                        .addGap(269, 269, 269)
                         .addComponent(runnerHomeDeliveredbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67)
+                        .addGap(131, 131, 131)
                         .addComponent(runnerHomeFailedbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(runnerHomeTaskListpn, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(runnerHomeTaskspn, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(runnerHomeCld, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(runnerHomeDaylbl, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(runnerHomeMonthlbl, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(runnerHomeTotallbl, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(runnerHomeYearlbl, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(runnerHomeMonthtxt)
-                                    .addComponent(runnerHomeYeartxt)
-                                    .addComponent(runnerHomeDaytxt, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                                    .addComponent(runnerHomeTotaltxt))))))
+                        .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -282,35 +310,35 @@ public class RunnerFrame extends javax.swing.JFrame {
                 .addComponent(runnerHomeTitlelbl, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(runnerHomeCld, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(runnerHomeCld, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(runnerHomeDaylbl)
-                            .addComponent(runnerHomeDaytxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(runnerHomeDaytxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(runnerHomeDaylbl))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(runnerHomeMonthlbl)
-                            .addComponent(runnerHomeMonthtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
+                            .addComponent(runnerHomeMonthtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(runnerHomeMonthlbl))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(runnerHomeYeartxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(runnerHomeYearlbl))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(runnerHomeTotaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(runnerHomeTotallbl)))
-                    .addComponent(runnerHomeTaskListpn, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(runnerHomeTotallbl))
+                        .addGap(0, 11, Short.MAX_VALUE))
+                    .addComponent(runnerHomeTaskListpn)
                     .addComponent(runnerHomeTaskspn))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(runnerHomeDeliveredbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(runnerHomeFailedbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(runnerHomeTaskHistbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(runnerHomeDeliveredbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(runnerTaskAcceptbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(runnerHomeFailedbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addComponent(runnerHomeTaskHistbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(runnerTaskAcceptbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -390,69 +418,24 @@ public class RunnerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_runnerHomeTaskListtblMouseReleased
 
     private void runnerTaskAcceptbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerTaskAcceptbtnMouseClicked
-        if (taskListRow != -1) { //Fill tasks table with accepted deliveries
-            List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-            for (Object obj : container) { //Finalise delivery order by plugging in extra properties
-                DeliveryOrder dOrder = (DeliveryOrder) obj;
-                if (dOrder.getId().equals(String.valueOf(taskListModel.getValueAt(taskListRow, 0)))) {
-                    dOrder.setRunner(runner); //Set the current runner
-                    dOrder.setRunnerStatus(Order.Status.DELIVERING); //Set status
-                    dOrder.setTime(); //Set current time
-                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
-                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
-                    break; //Break out of the loop once done since only one order should be edited at a time
-                }
-            }
-            taskListRow = -1; //Reset to no selected row after clicking
-            runnerHomeLoadTaskProcess(); //Reload the tasks table
-            runnerHomeLoadTaskListProcess(); //Reload the task list
-        }
+        
     }//GEN-LAST:event_runnerTaskAcceptbtnMouseClicked
 
     private void runnerHomeDeliveredbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeDeliveredbtnMouseClicked
-        if (tasksRow != -1) { //Remove row after delivery success and set status
-            List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-            for (Object obj : container) { //Finalise delivery order by plugging in extra properties
-                DeliveryOrder dOrder = (DeliveryOrder) obj;
-                if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
-                    dOrder.setRunnerStatus(Order.Status.DELIVERED); //Set status
-                    dOrder.setTime(); //Set current time
-                    dOrder.payment(); //Pay runner and vendor
-                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
-                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
-                    break; //Break out of the loop once done since only one order should be edited at a time
-                }
-            }
-            tasksRow = -1; //Reset to no selected row after clicking
-            runnerHomeLoadTaskProcess(); //Reload the tasks table
-            runnerHomeLoadTaskListProcess(); //Reload the tasks
-            generateTotalRevenue(); //Add to total revenue textbox
-        }
+        
     }//GEN-LAST:event_runnerHomeDeliveredbtnMouseClicked
 
     private void runnerHomeFailedbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeFailedbtnMouseClicked
-        if (tasksRow != -1) { //Remove row after delivery failed and set status
-            List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-            for (Object obj : container) { //Finalise delivery order by plugging in extra properties
-                DeliveryOrder dOrder = (DeliveryOrder) obj;
-                if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
-                    dOrder.setRunnerStatus(Order.Status.SEARCHING); //Set status
-                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
-                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
-                    break; //Break out of the loop once done since only one order should be edited at a time
-                }
-            }
-            tasksRow = -1; //Reset to no selected row after clicking
-            runnerHomeLoadTaskProcess(); //Reload the tasks table
-            runnerHomeLoadTaskListProcess(); //Reload the tasks
-        }
+        
     }//GEN-LAST:event_runnerHomeFailedbtnMouseClicked
 
     private void runnerHomeCldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_runnerHomeCldPropertyChange
-        Calendar date = runnerHomeCld.getCalendar(); //Retrieval of dates from jCalendar
-        int day = date.get(date.DAY_OF_MONTH);
-        int month = date.get(date.MONTH + 1);
-        int year = date.get(date.YEAR);
+        JDayChooser dayChooser = runnerHomeCld.getDayChooser(); //Retrieval of dates from jCalendar
+        JMonthChooser monthChooser = runnerHomeCld.getMonthChooser();
+        JYearChooser yearChooser = runnerHomeCld.getYearChooser();
+        int day = dayChooser.getDay();
+        int month = monthChooser.getMonth() + 1;
+        int year = yearChooser.getYear();
 
         double dayFeeTxt = 0; //Initializes as zero everytime date changes so it doesnt accumulate from previous date selection
         double monthFeeTxt = 0;
@@ -483,6 +466,70 @@ public class RunnerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_runnerHomeLogOutbtnMouseClicked
 
     private void runnerHomeTaskHistbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskHistbtnMouseClicked
+        
+    }//GEN-LAST:event_runnerHomeTaskHistbtnMouseClicked
+
+    private void runnerHomeTaskListtblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskListtblMouseClicked
+        
+    }//GEN-LAST:event_runnerHomeTaskListtblMouseClicked
+
+    private void runnerHomeTaskstblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskstblMouseClicked
+        
+    }//GEN-LAST:event_runnerHomeTaskstblMouseClicked
+
+    private void runnerHomeTaskListtblMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskListtblMousePressed
+        taskListRow = runnerHomeTaskListtbl.getSelectedRow();
+        System.out.println("Mouse Clicked: " + evt);
+        System.out.println(taskListRow);
+    }//GEN-LAST:event_runnerHomeTaskListtblMousePressed
+
+    private void runnerHomeTaskstblMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskstblMousePressed
+        tasksRow = runnerHomeTaskstbl.getSelectedRow();
+        System.out.println("Mouse Clicked: " + evt);
+        System.out.println(tasksRow);
+    }//GEN-LAST:event_runnerHomeTaskstblMousePressed
+
+    private void runnerTaskAcceptbtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerTaskAcceptbtnMousePressed
+        if (taskListRow != -1) { //Fill tasks table with accepted deliveries
+            System.out.println("accept");
+            List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+            for (Object obj : container) { //Finalise delivery order by plugging in extra properties
+                DeliveryOrder dOrder = (DeliveryOrder) obj;
+                if (dOrder.getId().equals(String.valueOf(taskListModel.getValueAt(taskListRow, 0)))) {
+                    dOrder.setRunner(runner); //Set the current runner
+                    dOrder.setRunnerStatus(Order.Status.DELIVERING); //Set status
+                    dOrder.setTime(); //Set current time
+                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
+                    break; //Break out of the loop once done since only one order should be edited at a time
+                }
+            }
+            taskListRow = -1; //Reset to no selected row after clicking
+            runnerHomeLoadTaskProcess(); //Reload the tasks table
+            runnerHomeLoadTaskListProcess(); //Reload the task list
+        }
+    }//GEN-LAST:event_runnerTaskAcceptbtnMousePressed
+
+    private void runnerHomeFailedbtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeFailedbtnMousePressed
+        if (tasksRow != -1) { //Remove row after delivery failed and set status
+            System.out.println("fail");
+            List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+            for (Object obj : container) { //Finalise delivery order by plugging in extra properties
+                DeliveryOrder dOrder = (DeliveryOrder) obj;
+                if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
+                    dOrder.setRunnerStatus(Order.Status.SEARCHING); //Set status
+                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
+                    break; //Break out of the loop once done since only one order should be edited at a time
+                }
+            }
+            tasksRow = -1; //Reset to no selected row after clicking
+            runnerHomeLoadTaskProcess(); //Reload the tasks table
+            runnerHomeLoadTaskListProcess(); //Reload the tasks
+        }
+    }//GEN-LAST:event_runnerHomeFailedbtnMousePressed
+
+    private void runnerHomeTaskHistbtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskHistbtnMousePressed
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) {
             DeliveryOrder dOrder = (DeliveryOrder) obj;
@@ -502,15 +549,28 @@ public class RunnerFrame extends javax.swing.JFrame {
         }
         runnerTskHistorydialog.setVisible(true); //Opens up a new dialog
         runnerTskHistorydialog.setLocationRelativeTo(null); //Centers dialog on screen
-    }//GEN-LAST:event_runnerHomeTaskHistbtnMouseClicked
+    }//GEN-LAST:event_runnerHomeTaskHistbtnMousePressed
 
-    private void runnerHomeTaskListtblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskListtblMouseClicked
-        taskListRow = runnerHomeTaskListtbl.getSelectedRow();
-    }//GEN-LAST:event_runnerHomeTaskListtblMouseClicked
-
-    private void runnerHomeTaskstblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskstblMouseClicked
-        tasksRow = runnerHomeTaskstbl.getSelectedRow();
-    }//GEN-LAST:event_runnerHomeTaskstblMouseClicked
+    private void runnerHomeDeliveredbtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeDeliveredbtnMousePressed
+        if (tasksRow != -1) { //Remove row after delivery success and set status
+            List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+            for (Object obj : container) { //Finalise delivery order by plugging in extra properties
+                DeliveryOrder dOrder = (DeliveryOrder) obj;
+                if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
+                    dOrder.setRunnerStatus(Order.Status.DELIVERED); //Set status
+                    dOrder.setTime(); //Set current time
+                    dOrder.payment(); //Pay runner and vendor
+                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
+                    break; //Break out of the loop once done since only one order should be edited at a time
+                }
+            }
+            tasksRow = -1; //Reset to no selected row after clicking
+            runnerHomeLoadTaskProcess(); //Reload the tasks table
+            runnerHomeLoadTaskListProcess(); //Reload the tasks
+            generateTotalRevenue(); //Add to total revenue textbox
+        } 
+    }//GEN-LAST:event_runnerHomeDeliveredbtnMousePressed
 
     /**
      * @param args the command line arguments

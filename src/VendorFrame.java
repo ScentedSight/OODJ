@@ -29,8 +29,6 @@ public class VendorFrame extends JFrame {
     
     
     public VendorFrame(){  //Default constructor for testing
-        Vendor vendortest = new Vendor("asvfa","fsdfdsf","wen wen");
-        vendor = vendortest;
         initComponents();
         MenuModel.setColumnIdentifiers(MenuColumn);
         OrderModel.setColumnIdentifiers(OrderList);

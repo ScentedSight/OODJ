@@ -1,5 +1,3 @@
-
-
 public abstract class User implements DataProvider {
     private String id, email, gender, phoneNo, password, confirm_password;
     
