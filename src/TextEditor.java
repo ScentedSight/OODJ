@@ -31,10 +31,11 @@ public class TextEditor {
         try {
             File newFile = new File(paths.getFilePath());
 
-            if (newFile.createNewFile()) { //Checking if there are existing files
-
+            if (newFile.createNewFile()) {
                 System.out.println("File created: " + newFile.getName());
-                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath));
+            }
+
+            try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(paths.filePath, true)))) {
                 oos.writeObject(data);
                 System.out.println("Successfully wrote to the file.");
                 oos.close();
@@ -58,7 +59,7 @@ public class TextEditor {
             }
 
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred while creating the file.");
             e.printStackTrace();
         }
     }
@@ -75,13 +76,13 @@ public class TextEditor {
                     break;
                 }
             }
-
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
         return container;
     }
+
 
     public void textDelete(FilePaths paths, DataProvider data) { //Deleting a line of object in any textfile based on the ID
         try {
