@@ -28,8 +28,9 @@ public class C_Reviews extends javax.swing.JFrame {
         populateReviewTable();   
     }
 
-    public void setFoodNameText(String text) {
+    public void setFoodNameText(String text, String vendorName) {
         tfFoodName.setText(text);
+        tfVendorName.setText(vendorName);
     }
     
     private void populateReviewTable() {
@@ -39,7 +40,7 @@ public class C_Reviews extends javax.swing.JFrame {
         for (Object object: container) {
             Review review = (Review) object;
             
-            if (tfFoodName.getText().equals(food.getDescription())){
+            if (tfFoodName.getText().equals(food.getDescription()) && tfVendorName.getText().equals(food.getVendor())){
                 String[] menu = {review.getCustomer(), review.getComment(), String.valueOf(review.getRating())};
                 model.addRow(menu);
             }
@@ -60,12 +61,13 @@ public class C_Reviews extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        tfFoodName = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         bAddReview = new javax.swing.JButton();
         tfRating = new javax.swing.JTextField();
         tfComment = new javax.swing.JTextField();
+        tfVendorName = new javax.swing.JTextField();
+        tfFoodName = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -95,9 +97,6 @@ public class C_Reviews extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        tfFoodName.setText("FOOD NAME");
-        tfFoodName.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-
         jTable1.setModel(model);
         jScrollPane1.setViewportView(jTable1);
 
@@ -117,6 +116,12 @@ public class C_Reviews extends javax.swing.JFrame {
             }
         });
 
+        tfVendorName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfVendorNameActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -125,11 +130,14 @@ public class C_Reviews extends javax.swing.JFrame {
                 .addGap(44, 44, 44)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(tfRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfComment)))
+                        .addComponent(tfComment))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(tfVendorName, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -140,7 +148,9 @@ public class C_Reviews extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tfFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfVendorName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -149,7 +159,7 @@ public class C_Reviews extends javax.swing.JFrame {
                     .addComponent(tfComment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bAddReview)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -178,6 +188,10 @@ public class C_Reviews extends javax.swing.JFrame {
         // TODO add your handling code here:
          Review review = new Review(customer, Integer.parseInt(tfRating.getText()),tfComment.getText());
     }//GEN-LAST:event_bAddReviewActionPerformed
+
+    private void tfVendorNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfVendorNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfVendorNameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,7 +237,8 @@ public class C_Reviews extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField tfComment;
-    private javax.swing.JLabel tfFoodName;
+    private javax.swing.JTextField tfFoodName;
     private javax.swing.JTextField tfRating;
+    private javax.swing.JTextField tfVendorName;
     // End of variables declaration//GEN-END:variables
 }

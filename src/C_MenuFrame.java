@@ -49,11 +49,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
       
     }
     
-    public String getDetailsText(){
-        return tfDetails.getText();
-        
-    }
-    
     private void populateComboBox() {
          TextEditor reader = new TextEditor();
          List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.USER));
@@ -469,9 +464,9 @@ public class C_MenuFrame extends javax.swing.JFrame {
         C_Reviews reviewsFrame = new C_Reviews();
         reviewsFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         reviewsFrame.setVisible(true);
+       
+        reviewsFrame.setFoodNameText(tfDetails.getText(), String.valueOf(cbCuisine.getSelectedItem()));
         
-        String detailsText = getDetailsText();
-        reviewsFrame.setFoodNameText(detailsText);
     }//GEN-LAST:event_bReviewsActionPerformed
 
     private void bAddQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddQuantityActionPerformed
@@ -506,6 +501,23 @@ public class C_MenuFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         Order order = new Order(tfNumber.getText(),String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
         
+        TextEditor reader = new TextEditor();
+        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+        
+        for (Object object: container) {
+            Order placeOrder = (Order) object;
+            
+            tfNumber.getText();
+            String.valueOf(cbCuisine.getSelectedIndex());
+            placeOrder.getCustomer();
+            tfDetails.getText();
+            
+            //remark;
+            String review = "";
+            int rating = 0;
+            String date = placeOrder.getOrderDay()+"/"+placeOrder.getOrderMonth()+"/"+placeOrder.getOrderYear();
+            
+        }
     }//GEN-LAST:event_bPlaceOrderActionPerformed
 
     private void MenuMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuMouseReleased
