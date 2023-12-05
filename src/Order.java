@@ -12,6 +12,7 @@ public class Order implements DataProvider {
     private String vendorId;
     private Customer customer;
     private Time time;
+    private int quantity;
 
     enum Status {
         PENDING, //Order placed but awaiting confirmation from vendor
@@ -33,6 +34,7 @@ public class Order implements DataProvider {
         this.vendorName = vendorName;
         this.customer = customer;
         this.food = food;
+        this.quantity = quantity;
         total = foodCost;
     }
     
@@ -127,5 +129,9 @@ public class Order implements DataProvider {
     
     public double getTotal() {
         return total;
+    }
+    
+    public int getQuantity(){
+        return quantity;
     }
 }

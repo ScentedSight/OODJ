@@ -34,4 +34,8 @@ public class Food implements DataProvider {
     public String getVendor() {
         return vendorName;
     }
+    
+    public String getVendorId(){
+        return vendor.getId();
+    }
 }

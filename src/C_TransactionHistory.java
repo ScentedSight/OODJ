@@ -1,3 +1,8 @@
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -9,14 +14,41 @@
  * @author User
  */
 public class C_TransactionHistory extends javax.swing.JFrame {
-
+    private DefaultTableModel model = new DefaultTableModel();
+    private String[] column = {"Date", "Time", "Details", "Amount"};
+    private int row = -1;
+    
+    private Customer customer;
     /**
      * Creates new form TransactionHistory
      */
     public C_TransactionHistory() {
         initComponents();
+        usernameTH.setText(customer.getId());
+        populateTransactionHistoryTable();
+ 
     }
 
+    
+    private void populateTransactionHistoryTable() {
+        // Specify the path to your menu text file
+        TextEditor reader = new TextEditor();
+        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY)); 
+        
+        for (Object object: container) {
+            Order orderCast = (Order) object;
+            
+            
+            if (orderCast.getCustomerID().equals(customer.getId())){
+                String date = orderCast.getOrderDay()+"/"+orderCast.getOrderMonth()+"/"+orderCast.getOrderYear();
+                String[] transactionHistory = {date, orderCast.getTime(), orderCast.getVendorID(), String.valueOf(orderCast.getTotal())};
+                model.addRow(transactionHistory);
+            }
+        }
+        
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,6 +63,7 @@ public class C_TransactionHistory extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        usernameTH = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,17 +92,6 @@ public class C_TransactionHistory extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Date", "Time", "Details", "Amount"
-            }
-        ));
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -78,15 +100,21 @@ public class C_TransactionHistory extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
+                .addComponent(usernameTH, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(256, 256, 256))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(usernameTH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -149,5 +177,6 @@ public class C_TransactionHistory extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField usernameTH;
     // End of variables declaration//GEN-END:variables
 }

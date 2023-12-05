@@ -2,15 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -18,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class C_MenuFrame extends javax.swing.JFrame {
     private DefaultTableModel model = new DefaultTableModel();
-    private String[] column = {"No.", "Details", "Price"};
+    private String[] column = {"VID", "Details", "Price"};
     private int row = -1;
     
     private DefaultTableModel model2 = new DefaultTableModel();
@@ -37,6 +31,9 @@ public class C_MenuFrame extends javax.swing.JFrame {
     
     public C_MenuFrame() {
         initComponents();
+        model.setColumnIdentifiers(column);
+        model2.setColumnIdentifiers(column2);
+        
     }
     
     public C_MenuFrame(Customer customer) {
@@ -48,30 +45,29 @@ public class C_MenuFrame extends javax.swing.JFrame {
         username.setText(customer.getId());
         populateMenuTable();
         populateCurrentOrderTable();
-        
-        cbCuisine.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbCuisineActionPerformed(evt);
-            }
-        });
+        populateComboBox();
+      
     }
     
+    public String getDetailsText(){
+        return tfDetails.getText();
+        
+    }
     
     private void populateComboBox() {
-        TextEditor reader = new TextEditor();
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.USER));
-        
-        List<String> vendors = new ArrayList<>();
-        
-        for (Object object: container) {
-            Vendor vendor = (Vendor) object;
-            String vendorName = vendor.getName();
-            vendors.add(vendorName);
-            
-            //comboBoxModel.addAll(vendors.toArray());
-        }
-        
-    }
+         TextEditor reader = new TextEditor();
+         List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.USER));
+
+         List<String> vendors = new ArrayList<>();
+
+         for (Object object: container) {
+             Vendor vendor = (Vendor) object;
+             String vendorName = vendor.getName();
+             vendors.add(vendorName);
+
+             comboBoxModel.addAll(vendors);
+         }
+     }
     
     private void populateMenuTable() {
         TextEditor reader = new TextEditor();
@@ -80,16 +76,31 @@ public class C_MenuFrame extends javax.swing.JFrame {
         for (Object object: container) {
             Food food = (Food) object;
             
-            if (food.getVendor().equals(object)){
-                
-            //String[] menu = {food.getId(), food.getDescription(), String.valueOf(food.getCost())};
-            //model.addRow(menu);
+            if (food.getVendor().equals(String.valueOf(cbCuisine.getSelectedItem()))){
+                String[] menu = {food.getVendorId(), food.getDescription(), String.valueOf(food.getCost())};
+                model.addRow(menu);
             }
         }
+        
     }
     
     private void populateCurrentOrderTable() {
         // Specify the path to your menu text file
+        TextEditor reader = new TextEditor();
+        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY)); 
+        
+        for (Object object: container){
+            Order orderDelete = (Order) object;
+            if (tfOrderID.getText().equals(orderDelete.getId())) {
+                orderDelete.setStatus(Order.Status.CANCELED);
+                reader.textDelete(TextEditor.FilePaths.HISTORY, orderDelete);
+                reader.fileWrite(TextEditor.FilePaths.HISTORY, orderDelete);
+            }
+        }
+        
+    }
+    
+    private void deleteCurrentOrder() {
         TextEditor reader = new TextEditor();
         List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY)); 
         
@@ -100,11 +111,29 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 model2.addRow(currentOrder);
             }
         }
- 
-        
     }
     
     
+    private void addQuantity() {
+        String currentText = tfQuantity.getText();
+        int currentValue = Integer.parseInt(currentText);
+        int newValue = currentValue + 1;
+        tfQuantity.setText(Integer.toString(newValue));
+    }
+    
+    private void minusQuantity() {
+        String currentText = tfQuantity.getText();
+        int currentValue = Integer.parseInt(currentText);
+        int newValue = currentValue - 1;
+        tfQuantity.setText(Integer.toString(newValue));
+    }
+        
+    private void calculateTotal() {
+        String currentPrice = tfPrice.getText();
+        double doublePrice = Double.parseDouble(currentPrice);
+        double newPrice = doublePrice * Double.parseDouble(tfQuantity.getText());
+        tfPrice.setText(Double.toString(newPrice));
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -124,8 +153,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
         bOrderHistory = new javax.swing.JButton();
         jUsername = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        Menu = new javax.swing.JTable();
         cbCuisine = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         CurrentOrder = new javax.swing.JTable();
@@ -141,6 +168,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
         bReduceQuantity = new javax.swing.JButton();
         tfQuantity = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        Menu = new javax.swing.JTable();
+        tfOrderID = new javax.swing.JTextField();
+        tfCurrentOrderDetails = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -197,23 +228,24 @@ public class C_MenuFrame extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(309, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(bTransactionHistory)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bOrderHistory))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(balance, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jBalance)
-                        .addGap(280, 280, 280)
-                        .addComponent(jUsername)))
-                .addGap(297, 297, 297))
+                .addContainerGap(299, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTitle)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(bTransactionHistory)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(bOrderHistory))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(balance, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jBalance)
+                            .addGap(280, 280, 280)
+                            .addComponent(jUsername))))
+                .addContainerGap(300, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,14 +267,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-
-        Menu.setModel(model);
-        Menu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                MenuMouseReleased(evt);
-            }
-        });
-        jScrollPane1.setViewportView(Menu);
 
         cbCuisine.setModel(comboBoxModel);
         cbCuisine.addActionListener(new java.awt.event.ActionListener() {
@@ -307,59 +331,78 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
         jLabel1.setText("RM");
 
+        Menu.setModel(model);
+        Menu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                MenuMouseReleased(evt);
+            }
+        });
+        jScrollPane3.setViewportView(Menu);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bCancelOrder)
+                .addContainerGap(56, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jMenu)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jMenu)
-                                .addGap(335, 335, 335)
-                                .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(bReviews)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(bPlaceOrder))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                    .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(tfDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel1)
-                                    .addGap(1, 1, 1)
-                                    .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(bReduceQuantity)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(bAddQuantity))))
-                        .addGap(18, 18, 18)
+                                    .addGap(376, 376, 376)
+                                    .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(bReviews)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(bPlaceOrder))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tfDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel1)
+                                        .addGap(1, 1, 1)
+                                        .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(bReduceQuantity)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(bAddQuantity))))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCurrentOrder)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(53, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(464, 464, 464)
+                        .addComponent(tfOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfCurrentOrderDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bCancelOrder)))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCurrentOrder)
-                    .addComponent(jMenu))
-                .addGap(7, 7, 7)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCurrentOrder)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jMenu)))
+                .addGap(10, 10, 10)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -368,12 +411,14 @@ public class C_MenuFrame extends javax.swing.JFrame {
                     .addComponent(bAddQuantity)
                     .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bCancelOrder)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(tfOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfCurrentOrderDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bPlaceOrder)
                     .addComponent(bReviews))
-                .addGap(25, 25, 25))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -388,7 +433,8 @@ public class C_MenuFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -403,6 +449,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
     private void cbCuisineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCuisineActionPerformed
         // TODO add your handling code here:
+        model.setRowCount(0);
         populateMenuTable();
     }//GEN-LAST:event_cbCuisineActionPerformed
 
@@ -422,28 +469,19 @@ public class C_MenuFrame extends javax.swing.JFrame {
         C_Reviews reviewsFrame = new C_Reviews();
         reviewsFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         reviewsFrame.setVisible(true);
+        
+        String detailsText = getDetailsText();
+        reviewsFrame.setFoodNameText(detailsText);
     }//GEN-LAST:event_bReviewsActionPerformed
 
     private void bAddQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddQuantityActionPerformed
         // TODO add your handling code here:
-        
+        addQuantity();
     }//GEN-LAST:event_bAddQuantityActionPerformed
-
-    private void MenuMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuMouseReleased
-        // TODO add your handling code here:
-        row = Menu.getSelectedRow();
-        String number = String.valueOf(model.getValueAt(row, 0));
-        String details = String.valueOf(model.getValueAt(row, 1));
-        originalPrice = Double.parseDouble(String.valueOf(model.getValueAt(row, 2)));
-
-        tfNumber.setText(number);
-        tfDetails.setText(details);
-        tfPrice.setText(String.valueOf(originalPrice));
-    }//GEN-LAST:event_MenuMouseReleased
 
     private void bReduceQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReduceQuantityActionPerformed
         // TODO add your handling code here:
-        
+        minusQuantity();
     }//GEN-LAST:event_bReduceQuantityActionPerformed
 
     private void CurrentOrderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CurrentOrderMouseReleased
@@ -454,18 +492,35 @@ public class C_MenuFrame extends javax.swing.JFrame {
         String quantity = String.valueOf(model2.getValueAt (row2, 2));
         String total = String.valueOf(model2.getValueAt (row2, 3));
         String status = String.valueOf(model2.getValueAt (row2, 4));
+        
+        tfOrderID.setText(orderID);
+        tfCurrentOrderDetails.setText(details);
     }//GEN-LAST:event_CurrentOrderMouseReleased
 
     private void bCancelOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelOrderActionPerformed
         // TODO add your handling code here:
-        
-        
+        populateCurrentOrderTable();
     }//GEN-LAST:event_bCancelOrderActionPerformed
 
     private void bPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPlaceOrderActionPerformed
         // TODO add your handling code here:
+        Order order = new Order(tfNumber.getText(),String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
         
     }//GEN-LAST:event_bPlaceOrderActionPerformed
+
+    private void MenuMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuMouseReleased
+        // TODO add your handling code here:
+        row = Menu.getSelectedRow();
+        String number = String.valueOf(model.getValueAt(row, 0));
+        String details = String.valueOf(model.getValueAt (row, 1));
+        String price = String.valueOf(model.getValueAt (row, 2));
+        
+        tfNumber.setText(number);
+        tfDetails.setText(details);
+        tfPrice.setText(price);
+        
+        calculateTotal();
+    }//GEN-LAST:event_MenuMouseReleased
 
     /**
      * @param args the command line arguments
@@ -523,12 +578,14 @@ public class C_MenuFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jMenu;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel jTitle;
     private javax.swing.JLabel jUsername;
+    private javax.swing.JTextField tfCurrentOrderDetails;
     private javax.swing.JTextField tfDetails;
     private javax.swing.JTextField tfNumber;
+    private javax.swing.JTextField tfOrderID;
     private javax.swing.JTextField tfPrice;
     private javax.swing.JTextField tfQuantity;
     private javax.swing.JLabel username;
