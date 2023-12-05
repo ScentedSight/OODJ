@@ -32,10 +32,9 @@ public class TextEditor {
             File newFile = new File(paths.getFilePath());
 
             if (newFile.createNewFile()) {
+                
                 System.out.println("File created: " + newFile.getName());
-            }
-
-            try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(paths.filePath, true)))) {
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath));
                 oos.writeObject(data);
                 System.out.println("Successfully wrote to the file.");
                 oos.close();
