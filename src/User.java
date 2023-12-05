@@ -1,30 +1,72 @@
+
+
 public abstract class User implements DataProvider {
-
-    private String id;
-    private String password;
-
-    public User() { //Default constructor for inheritance
+    private String id, email, gender, phoneNo, password, confirm_password;
+    
+    public User(){
 
     }
-
-    public User(String id, String password) { //For registering users & Log-in
+    
+    public User(String id, String password) {
         this.id = id;
         this.password = password;
     }
-
-    public String getId() { //Used for writing to text file in child class toString methods and other various id retrieval functions
+    
+    public User(String id, String email, String phoneNo,String gender, String password){
+        this.id = id;
+        this.email = email;
+        this.gender = gender;
+        this.phoneNo = phoneNo;
+        this.password = password;
+    }
+    
+    @Override
+    public String getId(){
         return id;
     }
 
-    public void setId(String id) { //Inserting the Id back into the newly created child objects when the Id handler is found in TextFile during the log-in process
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+    
+     public void setId(String id){
         this.id = id;
     }
 
-    public String getPass(){ //Parent's class method to provide password for writing to file in child class toString method
-        return password;
+    public void setPhoneNo(String phone_number) {
+        this.phoneNo = phone_number;
     }
 
-    public void setPass(String password) { //To set password for factory methods in child classes
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+    
+    public String getPass(){
+        return password;
+    }
+    
+    public void setPass(String password){
         this.password = password;
     }
+    
+    public void setConfirmPass(String confirm_password){
+        this.confirm_password = confirm_password;
+    }
+    
+    public String getConfirmPass(){
+        return confirm_password;
+    }
+
 }

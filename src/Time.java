@@ -17,7 +17,7 @@ public class Time implements Serializable {
         seconds = (byte) ((currentTime/1000)%60);
         GregorianCalendar calendar = new GregorianCalendar();
         days = calendar.get(GregorianCalendar.DAY_OF_MONTH);
-        months = calendar.get(GregorianCalendar.MONTH + 1);
+        months = calendar.get(GregorianCalendar.MONTH) + 1;
         years = calendar.get(GregorianCalendar.YEAR);
     }
     

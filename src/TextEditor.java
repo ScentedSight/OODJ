@@ -1,3 +1,5 @@
+
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,8 @@ public class TextEditor {
 
     public enum FilePaths {
 
-        USER("C:\\Users\\Johan\\Desktop\\USERS.txt"),
+        USER("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\USERS.txt"),
+        NOTIFICATION("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\NOTIFICATION.txt"),
         MENU("path = MENU.txt"),
         HISTORY("C:\\Users\\Johan\\Desktop\\HISTORY.txt"),
         ID("path = IDGenerator.txt");
@@ -31,7 +34,7 @@ public class TextEditor {
             File newFile = new File(paths.getFilePath());
 
             if (newFile.createNewFile()) { //Checking if there are existing files
-
+                
                 System.out.println("File created: " + newFile.getName());
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath));
                 oos.writeObject(data);
@@ -57,7 +60,7 @@ public class TextEditor {
             }
 
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred while creating the file.");
             e.printStackTrace();
         }
     }
@@ -74,13 +77,13 @@ public class TextEditor {
                     break;
                 }
             }
-
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
         return container;
     }
+
 
     public void textDelete(FilePaths paths, DataProvider data) { //Deleting a line of object in any textfile based on the ID
         try {
