@@ -1,15 +1,29 @@
-public class Notification { //Incomplete
+
+public class Notification implements DataProvider { //Incomplete
 
     private String message;
-    private String userID;
+    private String userID, id;
+    private String receiptID, date, time, type;
+    private int topupamount;
 
     public Notification(Messages message, User user) { //For general notification
         this.message = message.getMessages();
         userID = user.getId();
     }
+    
+    public Notification(String id, String receiptID, String  userID, String date, String time, String type, int topupamount){
+        this.id = id;
+        this.receiptID = receiptID;
+        this.userID = userID;
+        this.date = date;
+        this.time = time;
+        this.date = date;
+        this.topupamount = topupamount;
+        this.type = type;
+    }
 
     public enum Messages {
-
+        
         ORDER("You have an incoming order"),
         PREPARE("Your food is being prepared"),
         READY("Your food is ready"),
@@ -30,8 +44,74 @@ public class Notification { //Incomplete
             return messages;
         }
     }
+    
+    @Override
+    public String getId(){
+        return id;
+    }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+    
     public String getUser() {
         return userID;
     }
+    
+    public String getReceiptID() {
+        return receiptID;
+    }
+
+    public void setReceiptID(String receiptID) {
+        this.receiptID = receiptID;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public int getTopupamount() {
+        return topupamount;
+    }
+
+    public void setTopupamount(int topupamount) {
+        this.topupamount = topupamount;
+    }
+    
+    public String toString(){
+        return Messages.RECEIPT+ " ,RM "+topupamount+ " on "+date;
+    }
+
 }

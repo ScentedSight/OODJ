@@ -6,28 +6,28 @@
       <Properties>
         <Property name="defaultCloseOperation" type="int" value="2"/>
         <Property name="title" type="java.lang.String" value="Task History"/>
+        <Property name="location" type="java.awt.Point" editor="org.netbeans.beaninfo.editors.PointEditor">
+          <Point value="[0, 0]"/>
+        </Property>
+        <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[1000, 1000]"/>
+        </Property>
       </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Component id="jScrollPane2" min="-2" pref="961" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              </Group>
+              <Component id="runnerTskHistorypn" alignment="0" pref="1000" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Component id="jScrollPane2" min="-2" pref="806" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              </Group>
+              <Component id="runnerTskHistorypn" alignment="0" pref="994" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+        <Container class="javax.swing.JScrollPane" name="runnerTskHistorypn">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
@@ -38,6 +38,9 @@
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="taskHistory" type="code"/>
+                </Property>
+                <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                  <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                 </Property>
               </Properties>
             </Component>
@@ -53,6 +56,7 @@
       <Color id="Default Cursor"/>
     </Property>
     <Property name="name" type="java.lang.String" value="Runner Homepage Frame" noResource="true"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <AccessibilityProperties>
     <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
@@ -94,12 +98,13 @@
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="runnerHomeTaskpn" min="-2" pref="431" max="-2" attributes="0"/>
+                      <Component id="runnerHomeTaskListpn" min="-2" pref="425" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="419" max="-2" attributes="0"/>
+                      <Component id="runnerHomeTaskspn" min="-2" pref="425" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="runnerHomeCld" pref="260" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <EmptySpace min="40" pref="40" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="runnerHomeDaylbl" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="runnerHomeMonthlbl" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -108,15 +113,11 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="runnerHomeDaytxt" max="32767" attributes="0"/>
                                   <Component id="runnerHomeMonthtxt" alignment="0" max="32767" attributes="0"/>
                                   <Component id="runnerHomeYeartxt" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="runnerHomeTotaltxt" alignment="0" min="-2" pref="173" max="-2" attributes="0"/>
+                                  <Component id="runnerHomeDaytxt" alignment="0" pref="215" max="32767" attributes="0"/>
+                                  <Component id="runnerHomeTotaltxt" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="runnerHomeCld" pref="260" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -155,8 +156,8 @@
                           <Component id="runnerHomeTotallbl" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="jScrollPane1" max="32767" attributes="0"/>
-                  <Component id="runnerHomeTaskpn" alignment="0" max="32767" attributes="0"/>
+                  <Component id="runnerHomeTaskListpn" alignment="1" max="32767" attributes="0"/>
+                  <Component id="runnerHomeTaskspn" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -290,7 +291,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runnerHomeDaytxtActionPerformed"/>
       </Events>
     </Component>
-    <Container class="javax.swing.JScrollPane" name="runnerHomeTaskpn">
+    <Container class="javax.swing.JScrollPane" name="runnerHomeTaskListpn">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -343,16 +344,28 @@
               </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+              <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeTaskListtblMouseClicked"/>
             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeTaskListtblMouseReleased"/>
           </Events>
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+    <Container class="javax.swing.JScrollPane" name="runnerHomeTaskspn">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder justification="2" title="Accepted Tasks">
+              <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+                <EtchetBorder/>
+              </Border>
+            </TitledBorder>
+          </Border>
+        </Property>
+      </Properties>
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
@@ -394,16 +407,22 @@
               </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+              <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
           <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeTaskstblMouseClicked"/>
             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeTaskstblMouseReleased"/>
           </Events>
         </Component>
       </SubComponents>
     </Container>
     <Component class="com.toedter.calendar.JCalendar" name="runnerHomeCld">
+      <Properties>
+        <Property name="nullDateButtonText" type="java.lang.String" value=""/>
+        <Property name="todayButtonText" type="java.lang.String" value=""/>
+        <Property name="weekOfYearVisible" type="boolean" value="false"/>
+      </Properties>
       <Events>
         <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="runnerHomeCldPropertyChange"/>
       </Events>

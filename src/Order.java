@@ -11,18 +11,35 @@ public class Order implements DataProvider {
     private String vendorName;
     private String vendorId;
     private Customer customer;
+    private String date;
     private Time time;
+    private String remarks;
+    private int ratings;
 
     enum Status {
+        //Status Sequence for different order options (ONLY VENDOR CAN SET THESE FOLLOWING STATUSES)
+
         PENDING, //Order placed but awaiting confirmation from vendor
         PREPARING, //Preparing food, vendor's status
         READY, //Ready for pickup, vendor's status
+        PICKED_UP, //Order has picked up, vendor's status
         COMPLETED, //Order completed, vendor's status
-        CANCELED, //Order canceled by either party
+        CANCELLED, //Order canceled by either party
+
+        //Dine-in -> Pending, Preparing, Ready, Completed
+        //Take-away -> Pending, Preparing, Ready, Picked_Up
+        //Delivery -> Pending, Preparing, Ready, Picked_Up
+
+        //Status Sequence for delivery orders (ONLY DELIVERY RUNNER CAN SET THESE FOLLOWING STATUSES)
         SEARCHING, //Searching for runner, runner's status
         DELIVERING, //Runner delivering, runner's status
-        DELIVERED //Runner has delivered, runner's status
+        DELIVERED; //Runner has delivered, runner's status
+
+        //Delivery runner status (Child class attribute) = Searching, Delivering, Delivered
+        
     }
+    
+    
     
     public Order(String vendorId, String vendorName, Customer customer, String food, double foodCost) {
         id = "O" + TextEditor.orderIDGenerator(); //Order ID starts with an "O" letter
@@ -34,6 +51,24 @@ public class Order implements DataProvider {
         this.customer = customer;
         this.food = food;
         total = foodCost;
+    }
+    
+    public Order(String vendorId, String vendorName, Customer customer, String food, double foodCost, 
+            String remarks,String review,int ratings, String date,Time time,Status status) {
+        id = "O" + TextEditor.orderIDGenerator(); //Order ID starts with an "O" letter
+        status = Status.PENDING;
+        Time times = new Time();
+        times= time;
+        this.vendorId = vendorId;
+        this.vendorName = vendorName;
+        this.customer = customer;
+        this.food = food;
+        total = foodCost;
+        this.remarks =remarks;
+        this.review=review;
+        this.ratings=ratings;
+        this.date=date;
+        this.status=status;
     }
     
     public String getId() {
@@ -84,6 +119,10 @@ public class Order implements DataProvider {
         return customer;
     }
     
+    public String getRemark(){
+        return remarks;
+    }
+    
     public void payment() {
         customer.deductBal(total);
         TextEditor reader = new TextEditor();
@@ -104,6 +143,10 @@ public class Order implements DataProvider {
         this.status = status;
     }
     
+    public String getStatus(){      //convert enum to String
+        return status.name();
+    }
+    
     public String getAddress() {
         return customer.getAddress();
     }
@@ -119,5 +162,9 @@ public class Order implements DataProvider {
     
     public String getReview() {
         return review;
+    }
+    
+    public int getRatings(){
+        return ratings;
     }
 }

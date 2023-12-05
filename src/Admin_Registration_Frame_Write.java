@@ -7,12 +7,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
-public class Admin_Registration_Page extends javax.swing.JFrame {
+public class Admin_Registration_Frame_Write extends javax.swing.JFrame {
+    Administrator admin;
     Customer customer;
     Vendor vendor;
-    DeliveryRunner deliveryrunner;
+    DeliveryRunner runner;
     TextEditor text;
-    public Admin_Registration_Page(){
+    public Admin_Registration_Frame_Write(){
         initComponents();
         text = new TextEditor();
     }
@@ -76,7 +77,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Registration");
+        jLabel3.setText("Registration New");
 
         VN_Label.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         VN_Label.setForeground(new java.awt.Color(255, 255, 255));
@@ -85,7 +86,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
         Role_CB.setBackground(new java.awt.Color(102, 153, 255));
         Role_CB.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         Role_CB.setForeground(new java.awt.Color(255, 255, 255));
-        Role_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Customer", "Vendor", "Delivery Runner" }));
+        Role_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Customer", "Vendor", "Delivery Runner", "Admin" }));
         Role_CB.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Role_CB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -243,7 +244,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
                                                 .addComponent(ConfirmPass_Field)
                                                 .addComponent(Address_TF)
                                                 .addComponent(Email_TF, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)))))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                         .addComponent(jLabel8))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,7 +253,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
                                 .addComponent(jLabel5))
                             .addComponent(jLabel3))
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -283,7 +284,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addGap(68, 68, 68)
                         .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(Role_Label)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -299,7 +300,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(ConfirmPass_Field, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                             .addComponent(Pass_Field))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Regd_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Back_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -310,11 +311,11 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -323,17 +324,15 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
     private void Role_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Role_CBActionPerformed
         if(Role_CB.getSelectedItem().equals("Vendor")){
             VN_TF.setEditable(true);
-            Address_TF.setText(null);
             Address_TF.setEditable(false);
         }else if(Role_CB.getSelectedItem().equals("Customer")){
-            VN_TF.setText(null);
             VN_TF.setEditable(false);
             Address_TF.setEditable(true);
-        }else if(Role_CB.getSelectedItem().equals("Delivery Runner")){
-            VN_TF.setText(null);
-            Address_TF.setText(null);
+        }else{
             VN_TF.setEditable(false);
             Address_TF.setEditable(false);
+            VN_TF.setText(null);
+            Address_TF.setText(null);
         }
     }//GEN-LAST:event_Role_CBActionPerformed
 
@@ -369,70 +368,29 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
         int countCustomer = 1;
         int countVendor = 1;
         int countRunner = 1;
-        int numRows = 100;
-        int numCols = 20;        
-        
-        List<DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.USER));
-        String[][] userDetails = new String[numRows][numCols];
-
-        int row = 0;
-        for (DataProvider value : container) {
-            if (value instanceof Vendor) {
-                Vendor vend = (Vendor) value;
-                userDetails[row][0] = vend.getId();
-                userDetails[row][1] = vend.getName();
-                userDetails[row][2] = vend.getEmail();
-                userDetails[row][3] = vend.getPhoneNo();
-                row++;
-                countVendor++;
-            } else if (value instanceof Customer) {
-                Customer  cust = (Customer) value;
-                userDetails[row][0] = cust.getId();
-                userDetails[row][1] = "";  // Assuming there's a getName() method in Customer
-                userDetails[row][2] = cust.getEmail();
-                userDetails[row][3] = cust.getPhoneNo();
-                row++;
-                countCustomer++;
-            } else if (value instanceof DeliveryRunner) {
-                DeliveryRunner drunner = (DeliveryRunner) value;
-                userDetails[row][0] = drunner.getId();
-                userDetails[row][1] = "";  // Assuming there's no getName() method in DeliveryRunner
-                userDetails[row][2] = drunner.getEmail();
-                userDetails[row][3] = drunner.getPhoneNo();
-                row++;
-                countRunner++;
-            }
-        }
 
         if (!email.equals("") && validateEmail(email)) {
             if (!phoneNo.equals("") && validatePhoneNo(phoneNo)) {
-                if (validatePassword(password, confirmPass).equals("Valid")) {
-                    for (int i = 0; i < numRows; i++) {
-                        if (email.equals(userDetails[i][2])) {
-                            JOptionPane.showMessageDialog(this, "Email exists!", "ERROR", JOptionPane.ERROR_MESSAGE);
-                            return;
-                        }else if(phoneNo.equals(userDetails[i][3])){
-                            JOptionPane.showMessageDialog(this, "Phone Number exist!", "ERROR", JOptionPane.ERROR_MESSAGE);
-                            return;
-                        }
-                    }
-                    if (role.equals("Customer") && !validateAddress(address).equals("Valid")) {
-                        JOptionPane.showMessageDialog(this, validateAddress(address), "ERROR", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    } else if (role.equals("Vendor")){
-                        if(validateVendorName(vendorName).equals("Valid")) {
-                            for (int i = 0; i < numRows; i++) {
-                                if (vendorName.equals(userDetails[i][1])) {
-                                    JOptionPane.showMessageDialog(this, "Vendor name exists!", "ERROR", JOptionPane.ERROR_MESSAGE);
-                                    return;
-                                }
-                            }
-                        }else {
-                            JOptionPane.showMessageDialog(this, validateVendorName(vendorName), "ERROR", JOptionPane.ERROR_MESSAGE);
-                        }
+                if(validatePassword(password, confirmPass).equals("Valid")){
+                    String id = generateID(role, countCustomer, countVendor, countRunner);
+                    if (role.equals("Customer")){
+                        customer = new Customer(id, email, phoneNo, gender, address, password);
+                        text.fileWrite(TextEditor.FilePaths.USER, customer);
+                        JOptionPane.showMessageDialog(this, "Your Registration was Successful");
+                        JOptionPane.showMessageDialog(this, "Generated ID is " + id);
+                    }else if (role.equals("Vendor")) {
+                        vendor = new Vendor(id, vendorName, email, phoneNo, gender, password);
+                        text.fileWrite(TextEditor.FilePaths.USER, vendor);
+                        JOptionPane.showMessageDialog(this, "Your Registration was Successful");
+                        JOptionPane.showMessageDialog(this, "Generated ID is " + id);
+                    }else if(role.equals("Delivery Runner")){
+                        runner = new DeliveryRunner(id, email, phoneNo, gender, password);
+                        text.fileWrite(TextEditor.FilePaths.USER, runner);
+                        JOptionPane.showMessageDialog(this, "Your Registration was Successful");
+                        JOptionPane.showMessageDialog(this, "Generated ID is " + id);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(this, validatePassword(password, confirmPass), "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Passwords do not match", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Phone number is invalid.", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -440,49 +398,29 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Email is invalid.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
+        
+        List<DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.USER));
 
         for (DataProvider value : container) {
-            String id = generateID(role, countCustomer, countVendor, countRunner);
-            if (role.equals("Customer") && value instanceof Customer) {
-                customer = new Customer(id, email, phoneNo, gender, address, password);
-                text.fileWrite(TextEditor.FilePaths.USER, customer);
-                JOptionPane.showMessageDialog(this, "Your Registration was Successful");
-                JOptionPane.showMessageDialog(this, "Generated ID is " + id);
-                break;
-            } else if (role.equals("Vendor") && value instanceof Vendor) {
-                vendor = new Vendor(id, vendorName, email, phoneNo, gender, password);
-                text.fileWrite(TextEditor.FilePaths.USER, vendor);
-                JOptionPane.showMessageDialog(this, "Your Registration was Successful");
-                JOptionPane.showMessageDialog(this, "Generated ID is " + id);                
-                break;
-            } else if (role.equals("Delivery Runner") && value instanceof DeliveryRunner) {
-                deliveryrunner = new DeliveryRunner(id, email, phoneNo, gender, password);
-                text.fileWrite(TextEditor.FilePaths.USER, deliveryrunner);
-                JOptionPane.showMessageDialog(this, "Your Registration was Successful");
-                JOptionPane.showMessageDialog(this, "Generated ID is " + id);
-                break;
-            }
-        }
-                
-        // Print information for testing purposes
-        List<DataProvider> container1 = new ArrayList<>(text.fileReader(TextEditor.FilePaths.USER));
-        for (DataProvider value : container1) {
             if (value instanceof Vendor) {
-                Vendor vend = (Vendor) value;
-                System.out.println("VendorID: " + vend.getId());
-                System.out.println("Name: " + vend.getName());
-                System.out.println("Email: " + vend.getEmail());
-                System.out.println("Phone Number: " + vend.getPhoneNo());
+                Vendor vendor = (Vendor) value;
+                System.out.println("VendorID: " + vendor.getId());
+                System.out.println("Name: " + vendor.getName());
+                System.out.println("Email: " + vendor.getEmail());
+                System.out.println("Phone Number: " + vendor.getPhoneNo());
             } else if (value instanceof Customer) {
-                Customer cust = (Customer) value;
-                System.out.println("CustomerID: " + cust.getId());
-                System.out.println("Email: " + cust.getEmail());
-                System.out.println("Phone Number: " + cust.getPhoneNo());
+                Customer customer = (Customer) value;
+                System.out.println("CustomerID: " + customer.getId());
+                System.out.println("Email: " + customer.getEmail());
+                System.out.println("Phone Number: " + customer.getPhoneNo());
             } else if (value instanceof DeliveryRunner) {
-                DeliveryRunner drunner = (DeliveryRunner) value;
-                System.out.println("RunnerID: " + drunner.getId());
-                System.out.println("Email: " + drunner.getEmail());
-                System.out.println("Phone Number: " + drunner.getPhoneNo());
+                DeliveryRunner runner = (DeliveryRunner) value;
+                System.out.println("RunnerID: " + runner.getId());
+                System.out.println("Email: " + runner.getEmail());
+                System.out.println("Phone Number: " + runner.getPhoneNo());
+            }else if(value instanceof Administrator){
+                Administrator ad = (Administrator) value;
+                System.out.println("AdminID: " + ad.getId());
             }
         }
 
@@ -496,13 +434,13 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
     }//GEN-LAST:event_Back_BTNActionPerformed
 
     private void PN_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PN_TFActionPerformed
-      
+        // TODO add your handling code here:
     }//GEN-LAST:event_PN_TFActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Admin_Registration_Page().setVisible(true);
+                new Admin_Registration_Frame_Write().setVisible(true);
             }
         });
     } 
@@ -510,10 +448,10 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
     public String validateVendorName(String VN){
         String checkVN;
         if(!VN.equals("")){
-            if(VN.length()>= 3){
+            if(VN.length()>= 5){
                 checkVN = "Valid";
             }else{
-                checkVN = "Invalid Vendor name format (At least 3 characters and above)!";
+                checkVN = "Invalid Vendor name format (At least 5 characters and above)!";
             }
         }else{
             checkVN = "Vendor name cannnot be empty!";

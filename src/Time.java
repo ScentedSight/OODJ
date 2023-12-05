@@ -1,6 +1,8 @@
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
-public class Time {
+
+public class Time implements Serializable {
 
     private byte hours, minutes, seconds;
     private int days, months, years;
@@ -15,7 +17,7 @@ public class Time {
         seconds = (byte) ((currentTime/1000)%60);
         GregorianCalendar calendar = new GregorianCalendar();
         days = calendar.get(GregorianCalendar.DAY_OF_MONTH);
-        months = calendar.get(GregorianCalendar.MONTH + 1);
+        months = calendar.get(GregorianCalendar.MONTH) + 1;
         years = calendar.get(GregorianCalendar.YEAR);
     }
     
