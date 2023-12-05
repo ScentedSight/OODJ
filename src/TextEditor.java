@@ -28,7 +28,7 @@ public class TextEditor {
         }
     }
     
-    public void fileWrite(FilePaths paths, DataProvider data) { //Any objects implementing DataProvider can be passed to this method
+    public static void fileWrite(FilePaths paths, DataProvider data) { //Any objects implementing DataProvider can be passed to this method
         try {
             File newFile = new File(paths.getFilePath());
 
@@ -64,7 +64,7 @@ public class TextEditor {
         }
     }
 
-    public List<DataProvider> fileReader(FilePaths paths) { //Read objects from text files, returns DataProvider type array
+    public static List<DataProvider> fileReader(FilePaths paths) { //Read objects from text files, returns DataProvider type array
         List<DataProvider> container = new ArrayList<>();
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(paths.getFilePath()))) {
@@ -84,7 +84,7 @@ public class TextEditor {
     }
 
 
-    public void textDelete(FilePaths paths, DataProvider data) { //Deleting a line of object in any textfile based on the ID
+    public static void textDelete(FilePaths paths, DataProvider data) { //Deleting a line of object in any textfile based on the ID
         try {
             List<DataProvider> container = new ArrayList<>(fileReader(paths));
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.getFilePath()));
@@ -99,8 +99,9 @@ public class TextEditor {
         }
     }
     
-    public static String orderIDGenerator() { //To create a randomized order ID while saving the concurrent ID for every software restarts, static so it can be used without creating the object
-        List<DataProvider> container = fileReade;
-        int counter = container.size();
+    public static String idGenerator() { //To create a consequent order ID making sure it is unique based on the amount of existing orders in the textfile
+        List<Object> container = new ArrayList<>(fileReader(FilePaths.HISTORY));
+        int counter = container.size() + 1;
+        return String.valueOf(counter);
     }
 }
