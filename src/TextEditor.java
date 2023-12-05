@@ -12,10 +12,10 @@ public class TextEditor {
 
     public enum FilePaths {
 
-        USER("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\USERS.txt"),
+        USER("C:\\Users\\Johan\\Desktop\\USERS.TXT"),
         NOTIFICATION("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\NOTIFICATION.txt"),
         MENU("path = MENU.txt"),
-        HISTORY("C:\\Users\\Johan\\Desktop\\HISTORY.txt");
+        HISTORY("C:\\Users\\Johan\\Desktop\\HISTORY.TXT");
 
         private String filePath;
 
