@@ -10,9 +10,9 @@ public class TextEditor {
 
     public enum FilePaths {
 
-        USER("path = USERS.txt"),
+        USER("C:\\Users\\Johan\\Desktop\\USERS.txt"),
         MENU("path = MENU.txt"),
-        HISTORY("path = HISTORY.txt"),
+        HISTORY("C:\\Users\\Johan\\Desktop\\HISTORY.txt"),
         ID("path = IDGenerator.txt");
 
         private String filePath;
@@ -25,7 +25,7 @@ public class TextEditor {
             return filePath;
         }
     }
-
+    
     public void fileWrite(FilePaths paths, DataProvider data) { //Any objects implementing DataProvider can be passed to this method
         try {
             File newFile = new File(paths.getFilePath());
@@ -40,9 +40,13 @@ public class TextEditor {
 
             } else {
 
-                try {
-                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath, true)); //Append mode, or else the entire textfile will be overwritten
-                    oos.writeObject(data);
+                try { //Append block, or else the entire textfile will be overwritten
+                    List<DataProvider> container = fileReader(paths);
+                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.filePath));
+                    for (DataProvider object : container) {
+                        oos.writeObject(object);
+                    }
+                    oos.writeObject(data); // Appending new object after writing from list
                     System.out.println("Successfully wrote to the file.");
                     oos.close();
 
@@ -79,21 +83,13 @@ public class TextEditor {
     }
 
     public void textDelete(FilePaths paths, DataProvider data) { //Deleting a line of object in any textfile based on the ID
-        List<DataProvider> container = new ArrayList<>(fileReader(paths));
-        List<DataProvider> appendContainer = new ArrayList<>();
-        for (DataProvider objects : container) {
-            if (!objects.getId().equals(data.getId())) {
-                appendContainer.add(objects);
-            }
-        }
-        textWrite(paths.getFilePath(), appendContainer); //Call class's internal function to rewrite the array back to textfile without the deleted object
-    }
-    
-    private void textWrite(String paths, List<DataProvider> appendContainer) { //Class's internal function for overwriting a textfile, mainly used for rewriting objects back to textfile after deletion
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths));
-            for (DataProvider objects : appendContainer) {
-                oos.writeObject(objects);
+            List<DataProvider> container = new ArrayList<>(fileReader(paths));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.getFilePath()));
+            for (DataProvider objects : container) {
+                if (!objects.getId().equals(data.getId())) {
+                    oos.writeObject(objects);
+                }
             }
             oos.close();
         } catch (IOException e) {

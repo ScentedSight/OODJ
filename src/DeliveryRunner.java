@@ -1,4 +1,4 @@
-public class DeliveryRunner extends User{
+public class DeliveryRunner extends User {
 
     private double balance = 0;
 
