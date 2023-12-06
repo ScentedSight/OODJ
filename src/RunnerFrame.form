@@ -88,25 +88,25 @@
                           <Group type="102" attributes="0">
                               <Component id="runnerHomeTaskListpn" min="-2" pref="591" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="runnerHomeTaskspn" min="-2" pref="600" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="runnerHomeTaskspn" pref="635" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="runnerHomeCld" alignment="1" min="-2" pref="375" max="-2" attributes="0"/>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="runnerHomeDaylbl" alignment="1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="runnerHomeMonthlbl" alignment="1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="runnerHomeTotallbl" alignment="1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="runnerHomeYearlbl" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="runnerHomeYearlbl" min="-2" max="-2" attributes="0"/>
+                                          <Component id="runnerHomeTotallbl" min="-2" max="-2" attributes="0"/>
+                                          <Component id="runnerHomeMonthlbl" min="-2" max="-2" attributes="0"/>
+                                          <Component id="runnerHomeDaylbl" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="runnerHomeYeartxt" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="runnerHomeMonthtxt" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="runnerHomeDaytxt" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="runnerHomeTotaltxt" min="-2" pref="164" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="runnerHomeMonthtxt" alignment="1" pref="256" max="32767" attributes="0"/>
+                                          <Component id="runnerHomeDaytxt" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="runnerHomeYeartxt" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="runnerHomeTotaltxt" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Component id="runnerHomeCld" alignment="1" min="-2" pref="375" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="runnerHomeTitlelbl" max="32767" attributes="0"/>
@@ -119,7 +119,7 @@
                       <Component id="runnerHomeTaskHistbtn" min="-2" pref="106" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="269" max="-2" attributes="0"/>
                       <Component id="runnerHomeDeliveredbtn" min="-2" pref="103" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="131" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="151" max="-2" attributes="0"/>
                       <Component id="runnerHomeFailedbtn" min="-2" pref="115" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="runnerHomeLogOutbtn" min="-2" pref="146" max="-2" attributes="0"/>
@@ -127,6 +127,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
+          <Component id="runnerHomeNotificationtxt" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -138,40 +139,40 @@
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="runnerHomeCld" min="-2" pref="324" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="runnerHomeDaytxt" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="runnerHomeDaylbl" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="runnerHomeMonthtxt" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="runnerHomeMonthlbl" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="runnerHomeYeartxt" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="runnerHomeYearlbl" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="runnerHomeTotaltxt" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="runnerHomeTotallbl" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="11" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="runnerHomeTaskListpn" max="32767" attributes="0"/>
+                  <Component id="runnerHomeTaskListpn" pref="464" max="32767" attributes="0"/>
                   <Component id="runnerHomeTaskspn" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="runnerHomeDeliveredbtn" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
                   <Component id="runnerHomeFailedbtn" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                  <Component id="runnerHomeLogOutbtn" alignment="3" min="-2" pref="56" max="-2" attributes="0"/>
                   <Component id="runnerHomeTaskHistbtn" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
                   <Component id="runnerTaskAcceptbtn" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="runnerHomeLogOutbtn" alignment="3" min="-2" pref="56" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="18" max="32767" attributes="0"/>
+              <EmptySpace pref="15" max="32767" attributes="0"/>
+              <Component id="runnerHomeNotificationtxt" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -450,6 +451,15 @@
       </Properties>
       <Events>
         <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="runnerHomeCldPropertyChange"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="runnerHomeNotificationtxt">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runnerHomeNotificationtxtActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -53,14 +53,12 @@ public class TextEditor {
                     oos.close();
 
                 } catch (IOException e) {
-                    System.out.println("An error occurred.");
-                    e.printStackTrace();
+                    System.out.println("An error has occurred.");
                 }
             }
 
         } catch (IOException e) {
-            System.out.println("An error occurred while creating the file.");
-            e.printStackTrace();
+            System.out.println("An error has occurred while creating the file.");
         }
     }
 
@@ -76,8 +74,10 @@ public class TextEditor {
                     break;
                 }
             }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Database file not found!");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Mismatch serializable ID in the database file!");
         }
 
         return container;
@@ -95,7 +95,7 @@ public class TextEditor {
             }
             oos.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("An error has occurred.");
         }
     }
     

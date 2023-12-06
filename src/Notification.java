@@ -1,17 +1,16 @@
+public class Notification implements DataProvider {
 
-public class Notification implements DataProvider { //Incomplete
-
-    private String message;
+    private Messages message;
     private String userID, id;
     private String receiptID, date, time, type;
     private int topupamount;
 
     public Notification(Messages message, User user) { //For general notification
-        this.message = message.getMessages();
+        this.message = message;
         userID = user.getId();
     }
     
-    public Notification(String id, String receiptID, String  userID, String date, String time, String type, int topupamount){
+    public Notification(String id, String receiptID, String  userID, String date, String time, String type, int topupamount){ //Top up notification
         this.id = id;
         this.receiptID = receiptID;
         this.userID = userID;
@@ -51,15 +50,11 @@ public class Notification implements DataProvider { //Incomplete
     }
 
     public String getMessage() {
-        return message;
+        return message.toString();
     }
 
-    public void setMessage(String message) {
+    public void setMessage(Messages message) {
         this.message = message;
-    }
-
-    public String getUserID() {
-        return userID;
     }
 
     public void setUserID(String userID) {
@@ -110,6 +105,7 @@ public class Notification implements DataProvider { //Incomplete
         this.topupamount = topupamount;
     }
     
+    @Override
     public String toString(){
         return Messages.RECEIPT+ " ,RM "+topupamount+ " on "+date;
     }

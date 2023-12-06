@@ -42,19 +42,21 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTitlelbl.setText("Welcome Runner " + runner.getId()); //Set title
         runnerHomeLoadTaskListProcess(); //Load tasks list
         runnerHomeLoadTaskProcess(); //Load tasks
-        generateTotalRevenue(); //Set total revenue text for it's textbox
+        generateTotalRevenue(); //Set total revenue text for revenue dashboard
+        displayNotification(); //Set notification
     }
     
     public RunnerFrame(DeliveryRunner runner) { //Runner object read from textfile and passed to runner frame after log in
         initComponents();
+        this.runner = runner;
         taskListModel.setColumnIdentifiers(taskListColumns);
         tasksModel.setColumnIdentifiers(tasksColumns);
         taskHistory.setColumnIdentifiers(taskHistoryColumns);
-        this.runner = runner;
         runnerHomeTitlelbl.setText("Welcome Runner " + runner.getId()); //Set title
         runnerHomeLoadTaskListProcess(); //Load tasks list
         runnerHomeLoadTaskProcess(); //Load tasks
-        generateTotalRevenue(); //Set total revenue text for it's textbox
+        generateTotalRevenue(); //Set total revenue text for revenue dashboard
+        displayNotification(); //Set notification
     }
 
     /**
@@ -88,6 +90,7 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTaskspn = new javax.swing.JScrollPane();
         runnerHomeTaskstbl = new javax.swing.JTable();
         runnerHomeCld = new com.toedter.calendar.JCalendar();
+        runnerHomeNotificationtxt = new javax.swing.JTextField();
 
         runnerTskHistorydialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         runnerTskHistorydialog.setTitle("Task History");
@@ -261,6 +264,14 @@ public class RunnerFrame extends javax.swing.JFrame {
             }
         });
 
+        runnerHomeNotificationtxt.setEditable(false);
+        runnerHomeNotificationtxt.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        runnerHomeNotificationtxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runnerHomeNotificationtxtActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -273,22 +284,22 @@ public class RunnerFrame extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(runnerHomeTaskListpn, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(runnerHomeTaskspn, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(runnerHomeTaskspn, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(runnerHomeCld, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(runnerHomeDaylbl, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(runnerHomeMonthlbl, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(runnerHomeTotallbl, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(runnerHomeYearlbl, javax.swing.GroupLayout.Alignment.TRAILING))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(runnerHomeYearlbl)
+                                            .addComponent(runnerHomeTotallbl)
+                                            .addComponent(runnerHomeMonthlbl)
+                                            .addComponent(runnerHomeDaylbl))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(runnerHomeYeartxt, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(runnerHomeMonthtxt, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(runnerHomeDaytxt, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(runnerHomeTotaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(runnerHomeCld, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(runnerHomeMonthtxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                                            .addComponent(runnerHomeDaytxt, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(runnerHomeYeartxt, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(runnerHomeTotaltxt)))))
                             .addComponent(runnerHomeTitlelbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(110, 110, 110)
@@ -297,11 +308,12 @@ public class RunnerFrame extends javax.swing.JFrame {
                         .addComponent(runnerHomeTaskHistbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(269, 269, 269)
                         .addComponent(runnerHomeDeliveredbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(131, 131, 131)
+                        .addGap(151, 151, 151)
                         .addComponent(runnerHomeFailedbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addComponent(runnerHomeNotificationtxt, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -312,33 +324,33 @@ public class RunnerFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(runnerHomeCld, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(runnerHomeDaytxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(runnerHomeDaylbl))
-                        .addGap(18, 18, 18)
+                        .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(runnerHomeMonthtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(runnerHomeMonthlbl))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(runnerHomeYeartxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(runnerHomeYearlbl))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(runnerHomeTotaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(runnerHomeTotallbl))
-                        .addGap(0, 11, Short.MAX_VALUE))
-                    .addComponent(runnerHomeTaskListpn)
+                            .addComponent(runnerHomeTotallbl)))
+                    .addComponent(runnerHomeTaskListpn, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
                     .addComponent(runnerHomeTaskspn))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(runnerHomeDeliveredbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(runnerHomeFailedbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(runnerHomeTaskHistbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(runnerTaskAcceptbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                    .addComponent(runnerTaskAcceptbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(runnerHomeLogOutbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(runnerHomeNotificationtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -353,12 +365,12 @@ public class RunnerFrame extends javax.swing.JFrame {
             DeliveryOrder dOrder = (DeliveryOrder) obj;
             if (dOrder.getStatusRunner().equals("SEARCHING")) {
                 String[] rowDataArray = {
-                    dOrder.getId(), //Retrieve order ID
-                    dOrder.getTime(), //Retrieve time when order was placed
-                    dOrder.getVendorName(), //Retrieve vendor's name
-                    dOrder.getCustomerID(), //Retrieve customer ID
-                    dOrder.getFood(), //Retrieve food name
-                    dOrder.getAddress() //Retrieve address
+                        dOrder.getId(), //Retrieve order ID
+                        dOrder.getTime(), //Retrieve time when order was placed
+                        dOrder.getVendorName(), //Retrieve vendor's name
+                        dOrder.getCustomerID(), //Retrieve customer ID
+                        dOrder.getFood(), //Retrieve food name
+                        dOrder.getAddress() //Retrieve address
                 };
                 taskListModel.addRow(rowDataArray);
             }
@@ -396,6 +408,20 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTotaltxt.setText("$" + String.valueOf(total));
     }
         
+    private void displayNotification() {
+        int counter = 1;
+        String notification = "";
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
+        for (Object obj : container) {
+            Notification notifyObj = (Notification) obj;
+            if (notifyObj.getUser().equals(runner.getId())) {
+                String placeHolder = notifyObj.getMessage();
+                notification = notification + "   " + counter + ". " +placeHolder;
+                counter++;
+            }
+        }
+        runnerHomeNotificationtxt.setText(notification);
+    }
     
     private void runnerHomeLogOutbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnerHomeLogOutbtnActionPerformed
         // TODO add your handling code here:
@@ -459,6 +485,7 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeYeartxt.setText(String.valueOf("$" + yearFeeTxt));
         runnerHomeMonthtxt.setText(String.valueOf("$" + monthFeeTxt));
         runnerHomeDaytxt.setText(String.valueOf("$" + dayFeeTxt));
+        displayNotification(); //Refresh notification
     }//GEN-LAST:event_runnerHomeCldPropertyChange
 
     private void runnerHomeLogOutbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeLogOutbtnMouseClicked
@@ -479,19 +506,16 @@ public class RunnerFrame extends javax.swing.JFrame {
 
     private void runnerHomeTaskListtblMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskListtblMousePressed
         taskListRow = runnerHomeTaskListtbl.getSelectedRow();
-        System.out.println("Mouse Clicked: " + evt);
-        System.out.println(taskListRow);
+        displayNotification(); //Refresh notification
     }//GEN-LAST:event_runnerHomeTaskListtblMousePressed
 
     private void runnerHomeTaskstblMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskstblMousePressed
         tasksRow = runnerHomeTaskstbl.getSelectedRow();
-        System.out.println("Mouse Clicked: " + evt);
-        System.out.println(tasksRow);
+        displayNotification(); //Refresh notification
     }//GEN-LAST:event_runnerHomeTaskstblMousePressed
 
     private void runnerTaskAcceptbtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerTaskAcceptbtnMousePressed
         if (taskListRow != -1) { //Fill tasks table with accepted deliveries
-            System.out.println("accept");
             List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 DeliveryOrder dOrder = (DeliveryOrder) obj;
@@ -508,11 +532,11 @@ public class RunnerFrame extends javax.swing.JFrame {
             runnerHomeLoadTaskProcess(); //Reload the tasks table
             runnerHomeLoadTaskListProcess(); //Reload the task list
         }
+        displayNotification(); //Refresh notification
     }//GEN-LAST:event_runnerTaskAcceptbtnMousePressed
 
     private void runnerHomeFailedbtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeFailedbtnMousePressed
         if (tasksRow != -1) { //Remove row after delivery failed and set status
-            System.out.println("fail");
             List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 DeliveryOrder dOrder = (DeliveryOrder) obj;
@@ -527,6 +551,7 @@ public class RunnerFrame extends javax.swing.JFrame {
             runnerHomeLoadTaskProcess(); //Reload the tasks table
             runnerHomeLoadTaskListProcess(); //Reload the tasks
         }
+        displayNotification(); //Refresh notification
     }//GEN-LAST:event_runnerHomeFailedbtnMousePressed
 
     private void runnerHomeTaskHistbtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskHistbtnMousePressed
@@ -549,6 +574,7 @@ public class RunnerFrame extends javax.swing.JFrame {
         }
         runnerTskHistorydialog.setVisible(true); //Opens up a new dialog
         runnerTskHistorydialog.setLocationRelativeTo(null); //Centers dialog on screen
+        displayNotification(); //Refresh notification
     }//GEN-LAST:event_runnerHomeTaskHistbtnMousePressed
 
     private void runnerHomeDeliveredbtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeDeliveredbtnMousePressed
@@ -569,8 +595,13 @@ public class RunnerFrame extends javax.swing.JFrame {
             runnerHomeLoadTaskProcess(); //Reload the tasks table
             runnerHomeLoadTaskListProcess(); //Reload the tasks
             generateTotalRevenue(); //Add to total revenue textbox
-        } 
+        }
+        displayNotification(); //Refresh notification
     }//GEN-LAST:event_runnerHomeDeliveredbtnMousePressed
+
+    private void runnerHomeNotificationtxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnerHomeNotificationtxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_runnerHomeNotificationtxtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -616,6 +647,7 @@ public class RunnerFrame extends javax.swing.JFrame {
     private javax.swing.JButton runnerHomeLogOutbtn;
     private javax.swing.JLabel runnerHomeMonthlbl;
     private javax.swing.JTextField runnerHomeMonthtxt;
+    private javax.swing.JTextField runnerHomeNotificationtxt;
     private javax.swing.JButton runnerHomeTaskHistbtn;
     private javax.swing.JScrollPane runnerHomeTaskListpn;
     private javax.swing.JTable runnerHomeTaskListtbl;
