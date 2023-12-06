@@ -1,13 +1,14 @@
 public class Notification implements DataProvider {
 
     private Messages message;
-    private String userID, id;
+    private String userID, id, orderID;
     private String receiptID, date, time, type;
     private int topupamount;
 
-    public Notification(Messages message, User user) { //For general notification
+    public Notification(Messages message, User user, String orderID) { //For general notification
         this.message = message;
         userID = user.getId();
+        this.orderID = orderID;
     }
     
     public Notification(String id, String receiptID, String  userID, String date, String time, String type, int topupamount){ //Top up notification
@@ -47,6 +48,10 @@ public class Notification implements DataProvider {
     @Override
     public String getId(){
         return id;
+    }
+    
+    public String getOrderID() {
+        return orderID;
     }
 
     public String getMessage() {
