@@ -6,12 +6,12 @@ public class Order implements DataProvider {
     private String id;
     private Status status;
     private String review;
+    private int ratings;
     private String food;
     private double total;
     private String vendorName;
     private String vendorId;
     private Customer customer;
-    private String date;
     private Time time;
     private String remarks;
     private int ratings;
@@ -40,10 +40,8 @@ public class Order implements DataProvider {
         
     }
     
-    
-    
     public Order(String vendorId, String vendorName, Customer customer, String food, double foodCost) {
-        id = "O" + TextEditor.orderIDGenerator(); //Order ID starts with an "O" letter
+        id = "O" + TextEditor.idGenerator(); //Order ID starts with an "O" letter
         status = Status.PENDING;
         Time time = new Time();
         this.time = time;
@@ -53,24 +51,6 @@ public class Order implements DataProvider {
         this.food = food;
         this.quantity = quantity;
         total = foodCost;
-    }
-    
-    public Order(String vendorId, String vendorName, Customer customer, String food, double foodCost, 
-            String remarks,String review,int ratings, String date,Time time,Status status) {
-        id = "O" + TextEditor.orderIDGenerator(); //Order ID starts with an "O" letter
-        status = Status.PENDING;
-        Time times = new Time();
-        times= time;
-        this.vendorId = vendorId;
-        this.vendorName = vendorName;
-        this.customer = customer;
-        this.food = food;
-        total = foodCost;
-        this.remarks =remarks;
-        this.review=review;
-        this.ratings=ratings;
-        this.date=date;
-        this.status=status;
     }
     
     public String getId() {
@@ -119,10 +99,6 @@ public class Order implements DataProvider {
 
     public Customer getCustomer() { //Getter for delivery order child class usage
         return customer;
-    }
-    
-    public String getRemark(){
-        return remarks;
     }
     
     public void payment() {
