@@ -22,11 +22,14 @@ public class VendorFrame extends JFrame {
     private int MenuRow = -1; 
     private int OrderRow = -1;
     
+    
     public VendorFrame(){  //Default constructor for testing
         initComponents();
         MenuModel.setColumnIdentifiers(MenuColumn);
         OrderModel.setColumnIdentifiers(OrderList);
         lblWelcome.setText("Welcome"+vendor.getName());
+        Vendor v=new Vendor("21331","26383");
+        VendorFrame vf=new VendorFrame(v);
     }
     
     public VendorFrame(Vendor vendor) {
@@ -41,7 +44,7 @@ public class VendorFrame extends JFrame {
             Order O = (Order) obj1;
             String status=O.getStatus();     
             
-            if (!status.equals("PICKED_UP")|| !status.equals("COMPLETED")) {
+            if (!status.equals("PICKED_UP") || !status.equals("COMPLETED")) {
                 String[] OrderVendorArray = {
                     O.getId(),          //get OrderID
                     O.getTime(),        //get Order Time
@@ -282,8 +285,8 @@ public class VendorFrame extends JFrame {
                     menu.getId();
                     menu.setDescription(String.valueOf(MenuModel.getValueAt(MenuRow, 1)));
                     menu.setCost(Double.parseDouble(String.valueOf(MenuModel.getValueAt(MenuRow, 2))));
-                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, menu);
-                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, menu);     //Rewrite it all back
+                    TextEditor.textDelete(TextEditor.FilePaths.MENU, menu);
+                    TextEditor.fileWrite(TextEditor.FilePaths.MENU, menu);     //Rewrite it all back
                     break; //Break out of the loop once done since only one menu should be edited at a time
                 }
             }
