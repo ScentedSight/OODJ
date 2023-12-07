@@ -1,13 +1,24 @@
 public class Notification implements DataProvider {
 
-    private Messages message;
+    private Messages message, messageRunner;
     private String userID, id, orderID;
     private String receiptID, date, time, type;
     private int topupamount;
 
-    public Notification(Messages message, User user, String orderID) { //For general notification
-        this.message = message;
-        userID = user.getId();
+    public Notification(Customer customer, String orderID) { //When order is newly created, insert orderID
+        Time time = new Time();
+        this.time = time.toString();
+        message = message.ORDER;
+        userID = customer.getId();
+        this.orderID = orderID;
+    }
+    
+    public Notification(Customer customer, Messages message, String orderID) { //For delivery orders only
+        Time time = new Time();
+        this.time = time.toString();
+        this.message = message.ORDER;
+        this.messageRunner = message;
+        userID = customer.getId();
         this.orderID = orderID;
     }
     
@@ -59,6 +70,8 @@ public class Notification implements DataProvider {
     }
 
     public void setMessage(Messages message) {
+        Time time = new Time();
+        this.time = time.toString();
         this.message = message;
     }
 

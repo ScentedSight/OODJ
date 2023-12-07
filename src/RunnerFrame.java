@@ -447,7 +447,7 @@ public class RunnerFrame extends javax.swing.JFrame {
         for (Object obj : container) {
             Notification notifyObj = (Notification) obj;
             if (notifyObj.getUser().equals(runner.getId())) {
-                String placeHolder = notifyObj.getMessage();
+                String placeHolder = "[" + notifyObj.getTime() + "]" + " " +notifyObj.getMessage();
                 notification = notification + "   " + counter + ". " +placeHolder;
                 counter++;
             }
