@@ -32,8 +32,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel2" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -217,13 +216,8 @@
                                       <EmptySpace min="-2" pref="376" max="-2" attributes="0"/>
                                       <Component id="cbCuisine" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="bReviews" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="bPlaceOrder" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                      <Group type="102" attributes="0">
                                           <Component id="tfNumber" min="-2" pref="45" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="tfDetails" min="-2" pref="208" max="-2" attributes="0"/>
@@ -237,6 +231,19 @@
                                           <Component id="tfQuantity" min="-2" pref="44" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="bAddQuantity" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                                          <Component id="rbDelivery" min="-2" pref="98" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="rbTakeAway" min="-2" pref="98" max="-2" attributes="0"/>
+                                              <Group type="102" attributes="0">
+                                                  <Component id="rbDineIn" min="-2" pref="98" max="-2" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Component id="bReviews" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <Component id="bPlaceOrder" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
                                       </Group>
                                   </Group>
                               </Group>
@@ -282,7 +289,7 @@
                       <Component id="jScrollPane3" min="-2" pref="330" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="330" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="10" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="tfNumber" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfDetails" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -299,7 +306,12 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="bPlaceOrder" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="bReviews" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbDineIn" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                  <Component id="rbTakeAway" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                  <Component id="rbDelivery" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="25" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -439,6 +451,30 @@
         <Component class="javax.swing.JTextField" name="tfOrderID">
         </Component>
         <Component class="javax.swing.JTextField" name="tfCurrentOrderDetails">
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbDineIn">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Dine in"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbDineInActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbTakeAway">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Take Away"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbTakeAwayActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbDelivery">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Delivery"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbDeliveryActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

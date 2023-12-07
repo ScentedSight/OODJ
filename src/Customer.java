@@ -28,10 +28,6 @@ public class Customer extends User{
         balance = balance - payment;
     }
     
-    public double getBal(){
-        return balance;
-    }
-    
     public String getAddress(){ //Retrieve address for ordering processes
         return address;
     }

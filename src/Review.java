@@ -1,17 +1,17 @@
 public class Review {
-    private Customer customer;
+    private Order order;
     private Food food;
     private int rating;
     private String comment;
             
-    public Review(Customer customer, int rating, String comment) {
-        this.customer = customer;
+    public Review(Order order, int rating, String comment) {
+        this.order = order;
         this.rating = rating;
         this.comment = comment;
     }
 
-    public String getCustomer() {
-        return customer.getId();
+    public String getOrderId() {
+        return order.getId();
     }
 
     public String getFood() {

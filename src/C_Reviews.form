@@ -92,12 +92,14 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="tfRating" min="-2" max="-2" attributes="0"/>
+                          <Component id="tfOID" min="-2" pref="71" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="tfComment" max="32767" attributes="0"/>
+                          <Component id="tfComment" min="-2" pref="295" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          <Component id="tfRating" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="tfVendorName" min="-2" pref="71" max="-2" attributes="0"/>
@@ -128,6 +130,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="tfRating" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfComment" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="tfOID" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="bAddReview" min="-2" max="-2" attributes="0"/>
@@ -180,6 +183,14 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="tfFoodName">
+        </Component>
+        <Component class="javax.swing.JTextField" name="tfOID">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="OrderID"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfOIDActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

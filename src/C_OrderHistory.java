@@ -200,6 +200,26 @@ public class C_OrderHistory extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Order order = new Order(tfVID.getText(),tfVendorName.getText(), customer, tfFoodDetails.getText(), Double.parseDouble(tfTotal.getText()));
+        
+        TextEditor reader = new TextEditor();
+        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+        
+        for (Object object: container) {
+            Order placeOrder = (Order) object;
+            
+            tfVID.getText();
+            tfVendorName.getText();
+            placeOrder.getCustomer();
+            tfFoodDetails.getText();
+            tfTotal.getText();
+            //remark;
+            String review = "";
+            int rating = 0;
+            String date = placeOrder.getOrderDay()+"/"+placeOrder.getOrderMonth()+"/"+placeOrder.getOrderYear();
+            placeOrder.getTime();
+            placeOrder.setStatus(Order.Status.PENDING);
+            
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tfFoodDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfFoodDetailsActionPerformed
