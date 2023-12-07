@@ -1,17 +1,17 @@
+public class Notification implements DataProvider {
 
-public class Notification implements DataProvider { //Incomplete
-
-    private String message;
-    private String userID, id;
+    private Messages message;
+    private String userID, id, orderID;
     private String receiptID, date, time, type;
     private int topupamount;
 
-    public Notification(Messages message, User user) { //For general notification
-        this.message = message.getMessages();
+    public Notification(Messages message, User user, String orderID) { //For general notification
+        this.message = message;
         userID = user.getId();
+        this.orderID = orderID;
     }
     
-    public Notification(String id, String receiptID, String  userID, String date, String time, String type, int topupamount){
+    public Notification(String id, String receiptID, String  userID, String date, String time, String type, int topupamount){ //Top up notification
         this.id = id;
         this.receiptID = receiptID;
         this.userID = userID;
@@ -22,7 +22,7 @@ public class Notification implements DataProvider { //Incomplete
         this.type = type;
     }
 
-    public enum Messages {
+    public enum Messages { //Constants will be final so enums can be public
         
         ORDER("You have an incoming order"),
         PREPARE("Your food is being prepared"),
@@ -49,17 +49,17 @@ public class Notification implements DataProvider { //Incomplete
     public String getId(){
         return id;
     }
+    
+    public String getOrderID() {
+        return orderID;
+    }
 
     public String getMessage() {
-        return message;
+        return message.toString();
     }
 
-    public void setMessage(String message) {
+    public void setMessage(Messages message) {
         this.message = message;
-    }
-
-    public String getUserID() {
-        return userID;
     }
 
     public void setUserID(String userID) {
@@ -110,6 +110,7 @@ public class Notification implements DataProvider { //Incomplete
         this.topupamount = topupamount;
     }
     
+    @Override
     public String toString(){
         return Messages.RECEIPT+ " ,RM "+topupamount+ " on "+date;
     }

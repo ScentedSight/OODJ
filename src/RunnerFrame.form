@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.6" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Container class="javax.swing.JDialog" name="runnerTskHistorydialog">
       <Properties>
@@ -80,50 +80,54 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="runnerHomeTitlelbl" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="runnerHomeTaskListpn" min="-2" pref="591" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="runnerHomeTaskspn" pref="635" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="runnerHomeCld" alignment="1" min="-2" pref="375" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="runnerHomeYearlbl" min="-2" max="-2" attributes="0"/>
+                                          <Component id="runnerHomeTotallbl" min="-2" max="-2" attributes="0"/>
+                                          <Component id="runnerHomeMonthlbl" min="-2" max="-2" attributes="0"/>
+                                          <Component id="runnerHomeDaylbl" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="runnerHomeMonthtxt" alignment="1" pref="256" max="32767" attributes="0"/>
+                                          <Component id="runnerHomeDaytxt" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="runnerHomeYeartxt" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="runnerHomeTotaltxt" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <Component id="runnerHomeTitlelbl" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
                       <Component id="runnerTaskAcceptbtn" min="-2" pref="106" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="136" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
                       <Component id="runnerHomeTaskHistbtn" min="-2" pref="106" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="269" max="-2" attributes="0"/>
                       <Component id="runnerHomeDeliveredbtn" min="-2" pref="103" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="151" max="-2" attributes="0"/>
                       <Component id="runnerHomeFailedbtn" min="-2" pref="115" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="runnerHomeLogOutbtn" min="-2" pref="146" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="runnerHomeTaskListpn" min="-2" pref="425" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="runnerHomeTaskspn" min="-2" pref="425" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="runnerHomeCld" pref="260" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="runnerHomeDaylbl" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="runnerHomeMonthlbl" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="runnerHomeTotallbl" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="runnerHomeYearlbl" alignment="1" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="runnerHomeMonthtxt" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="runnerHomeYeartxt" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="runnerHomeDaytxt" alignment="0" pref="215" max="32767" attributes="0"/>
-                                  <Component id="runnerHomeTotaltxt" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
+          <Component id="runnerHomeNotificationtxt" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -133,43 +137,42 @@
               <Component id="runnerHomeTitlelbl" min="-2" pref="37" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="runnerHomeCld" min="-2" pref="306" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="runnerHomeCld" min="-2" pref="324" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="runnerHomeDaylbl" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="runnerHomeDaytxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="runnerHomeDaylbl" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="runnerHomeMonthlbl" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="runnerHomeMonthtxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="runnerHomeMonthlbl" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="runnerHomeYeartxt" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="runnerHomeYearlbl" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="runnerHomeTotaltxt" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="runnerHomeTotallbl" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="runnerHomeTaskListpn" alignment="1" max="32767" attributes="0"/>
-                  <Component id="runnerHomeTaskspn" alignment="0" max="32767" attributes="0"/>
+                  <Component id="runnerHomeTaskListpn" pref="464" max="32767" attributes="0"/>
+                  <Component id="runnerHomeTaskspn" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="runnerHomeLogOutbtn" alignment="0" min="-2" pref="56" max="-2" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="runnerHomeTaskHistbtn" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                      <Component id="runnerHomeDeliveredbtn" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                      <Component id="runnerTaskAcceptbtn" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="runnerHomeFailedbtn" min="-2" pref="50" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="runnerHomeDeliveredbtn" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="runnerHomeFailedbtn" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="runnerHomeTaskHistbtn" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="runnerTaskAcceptbtn" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="runnerHomeLogOutbtn" alignment="3" min="-2" pref="56" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="23" max="32767" attributes="0"/>
+              <EmptySpace pref="15" max="32767" attributes="0"/>
+              <Component id="runnerHomeNotificationtxt" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -279,6 +282,7 @@
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerTaskAcceptbtnMouseClicked"/>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerTaskAcceptbtnMousePressed"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runnerTaskAcceptbtnActionPerformed"/>
       </Events>
     </Component>
@@ -289,6 +293,7 @@
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeTaskHistbtnMouseClicked"/>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeTaskHistbtnMousePressed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="runnerHomeFailedbtn">
@@ -298,6 +303,7 @@
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeFailedbtnMouseClicked"/>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeFailedbtnMousePressed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="runnerHomeDeliveredbtn">
@@ -307,6 +313,7 @@
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeDeliveredbtnMouseClicked"/>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeDeliveredbtnMousePressed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="runnerHomeYeartxt">
@@ -323,25 +330,25 @@
     </Component>
     <Component class="javax.swing.JLabel" name="runnerHomeDaylbl">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Day:"/>
+        <Property name="text" type="java.lang.String" value="Daily Earnings:"/>
         <Property name="name" type="java.lang.String" value="Runner Home Page Daily Revenue Label" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="runnerHomeMonthlbl">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Month:"/>
+        <Property name="text" type="java.lang.String" value="Monthly Earnings:"/>
         <Property name="name" type="java.lang.String" value="Runner Home Page Monthly Revenue Label" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="runnerHomeYearlbl">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Year:"/>
+        <Property name="text" type="java.lang.String" value="Yearly Earnings:"/>
         <Property name="name" type="java.lang.String" value="Runner Home Page Yearly Revenue Label" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="runnerHomeTotallbl">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Total:"/>
+        <Property name="text" type="java.lang.String" value="Total Earnings:"/>
         <Property name="name" type="java.lang.String" value="Runner Home Page Total Revenue Label" noResource="true"/>
       </Properties>
     </Component>
@@ -412,12 +419,17 @@
                 </Column>
               </TableColumnModel>
             </Property>
+            <Property name="selectionMode" type="int" value="0"/>
+            <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+              <JTableSelectionModel selectionMode="0"/>
+            </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeTaskListtblMouseClicked"/>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeTaskListtblMousePressed"/>
             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeTaskListtblMouseReleased"/>
           </Events>
         </Component>
@@ -475,12 +487,17 @@
                 </Column>
               </TableColumnModel>
             </Property>
+            <Property name="selectionMode" type="int" value="0"/>
+            <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+              <JTableSelectionModel selectionMode="0"/>
+            </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeTaskstblMouseClicked"/>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeTaskstblMousePressed"/>
             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="runnerHomeTaskstblMouseReleased"/>
           </Events>
         </Component>
@@ -488,12 +505,30 @@
     </Container>
     <Component class="com.toedter.calendar.JCalendar" name="runnerHomeCld">
       <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder justification="2" title="Revenue Dashboard">
+              <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+                <EtchetBorder/>
+              </Border>
+            </TitledBorder>
+          </Border>
+        </Property>
         <Property name="nullDateButtonText" type="java.lang.String" value=""/>
         <Property name="todayButtonText" type="java.lang.String" value=""/>
         <Property name="weekOfYearVisible" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="runnerHomeCldPropertyChange"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="runnerHomeNotificationtxt">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runnerHomeNotificationtxtActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

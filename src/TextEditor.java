@@ -10,13 +10,12 @@ public class TextEditor {
 
     }
 
-    public enum FilePaths {
+    public enum FilePaths { //Constants will be final so enum can be public
 
-        USER("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\USERS.txt"),
+        USER("C:\\Users\\Johan\\Desktop\\USERS.TXT"),
         NOTIFICATION("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\NOTIFICATION.txt"),
         MENU("path = MENU.txt"),
-        HISTORY("C:\\Users\\Johan\\Desktop\\HISTORY.txt"),
-        ID("path = IDGenerator.txt");
+        HISTORY("C:\\Users\\Johan\\Desktop\\HISTORY.TXT");
 
         private String filePath;
 
@@ -29,7 +28,7 @@ public class TextEditor {
         }
     }
     
-    public void fileWrite(FilePaths paths, DataProvider data) { //Any objects implementing DataProvider can be passed to this method
+    public static void fileWrite(FilePaths paths, DataProvider data) { //Any objects implementing DataProvider can be passed to this method
         try {
             File newFile = new File(paths.getFilePath());
 
@@ -54,18 +53,16 @@ public class TextEditor {
                     oos.close();
 
                 } catch (IOException e) {
-                    System.out.println("An error occurred.");
-                    e.printStackTrace();
+                    System.out.println("An error has occurred.");
                 }
             }
 
         } catch (IOException e) {
-            System.out.println("An error occurred while creating the file.");
-            e.printStackTrace();
+            System.out.println("An error has occurred while creating the file.");
         }
     }
 
-    public List<DataProvider> fileReader(FilePaths paths) { //Read objects from text files, returns DataProvider type array
+    public static List<DataProvider> fileReader(FilePaths paths) { //Read objects from text files, returns DataProvider type array
         List<DataProvider> container = new ArrayList<>();
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(paths.getFilePath()))) {
@@ -77,15 +74,17 @@ public class TextEditor {
                     break;
                 }
             }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Database file not found!");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Mismatch serializable ID in the database file!");
         }
 
         return container;
     }
 
 
-    public void textDelete(FilePaths paths, DataProvider data) { //Deleting a line of object in any textfile based on the ID
+    public static void textDelete(FilePaths paths, DataProvider data) { //Deleting a line of object in any textfile based on the ID
         try {
             List<DataProvider> container = new ArrayList<>(fileReader(paths));
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(paths.getFilePath()));
@@ -96,23 +95,13 @@ public class TextEditor {
             }
             oos.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("An error has occurred.");
         }
     }
     
-    public static String orderIDGenerator() { //To create a randomized order ID while saving the concurrent ID for every software restarts, static so it can be used without creating the object
-        String line = "";
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(FilePaths.ID.getFilePath()));
-            line = reader.readLine();
-            reader.close();
-            int incrementValue = Integer.parseInt(line) + 1;
-            BufferedWriter writer = new BufferedWriter(new FileWriter(FilePaths.ID.getFilePath()));
-            writer.write(incrementValue);
-            writer.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        return line;
+    public static String idGenerator() { //To create a consequent order ID making sure it is unique based on the amount of existing orders in the textfile
+        List<Object> container = new ArrayList<>(fileReader(FilePaths.HISTORY));
+        int counter = container.size() + 1;
+        return String.valueOf(counter);
     }
 }
