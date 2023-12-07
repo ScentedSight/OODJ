@@ -10,7 +10,7 @@ public class TextEditor {
 
     }
 
-    public enum FilePaths {
+    public enum FilePaths { //Constants will be final so enum can be public
 
         USER("C:\\Users\\Johan\\Desktop\\USERS.TXT"),
         NOTIFICATION("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\NOTIFICATION.txt"),

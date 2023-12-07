@@ -22,7 +22,7 @@ public class Notification implements DataProvider {
         this.type = type;
     }
 
-    public enum Messages {
+    public enum Messages { //Constants will be final so enums can be public
         
         ORDER("You have an incoming order"),
         PREPARE("Your food is being prepared"),
