@@ -695,8 +695,7 @@ public class RunnerFrame extends javax.swing.JFrame {
     private javax.swing.JButton runnerHomeLogOutbtn;
     private javax.swing.JLabel runnerHomeMonthlbl;
     private javax.swing.JTextField runnerHomeMonthtxt;
-    private javax.swing.JList<String> runnerHomePendinglst;
-    private javax.swing.JScrollPane runnerHomePendingpnl;
+    private javax.swing.JTextField runnerHomeNotificationtxt;
     private javax.swing.JButton runnerHomeTaskHistbtn;
     private javax.swing.JScrollPane runnerHomeTaskListpn;
     private javax.swing.JTable runnerHomeTaskListtbl;
