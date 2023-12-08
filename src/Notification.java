@@ -1,7 +1,7 @@
 public class Notification implements DataProvider {
 
     private Messages message, messageRunner;
-    private String userID, id, orderID;
+    private String userID, id, orderID; //id here will be used as notification ID when top up, runner ID when delivering
     private String receiptID, date, time, type;
     private int topupamount;
 
@@ -26,15 +26,15 @@ public class Notification implements DataProvider {
 
     public enum Messages { //Constants will be final so enums can be public
         
-        ORDER("You have an incoming order"),
-        PREPARE("Your food is being prepared"),
-        READY("Your food is ready"),
-        CANCEL("The order has been canceled"),
-        SEARCHING("Searching for delivery runner"),
-        UNAVAILABLE("There are no available runner, please choose either dine-in or take-away"),
-        DELIVERING("Your food is delivering"),
-        DELIVERED("Your food has been delivered"),
-        RECEIPT("You have successfully topped up ");
+        ORDER("You have an incoming order"), //Customer set 
+        PREPARE("Your food is being prepared"), //Vendor set
+        READY("Your food is ready"), //Vendor set 
+        CANCEL("The order has been canceled"), //Customer or vendor set 
+        SEARCHING("Searching for delivery runner"), //Runner set 
+        UNAVAILABLE("There are no available runner, please choose either dine-in or take-away"), //Customer set 
+        DELIVERING("Your food is delivering"), //Runner set
+        DELIVERED("Your food has been delivered"), //Runner set
+        RECEIPT("You have successfully topped up "); //Admin set
 
         private String messages;
 
@@ -45,6 +45,10 @@ public class Notification implements DataProvider {
         public String getMessages() {
             return messages;
         }
+    }
+    
+    public void setID(String id) {
+        this.id = id;
     }
     
     @Override
