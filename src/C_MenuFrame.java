@@ -39,13 +39,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
     /**
      * Creates new form Menu
      */
-    
-    public C_MenuFrame() {
-        initComponents();
-        model.setColumnIdentifiers(column);
-        model2.setColumnIdentifiers(column2);
-    }
-    
+       
     public C_MenuFrame(Customer customer) {
         initComponents();
         this.customer = customer;

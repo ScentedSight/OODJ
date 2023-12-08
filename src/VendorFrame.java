@@ -27,13 +27,12 @@ public class VendorFrame extends JFrame {
         initComponents();
         MenuModel.setColumnIdentifiers(MenuColumn);
         OrderModel.setColumnIdentifiers(OrderList);
-        lblWelcome.setText("Welcome"+vendor.getName());
-        Vendor v=new Vendor("21331","26383");
-        VendorFrame vf=new VendorFrame(v);
+        VendorFrame vf=new VendorFrame();
     }
     
     public VendorFrame(Vendor vendor) {
         initComponents();
+        Vendor v=new Vendor("21331","26383");
         this.vendor=vendor;
         lblWelcome.setText("Welcome " + vendor.getId());            //welcome vendor
         MenuModel.setColumnIdentifiers(MenuColumn);
