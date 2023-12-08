@@ -84,26 +84,24 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jLabel12" min="-2" pref="204" max="-2" attributes="0"/>
-                              <Component id="jLabel9" min="-2" pref="204" max="-2" attributes="0"/>
-                              <Component id="jLabel11" alignment="1" min="-2" pref="204" max="-2" attributes="0"/>
-                              <Component id="jLabel10" alignment="1" min="-2" pref="204" max="-2" attributes="0"/>
+                              <Component id="TransactionType_Label" min="-2" pref="204" max="-2" attributes="0"/>
+                              <Component id="StatueLabel" min="-2" pref="204" max="-2" attributes="0"/>
+                              <Component id="DateLabel" alignment="1" min="-2" pref="204" max="-2" attributes="0"/>
+                              <Component id="AmountLabel" alignment="1" min="-2" pref="204" max="-2" attributes="0"/>
                               <Component id="jButton1" alignment="1" min="-2" pref="104" max="-2" attributes="0"/>
-                              <Component id="jLabel13" alignment="1" min="-2" pref="204" max="-2" attributes="0"/>
+                              <Component id="TimeLabel" alignment="1" min="-2" pref="204" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="Type_Label" min="-2" pref="197" max="-2" attributes="0"/>
-                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="Time_Label" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="Date_Label" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="Status_Label" alignment="0" pref="99" max="32767" attributes="0"/>
-                                  <Component id="Amount_Label" alignment="0" max="32767" attributes="0"/>
-                              </Group>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="Time_Label" alignment="0" max="32767" attributes="0"/>
+                              <Component id="Date_Label" alignment="0" max="32767" attributes="0"/>
+                              <Component id="Status_Label" alignment="0" pref="99" max="32767" attributes="0"/>
+                              <Component id="Amount_Label" alignment="0" max="32767" attributes="0"/>
+                              <Component id="Type_Label" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLabel14" min="-2" pref="204" max="-2" attributes="0"/>
+                          <Component id="CustID_Label" min="-2" pref="204" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="ID_Label" min="-2" pref="50" max="-2" attributes="0"/>
                       </Group>
@@ -132,7 +130,7 @@
                   <Component id="Credit_Label" min="-2" pref="52" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel14" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="CustID_Label" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                       <Component id="ID_Label" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -144,28 +142,28 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel12" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                              <Component id="TransactionType_Label" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                               <Component id="Type_Label" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel9" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                              <Component id="StatueLabel" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                               <Component id="Status_Label" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel11" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                              <Component id="DateLabel" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                               <Component id="Date_Label" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="Time_Label" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                              <Component id="jLabel13" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                              <Component id="TimeLabel" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="Amount_Label" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                              <Component id="jLabel10" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                              <Component id="AmountLabel" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="25" max="32767" attributes="0"/>
                       </Group>
@@ -212,7 +210,7 @@
             <Property name="text" type="java.lang.String" value="Top Up"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel9">
+        <Component class="javax.swing.JLabel" name="StatueLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="0"/>
@@ -220,7 +218,7 @@
             <Property name="text" type="java.lang.String" value="Status:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel10">
+        <Component class="javax.swing.JLabel" name="AmountLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="0"/>
@@ -228,7 +226,7 @@
             <Property name="text" type="java.lang.String" value="Amount:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel11">
+        <Component class="javax.swing.JLabel" name="DateLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="0"/>
@@ -236,7 +234,7 @@
             <Property name="text" type="java.lang.String" value="Date:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel12">
+        <Component class="javax.swing.JLabel" name="TransactionType_Label">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="0"/>
@@ -268,7 +266,7 @@
             <Property name="text" type="java.lang.String" value="Date "/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel14">
+        <Component class="javax.swing.JLabel" name="CustID_Label">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="0"/>
@@ -301,7 +299,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel13">
+        <Component class="javax.swing.JLabel" name="TimeLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="0"/>

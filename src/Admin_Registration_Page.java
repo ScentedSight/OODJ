@@ -25,7 +25,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        Title_Label = new javax.swing.JLabel();
         VN_Label = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         Role_CB = new javax.swing.JComboBox<>();
@@ -74,9 +74,9 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(153, 204, 255));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Registration");
+        Title_Label.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        Title_Label.setForeground(new java.awt.Color(255, 255, 255));
+        Title_Label.setText("Registration");
 
         VN_Label.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         VN_Label.setForeground(new java.awt.Color(255, 255, 255));
@@ -250,7 +250,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(258, 258, 258)
                                 .addComponent(jLabel5))
-                            .addComponent(jLabel3))
+                            .addComponent(Title_Label))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
@@ -258,7 +258,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(55, 55, 55)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Title_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(VN_Label)
@@ -618,11 +618,11 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
     private javax.swing.JButton Regd_BTN;
     private javax.swing.JComboBox<String> Role_CB;
     private javax.swing.JLabel Role_Label;
+    private javax.swing.JLabel Title_Label;
     private javax.swing.JLabel VN_Label;
     private javax.swing.JTextField VN_TF;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
