@@ -11,12 +11,13 @@ import javax.swing.table.DefaultTableModel;
 public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
     TextEditor text;
     Administrator admin;
-    Time tptime;
+    Time tptime = new Time();
     Notification nt;
     public Admin_TopUpCredit_Page() {
         initComponents();
         text = new TextEditor();
         admin = new Administrator();
+        this.tptime = tptime;
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

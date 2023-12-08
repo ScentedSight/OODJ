@@ -438,6 +438,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
                             }
                         }else {
                             JOptionPane.showMessageDialog(this, validateVendorName(vendorName), "ERROR", JOptionPane.ERROR_MESSAGE);
+                            return;
                         }
                     }
                 } else {
