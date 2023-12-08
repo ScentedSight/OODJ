@@ -73,6 +73,10 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerTskHistorytbl = new javax.swing.JTable();
         runnerHomeTitlelbl = new javax.swing.JLabel();
         runnerHomeLogOutbtn = new javax.swing.JButton();
+        runnerHomeTaskpnl = new javax.swing.JScrollPane();
+        runnerHomeTasklst = new javax.swing.JList<>();
+        runnerHomePendingpnl = new javax.swing.JScrollPane();
+        runnerHomePendinglst = new javax.swing.JList<>();
         runnerTaskAcceptbtn = new javax.swing.JButton();
         runnerHomeTaskHistbtn = new javax.swing.JButton();
         runnerHomeFailedbtn = new javax.swing.JButton();
@@ -124,7 +128,6 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerHomeTitlelbl.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(153, 153, 153)));
         runnerHomeTitlelbl.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         runnerHomeTitlelbl.setName("Runner Homepage Title"); // NOI18N
-        getContentPane().add(runnerHomeTitlelbl);
 
         runnerHomeLogOutbtn.setText("LOG OUT");
         runnerHomeLogOutbtn.setName("Runner Home Page Log Out Button"); // NOI18N
@@ -138,7 +141,19 @@ public class RunnerFrame extends javax.swing.JFrame {
                 runnerHomeLogOutbtnActionPerformed(evt);
             }
         });
-        getContentPane().add(runnerHomeLogOutbtn);
+
+        runnerHomeTaskpnl.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tasks", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        runnerHomeTaskpnl.setName("Runner Home Page Task List"); // NOI18N
+
+        runnerHomeTasklst.setName("Runner Home Page Task Listbox"); // NOI18N
+        runnerHomeTaskpnl.setViewportView(runnerHomeTasklst);
+
+        runnerHomePendingpnl.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Pending Tasks", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        runnerHomePendingpnl.setName("Runner Home Page Pending Task Scrollpanel"); // NOI18N
+
+        runnerHomePendinglst.setName("Runner Home Page Pending Task Listbox"); // NOI18N
+        runnerHomePendingpnl.setViewportView(runnerHomePendinglst);
+        runnerHomePendinglst.getAccessibleContext().setAccessibleParent(this);
 
         runnerTaskAcceptbtn.setText("Accept");
         runnerTaskAcceptbtn.setName("Runner Home Page Accept Task Button"); // NOI18N
@@ -155,7 +170,6 @@ public class RunnerFrame extends javax.swing.JFrame {
                 runnerTaskAcceptbtnActionPerformed(evt);
             }
         });
-        getContentPane().add(runnerTaskAcceptbtn);
 
         runnerHomeTaskHistbtn.setText("Task History");
         runnerHomeTaskHistbtn.setName("Runner Home Page Task History Button"); // NOI18N
@@ -189,35 +203,32 @@ public class RunnerFrame extends javax.swing.JFrame {
                 runnerHomeDeliveredbtnMousePressed(evt);
             }
         });
-        getContentPane().add(runnerHomeDeliveredbtn);
+        runnerHomeDeliveredbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runnerHomeDeliveredbtnActionPerformed(evt);
+            }
+        });
 
         runnerHomeYeartxt.setEditable(false);
         runnerHomeYeartxt.setName("Runner Home Page Yearly Revenue Text Field"); // NOI18N
-        getContentPane().add(runnerHomeYeartxt);
 
         runnerHomeMonthtxt.setEditable(false);
         runnerHomeMonthtxt.setName("Runner Home Page Monthly Revenue Text Field"); // NOI18N
-        getContentPane().add(runnerHomeMonthtxt);
 
         runnerHomeDaylbl.setText("Daily Earnings:");
         runnerHomeDaylbl.setName("Runner Home Page Daily Revenue Label"); // NOI18N
-        getContentPane().add(runnerHomeDaylbl);
 
         runnerHomeMonthlbl.setText("Monthly Earnings:");
         runnerHomeMonthlbl.setName("Runner Home Page Monthly Revenue Label"); // NOI18N
-        getContentPane().add(runnerHomeMonthlbl);
 
         runnerHomeYearlbl.setText("Yearly Earnings:");
         runnerHomeYearlbl.setName("Runner Home Page Yearly Revenue Label"); // NOI18N
-        getContentPane().add(runnerHomeYearlbl);
 
         runnerHomeTotallbl.setText("Total Earnings:");
         runnerHomeTotallbl.setName("Runner Home Page Total Revenue Label"); // NOI18N
-        getContentPane().add(runnerHomeTotallbl);
 
         runnerHomeTotaltxt.setEditable(false);
         runnerHomeTotaltxt.setName("Runner Home Page Total Revenue Text Field"); // NOI18N
-        getContentPane().add(runnerHomeTotaltxt);
 
         runnerHomeDaytxt.setEditable(false);
         runnerHomeDaytxt.setName("Runner Home Page Daily Revenue Textfield"); // NOI18N
@@ -635,6 +646,10 @@ public class RunnerFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_runnerHomeNotificationtxtActionPerformed
 
+    private void runnerHomeDeliveredbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnerHomeDeliveredbtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_runnerHomeDeliveredbtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -680,9 +695,13 @@ public class RunnerFrame extends javax.swing.JFrame {
     private javax.swing.JLabel runnerHomeMonthlbl;
     private javax.swing.JTextField runnerHomeMonthtxt;
     private javax.swing.JTextField runnerHomeNotificationtxt;
+    private javax.swing.JList<String> runnerHomePendinglst;
+    private javax.swing.JScrollPane runnerHomePendingpnl;
     private javax.swing.JButton runnerHomeTaskHistbtn;
     private javax.swing.JScrollPane runnerHomeTaskListpn;
     private javax.swing.JTable runnerHomeTaskListtbl;
+    private javax.swing.JList<String> runnerHomeTasklst;
+    private javax.swing.JScrollPane runnerHomeTaskpnl;
     private javax.swing.JScrollPane runnerHomeTaskspn;
     private javax.swing.JTable runnerHomeTaskstbl;
     private javax.swing.JLabel runnerHomeTitlelbl;

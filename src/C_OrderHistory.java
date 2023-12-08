@@ -220,6 +220,11 @@ public class C_OrderHistory extends javax.swing.JFrame {
             placeOrder.setStatus(Order.Status.PENDING);
             
         }
+        
+        Notification notification = new Notification(customer, order.getId());
+        notification.setMessage(Notification.Messages.ORDER);
+        
+        TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tfFoodDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfFoodDetailsActionPerformed

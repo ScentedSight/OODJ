@@ -11,15 +11,13 @@ import javax.swing.table.DefaultTableModel;
 public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
     TextEditor text;
     Administrator admin;
-    Time time;
+    Time tptime = new Time();
     Notification nt;
-    public Admin_TopUpCredit_Page() {
+    public Admin_TopUpCredit_Page(){
         initComponents();
         text = new TextEditor();
         admin = new Administrator();
-        time = new Time();
     }
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -389,47 +387,65 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
     }//GEN-LAST:event_Regd_BTNActionPerformed
 
     private void Confirm_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Confirm_BTNActionPerformed
-        String custId = ID_TF.getText();
-        double Initialbalance = Double.parseDouble(InitialBalance_TF.getText());
-        int topupamount = Integer.parseInt(String.valueOf(AddBalance_CB.getSelectedItem()));
-        String date = time.getDay()+ "/" +time.getMonth()+ "/" +time.getYear();
-        String topuptime = time.toString();
-        String type = "Top Up";
-        Boolean generateReceipt = false;
         
-        if(!custId.equals("")){
-            admin.setBal(Initialbalance);
-            admin.addBal(topupamount);
-            String balance = String.valueOf(admin.getbal());
-            List<DataProvider> appenedcontainer = new ArrayList<>(text.fileReader(TextEditor.FilePaths.USER));
-            for(DataProvider value : appenedcontainer){
-                if (value instanceof Customer) {
-                    Customer cust = (Customer) value;
-                    if (custId.equals(cust.getId())) {
-                        cust.setBal(balance);
-                        text.textDelete(TextEditor.FilePaths.USER, cust);
-                        text.fileWrite(TextEditor.FilePaths.USER, cust);
-                        customerRecord(custId);
-                        generateReceipt = true;
-                        break;
+        try{
+            String custId = ID_TF.getText();
+            double Initialbalance = Double.parseDouble(InitialBalance_TF.getText());
+            int topupamount = Integer.parseInt(String.valueOf(AddBalance_CB.getSelectedItem()));
+            String date = tptime.getDay()+ "/" +tptime.getMonth()+ "/" +tptime.getYear();
+            String topuptime = tptime.toString();
+            String type = "Top Up";
+            Boolean generateReceipt = false;
+
+            if(!custId.equals("")){
+                admin.setBal(Initialbalance);
+                admin.addBal(topupamount);
+                String balance = String.valueOf(admin.getbal());
+                List<DataProvider> appenedcontainer = new ArrayList<>(text.fileReader(TextEditor.FilePaths.USER));
+                for(DataProvider value : appenedcontainer){
+                    if (value instanceof Customer) {
+                        Customer cust = (Customer) value;
+                        if (custId.equals(cust.getId())) {
+                            cust.setBal(balance);
+                            text.textDelete(TextEditor.FilePaths.USER, cust);
+                            text.fileWrite(TextEditor.FilePaths.USER, cust);
+                            customerRecord(custId);
+                            generateReceipt = true;
+                            break;
+                        }
                     }
                 }
+                if(generateReceipt){
+                    String receiptId = String.valueOf(generateReceiptID());
+                    String notificationId = generateNotificationID();
+                    nt = new Notification(notificationId, receiptId, custId, date, topuptime, type, topupamount);
+                    text.fileWrite(TextEditor.FilePaths.NOTIFICATION, nt);
+                    JOptionPane.showMessageDialog(this, " You have successfully topped up, receipt has been generated!");
+                }
             }
-            if(generateReceipt){
-                String receiptId = String.valueOf(generateReceiptID());
-                String notificationId = generateNotificationID();
-                nt = new Notification(notificationId, receiptId, custId, date, topuptime, type, topupamount);
-                text.fileWrite(TextEditor.FilePaths.NOTIFICATION, nt);
-                JOptionPane.showMessageDialog(this, " You have successfully topped up ,receipt has been generated!");
+
+            List<DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.NOTIFICATION));
+            for (DataProvider value : container){
+                Notification nt = (Notification) value;
+                System.out.println("NotificationID: " + nt.getId());
+                System.out.println("ReceiptID: " + nt.getReceiptID());
+                System.out.println("Customer: " + nt.getUser());
+                System.out.println("Time: " + nt.getTime());
             }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, " Please select a record from the table!", "ERROR",JOptionPane.ERROR_MESSAGE);
         }
+        
     }//GEN-LAST:event_Confirm_BTNActionPerformed
 
     private void ViewReceipt_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewReceipt_BTNActionPerformed
-     Admin_View_Receipt VR = new Admin_View_Receipt(nt.getId(), nt.getReceiptID(), nt.getUserID(), nt.getDate(), nt.getTime(), nt.getType(), nt.getTopupamount());
-     VR.setVisible(true);
-     this.dispose();
-        
+        try{
+            Admin_View_Receipt VR = new Admin_View_Receipt(nt.getId(), nt.getReceiptID(), nt.getUser(), nt.getDate(), nt.getTime(), nt.getType(), nt.getTopupamount());
+            VR.setVisible(true);
+            this.dispose();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, " There is no receipt generated, please make sure you have topped up!", "ERROR",JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_ViewReceipt_BTNActionPerformed
 
     private void Logout_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Logout_BTNActionPerformed
@@ -537,23 +553,21 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
         return countReceipt;
     }
     
-     public String generateNotificationID(){
+    public String generateNotificationID(){
         List<DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.NOTIFICATION));
         
-        int count = 0; 
+        int count = 1; 
         for (DataProvider value : container) {
+            String notificationid = "N" + count;
             Notification nt = (Notification) value;
             if(nt == null){
                 return "N" +count;
-            }else{
+            }else if(notificationid.equals(nt.getId())){
                 count++;
             }
-            
         }
-        return "N" +count;
+        return "N" + count;
     }
-    
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> AddBalance_CB;

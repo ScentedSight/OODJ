@@ -366,11 +366,13 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
         String gender = buttonGroup1.getSelection().getActionCommand().trim();
         Object role = Role_CB.getSelectedItem();
 
-        int countCustomer = 1;
-        int countVendor = 1;
-        int countRunner = 1;
+        int countCustomer = 0;
+        int countVendor = 0;
+        int countRunner = 0;
         int numRows = 100;
         int numCols = 20;        
+        
+        boolean invalid = false;
         
         List<DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.USER));
         String[][] userDetails = new String[numRows][numCols];
@@ -403,17 +405,26 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
                 countRunner++;
             }
         }
-
+        
         if (!email.equals("") && validateEmail(email)) {
             if (!phoneNo.equals("") && validatePhoneNo(phoneNo)) {
                 if (validatePassword(password, confirmPass).equals("Valid")) {
                     for (int i = 0; i < numRows; i++) {
+                        String tempcustid = "C" + countCustomer;
+                        String tempvendorid = "V" + countVendor;
+                        String temprunnerid = "D" + countRunner;
                         if (email.equals(userDetails[i][2])) {
                             JOptionPane.showMessageDialog(this, "Email exists!", "ERROR", JOptionPane.ERROR_MESSAGE);
                             return;
                         }else if(phoneNo.equals(userDetails[i][3])){
                             JOptionPane.showMessageDialog(this, "Phone Number exist!", "ERROR", JOptionPane.ERROR_MESSAGE);
                             return;
+                        }else if(tempcustid.equals(userDetails[i][0])){
+                            countCustomer+=1;
+                        }else if(tempvendorid.equals(userDetails[i][0])){
+                            countVendor+=1;
+                        }else if(temprunnerid.equals(userDetails[i][0])){
+                            countRunner+=1;
                         }
                     }
                     if (role.equals("Customer") && !validateAddress(address).equals("Valid")) {
@@ -429,38 +440,44 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
                             }
                         }else {
                             JOptionPane.showMessageDialog(this, validateVendorName(vendorName), "ERROR", JOptionPane.ERROR_MESSAGE);
+                            return;
                         }
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, validatePassword(password, confirmPass), "ERROR", JOptionPane.ERROR_MESSAGE);
+                    invalid = true;
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Phone number is invalid.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                invalid = true;
             }
         } else {
             JOptionPane.showMessageDialog(this, "Email is invalid.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            invalid = true;
         }
-
-        for (DataProvider value : container) {
-            String id = generateID(role, countCustomer, countVendor, countRunner);
-            if (role.equals("Customer") && value instanceof Customer) {
-                customer = new Customer(id, email, phoneNo, gender, address, password);
-                text.fileWrite(TextEditor.FilePaths.USER, customer);
-                JOptionPane.showMessageDialog(this, "Your Registration was Successful");
-                JOptionPane.showMessageDialog(this, "Generated ID is " + id);
-                break;
-            } else if (role.equals("Vendor") && value instanceof Vendor) {
-                vendor = new Vendor(id, vendorName, email, phoneNo, gender, password);
-                text.fileWrite(TextEditor.FilePaths.USER, vendor);
-                JOptionPane.showMessageDialog(this, "Your Registration was Successful");
-                JOptionPane.showMessageDialog(this, "Generated ID is " + id);                
-                break;
-            } else if (role.equals("Delivery Runner") && value instanceof DeliveryRunner) {
-                deliveryrunner = new DeliveryRunner(id, email, phoneNo, gender, password);
-                text.fileWrite(TextEditor.FilePaths.USER, deliveryrunner);
-                JOptionPane.showMessageDialog(this, "Your Registration was Successful");
-                JOptionPane.showMessageDialog(this, "Generated ID is " + id);
-                break;
+        
+        if(!invalid){
+            for (DataProvider value : container) {
+                String id = generateID(role, countCustomer, countVendor, countRunner);
+                if (role.equals("Customer") && value instanceof Customer) {
+                    customer = new Customer(id, email, phoneNo, gender, address, password);
+                    text.fileWrite(TextEditor.FilePaths.USER, customer);
+                    JOptionPane.showMessageDialog(this, "Your Registration was Successful");
+                    JOptionPane.showMessageDialog(this, "Generated ID is " + id);
+                    break;
+                } else if (role.equals("Vendor") && value instanceof Vendor) {
+                    vendor = new Vendor(id, vendorName, email, phoneNo, gender, password);
+                    text.fileWrite(TextEditor.FilePaths.USER, vendor);
+                    JOptionPane.showMessageDialog(this, "Your Registration was Successful");
+                    JOptionPane.showMessageDialog(this, "Generated ID is " + id);                
+                    break;
+                } else if (role.equals("Delivery Runner") && value instanceof DeliveryRunner) {
+                    deliveryrunner = new DeliveryRunner(id, email, phoneNo, gender, password);
+                    text.fileWrite(TextEditor.FilePaths.USER, deliveryrunner);
+                    JOptionPane.showMessageDialog(this, "Your Registration was Successful");
+                    JOptionPane.showMessageDialog(this, "Generated ID is " + id);
+                    break;
+                }
             }
         }
                 
@@ -579,7 +596,6 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
             }
         }else{
             checkPassword = "Password cannot be empty!";
-
         }      
         return checkPassword;
     }
