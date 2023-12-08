@@ -44,7 +44,8 @@ public class RunnerFrame extends javax.swing.JFrame {
         generateTotalRevenue(); //Set total revenue text for revenue dashboard
         displayNotification(); //Set notification
     }
-
+    
+    public RunnerFrame(){}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
