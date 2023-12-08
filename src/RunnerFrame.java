@@ -426,8 +426,8 @@ public class RunnerFrame extends javax.swing.JFrame {
         for (Object obj : container) {
             Notification notifyObj = (Notification) obj;
             if (notifyObj.getUser().equals(runner.getId())) {
-                String placeHolder = "[" + notifyObj.getTime() + "]" + " " +notifyObj.getMessage();
-                notification = notification + "   " + counter + ". " +placeHolder;
+                String placeHolder = "[" + notifyObj.getTime() + "]" + " " + notifyObj.getMessage();
+                notification = notification + "   " + counter + ". " + placeHolder;
                 counter++;
             }
         }
@@ -439,7 +439,7 @@ public class RunnerFrame extends javax.swing.JFrame {
         for (Object obj : container) {
             Notification notifyObj = (Notification) obj;
             if (notifyObj.getOrderID().equals(orderID)) {
-                notifyObj.setMessage(message);
+                notifyObj.setMessageRunner(message);
                 TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, notifyObj);
                 TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notifyObj);
                 break;

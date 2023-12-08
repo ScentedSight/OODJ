@@ -5,19 +5,10 @@ public class Notification implements DataProvider {
     private String receiptID, date, time, type;
     private int topupamount;
 
-    public Notification(Customer customer, String orderID) { //When order is newly created, insert orderID
+    public Notification(Customer customer, String orderID) { //When order is newly created insert the orderID, customer gui HAVE to set messageRunner to SEARCHING when placing delivering order
         Time time = new Time();
         this.time = time.toString();
         message = message.ORDER;
-        userID = customer.getId();
-        this.orderID = orderID;
-    }
-    
-    public Notification(Customer customer, Messages message, String orderID) { //For delivery orders only
-        Time time = new Time();
-        this.time = time.toString();
-        this.message = message.ORDER;
-        this.messageRunner = message;
         userID = customer.getId();
         this.orderID = orderID;
     }
@@ -73,6 +64,12 @@ public class Notification implements DataProvider {
         Time time = new Time();
         this.time = time.toString();
         this.message = message;
+    }
+    
+    public void setMessageRunner(Messages message) {
+        Time time = new Time();
+        this.time = time.toString();
+        messageRunner = message;
     }
 
     public void setUserID(String userID) {
