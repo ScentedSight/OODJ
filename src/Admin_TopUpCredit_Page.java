@@ -13,11 +13,10 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
     Administrator admin;
     Time tptime = new Time();
     Notification nt;
-    public Admin_TopUpCredit_Page() {
+    public Admin_TopUpCredit_Page(){
         initComponents();
         text = new TextEditor();
         admin = new Administrator();
-        this.tptime = tptime;
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -419,8 +418,17 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                 String notificationId = generateNotificationID();
                 nt = new Notification(notificationId, receiptId, custId, date, topuptime, type, topupamount);
                 text.fileWrite(TextEditor.FilePaths.NOTIFICATION, nt);
-                JOptionPane.showMessageDialog(this, " You have successfully topped up ,receipt has been generated!");
+                JOptionPane.showMessageDialog(this, " You have successfully topped up, receipt has been generated!");
             }
+        }
+        
+        List<DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.NOTIFICATION));
+        for (DataProvider value : container){
+            Notification nt = (Notification) value;
+            System.out.println("NotificationID: " + nt.getId());
+            System.out.println("ReceiptID: " + nt.getReceiptID());
+            System.out.println("Customer: " + nt.getUser());
+            System.out.println("Time: " + nt.getTime());
         }
     }//GEN-LAST:event_Confirm_BTNActionPerformed
 
@@ -550,8 +558,6 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
         }
         return "N" +count;        
     }
-    
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> AddBalance_CB;
