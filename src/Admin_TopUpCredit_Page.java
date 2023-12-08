@@ -548,9 +548,11 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
             }else{
                 count++;
             }
-            
+            System.out.println(nt.getId());
         }
         return "N" +count;
+        
+        
     }
     
     
