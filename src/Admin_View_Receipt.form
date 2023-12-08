@@ -59,12 +59,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel3" min="-2" pref="384" max="-2" attributes="0"/>
+          <Component id="jPanel3" min="-2" pref="366" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+          <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -93,17 +93,19 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="Status_Label" min="-2" pref="99" max="-2" attributes="0"/>
                               <Component id="Type_Label" min="-2" pref="197" max="-2" attributes="0"/>
-                              <Component id="Date_Label" min="-2" pref="164" max="-2" attributes="0"/>
-                              <Component id="Amount_Label" min="-2" pref="164" max="-2" attributes="0"/>
-                              <Component id="Time_Label" min="-2" pref="164" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="Time_Label" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="Date_Label" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="Status_Label" alignment="0" pref="99" max="32767" attributes="0"/>
+                                  <Component id="Amount_Label" alignment="0" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel14" min="-2" pref="204" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="ID_Label" min="-2" pref="79" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="ID_Label" min="-2" pref="50" max="-2" attributes="0"/>
                       </Group>
                       <Component id="Receipt_Label" alignment="0" min="-2" pref="183" max="-2" attributes="0"/>
                   </Group>
@@ -165,7 +167,7 @@
                               <Component id="Amount_Label" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                               <Component id="jLabel10" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="26" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="25" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jButton1" min="-2" pref="31" max="-2" attributes="0"/>
