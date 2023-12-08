@@ -99,6 +99,11 @@ public class VendorFrame extends JFrame {
 
         btnLogOut.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnLogOut.setText("LogOut");
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
 
         lblWelcome.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lblWelcome.setText("Welcome, XXX");
@@ -283,6 +288,10 @@ public class VendorFrame extends JFrame {
     private void OrderTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OrderTableMouseClicked
         OrderRow=OrderTable.getSelectedColumn();
     }//GEN-LAST:event_OrderTableMouseClicked
+
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLogOutActionPerformed
 
     /**
      * @param args the command line arguments
