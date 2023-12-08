@@ -417,7 +417,6 @@ public class Admin_Main_Page extends javax.swing.JFrame {
         Admin_Registration_Page RP = new Admin_Registration_Page();
         RP.setVisible(true);
         this.dispose();
-        
     }//GEN-LAST:event_Regd_BTNActionPerformed
 
     private void Update_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Update_BTNActionPerformed
