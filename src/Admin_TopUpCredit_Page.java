@@ -17,7 +17,6 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
         initComponents();
         text = new TextEditor();
         admin = new Administrator();
-        tptime = new Time();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
