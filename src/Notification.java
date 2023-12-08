@@ -22,7 +22,7 @@ public class Notification implements DataProvider {
         this.orderID = orderID;
     }
     
-    public Notification(String id, String receiptID, String  userID, String date, String time, String type, int topupamount){ //Top up notification
+    public Notification(String id, String receiptID, String userID, String date, String time, String type, int topupamount){ //Top up notification
         this.id = id;
         this.receiptID = receiptID;
         this.userID = userID;

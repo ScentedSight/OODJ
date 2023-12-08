@@ -425,7 +425,7 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
     }//GEN-LAST:event_Confirm_BTNActionPerformed
 
     private void ViewReceipt_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewReceipt_BTNActionPerformed
-        Admin_View_Receipt VR = new Admin_View_Receipt(nt.getId(), nt.getReceiptID(), nt.getUserID(), nt.getDate(), nt.getTime(), nt.getType(), nt.getTopupamount());
+        Admin_View_Receipt VR = new Admin_View_Receipt(nt.getId(), nt.getReceiptID(), nt.getUser(), nt.getDate(), nt.getTime(), nt.getType(), nt.getTopupamount());
         VR.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_ViewReceipt_BTNActionPerformed
