@@ -11,13 +11,13 @@ import javax.swing.table.DefaultTableModel;
 public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
     TextEditor text;
     Administrator admin;
-    Time time;
+    Time tptime;
     Notification nt;
     public Admin_TopUpCredit_Page() {
         initComponents();
         text = new TextEditor();
         admin = new Administrator();
-        time = new Time();
+        tptime = new Time();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -391,8 +391,8 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
         String custId = ID_TF.getText();
         double Initialbalance = Double.parseDouble(InitialBalance_TF.getText());
         int topupamount = Integer.parseInt(String.valueOf(AddBalance_CB.getSelectedItem()));
-        String date = time.getDay()+ "/" +time.getMonth()+ "/" +time.getYear();
-        String topuptime = time.toString();
+        String date = tptime.getDay()+ "/" +tptime.getMonth()+ "/" +tptime.getYear();
+        String topuptime = tptime.toString();
         String type = "Top Up";
         Boolean generateReceipt = false;
         
