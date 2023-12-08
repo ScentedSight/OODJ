@@ -7,6 +7,7 @@ public class Order implements DataProvider {
     private Status status;
     private String review;
     private int ratings;
+    private String remark;
     private String food;
     private double total;
     private String vendorName;
@@ -48,6 +49,23 @@ public class Order implements DataProvider {
         this.customer = customer;
         this.food = food;
         total = foodCost;
+    }
+    
+    public Order(String vendorId, String vendorName, Customer customer, String food, double foodCost,String remark,
+            String review, int ratings, String date,Time time, Status status) {
+        id = "O" + TextEditor.idGenerator(); //Order ID starts with an "O" letter
+        status = Status.PENDING;
+        Time times = new Time();
+        time= times;
+        this.vendorId = vendorId;
+        this.vendorName = vendorName;
+        this.customer = customer;
+        this.food = food;
+        total = foodCost;
+        this.remark=remark;
+        this.review=review;
+        this.ratings=ratings;
+        date=getOrderDay()+"/"+getOrderMonth()+"/"+getOrderYear();
     }
     
     public String getId() {
@@ -102,13 +120,13 @@ public class Order implements DataProvider {
         customer.deductBal(total);
         TextEditor reader = new TextEditor();
         
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.USER));
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.USER));
         for (Object obj : container) { //Adds profit to the vendor object
             Vendor vendor = (Vendor) obj;
             if (vendor.getId().equals(vendorId)) {
                 vendor.addProfit(total);
-                reader.textDelete(TextEditor.FilePaths.USER, vendor);
-                reader.fileWrite(TextEditor.FilePaths.USER, vendor); //Rewrite it all back
+                TextEditor.textDelete(TextEditor.FilePaths.USER, vendor);
+                TextEditor.fileWrite(TextEditor.FilePaths.USER, vendor); //Rewrite it all back
                 break; //Break out of the loop once done since payment is only given to one vendor per order
             }
         }
@@ -143,6 +161,10 @@ public class Order implements DataProvider {
         return ratings;
     }
     
+    public String getRemark(){
+        return remark;
+    }
+        
     public double getTotal() {
         return total;
     }

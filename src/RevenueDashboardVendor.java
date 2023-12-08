@@ -31,10 +31,13 @@ public class RevenueDashboardVendor extends JFrame {
     
     public RevenueDashboardVendor(String vendorID) {
         initComponents();
+        setTitle("Revenue Dashboard");
         revenueModel.setColumnIdentifiers(revenuecol);
         id=vendorID;
+        comboMonth.setSelectedIndex(-1);        //do not selected item in initial
+        comboYear.setSelectedIndex(-1);       //do not selected item in initial
         
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) {          
             Order O = (Order) obj;
             String status=O.getStatus();     
@@ -47,11 +50,11 @@ public class RevenueDashboardVendor extends JFrame {
                     remark="Take away";
                 }
                 else{
-                    remark=null;
+                    remark=" ";
                 }
             }
             
-            if (!(String.valueOf(O.getOrderMonth()).equals(" "))){
+            if (!(String.valueOf(O.getOrderMonth()).equals("null"))){
                 if(String.valueOf(O.getOrderMonth()).equals(month) && String.valueOf(O.getOrderYear()).equals(year)){
                 //filter month & year together
                 String[] OrderHistVendorArray = {
@@ -68,7 +71,7 @@ public class RevenueDashboardVendor extends JFrame {
                 profit=profit+O.getCost();
                 }
             }
-            else if (month.equals(" ") && String.valueOf(O.getOrderYear()).equals(year)){
+            else if (month.equals("null") && String.valueOf(O.getOrderYear()).equals(year)){
                 // filter for year only, show all result for months
                 String[] OrderHistVendorArray = {
                     O.getId(),
@@ -90,60 +93,65 @@ public class RevenueDashboardVendor extends JFrame {
         
     }
     
-    public void filterMonth(){
-        comboMonth.setSelectedIndex(-1);        //do not selected item in initial
+    public String filterMonth(){
         int i=comboMonth.getSelectedIndex();        //get selected month
         
-        switch(i){
+        if (i!=-1){
+            switch(i){
             case 0:
-                month=" ";
+                month="null";
                 break;
             case 1:
-                month="January";
+                month="1";
                 break;
             case 2:
-                month="February";
+                month="2";
                 break;
             case 3:
-                month="March";
+                month="3";
                 break;
             case 4:
-                month="April";
+                month="4";
                 break;
             case 5:
-                month="May";
+                month="5";
                 break;
             case 6:
-                month="June";
+                month="6";
                 break;
             case 7:
-                month="July";
+                month="7";
                 break;
             case 8:
-                month="August";
+                month="8";
                 break;
             case 9:
-                month="September";
+                month="9";
                 break;
             case 10:
-                month="October";
+                month="10";
                 break;
             case 11:
-                month="November";
+                month="11";
                 break;
             case 12:
-                month="December";
+                month="12";
                 break;
             default:
                 break;
+            }
         }
+        else {
+            System.out.println("Please select month.");
+        }
+        return month;
     }
     
-    public void filterYear(){
-        comboYear.setSelectedIndex(-1);       //do not selected item in initial
+    public String filterYear(){
         int i=comboYear.getSelectedIndex();         //get selected year
         
-        switch(i){
+        if(i!=-1){
+           switch(i){
             case 0:
                 year="2021";
                 break;
@@ -155,7 +163,12 @@ public class RevenueDashboardVendor extends JFrame {
                 break;
             default:
                 break;
+            } 
         }
+        else{
+            System.out.println("Please select year.");
+        }
+        return year;
     }
 
     @SuppressWarnings("unchecked")
