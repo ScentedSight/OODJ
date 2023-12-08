@@ -32,29 +32,29 @@ public class Admin_Main_Page extends javax.swing.JFrame {
         TopUP_BTN = new javax.swing.JButton();
         Regd_BTN = new javax.swing.JButton();
         Logout_BTN = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        AdminPage_Label = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         ManageRecord_Table = new javax.swing.JTable();
         Update_BTN = new javax.swing.JButton();
         Delete_BTN = new javax.swing.JButton();
         SortCustomer_BTN = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        SortBy_Label = new javax.swing.JLabel();
         SortRunner_BTN = new javax.swing.JButton();
         SortVendor_BTN = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        VN_Label = new javax.swing.JLabel();
+        PN_Label = new javax.swing.JLabel();
         VN_TF = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        Email_Label = new javax.swing.JLabel();
+        Address_Label = new javax.swing.JLabel();
+        ID_Label = new javax.swing.JLabel();
         Gender_CB = new javax.swing.JComboBox<>();
         Email_TF = new javax.swing.JTextField();
         PN_TF = new javax.swing.JTextField();
         Address_TF = new javax.swing.JTextField();
         ID_TF = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        Gender_Label = new javax.swing.JLabel();
+        Title_Label = new javax.swing.JLabel();
         Pass_TF = new javax.swing.JTextField();
         Pass_Label = new javax.swing.JLabel();
 
@@ -103,9 +103,9 @@ public class Admin_Main_Page extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Admin Page");
+        AdminPage_Label.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        AdminPage_Label.setForeground(new java.awt.Color(255, 255, 255));
+        AdminPage_Label.setText("Admin Page");
 
         jPanel2.setBackground(new java.awt.Color(102, 204, 255));
 
@@ -168,9 +168,9 @@ public class Admin_Main_Page extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Sort By:");
+        SortBy_Label.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        SortBy_Label.setForeground(new java.awt.Color(255, 255, 255));
+        SortBy_Label.setText("Sort By:");
 
         SortRunner_BTN.setBackground(new java.awt.Color(153, 204, 255));
         SortRunner_BTN.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -192,25 +192,25 @@ public class Admin_Main_Page extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Store Name:");
+        VN_Label.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        VN_Label.setForeground(new java.awt.Color(255, 255, 255));
+        VN_Label.setText("Vendor Name:");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Phone Number:");
+        PN_Label.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        PN_Label.setForeground(new java.awt.Color(255, 255, 255));
+        PN_Label.setText("Phone Number:");
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Email:");
+        Email_Label.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Email_Label.setForeground(new java.awt.Color(255, 255, 255));
+        Email_Label.setText("Email:");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Address:");
+        Address_Label.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Address_Label.setForeground(new java.awt.Color(255, 255, 255));
+        Address_Label.setText("Address:");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("ID:");
+        ID_Label.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        ID_Label.setForeground(new java.awt.Color(255, 255, 255));
+        ID_Label.setText("ID:");
 
         Gender_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
 
@@ -221,13 +221,13 @@ public class Admin_Main_Page extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Gender:");
+        Gender_Label.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Gender_Label.setForeground(new java.awt.Color(255, 255, 255));
+        Gender_Label.setText("Gender:");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Manage User Records");
+        Title_Label.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        Title_Label.setForeground(new java.awt.Color(255, 255, 255));
+        Title_Label.setText("Manage User Records");
 
         Pass_TF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -252,9 +252,9 @@ public class Admin_Main_Page extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(VN_TF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Email_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(Email_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Email_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(VN_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -263,42 +263,42 @@ public class Admin_Main_Page extends javax.swing.JFrame {
                                         .addGap(24, 24, 24)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(PN_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(PN_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(Pass_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(Pass_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(37, 37, 37)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(Address_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(Address_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel2Layout.createSequentialGroup()
                                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(Gender_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addComponent(Gender_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGap(29, 29, 29)
                                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(ID_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabel8))))
+                                                    .addComponent(ID_Label))))
                                         .addGap(40, 40, 40)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(SortCustomer_BTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(SortVendor_BTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(SortRunner_BTN, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                                            .addComponent(jLabel1)))
+                                            .addComponent(SortBy_Label)))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGap(42, 42, 42)
                                         .addComponent(Delete_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(343, 343, 343)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Title_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jLabel3)
+                .addComponent(Title_Label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,12 +307,12 @@ public class Admin_Main_Page extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel8)))
+                                    .addComponent(Gender_Label)
+                                    .addComponent(ID_Label)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(22, 22, 22)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2)
+                                    .addComponent(VN_Label)
                                     .addComponent(Pass_Label))))
                         .addGap(7, 7, 7)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -322,12 +322,12 @@ public class Admin_Main_Page extends javax.swing.JFrame {
                             .addComponent(ID_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel7)))
+                            .addComponent(Email_Label)
+                            .addComponent(PN_Label)
+                            .addComponent(Address_Label)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
+                        .addComponent(SortBy_Label)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(SortCustomer_BTN)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -367,7 +367,7 @@ public class Admin_Main_Page extends javax.swing.JFrame {
                         .addComponent(Logout_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(AdminPage_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -376,7 +376,7 @@ public class Admin_Main_Page extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(82, 82, 82)
-                .addComponent(jLabel4)
+                .addComponent(AdminPage_Label)
                 .addGap(82, 82, 82)
                 .addComponent(Regd_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -640,33 +640,33 @@ public class Admin_Main_Page extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Address_Label;
     private javax.swing.JTextField Address_TF;
+    private javax.swing.JLabel AdminPage_Label;
     private javax.swing.JButton Delete_BTN;
+    private javax.swing.JLabel Email_Label;
     private javax.swing.JTextField Email_TF;
     private javax.swing.JComboBox<String> Gender_CB;
+    private javax.swing.JLabel Gender_Label;
+    private javax.swing.JLabel ID_Label;
     private javax.swing.JTextField ID_TF;
     private javax.swing.JButton Logout_BTN;
     private javax.swing.JButton ManageRecord_BTN;
     private javax.swing.JTable ManageRecord_Table;
+    private javax.swing.JLabel PN_Label;
     private javax.swing.JTextField PN_TF;
     private javax.swing.JLabel Pass_Label;
     private javax.swing.JTextField Pass_TF;
     private javax.swing.JButton Regd_BTN;
+    private javax.swing.JLabel SortBy_Label;
     private javax.swing.JButton SortCustomer_BTN;
     private javax.swing.JButton SortRunner_BTN;
     private javax.swing.JButton SortVendor_BTN;
+    private javax.swing.JLabel Title_Label;
     private javax.swing.JButton TopUP_BTN;
     private javax.swing.JButton Update_BTN;
+    private javax.swing.JLabel VN_Label;
     private javax.swing.JTextField VN_TF;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
