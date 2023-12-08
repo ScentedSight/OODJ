@@ -46,7 +46,6 @@ public class Order implements DataProvider {
         this.vendorName = vendorName;
         this.customer = customer;
         this.food = food;
-        this.quantity = quantity;
         total = foodCost;
     }
     
@@ -143,11 +142,7 @@ public class Order implements DataProvider {
         return ratings;
     }
     
-    public double getQuantity(){
-        return quantity;
-    }
-    
     public double getTotal() {
-        return total * quantity;
+        return total;
     }
 }
