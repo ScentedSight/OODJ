@@ -426,20 +426,25 @@ public class RunnerFrame extends javax.swing.JFrame {
         for (Object obj : container) {
             Notification notifyObj = (Notification) obj;
             if (notifyObj.getUser().equals(runner.getId())) {
-                String placeHolder = "[" + notifyObj.getTime() + "]" + " " +notifyObj.getMessage();
-                notification = notification + "   " + counter + ". " +placeHolder;
+                String placeHolder = "[" + notifyObj.getTime() + "]" + " " + notifyObj.getMessage();
+                notification = notification + "   " + counter + ". " + placeHolder;
                 counter++;
             }
         }
         runnerHomeNotificationtxt.setText(notification);
     }
     
-    private void setNotificationMessages(String orderID, Notification.Messages message) { //To set notification status after changing order status
+    private void setNotificationMessages(String orderID, Notification.Messages message, boolean gateWay) { //To set notification status after changing order status
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container) {
             Notification notifyObj = (Notification) obj;
             if (notifyObj.getOrderID().equals(orderID)) {
-                notifyObj.setMessage(message);
+                notifyObj.setMessageRunner(message);
+                if (gateWay) { //For accepting a delivery, inserting runner id into the notification attribute
+                    notifyObj.setID(runner.getId());
+                } else if (!gateWay) { //For canceling a delivery, removing runner id from the notification attribute
+                    notifyObj.setID(null);
+                }
                 TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, notifyObj);
                 TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notifyObj);
                 break;
@@ -547,7 +552,7 @@ public class RunnerFrame extends javax.swing.JFrame {
                     dOrder.setRunner(runner); //Set the current runner
                     dOrder.setRunnerStatus(Order.Status.DELIVERING); //Set status
                     dOrder.setTime(); //Set current time
-                    setNotificationMessages(dOrder.getId(), Notification.Messages.DELIVERING); //Set notification status to DELIVERING to notify customer
+                    setNotificationMessages(dOrder.getId(), Notification.Messages.DELIVERING, true); //Set notification status to DELIVERING to notify customer and inserts runner ID into notification for future processing
                     TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
                     TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
                     break; //Break out of the loop once done since only one order should be edited at a time
@@ -567,7 +572,7 @@ public class RunnerFrame extends javax.swing.JFrame {
                 DeliveryOrder dOrder = (DeliveryOrder) obj;
                 if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
                     dOrder.setRunnerStatus(Order.Status.SEARCHING); //Set status
-                    setNotificationMessages(dOrder.getId(), Notification.Messages.SEARCHING); //Set notification status to SEARCHING to notify customer
+                    setNotificationMessages(dOrder.getId(), Notification.Messages.SEARCHING, false); //Set notification status to SEARCHING to notify customer and removes runner ID from notification for other runners
                     TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
                     TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
                     break; //Break out of the loop once done since only one order should be edited at a time
@@ -612,7 +617,7 @@ public class RunnerFrame extends javax.swing.JFrame {
                     dOrder.setRunnerStatus(Order.Status.DELIVERED); //Set status
                     dOrder.setTime(); //Set current time
                     dOrder.payment(); //Pay runner and vendor
-                    setNotificationMessages(dOrder.getId(), Notification.Messages.DELIVERED); //Set notification status to DELIVERED to notify customer
+                    setNotificationMessages(dOrder.getId(), Notification.Messages.DELIVERED, false); //Set notification status to DELIVERED to notify customer and remove runner ID from notification to remove the notification from runner gui
                     TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
                     TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
                     break; //Break out of the loop once done since only one order should be edited at a time
