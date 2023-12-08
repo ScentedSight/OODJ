@@ -543,20 +543,20 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
         return countReceipt;
     }
     
-     public String generateNotificationID(){
+    public String generateNotificationID(){
         List<DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.NOTIFICATION));
         
         int count = 0; 
         for (DataProvider value : container) {
+            String notificationid = "N" + count;
             Notification nt = (Notification) value;
             if(nt == null){
                 return "N" +count;
-            }else{
+            }else if(notificationid.equals(nt.getId())){
                 count++;
             }
-            System.out.println(nt.getId());
         }
-        return "N" +count;        
+        return "N" + count;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
