@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class Admin_Login_Page extends javax.swing.JFrame {
+public class Login_Page extends javax.swing.JFrame {
     TextEditor text;
     Customer customer;
     Vendor vendor;
     DeliveryRunner runner;
     Administrator admin;
-    public Admin_Login_Page() {
+    public Login_Page() {
         initComponents();
         text = new TextEditor();
         admin = new Administrator();
@@ -216,7 +216,7 @@ public class Admin_Login_Page extends javax.swing.JFrame {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Admin_Login_Page().setVisible(true);
+                new Login_Page().setVisible(true);
             }
         });
     }
@@ -227,14 +227,23 @@ public class Admin_Login_Page extends javax.swing.JFrame {
             case "C":
                 customer = new Customer(ID, Pass);
                 JOptionPane.showMessageDialog(this,"Welcome Back " +customer.getId()+ " !");
+                C_MenuFrame cmenu = new C_MenuFrame(customer);
+                cmenu.setVisible(true);
+                this.dispose();
                 break;
             case "V":
                 vendor = new Vendor(ID, Pass);
                 JOptionPane.showMessageDialog(this,"Welcome Back " +vendor.getId()+ " !");
+                VendorFrame VF = new VendorFrame(vendor);
+                VF.setVisible(true);
+                this.dispose();
                 break;
             case "D":
                 runner = new DeliveryRunner(ID, Pass);
                 JOptionPane.showMessageDialog(this,"Welcome Back " +runner.getId()+ " !");
+                RunnerFrame RF = new RunnerFrame(runner);
+                RF.setVisible(true);
+                this.dispose();
                 break;
             default:
                 JOptionPane.showMessageDialog(this,"Please try again!","Error",JOptionPane.ERROR_MESSAGE);

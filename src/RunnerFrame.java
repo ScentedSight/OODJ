@@ -450,7 +450,9 @@ public class RunnerFrame extends javax.swing.JFrame {
     }
     
     private void runnerHomeLogOutbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnerHomeLogOutbtnActionPerformed
-        // TODO add your handling code here:
+        Login_Page LP = new Login_Page();
+        LP.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_runnerHomeLogOutbtnActionPerformed
 
     private void runnerTaskAcceptbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnerTaskAcceptbtnActionPerformed

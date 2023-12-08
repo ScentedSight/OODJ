@@ -11,12 +11,13 @@ import javax.swing.table.DefaultTableModel;
 public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
     TextEditor text;
     Administrator admin;
-    Time tptime = new Time();
+    Time tptime;
     Notification nt;
     public Admin_TopUpCredit_Page(){
         initComponents();
         text = new TextEditor();
         admin = new Administrator();
+        tptime = new Time();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -449,7 +450,7 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
     }//GEN-LAST:event_ViewReceipt_BTNActionPerformed
 
     private void Logout_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Logout_BTNActionPerformed
-        Admin_Login_Page LP = new Admin_Login_Page();
+        Login_Page LP = new Login_Page();
         LP.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_Logout_BTNActionPerformed

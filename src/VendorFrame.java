@@ -97,6 +97,11 @@ public class VendorFrame extends JFrame {
 
         btnLogOut.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnLogOut.setText("LogOut");
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
 
         lblWelcome.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lblWelcome.setText("Welcome, XXX");
@@ -312,6 +317,12 @@ public class VendorFrame extends JFrame {
                 }
             }
     }//GEN-LAST:event_btnReadActionPerformed
+
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        Login_Page LP = new Login_Page();
+        LP.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLogOutActionPerformed
 
     /**
      * @param args the command line arguments
