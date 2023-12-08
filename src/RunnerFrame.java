@@ -73,10 +73,6 @@ public class RunnerFrame extends javax.swing.JFrame {
         runnerTskHistorytbl = new javax.swing.JTable();
         runnerHomeTitlelbl = new javax.swing.JLabel();
         runnerHomeLogOutbtn = new javax.swing.JButton();
-        runnerHomeTaskpnl = new javax.swing.JScrollPane();
-        runnerHomeTasklst = new javax.swing.JList<>();
-        runnerHomePendingpnl = new javax.swing.JScrollPane();
-        runnerHomePendinglst = new javax.swing.JList<>();
         runnerTaskAcceptbtn = new javax.swing.JButton();
         runnerHomeTaskHistbtn = new javax.swing.JButton();
         runnerHomeFailedbtn = new javax.swing.JButton();
@@ -143,23 +139,6 @@ public class RunnerFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(runnerHomeLogOutbtn);
-
-        runnerHomeTaskpnl.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tasks", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
-        runnerHomeTaskpnl.setName("Runner Home Page Task List"); // NOI18N
-
-        runnerHomeTasklst.setName("Runner Home Page Task Listbox"); // NOI18N
-        runnerHomeTaskpnl.setViewportView(runnerHomeTasklst);
-
-        getContentPane().add(runnerHomeTaskpnl);
-
-        runnerHomePendingpnl.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Pending Tasks", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
-        runnerHomePendingpnl.setName("Runner Home Page Pending Task Scrollpanel"); // NOI18N
-
-        runnerHomePendinglst.setName("Runner Home Page Pending Task Listbox"); // NOI18N
-        runnerHomePendingpnl.setViewportView(runnerHomePendinglst);
-        runnerHomePendinglst.getAccessibleContext().setAccessibleParent(this);
-
-        getContentPane().add(runnerHomePendingpnl);
 
         runnerTaskAcceptbtn.setText("Accept");
         runnerTaskAcceptbtn.setName("Runner Home Page Accept Task Button"); // NOI18N
