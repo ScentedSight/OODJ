@@ -2,10 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -25,7 +22,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
     
     private DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
     
-    private double originalPrice;
     
     private Customer customer;
     
@@ -48,11 +44,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
         model2.setColumnIdentifiers(column2);
         balance.setText(String.valueOf(customer.getBal()));
         username.setText(customer.getId());
-        tfNID.setText(notification.getOrderID());
         populateMenuTable();
         populateCurrentOrderTable();
         populateComboBox();
         displayNotification();
+        tfNID.setText(notification.getOrderID());
         
         remarkGroup.add(rbDineIn);
         remarkGroup.add(rbTakeAway);
@@ -66,11 +62,12 @@ public class C_MenuFrame extends javax.swing.JFrame {
         List<String> vendors = new ArrayList<>();
 
         for (Object object: container) {
-             Vendor vendor = (Vendor) object;
-             String vendorName = vendor.getName();
-             vendors.add(vendorName);
-
-             comboBoxModel.addAll(vendors);
+            if (object instanceof Vendor) {
+                Vendor vendor = (Vendor) object;
+                String vendorName = vendor.getName();
+                vendors.add(vendorName);
+            }
+            comboBoxModel.addAll(vendors);
         }
     }
     
