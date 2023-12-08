@@ -13,7 +13,8 @@ import javax.swing.*;
 
 public class OrderDetail extends JFrame {
     private String orderID,foodID,time,remark;
-    String status;  
+    String status;
+     
                 
     public OrderDetail() {
         initComponents();

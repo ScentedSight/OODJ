@@ -4,6 +4,7 @@ public class Notification implements DataProvider {
     private String userID, id, orderID; //id here will be used as notification ID when top up, runner ID when delivering
     private String receiptID, date, time, type;
     private int topupamount;
+    private String orderID;
 
     public Notification(Customer customer, String orderID) { //When order is newly created insert the orderID, customer gui HAVE to set messageRunner to SEARCHING when placing delivering order
         Time time = new Time();
