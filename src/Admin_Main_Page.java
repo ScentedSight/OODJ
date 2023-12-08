@@ -531,7 +531,7 @@ public class Admin_Main_Page extends javax.swing.JFrame {
     }//GEN-LAST:event_SortRunner_BTNActionPerformed
 
     private void Logout_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Logout_BTNActionPerformed
-        Admin_Login_Page LP = new Admin_Login_Page();
+        Login_Page LP = new Login_Page();
         LP.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_Logout_BTNActionPerformed
