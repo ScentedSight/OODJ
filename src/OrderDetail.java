@@ -13,9 +13,7 @@ import javax.swing.*;
 
 public class OrderDetail extends JFrame {
     private String orderID,foodID,time,remark;
-    String status;
-    
-    TextEditor reader = new TextEditor();   
+    String status;  
                 
     public OrderDetail() {
         initComponents();
@@ -209,7 +207,7 @@ public class OrderDetail extends JFrame {
     }//GEN-LAST:event_rbtnDineActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-       List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
+       List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) { 
                 Order o = (Order) obj;
                 if (o.getId().equals(orderID)) {
@@ -220,8 +218,8 @@ public class OrderDetail extends JFrame {
                     o.getCost();
                     o.getTime();
                     o.setStatus(Order.Status.valueOf(status));
-                    reader.textDelete(TextEditor.FilePaths.HISTORY, o);
-                    reader.fileWrite(TextEditor.FilePaths.HISTORY, o);     //Rewrite it all back
+                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, o);
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, o);     //Rewrite it all back
                     break; 
                 }
             }
@@ -252,6 +250,26 @@ public class OrderDetail extends JFrame {
             default:
                 break;
         }
+        
+        List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
+        for (Object obj : container2) { 
+                Notification n = (Notification) obj;
+                if (orderID.equals(n.getOrderID())){                //compare orderID in order table
+                    if (status.equals("PREPARING")) {        
+                    n.setMessage(Notification.Messages.PREPARE);
+                    }
+                    else if (status.equals("READY")){
+                        n.setMessage(Notification.Messages.READY);
+                    }
+                    else if (status.equals("CANCELLED")){
+                        n.setMessage(Notification.Messages.CANCEL);
+                    }
+                    TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
+                    TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
+                }
+                
+            }
+        
     }//GEN-LAST:event_comboStatusActionPerformed
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed

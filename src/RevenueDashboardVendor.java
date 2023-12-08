@@ -102,40 +102,40 @@ public class RevenueDashboardVendor extends JFrame {
                 month="null";
                 break;
             case 1:
-                month="January";
+                month="1";
                 break;
             case 2:
-                month="February";
+                month="2";
                 break;
             case 3:
-                month="March";
+                month="3";
                 break;
             case 4:
-                month="April";
+                month="4";
                 break;
             case 5:
-                month="May";
+                month="5";
                 break;
             case 6:
-                month="June";
+                month="6";
                 break;
             case 7:
-                month="July";
+                month="7";
                 break;
             case 8:
-                month="August";
+                month="8";
                 break;
             case 9:
-                month="September";
+                month="9";
                 break;
             case 10:
-                month="October";
+                month="10";
                 break;
             case 11:
-                month="November";
+                month="11";
                 break;
             case 12:
-                month="December";
+                month="12";
                 break;
             default:
                 break;
