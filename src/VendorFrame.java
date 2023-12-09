@@ -355,18 +355,20 @@ public class VendorFrame extends JFrame {
     }//GEN-LAST:event_btnLogOutActionPerformed
 
     private void btnAddMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMenuActionPerformed
-         String foodID=vendor.getId()+":"+textFoodName.getText();
-         List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.MENU));
-            for (Object obj : container2) { 
-                Food menu = (Food) obj;
-                if (!menu.getId().equals(foodID)) {
-                    String.valueOf(foodID);
-                    menu.setDescription(textFoodName.getText());
-                    menu.setCost(Double.parseDouble(textCost.getText()));
-                    TextEditor.fileWrite(TextEditor.FilePaths.MENU, menu);     //write all
-                    break; //Break out of the loop once done since only one menu should be edited at a time
-                }
+        boolean checker = false;
+        List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.MENU));
+        for (Object obj : container2) {
+            Food menu = (Food) obj;
+            if (menu.getVendorId().equals(vendor.getId()) && menu.getDescription().equals(textFoodName.getText())) { //Check for whether if there are same food description under same vendor
+                checker = true; //Flag checker to true to avoid executing the write process
+                //Add error validation here
+                break; //Stop the loop to speed up the process
             }
+        }
+        if (!checker) { //Proceed to write object to textfile
+            Food food = new Food(vendor, textFoodName.getText(), Double.parseDouble(textCost.getText())); //Make new food object
+            TextEditor.fileWrite(TextEditor.FilePaths.MENU, food); //Write to textfile
+        }
     }//GEN-LAST:event_btnAddMenuActionPerformed
 
     /**

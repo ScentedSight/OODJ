@@ -22,8 +22,9 @@ public class C_OrderHistory extends javax.swing.JFrame {
     /**
      * Creates new form OrderHistory
      */
-    public C_OrderHistory() {
+    public C_OrderHistory(Customer customer) {
         initComponents();
+        this.customer = customer;
         usernameOH.setText(customer.getId());
         populateOrderHistoryTable();
     }
@@ -113,11 +114,22 @@ public class C_OrderHistory extends javax.swing.JFrame {
             }
         });
 
+        usernameOH.setEditable(false);
+
+        tfVID.setEditable(false);
+
+        tfVendorName.setEditable(false);
+
+        tfFoodDetails.setEditable(false);
         tfFoodDetails.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfFoodDetailsActionPerformed(evt);
             }
         });
+
+        tfQuantity.setEditable(false);
+
+        tfTotal.setEditable(false);
 
         jLabel2.setText("RM");
 
