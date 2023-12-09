@@ -40,7 +40,7 @@ public class Order implements DataProvider {
     }
     
     public Order(String vendorId, String vendorName, Customer customer, String food, double foodCost) {
-        id = "O" + TextEditor.idGenerator(); //Order ID starts with an "O" letter
+        id = "O" + TextEditor.idGenerator(TextEditor.FilePaths.HISTORY); //Order ID starts with an "O" letter
         status = Status.PENDING;
         Time time = new Time();
         this.time = time;
@@ -53,7 +53,7 @@ public class Order implements DataProvider {
     
     public Order(String vendorId, String vendorName, Customer customer, String food, double foodCost,String remark,
             String review, int ratings, String date,Time time, Status status) {
-        id = "O" + TextEditor.idGenerator(); //Order ID starts with an "O" letter
+        id = "O" + TextEditor.idGenerator(TextEditor.FilePaths.HISTORY); //Order ID starts with an "O" letter
         status = Status.PENDING;
         Time times = new Time();
         time= times;

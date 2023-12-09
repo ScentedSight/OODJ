@@ -726,7 +726,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
             break;
         }
         
-        Notification notification = new Notification(customer, order.getId());
+        Notification notification = new Notification(customer, order.getId(), String.valueOf(cbCuisine.getSelectedItem()));
         TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification);  
     }//GEN-LAST:event_bPlaceOrderMousePressed
 
