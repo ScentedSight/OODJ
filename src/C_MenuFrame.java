@@ -172,7 +172,9 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }
     
     private void deleteNotification() { //Acknowledge notifications function
-        if (row3 != -1 && model3.getValueAt(row3, 1)) {
+        String selector = String.valueOf(model3.getValueAt(row3, 1));
+        if (row3 != -1 && selector.contains("R")) {
+            bNotificationRead.setEnabled(true);
             List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
             for (Object obj : container) {
                 
@@ -701,6 +703,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
     private void NotificationMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMousePressed
         row3 = Notification.getSelectedRow();
+        String selector = String.valueOf(model3.getValueAt(row3, 1));
+        if (row3 != -1 && selector.contains("R")) { //Check for receipt ID identifier which starts with R
+            bNotificationRead.setEnabled(true); //Make the notification acknowledge button available
+        }
     }//GEN-LAST:event_NotificationMousePressed
 
     /**
