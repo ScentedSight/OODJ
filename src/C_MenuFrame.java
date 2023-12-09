@@ -111,27 +111,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
         }
     }
-    
-    
-    private void addQuantity() {
-        String currentText = tfQuantity.getText();
-        int currentValue = Integer.parseInt(currentText);
-        int newValue = currentValue + 1;
-        tfQuantity.setText(Integer.toString(newValue));
-    }
-    
-    private void minusQuantity() {
-        String currentText = tfQuantity.getText();
-        int currentValue = Integer.parseInt(currentText);
-        int newValue = currentValue - 1;
-        tfQuantity.setText(Integer.toString(newValue));
-    }
         
     private void calculateTotal() {
         String currentPrice = tfPrice.getText();
         double doublePrice = Double.parseDouble(currentPrice);
-        double newPrice = doublePrice * Double.parseDouble(tfQuantity.getText());
-        tfPrice.setText(Double.toString(newPrice));
+        tfPrice.setText(Double.toString(doublePrice));
     }
 
     private String getRemark(){
@@ -202,9 +186,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
         tfNumber = new javax.swing.JTextField();
         tfDetails = new javax.swing.JTextField();
         tfPrice = new javax.swing.JTextField();
-        bAddQuantity = new javax.swing.JButton();
-        bReduceQuantity = new javax.swing.JButton();
-        tfQuantity = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         Menu = new javax.swing.JTable();
@@ -369,23 +350,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
         });
 
-        bAddQuantity.setText("+");
-        bAddQuantity.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bAddQuantityActionPerformed(evt);
-            }
-        });
-
-        bReduceQuantity.setText("-");
-        bReduceQuantity.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bReduceQuantityActionPerformed(evt);
-            }
-        });
-
-        tfQuantity.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfQuantity.setText("1");
-
         jLabel1.setText("RM");
 
         Menu.setModel(model);
@@ -474,7 +438,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(tfNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -482,17 +446,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel1)
                                         .addGap(1, 1, 1)
-                                        .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(bReduceQuantity)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(bAddQuantity))
+                                        .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(rbTakeAway, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(12, 12, 12)
-                                        .addComponent(bNotification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(bNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(242, 242, 242)))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -522,9 +480,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
                             .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tfDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bReduceQuantity)
-                            .addComponent(bAddQuantity)
-                            .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bCancelOrder)
                             .addComponent(jLabel1)
                             .addComponent(tfOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -600,16 +555,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
         reviewsFrame.setFoodNameText(tfDetails.getText(), String.valueOf(cbCuisine.getSelectedItem()));
         
     }//GEN-LAST:event_bReviewsActionPerformed
-
-    private void bAddQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddQuantityActionPerformed
-        // TODO add your handling code here:
-        addQuantity();
-    }//GEN-LAST:event_bAddQuantityActionPerformed
-
-    private void bReduceQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReduceQuantityActionPerformed
-        // TODO add your handling code here:
-        minusQuantity();
-    }//GEN-LAST:event_bReduceQuantityActionPerformed
 
     private void CurrentOrderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CurrentOrderMouseReleased
         // TODO add your handling code here:
@@ -749,14 +694,12 @@ public class C_MenuFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable CurrentOrder;
     private javax.swing.JTable Menu;
-    private javax.swing.JButton bAddQuantity;
     private javax.swing.JButton bCancelOrder;
     private javax.swing.JButton bLogOut;
     private javax.swing.JButton bNotification;
     private javax.swing.JButton bNotificationRead;
     private javax.swing.JButton bOrderHistory;
     private javax.swing.JButton bPlaceOrder;
-    private javax.swing.JButton bReduceQuantity;
     private javax.swing.JButton bReviews;
     private javax.swing.JButton bTransactionHistory;
     private javax.swing.JLabel balance;
@@ -781,7 +724,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
     private javax.swing.JTextField tfNumber;
     private javax.swing.JTextField tfOrderID;
     private javax.swing.JTextField tfPrice;
-    private javax.swing.JTextField tfQuantity;
     private javax.swing.JLabel username;
     // End of variables declaration//GEN-END:variables
 }
