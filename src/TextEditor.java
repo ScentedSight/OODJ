@@ -97,8 +97,8 @@ public class TextEditor {
         }
     }
     
-    public static String idGenerator() { //To create a consequent order ID making sure it is unique based on the amount of existing orders in the textfile
-        List<Object> container = new ArrayList<>(fileReader(FilePaths.HISTORY));
+    public static String idGenerator(FilePaths paths) { //To create a consequent order ID making sure it is unique based on the amount of existing orders in the textfile
+        List<Object> container = new ArrayList<>(fileReader(paths));
         int counter = container.size() + 1;
         return String.valueOf(counter);
     }
