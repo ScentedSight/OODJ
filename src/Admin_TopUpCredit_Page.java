@@ -413,7 +413,7 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                     }
                 }
                 if(generateReceipt){
-                    String receiptId = text.idGenerator();
+                    String receiptId = text.idGenerator(TextEditor.FilePaths.NOTIFICATION);
                     String notificationId = generateNotificationID();
                     nt = new Notification(notificationId, receiptId, custId, type, topupamount);
                     text.fileWrite(TextEditor.FilePaths.NOTIFICATION, nt);
