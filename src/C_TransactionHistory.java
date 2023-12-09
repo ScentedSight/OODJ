@@ -22,8 +22,9 @@ public class C_TransactionHistory extends javax.swing.JFrame {
     /**
      * Creates new form TransactionHistory
      */
-    public C_TransactionHistory() {
+    public C_TransactionHistory(Customer customer) {
         initComponents();
+        this.customer = customer;
         usernameTH.setText(customer.getId());
         populateTransactionHistoryTable();
  
@@ -93,6 +94,8 @@ public class C_TransactionHistory extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jScrollPane1.setViewportView(jTable1);
+
+        usernameTH.setEditable(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

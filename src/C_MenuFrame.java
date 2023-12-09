@@ -458,6 +458,12 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
         });
 
+        tfNumber.setEditable(false);
+
+        tfDetails.setEditable(false);
+
+        tfPrice.setEditable(false);
+
         bAddQuantity.setText("+");
         bAddQuantity.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -482,6 +488,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
         });
 
+        tfQuantity.setEditable(false);
         tfQuantity.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfQuantity.setText("1");
 
@@ -497,6 +504,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
         });
         jScrollPane3.setViewportView(Menu);
+
+        tfOrderID.setEditable(false);
+
+        tfCurrentOrderDetails.setEditable(false);
 
         rbDineIn.setText("Dine in");
         rbDineIn.addActionListener(new java.awt.event.ActionListener() {
@@ -524,7 +535,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(139, Short.MAX_VALUE)
+                .addContainerGap(140, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(rbDelivery, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -570,7 +581,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                                             .addComponent(bPlaceOrder)
                                             .addGap(0, 0, Short.MAX_VALUE))))
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -655,13 +666,13 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_bTransactionHistoryMouseClicked
 
     private void bTransactionHistoryMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bTransactionHistoryMousePressed
-        C_TransactionHistory transactionHistoryFrame = new C_TransactionHistory();
+        C_TransactionHistory transactionHistoryFrame = new C_TransactionHistory(customer);
         transactionHistoryFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         transactionHistoryFrame.setVisible(true);
     }//GEN-LAST:event_bTransactionHistoryMousePressed
 
     private void bOrderHistoryMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bOrderHistoryMousePressed
-        C_OrderHistory orderHistoryFrame = new C_OrderHistory();
+        C_OrderHistory orderHistoryFrame = new C_OrderHistory(customer);
         orderHistoryFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         orderHistoryFrame.setVisible(true);
     }//GEN-LAST:event_bOrderHistoryMousePressed
@@ -715,7 +726,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
             break;
         }
         
-        Notification notification = new Notification(customer, order.getId());
+        Notification notification = new Notification(customer, order.getId(), String.valueOf(cbCuisine.getSelectedItem()));
         TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification);  
     }//GEN-LAST:event_bPlaceOrderMousePressed
 

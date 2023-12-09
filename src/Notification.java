@@ -1,16 +1,17 @@
 public class Notification implements DataProvider {
 
     private Messages message, messageRunner;
-    private String userID, id, orderID; //id here will be used as notification ID when top up, runner ID when delivering
+    private String userID, id, orderID, vendorID; //id here will be used as notification ID when top up, runner ID when delivering
     private String receiptID, date, time, type;
     private int topupamount;
 
-    public Notification(Customer customer, String orderID) { //When order is newly created insert the orderID, customer gui HAVE to set messageRunner to SEARCHING when placing delivering order
+    public Notification(String vendorID, Customer customer, String orderID) { //When order is newly created insert the orderID, customer gui HAVE to set messageRunner to SEARCHING when placing delivering order
         Time time = new Time();
         this.time = time.toString();
         message = message.ORDER;
         userID = customer.getId();
         this.orderID = orderID;
+        this.vendorID = vendorID;
     }
     
     public Notification(String id, String receiptID, String  userID, String type, int topupamount){ //Top up notification
