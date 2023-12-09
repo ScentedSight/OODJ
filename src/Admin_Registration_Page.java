@@ -1,6 +1,3 @@
-import java.awt.HeadlessException;
-import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -11,10 +8,8 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
     Customer customer;
     Vendor vendor;
     DeliveryRunner deliveryrunner;
-    TextEditor text;
     public Admin_Registration_Page(){
         initComponents();
-        text = new TextEditor();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -152,8 +147,12 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
             }
         });
 
-        Pass_Field.setText("123456");
         Pass_Field.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        Pass_Field.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Pass_FieldActionPerformed(evt);
+            }
+        });
 
         Address_TF.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         Address_TF.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -163,7 +162,6 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
             }
         });
 
-        ConfirmPass_Field.setText("123456");
         ConfirmPass_Field.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         Email_TF.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -374,7 +372,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
         
         boolean invalid = false;
         
-        List<DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.USER));
+        List<DataProvider> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.USER));
         String[][] userDetails = new String[numRows][numCols];
 
         int row = 0;
@@ -461,19 +459,19 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
                 String id = generateID(role, countCustomer, countVendor, countRunner);
                 if (role.equals("Customer") && value instanceof Customer) {
                     customer = new Customer(id, email, phoneNo, gender, address, password);
-                    text.fileWrite(TextEditor.FilePaths.USER, customer);
+                    TextEditor.fileWrite(TextEditor.FilePaths.USER, customer);
                     JOptionPane.showMessageDialog(this, "Your Registration was Successful");
                     JOptionPane.showMessageDialog(this, "Generated ID is " + id);
                     break;
                 } else if (role.equals("Vendor") && value instanceof Vendor) {
                     vendor = new Vendor(id, vendorName, email, phoneNo, gender, password);
-                    text.fileWrite(TextEditor.FilePaths.USER, vendor);
+                    TextEditor.fileWrite(TextEditor.FilePaths.USER, vendor);
                     JOptionPane.showMessageDialog(this, "Your Registration was Successful");
                     JOptionPane.showMessageDialog(this, "Generated ID is " + id);                
                     break;
                 } else if (role.equals("Delivery Runner") && value instanceof DeliveryRunner) {
                     deliveryrunner = new DeliveryRunner(id, email, phoneNo, gender, password);
-                    text.fileWrite(TextEditor.FilePaths.USER, deliveryrunner);
+                    TextEditor.fileWrite(TextEditor.FilePaths.USER, deliveryrunner);
                     JOptionPane.showMessageDialog(this, "Your Registration was Successful");
                     JOptionPane.showMessageDialog(this, "Generated ID is " + id);
                     break;
@@ -482,7 +480,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
         }
                 
         // Print information for testing purposes
-        List<DataProvider> container1 = new ArrayList<>(text.fileReader(TextEditor.FilePaths.USER));
+        List<DataProvider> container1 = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.USER));
         for (DataProvider value : container1) {
             if (value instanceof Vendor) {
                 Vendor vend = (Vendor) value;
@@ -515,6 +513,10 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
     private void PN_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PN_TFActionPerformed
       
     }//GEN-LAST:event_PN_TFActionPerformed
+
+    private void Pass_FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Pass_FieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Pass_FieldActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

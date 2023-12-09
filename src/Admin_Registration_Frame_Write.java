@@ -1,6 +1,3 @@
-import java.awt.HeadlessException;
-import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -153,7 +150,6 @@ public class Admin_Registration_Frame_Write extends javax.swing.JFrame {
             }
         });
 
-        Pass_Field.setText("123456");
         Pass_Field.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         Address_TF.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -164,7 +160,6 @@ public class Admin_Registration_Frame_Write extends javax.swing.JFrame {
             }
         });
 
-        ConfirmPass_Field.setText("123456");
         ConfirmPass_Field.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         Email_TF.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
