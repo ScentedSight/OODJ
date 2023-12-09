@@ -92,6 +92,8 @@ public class VendorFrame extends JFrame {
         lblNotification = new javax.swing.JLabel();
         btnRead = new javax.swing.JButton();
         btnAddMenu = new javax.swing.JButton();
+        textFoodName = new javax.swing.JTextField();
+        textCost = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -158,8 +160,10 @@ public class VendorFrame extends JFrame {
             }
         });
 
+        lblNotification.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         lblNotification.setText("Notification");
 
+        btnRead.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnRead.setText("Read");
         btnRead.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -167,12 +171,19 @@ public class VendorFrame extends JFrame {
             }
         });
 
+        btnAddMenu.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnAddMenu.setText("Add");
         btnAddMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddMenuActionPerformed(evt);
             }
         });
+
+        textFoodName.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        textFoodName.setText("FoodName");
+
+        textCost.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        textCost.setText("Cost");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -191,13 +202,17 @@ public class VendorFrame extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(22, 22, 22)
                                 .addComponent(btnAddMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(33, 33, 33)
-                                .addComponent(btnEditMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnEditMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(textFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(textCost, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(60, 60, 60)
@@ -236,8 +251,13 @@ public class VendorFrame extends JFrame {
                 .addComponent(lblOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEditMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
@@ -293,7 +313,7 @@ public class VendorFrame extends JFrame {
     private void btnEditMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditMenuActionPerformed
         if (MenuRow != -1) {
             List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.MENU));
-            for (Object obj : container2) { //Finalise delivery order by plugging in extra properties
+            for (Object obj : container2) { 
                 Food menu = (Food) obj;
                 if (menu.getId().equals(String.valueOf(MenuModel.getValueAt(MenuRow, 0)))) {
                     menu.getId();
@@ -335,7 +355,18 @@ public class VendorFrame extends JFrame {
     }//GEN-LAST:event_btnLogOutActionPerformed
 
     private void btnAddMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMenuActionPerformed
-
+         String foodID=vendor.getId()+":"+textFoodName.getText();
+         List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.MENU));
+            for (Object obj : container2) { 
+                Food menu = (Food) obj;
+                if (!menu.getId().equals(foodID)) {
+                    String.valueOf(foodID);
+                    menu.setDescription(textFoodName.getText());
+                    menu.setCost(Double.parseDouble(textCost.getText()));
+                    TextEditor.fileWrite(TextEditor.FilePaths.MENU, menu);     //write all
+                    break; //Break out of the loop once done since only one menu should be edited at a time
+                }
+            }
     }//GEN-LAST:event_btnAddMenuActionPerformed
 
     /**
@@ -388,5 +419,7 @@ public class VendorFrame extends JFrame {
     private javax.swing.JLabel lblNotification;
     private javax.swing.JLabel lblOrder;
     private javax.swing.JLabel lblWelcome;
+    private javax.swing.JTextField textCost;
+    private javax.swing.JTextField textFoodName;
     // End of variables declaration//GEN-END:variables
 }
