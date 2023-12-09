@@ -17,6 +17,7 @@ public class VendorFrame extends JFrame {
     private DefaultTableModel MenuModel = new DefaultTableModel();
     private DefaultTableModel OrderModel = new DefaultTableModel();
     private Vendor vendor;
+    private Time time;
     private String[] MenuColumn={"FoodID","Description","Price"};
     private String[] OrderList={"OrderID","Time","Status"};
     private int MenuRow = -1; 
@@ -293,7 +294,7 @@ public class VendorFrame extends JFrame {
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 Order OH = (Order) obj;
                 if (OH.getId().equals(String.valueOf(OrderModel.getValueAt(OrderRow, 0)))) {
-                    OrderDetail o=new OrderDetail(OH.getId(),OH.getFood(),OH.getTime(),OH.getRemark(),OH.getStatus());
+                    OrderDetail o=new OrderDetail(OH.getId(),OH.getFood(),time,OH.getRemark(),OH.getStatus());
                     o.isVisible();
                     break; //Break out of the loop once done since only one order should be edited at a time
                 }
