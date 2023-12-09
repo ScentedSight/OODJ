@@ -72,6 +72,10 @@ public class Notification implements DataProvider {
         this.message = message;
     }
     
+    public String getMessageRunner() {
+        return String.valueOf(messageRunner);
+    } 
+    
     public void setMessageRunner(Messages message) {
         Time time = new Time();
         this.time = time.toString();

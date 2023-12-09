@@ -159,7 +159,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
         for (Object obj : container) {
             Notification notifyObj = (Notification) obj;
             if (notifyObj.getUser().equals(customer.getId())) {
-                String[] notifyContainer = {String.valueOf(counter), notifyObj.getOrderID(), notifyObj.getMessage(), notifyObj.getTime()};
+                String[] notifyContainer = {String.valueOf(counter), notifyObj.getOrderID() + "\n" + notifyObj.getMessageRunner(), notifyObj.getMessage(), notifyObj.getTime()};
                 model3.addRow(notifyContainer);
                 counter++;
             }
@@ -648,10 +648,13 @@ public class C_MenuFrame extends javax.swing.JFrame {
     private void NotificationMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMousePressed
         row3 = Notification.getSelectedRow();
         String selector = String.valueOf(model3.getValueAt(row3, 1));
-        if (row3 != -1 && selector.contains("O")) { //Check for receipt ID identifier which starts with R
-            bNotificationReceived.setEnabled(true); //Make the receipt acknowledge button available
-        } else if (row3 != -1 && selector.contains("R")) { //Check for order ID identifier which starts with O
-            bNotificationAcknowledged.setEnabled(true); //Make the food received button available
+        String selector2 = String.valueOf(model3.getValueAt(row3, 2));
+        if (row3 != -1) {
+            if (selector.contains("O") && (selector2.contains("READY") || selector2.contains("CANCELED"))) { //Check for order ID identifier which starts with O and only allowing 3 statuses of ready and canceled to make the food received button available
+                bNotificationReceived.setEnabled(true); //Make the food received button available
+            } else if (selector.contains("R")) {//Check for receipt ID identifier which starts with R
+                bNotificationAcknowledged.setEnabled(true); //Make the receipt acknowledge button available
+            }
         }
     }//GEN-LAST:event_NotificationMousePressed
 
