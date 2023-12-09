@@ -13,13 +13,14 @@ public class Notification implements DataProvider {
         this.orderID = orderID;
     }
     
-    public Notification(String id, String receiptID, String  userID, String date, String time, String type, int topupamount){ //Top up notification
+    public Notification(String id, String receiptID, String  userID, String type, int topupamount){ //Top up notification
+        message = Messages.RECEIPT;
+        Time time = new Time();
+        this.time = time.toString();
+        date = time.getDay() + "/" +  time.getMonth() + "/" + time.getYear();
         this.id = id;
-        this.receiptID = receiptID;
-        this.userID = userID;
-        this.date = date;
-        this.time = time;
-        this.date = date;
+        this.receiptID = "R" + receiptID;
+        this.userID = userID; //Customer's id
         this.topupamount = topupamount;
         this.type = type;
     }
