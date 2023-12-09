@@ -13,7 +13,7 @@ public class Order implements DataProvider {
     private String vendorName;
     private String vendorId;
     private Customer customer;
-    private Time time;
+    Time time;
     private double quantity;
 
     enum Status {

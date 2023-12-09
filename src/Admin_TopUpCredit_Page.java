@@ -413,7 +413,7 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                     }
                 }
                 if(generateReceipt){
-                    String receiptId = text.idGenerator();
+                    String receiptId = text.idGenerator(TextEditor.FilePaths.NOTIFICATION);
                     String notificationId = generateNotificationID();
                     nt = new Notification(notificationId, receiptId, custId, type, topupamount);
                     text.fileWrite(TextEditor.FilePaths.NOTIFICATION, nt);
@@ -533,21 +533,6 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
             }
             row++;
         }
-    }
-
-    public int generateReceiptID(){
-        List<DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.NOTIFICATION));
-        
-        int countReceipt = 1; 
-        for (DataProvider value : container) {
-            Notification nt = (Notification) value;
-            if(nt.getType().equals("Top Up")){
-                countReceipt++;
-            }else{
-                break;
-            }
-        }
-        return countReceipt;
     }
     
     public String generateNotificationID(){
