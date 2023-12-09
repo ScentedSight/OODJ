@@ -12,8 +12,8 @@ public class TextEditor {
 
         USER("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\USERS.txt"),
         NOTIFICATION("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\NOTIFICATION.txt"),
-        MENU("C:\\Users\\Johan\\Desktop\\MENU.txt"),
-        HISTORY("C:\\Users\\Johan\\Desktop\\HISTORY.txt");
+        MENU("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\MENU.txt"),
+        HISTORY("C:\\Users\\110ti\\OneDrive - Asia Pacific University\\Degree Year 2\\Tutorial\\Java\\Assignment\\files\\HISTORY.txt");
 
         private String filePath;
 
