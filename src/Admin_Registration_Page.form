@@ -402,13 +402,15 @@
         </Component>
         <Component class="javax.swing.JPasswordField" name="Pass_Field">
           <Properties>
-            <Property name="text" type="java.lang.String" value="123456"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder/>
               </Border>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Pass_FieldActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="Address_TF">
           <Properties>
@@ -427,7 +429,6 @@
         </Component>
         <Component class="javax.swing.JPasswordField" name="ConfirmPass_Field">
           <Properties>
-            <Property name="text" type="java.lang.String" value="123456"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder/>

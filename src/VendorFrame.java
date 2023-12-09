@@ -27,9 +27,7 @@ public class VendorFrame extends JFrame {
         initComponents();
         MenuModel.setColumnIdentifiers(MenuColumn);
         OrderModel.setColumnIdentifiers(OrderList);
-        lblWelcome.setText("Welcome"+vendor.getName());
-        Vendor v=new Vendor("21331","26383");
-        VendorFrame vf=new VendorFrame(v);
+        VendorFrame vf=new VendorFrame();
     }
     
     public VendorFrame(Vendor vendor) {
@@ -90,14 +88,20 @@ public class VendorFrame extends JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         OrderTable = new javax.swing.JTable();
         lblMenu1 = new javax.swing.JLabel();
-        btnAddMenu = new javax.swing.JButton();
+        btnEditMenu = new javax.swing.JButton();
         lblNotification = new javax.swing.JLabel();
         btnRead = new javax.swing.JButton();
+        btnAddMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnLogOut.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnLogOut.setText("LogOut");
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
 
         lblWelcome.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lblWelcome.setText("Welcome, XXX");
@@ -146,11 +150,11 @@ public class VendorFrame extends JFrame {
         lblMenu1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         lblMenu1.setText("Menu");
 
-        btnAddMenu.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnAddMenu.setText("Add");
-        btnAddMenu.addActionListener(new java.awt.event.ActionListener() {
+        btnEditMenu.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        btnEditMenu.setText("Edit");
+        btnEditMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddMenuActionPerformed(evt);
+                btnEditMenuActionPerformed(evt);
             }
         });
 
@@ -160,6 +164,13 @@ public class VendorFrame extends JFrame {
         btnRead.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReadActionPerformed(evt);
+            }
+        });
+
+        btnAddMenu.setText("Add");
+        btnAddMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddMenuActionPerformed(evt);
             }
         });
 
@@ -183,8 +194,10 @@ public class VendorFrame extends JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(83, 83, 83)
-                                .addComponent(btnAddMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(22, 22, 22)
+                                .addComponent(btnAddMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
+                                .addComponent(btnEditMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(60, 60, 60)
@@ -227,8 +240,9 @@ public class VendorFrame extends JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAddMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(btnView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnEditMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addComponent(btnView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAddMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -276,7 +290,7 @@ public class VendorFrame extends JFrame {
         v.setVisible(false);
     }//GEN-LAST:event_btnViewActionPerformed
 
-    private void btnAddMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMenuActionPerformed
+    private void btnEditMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditMenuActionPerformed
         if (MenuRow != -1) {
             List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.MENU));
             for (Object obj : container2) { //Finalise delivery order by plugging in extra properties
@@ -291,7 +305,7 @@ public class VendorFrame extends JFrame {
                 }
             }
         }    
-    }//GEN-LAST:event_btnAddMenuActionPerformed
+    }//GEN-LAST:event_btnEditMenuActionPerformed
 
     private void MenuTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuTableMouseClicked
         MenuRow=MenuTable.getSelectedRow();
@@ -313,6 +327,16 @@ public class VendorFrame extends JFrame {
                 }
             }
     }//GEN-LAST:event_btnReadActionPerformed
+
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        Login_Page LP = new Login_Page();
+        LP.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLogOutActionPerformed
+
+    private void btnAddMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMenuActionPerformed
+
+    }//GEN-LAST:event_btnAddMenuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -353,6 +377,7 @@ public class VendorFrame extends JFrame {
     private javax.swing.JTable MenuTable;
     private javax.swing.JTable OrderTable;
     private javax.swing.JButton btnAddMenu;
+    private javax.swing.JButton btnEditMenu;
     private javax.swing.JButton btnLogOut;
     private javax.swing.JButton btnRead;
     private javax.swing.JButton btnRevenue;

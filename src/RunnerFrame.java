@@ -30,21 +30,7 @@ public class RunnerFrame extends javax.swing.JFrame {
     private final String[] tasksColumns = {"Order ID", "Time Elapsed", "Vendor", "Customer ID", "Food", "Address"};
     private final String[] taskHistoryColumns = {"Order ID", "Order Completion", "Vendor", "Customer", "Food", "Address", "Profit", "Review"};
     private int taskListRow = -1; //-1 = absence of a selected row, can be used as conditions
-    private int tasksRow = -1; //Different row selector for different tables
-    
-    public RunnerFrame() { //Default constructor for testing purposes
-        DeliveryRunner runner = new DeliveryRunner("testing", "testsubject");
-        this.runner = runner;
-        initComponents();
-        taskListModel.setColumnIdentifiers(taskListColumns);
-        tasksModel.setColumnIdentifiers(tasksColumns);
-        taskHistory.setColumnIdentifiers(taskHistoryColumns);
-        runnerHomeTitlelbl.setText("Welcome Runner " + runner.getId()); //Set title
-        runnerHomeLoadTaskListProcess(); //Load tasks list
-        runnerHomeLoadTaskProcess(); //Load tasks
-        generateTotalRevenue(); //Set total revenue text for revenue dashboard
-        displayNotification(); //Set notification
-    }
+    private int tasksRow = -1; //Different row selector for different tables   
     
     public RunnerFrame(DeliveryRunner runner) { //Runner object read from textfile and passed to runner frame after log in
         initComponents();
@@ -58,7 +44,8 @@ public class RunnerFrame extends javax.swing.JFrame {
         generateTotalRevenue(); //Set total revenue text for revenue dashboard
         displayNotification(); //Set notification
     }
-
+    
+    public RunnerFrame(){}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -464,7 +451,9 @@ public class RunnerFrame extends javax.swing.JFrame {
     }
     
     private void runnerHomeLogOutbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnerHomeLogOutbtnActionPerformed
-        // TODO add your handling code here:
+        Login_Page LP = new Login_Page();
+        LP.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_runnerHomeLogOutbtnActionPerformed
 
     private void runnerTaskAcceptbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runnerTaskAcceptbtnActionPerformed
