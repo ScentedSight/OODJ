@@ -117,11 +117,14 @@ public class C_Reviews extends javax.swing.JFrame {
             }
         });
 
+        tfVendorName.setEditable(false);
         tfVendorName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfVendorNameActionPerformed(evt);
             }
         });
+
+        tfFoodName.setEditable(false);
 
         tfOID.setText("OrderID");
         tfOID.addActionListener(new java.awt.event.ActionListener() {
