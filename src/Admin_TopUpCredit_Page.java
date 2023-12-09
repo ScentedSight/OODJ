@@ -11,13 +11,11 @@ import javax.swing.table.DefaultTableModel;
 public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
     TextEditor text;
     Administrator admin;
-    Time tptime;
     Notification nt;
     public Admin_TopUpCredit_Page(){
         initComponents();
         text = new TextEditor();
         admin = new Administrator();
-        tptime = new Time();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -393,8 +391,6 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
             String custId = ID_TF.getText();
             double Initialbalance = Double.parseDouble(InitialBalance_TF.getText());
             int topupamount = Integer.parseInt(String.valueOf(AddBalance_CB.getSelectedItem()));
-            String date = tptime.getDay()+ "/" +tptime.getMonth()+ "/" +tptime.getYear();
-            String topuptime = tptime.toString();
             String type = "Top Up";
             Boolean generateReceipt = false;
 
@@ -417,9 +413,9 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                     }
                 }
                 if(generateReceipt){
-                    String receiptId = String.valueOf(generateReceiptID());
+                    String receiptId = text.idGenerator();
                     String notificationId = generateNotificationID();
-                    nt = new Notification(notificationId, receiptId, custId, date, topuptime, type, topupamount);
+                    nt = new Notification(notificationId, receiptId, custId, type, topupamount);
                     text.fileWrite(TextEditor.FilePaths.NOTIFICATION, nt);
                     JOptionPane.showMessageDialog(this, " You have successfully topped up, receipt has been generated!");
                 }
