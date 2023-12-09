@@ -4,7 +4,6 @@
  */
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -41,7 +40,8 @@ public class C_MenuFrame extends javax.swing.JFrame {
     
     public C_MenuFrame(Customer customer) {
         initComponents();
-        bNotificationRead.setEnabled(false); //Grey out button
+        bNotificationReceived.setEnabled(false); //Grey out buttons
+        bNotificationAcknowledged.setEnabled(false);
         this.customer = customer;
         model.setColumnIdentifiers(column);
         model2.setColumnIdentifiers(column2);
@@ -172,17 +172,13 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }
     
     private void deleteNotification() { //Acknowledge notifications function
-        String selector = String.valueOf(model3.getValueAt(row3, 1));
-        if (row3 != -1 && selector.contains("R")) {
-            bNotificationRead.setEnabled(true);
-            List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
-            for (Object obj : container) {
-                
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
+        for (Object obj : container) {
+            Notification notification = (Notification) obj;
+            if (notification.getReceiptID().equals(model3.getValueAt(row3, 1)) || notification.getOrderID().equals(model3.getValueAt(row3, 1))) {
+                TextEditor.textDelete(TextEditor.FilePaths.USER, notification);
             }
-        } else () {
-            
         }
-    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -204,7 +200,8 @@ public class C_MenuFrame extends javax.swing.JFrame {
         bLogOut = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Notification = new javax.swing.JTable();
-        bNotificationRead = new javax.swing.JButton();
+        bNotificationReceived = new javax.swing.JButton();
+        bNotificationAcknowledged = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         cbCuisine = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -253,6 +250,14 @@ public class C_MenuFrame extends javax.swing.JFrame {
         bTransactionHistory.setForeground(new java.awt.Color(0, 0, 255));
         bTransactionHistory.setText("Transaction History >");
         bTransactionHistory.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bTransactionHistory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bTransactionHistoryMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bTransactionHistoryMousePressed(evt);
+            }
+        });
         bTransactionHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bTransactionHistoryActionPerformed(evt);
@@ -268,6 +273,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
         bOrderHistory.setForeground(new java.awt.Color(0, 0, 255));
         bOrderHistory.setText("Order History");
         bOrderHistory.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bOrderHistory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bOrderHistoryMousePressed(evt);
+            }
+        });
         bOrderHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bOrderHistoryActionPerformed(evt);
@@ -279,6 +289,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
         jUsername.setText("Username");
 
         bLogOut.setText("Log Out");
+        bLogOut.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bLogOutMousePressed(evt);
+            }
+        });
         bLogOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bLogOutActionPerformed(evt);
@@ -293,10 +308,22 @@ public class C_MenuFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(Notification);
 
-        bNotificationRead.setText("Received");
-        bNotificationRead.addActionListener(new java.awt.event.ActionListener() {
+        bNotificationReceived.setText("Food Received");
+        bNotificationReceived.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bNotificationReceivedMousePressed(evt);
+            }
+        });
+        bNotificationReceived.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bNotificationReadActionPerformed(evt);
+                bNotificationReceivedActionPerformed(evt);
+            }
+        });
+
+        bNotificationAcknowledged.setText("Acknowledged");
+        bNotificationAcknowledged.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bNotificationAcknowledgedActionPerformed(evt);
             }
         });
 
@@ -307,9 +334,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(419, 419, 419)
+                        .addGap(413, 413, 413)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -328,16 +356,20 @@ public class C_MenuFrame extends javax.swing.JFrame {
                                 .addComponent(jTitle)
                                 .addGap(83, 83, 83)
                                 .addComponent(bLogOut))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bNotificationRead)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(bNotificationReceived, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bNotificationAcknowledged, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bNotificationRead)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(bNotificationReceived)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bNotificationAcknowledged))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -372,6 +404,9 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
         CurrentOrder.setModel(model2);
         CurrentOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                CurrentOrderMousePressed(evt);
+            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 CurrentOrderMouseReleased(evt);
             }
@@ -387,6 +422,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
         jCurrentOrder.setText("Current Order");
 
         bPlaceOrder.setText("Place Order");
+        bPlaceOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bPlaceOrderMousePressed(evt);
+            }
+        });
         bPlaceOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bPlaceOrderActionPerformed(evt);
@@ -394,6 +434,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
         });
 
         bCancelOrder.setText("Cancel Order");
+        bCancelOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bCancelOrderMousePressed(evt);
+            }
+        });
         bCancelOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCancelOrderActionPerformed(evt);
@@ -401,6 +446,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
         });
 
         bReviews.setText("Reviews");
+        bReviews.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bReviewsMousePressed(evt);
+            }
+        });
         bReviews.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bReviewsActionPerformed(evt);
@@ -408,6 +458,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
         });
 
         bAddQuantity.setText("+");
+        bAddQuantity.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bAddQuantityMousePressed(evt);
+            }
+        });
         bAddQuantity.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bAddQuantityActionPerformed(evt);
@@ -415,6 +470,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
         });
 
         bReduceQuantity.setText("-");
+        bReduceQuantity.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bReduceQuantityMousePressed(evt);
+            }
+        });
         bReduceQuantity.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bReduceQuantityActionPerformed(evt);
@@ -428,6 +488,9 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
         Menu.setModel(model);
         Menu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                MenuMousePressed(evt);
+            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 MenuMouseReleased(evt);
             }
@@ -571,60 +634,61 @@ public class C_MenuFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bTransactionHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bTransactionHistoryActionPerformed
+    private void NotificationMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMousePressed
+        row3 = Notification.getSelectedRow();
+        String selector = String.valueOf(model3.getValueAt(row3, 1));
+        if (row3 != -1 && selector.contains("R")) { //Check for receipt ID identifier which starts with R
+            bNotificationReceived.setEnabled(true); //Make the receipt acknowledge button available
+        } else if (row3 != -1 && selector.contains("O")) { //Check for order ID identifier which starts with O
+            bNotificationAcknowledged.setEnabled(true); //Make the food received button available
+        }
+    }//GEN-LAST:event_NotificationMousePressed
+
+    private void bNotificationAcknowledgedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNotificationAcknowledgedActionPerformed
+        deleteNotification();
+    }//GEN-LAST:event_bNotificationAcknowledgedActionPerformed
+
+    private void bTransactionHistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bTransactionHistoryMouseClicked
         // TODO add your handling code here:
+    }//GEN-LAST:event_bTransactionHistoryMouseClicked
+
+    private void bTransactionHistoryMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bTransactionHistoryMousePressed
         C_TransactionHistory transactionHistoryFrame = new C_TransactionHistory();
         transactionHistoryFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         transactionHistoryFrame.setVisible(true);
-    }//GEN-LAST:event_bTransactionHistoryActionPerformed
+    }//GEN-LAST:event_bTransactionHistoryMousePressed
 
-    private void cbCuisineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCuisineActionPerformed
-        // TODO add your handling code here:
-        model.setRowCount(0);
-        populateMenuTable();
-    }//GEN-LAST:event_cbCuisineActionPerformed
-
-    private void balanceComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_balanceComponentShown
-        // TODO add your handling code here:
-    }//GEN-LAST:event_balanceComponentShown
-
-    private void bOrderHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOrderHistoryActionPerformed
-        // TODO add your handling code here:
+    private void bOrderHistoryMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bOrderHistoryMousePressed
         C_OrderHistory orderHistoryFrame = new C_OrderHistory();
         orderHistoryFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         orderHistoryFrame.setVisible(true);
-    }//GEN-LAST:event_bOrderHistoryActionPerformed
+    }//GEN-LAST:event_bOrderHistoryMousePressed
 
-    private void bReviewsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReviewsActionPerformed
-        // TODO add your handling code here:
+    private void bReviewsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bReviewsMousePressed
         C_Reviews reviewsFrame = new C_Reviews();
         reviewsFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         reviewsFrame.setVisible(true);
        
         reviewsFrame.setFoodNameText(tfDetails.getText(), String.valueOf(cbCuisine.getSelectedItem()));
-        
-    }//GEN-LAST:event_bReviewsActionPerformed
+    }//GEN-LAST:event_bReviewsMousePressed
 
-    private void CurrentOrderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CurrentOrderMouseReleased
-        // TODO add your handling code here:
-        row2 = CurrentOrder.getSelectedRow();
-        String orderID = String.valueOf(model2.getValueAt(row2, 0));
-        String details = String.valueOf(model2.getValueAt (row2, 1));
-        String quantity = String.valueOf(model2.getValueAt (row2, 2));
-        String total = String.valueOf(model2.getValueAt (row2, 3));
-        String status = String.valueOf(model2.getValueAt (row2, 4));
-        
-        tfOrderID.setText(orderID);
-        tfCurrentOrderDetails.setText(details);
-    }//GEN-LAST:event_CurrentOrderMouseReleased
+    private void CurrentOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CurrentOrderMousePressed
+            row2 = CurrentOrder.getSelectedRow();
+            String orderID = String.valueOf(model2.getValueAt(row2, 0));
+            String details = String.valueOf(model2.getValueAt (row2, 1));
+            String quantity = String.valueOf(model2.getValueAt (row2, 2));
+            String total = String.valueOf(model2.getValueAt (row2, 3));
+            String status = String.valueOf(model2.getValueAt (row2, 4));
 
-    private void bCancelOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelOrderActionPerformed
-        // TODO add your handling code here:
+            tfOrderID.setText(orderID);
+            tfCurrentOrderDetails.setText(details);
+    }//GEN-LAST:event_CurrentOrderMousePressed
+
+    private void bCancelOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bCancelOrderMousePressed
         deleteCurrentOrder();
-    }//GEN-LAST:event_bCancelOrderActionPerformed
+    }//GEN-LAST:event_bCancelOrderMousePressed
 
-    private void bPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPlaceOrderActionPerformed
-        // TODO add your handling code here:
+    private void bPlaceOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bPlaceOrderMousePressed
         Order order = new Order(tfNumber.getText(),String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
         
         TextEditor reader = new TextEditor();
@@ -650,11 +714,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
         }
         
         Notification notification = new Notification(customer, order.getId());
-        TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification);   
-    }//GEN-LAST:event_bPlaceOrderActionPerformed
+        TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification);  
+    }//GEN-LAST:event_bPlaceOrderMousePressed
 
-    private void MenuMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuMouseReleased
-        // TODO add your handling code here:
+    private void MenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuMousePressed
         row = Menu.getSelectedRow();
         String number = String.valueOf(model.getValueAt(row, 0));
         String details = String.valueOf(model.getValueAt (row, 1));
@@ -665,49 +728,25 @@ public class C_MenuFrame extends javax.swing.JFrame {
         tfPrice.setText(price);
         
         calculateTotal();
-    }//GEN-LAST:event_MenuMouseReleased
+    }//GEN-LAST:event_MenuMousePressed
 
-    private void rbDineInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDineInActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_rbDineInActionPerformed
-
-    private void rbTakeAwayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbTakeAwayActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rbTakeAwayActionPerformed
-
-    private void rbDeliveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDeliveryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rbDeliveryActionPerformed
-
-    private void bNotificationReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNotificationReadActionPerformed
+    private void bNotificationReceivedMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bNotificationReceivedMousePressed
         deleteNotification();
-    }//GEN-LAST:event_bNotificationReadActionPerformed
+    }//GEN-LAST:event_bNotificationReceivedMousePressed
 
-    private void bLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLogOutActionPerformed
-        // TODO add your handling code here:
+    private void bLogOutMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bLogOutMousePressed
         Login_Page LP = new Login_Page();
         LP.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_bLogOutActionPerformed
+    }//GEN-LAST:event_bLogOutMousePressed
 
-    private void bAddQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddQuantityActionPerformed
-        // TODO add your handling code here:
+    private void bAddQuantityMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bAddQuantityMousePressed
         addQuantity();
-    }//GEN-LAST:event_bAddQuantityActionPerformed
+    }//GEN-LAST:event_bAddQuantityMousePressed
 
-    private void bReduceQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReduceQuantityActionPerformed
-        // TODO add your handling code here:
+    private void bReduceQuantityMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bReduceQuantityMousePressed
         minusQuantity();
-    }//GEN-LAST:event_bReduceQuantityActionPerformed
-
-    private void NotificationMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMousePressed
-        row3 = Notification.getSelectedRow();
-        String selector = String.valueOf(model3.getValueAt(row3, 1));
-        if (row3 != -1 && selector.contains("R")) { //Check for receipt ID identifier which starts with R
-            bNotificationRead.setEnabled(true); //Make the notification acknowledge button available
-        }
-    }//GEN-LAST:event_NotificationMousePressed
+    }//GEN-LAST:event_bReduceQuantityMousePressed
 
     /**
      * @param args the command line arguments
@@ -754,7 +793,8 @@ public class C_MenuFrame extends javax.swing.JFrame {
     private javax.swing.JButton bAddQuantity;
     private javax.swing.JButton bCancelOrder;
     private javax.swing.JButton bLogOut;
-    private javax.swing.JButton bNotificationRead;
+    private javax.swing.JButton bNotificationAcknowledged;
+    private javax.swing.JButton bNotificationReceived;
     private javax.swing.JButton bOrderHistory;
     private javax.swing.JButton bPlaceOrder;
     private javax.swing.JButton bReduceQuantity;
