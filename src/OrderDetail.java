@@ -14,6 +14,7 @@ import javax.swing.*;
 public class OrderDetail extends JFrame {
     private String orderID,foodID,time,remark;
     private String status;
+    private Vendor vendor;
      
                 
     public OrderDetail() {
@@ -255,15 +256,18 @@ public class OrderDetail extends JFrame {
         List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container2) { 
                 Notification n = (Notification) obj;
-                if (orderID.equals(n.getOrderID())){                //compare orderID in order table
+                if (vendor.getId().equals(n.getId()) && ){                //compare orderID in order table
                     if (status.equals("PREPARING")) {        
-                    n.setMessage(Notification.Messages.PREPARE);
+                        n.setMessage(Notification.Messages.PREPARE);
                     }
                     else if (status.equals("READY")){
                         n.setMessage(Notification.Messages.READY);
                     }
                     else if (status.equals("CANCELLED")){
                         n.setMessage(Notification.Messages.CANCEL);
+                        n.setVendorID(null); //Remove self from notification
+                    } else if (status.equals("COMPLETED")) {
+                        n.setVendorID(null); //Remove self from notification
                     }
                     TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
                     TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);

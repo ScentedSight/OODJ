@@ -648,9 +648,9 @@ public class C_MenuFrame extends javax.swing.JFrame {
     private void NotificationMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMousePressed
         row3 = Notification.getSelectedRow();
         String selector = String.valueOf(model3.getValueAt(row3, 1));
-        if (row3 != -1 && selector.contains("R")) { //Check for receipt ID identifier which starts with R
+        if (row3 != -1 && selector.contains("O")) { //Check for receipt ID identifier which starts with R
             bNotificationReceived.setEnabled(true); //Make the receipt acknowledge button available
-        } else if (row3 != -1 && selector.contains("O")) { //Check for order ID identifier which starts with O
+        } else if (row3 != -1 && selector.contains("R")) { //Check for order ID identifier which starts with O
             bNotificationAcknowledged.setEnabled(true); //Make the food received button available
         }
     }//GEN-LAST:event_NotificationMousePressed
@@ -726,7 +726,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
             break;
         }
         
-        Notification notification = new Notification(customer, order.getId(), String.valueOf(cbCuisine.getSelectedItem()));
+        Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
         TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification);  
     }//GEN-LAST:event_bPlaceOrderMousePressed
 
