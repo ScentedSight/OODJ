@@ -19,12 +19,14 @@ public class C_MenuFrame extends javax.swing.JFrame {
     private DefaultTableModel model2 = new DefaultTableModel();
     private String[] column2 = {"OrderID", "Details", "Total", "Status"};
     private int row2 = -1;
+   
+    private DefaultTableModel model3 = new DefaultTableModel();
+    private String[] column3 = {"No", "ID", "Notifications", "Time"};
+    private int row3 = -1;
     
     private DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
     
     private Customer customer;
-    
-    private Notification notification;
     
     private ButtonGroup remarkGroup = new ButtonGroup();
     
@@ -38,14 +40,18 @@ public class C_MenuFrame extends javax.swing.JFrame {
     
     public C_MenuFrame(Customer customer) {
         initComponents();
+        bNotificationReceived.setEnabled(false); //Grey out buttons
+        bNotificationAcknowledged.setEnabled(false);
         this.customer = customer;
         model.setColumnIdentifiers(column);
         model2.setColumnIdentifiers(column2);
+        model3.setColumnIdentifiers(column3);
         balance.setText(String.valueOf(customer.getBal()));
         username.setText(customer.getId());
         populateMenuTable();
         populateCurrentOrderTable();
         populateComboBox();
+        displayNotification();
         
         remarkGroup.add(rbDineIn);
         remarkGroup.add(rbTakeAway);
@@ -111,11 +117,27 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
         }
     }
+    
+    
+    private void addQuantity() {
+        String currentText = tfQuantity.getText();
+        int currentValue = Integer.parseInt(currentText);
+        int newValue = currentValue + 1;
+        tfQuantity.setText(Integer.toString(newValue));
+    }
+    
+    private void minusQuantity() {
+        String currentText = tfQuantity.getText();
+        int currentValue = Integer.parseInt(currentText);
+        int newValue = currentValue - 1;
+        tfQuantity.setText(Integer.toString(newValue));
+    }
         
     private void calculateTotal() {
         String currentPrice = tfPrice.getText();
         double doublePrice = Double.parseDouble(currentPrice);
-        tfPrice.setText(Double.toString(doublePrice));
+        double newPrice = doublePrice * Double.parseDouble(tfQuantity.getText());
+        tfPrice.setText(Double.toString(newPrice));
     }
 
     private String getRemark(){
@@ -131,27 +153,30 @@ public class C_MenuFrame extends javax.swing.JFrame {
         return remark;
     }
     
-    private void displayNotification() { 
+    private void displayNotification() { //Display notifications function
         int counter = 1;
-        String notification = "";
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container) {
             Notification notifyObj = (Notification) obj;
             if (notifyObj.getUser().equals(customer.getId())) {
-                String placeHolder = notifyObj.getMessage();
-                notification = notification + "   " + counter + ". " +placeHolder;
+                String[] notifyContainer = {String.valueOf(counter), notifyObj.getOrderID(), notifyObj.getMessage(), notifyObj.getTime()};
+                model3.addRow(notifyContainer);
+                counter++;
+            }
+            if (notifyObj.getUser().equals(customer.getId()) && notifyObj.getMessage().equals("You have successfully topped up ")) {
+                String[] notifyContainer = {String.valueOf(counter), notifyObj.getReceiptID(), notifyObj.getMessage() + notifyObj.getTopupamount() + " on " + notifyObj.getDate(), notifyObj.getTime()};
+                model3.addRow(notifyContainer);
                 counter++;
             }
         }
-        tfNotification.setText(notification);
     }
     
-    private void deleteNotification() {
+    private void deleteNotification() { //Acknowledge notifications function
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container) {
-            Notification dNotify = (Notification) obj;
-            if(tfNID.getText().equals(dNotify.getOrderID())) {
-                TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, dNotify);
+            Notification notification = (Notification) obj;
+            if (notification.getReceiptID().equals(model3.getValueAt(row3, 1)) || notification.getOrderID().equals(model3.getValueAt(row3, 1))) {
+                TextEditor.textDelete(TextEditor.FilePaths.USER, notification);
             }
         }
     }
@@ -174,6 +199,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
         bOrderHistory = new javax.swing.JButton();
         jUsername = new javax.swing.JLabel();
         bLogOut = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Notification = new javax.swing.JTable();
+        bNotificationReceived = new javax.swing.JButton();
+        bNotificationAcknowledged = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         cbCuisine = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -186,6 +215,9 @@ public class C_MenuFrame extends javax.swing.JFrame {
         tfNumber = new javax.swing.JTextField();
         tfDetails = new javax.swing.JTextField();
         tfPrice = new javax.swing.JTextField();
+        bAddQuantity = new javax.swing.JButton();
+        bReduceQuantity = new javax.swing.JButton();
+        tfQuantity = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         Menu = new javax.swing.JTable();
@@ -194,10 +226,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
         rbDineIn = new javax.swing.JRadioButton();
         rbTakeAway = new javax.swing.JRadioButton();
         rbDelivery = new javax.swing.JRadioButton();
-        tfNotification = new javax.swing.JTextField();
-        bNotificationRead = new javax.swing.JButton();
-        tfNID = new javax.swing.JTextField();
-        bNotification = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -223,6 +251,14 @@ public class C_MenuFrame extends javax.swing.JFrame {
         bTransactionHistory.setForeground(new java.awt.Color(0, 0, 255));
         bTransactionHistory.setText("Transaction History >");
         bTransactionHistory.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bTransactionHistory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bTransactionHistoryMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bTransactionHistoryMousePressed(evt);
+            }
+        });
         bTransactionHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bTransactionHistoryActionPerformed(evt);
@@ -238,6 +274,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
         bOrderHistory.setForeground(new java.awt.Color(0, 0, 255));
         bOrderHistory.setText("Order History");
         bOrderHistory.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bOrderHistory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bOrderHistoryMousePressed(evt);
+            }
+        });
         bOrderHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bOrderHistoryActionPerformed(evt);
@@ -249,9 +290,41 @@ public class C_MenuFrame extends javax.swing.JFrame {
         jUsername.setText("Username");
 
         bLogOut.setText("Log Out");
+        bLogOut.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bLogOutMousePressed(evt);
+            }
+        });
         bLogOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bLogOutActionPerformed(evt);
+            }
+        });
+
+        Notification.setModel(model3);
+        Notification.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                NotificationMousePressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(Notification);
+
+        bNotificationReceived.setText("Food Received");
+        bNotificationReceived.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bNotificationReceivedMousePressed(evt);
+            }
+        });
+        bNotificationReceived.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bNotificationReceivedActionPerformed(evt);
+            }
+        });
+
+        bNotificationAcknowledged.setText("Acknowledged");
+        bNotificationAcknowledged.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bNotificationAcknowledgedActionPerformed(evt);
             }
         });
 
@@ -260,48 +333,65 @@ public class C_MenuFrame extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(299, Short.MAX_VALUE)
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGap(413, 413, 413)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(bTransactionHistory)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(bOrderHistory))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(balance, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jBalance)
+                                    .addGap(280, 280, 280)
+                                    .addComponent(jUsername)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(bTransactionHistory)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(bOrderHistory))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(balance, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jBalance)
-                                .addGap(280, 280, 280)
-                                .addComponent(jUsername)))
-                        .addContainerGap(306, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTitle)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bLogOut)
-                        .addGap(25, 25, 25))))
+                                .addComponent(jTitle)
+                                .addGap(83, 83, 83)
+                                .addComponent(bLogOut))))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(bNotificationReceived, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bNotificationAcknowledged, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bLogOut))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBalance)
-                    .addComponent(jUsername))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(balance)
-                    .addComponent(username))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bTransactionHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bOrderHistory))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(bNotificationReceived)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bNotificationAcknowledged))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bLogOut))
+                            .addGap(0, 0, 0)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jBalance)
+                                .addComponent(jUsername))
+                            .addGap(0, 0, 0)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(balance)
+                                .addComponent(username))
+                            .addGap(3, 3, 3)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(bTransactionHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bOrderHistory)))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -315,6 +405,9 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
         CurrentOrder.setModel(model2);
         CurrentOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                CurrentOrderMousePressed(evt);
+            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 CurrentOrderMouseReleased(evt);
             }
@@ -330,6 +423,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
         jCurrentOrder.setText("Current Order");
 
         bPlaceOrder.setText("Place Order");
+        bPlaceOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bPlaceOrderMousePressed(evt);
+            }
+        });
         bPlaceOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bPlaceOrderActionPerformed(evt);
@@ -337,6 +435,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
         });
 
         bCancelOrder.setText("Cancel Order");
+        bCancelOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bCancelOrderMousePressed(evt);
+            }
+        });
         bCancelOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCancelOrderActionPerformed(evt);
@@ -344,16 +447,51 @@ public class C_MenuFrame extends javax.swing.JFrame {
         });
 
         bReviews.setText("Reviews");
+        bReviews.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bReviewsMousePressed(evt);
+            }
+        });
         bReviews.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bReviewsActionPerformed(evt);
             }
         });
 
+        bAddQuantity.setText("+");
+        bAddQuantity.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bAddQuantityMousePressed(evt);
+            }
+        });
+        bAddQuantity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAddQuantityActionPerformed(evt);
+            }
+        });
+
+        bReduceQuantity.setText("-");
+        bReduceQuantity.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bReduceQuantityMousePressed(evt);
+            }
+        });
+        bReduceQuantity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bReduceQuantityActionPerformed(evt);
+            }
+        });
+
+        tfQuantity.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfQuantity.setText("1");
+
         jLabel1.setText("RM");
 
         Menu.setModel(model);
         Menu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                MenuMousePressed(evt);
+            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 MenuMouseReleased(evt);
             }
@@ -381,127 +519,97 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
         });
 
-        bNotificationRead.setText("OK");
-        bNotificationRead.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bNotificationReadActionPerformed(evt);
-            }
-        });
-
-        bNotification.setText("Notification");
-        bNotification.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bNotificationActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(57, Short.MAX_VALUE)
+                .addContainerGap(139, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jMenu)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCurrentOrder)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(464, 464, 464)
-                                .addComponent(tfOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfCurrentOrderDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(bCancelOrder))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(376, 376, 376)
-                                .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(51, Short.MAX_VALUE))
+                    .addComponent(rbDelivery, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jMenu)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(rbDineIn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rbTakeAway, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(rbDineIn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(bReviews)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(bPlaceOrder)
-                                .addGap(161, 161, 161))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(rbDelivery, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfNID)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(tfDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel1)
-                                        .addGap(1, 1, 1)
-                                        .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(rbTakeAway, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(12, 12, 12)
-                                        .addComponent(bNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(242, 242, 242)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bNotificationRead)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bReduceQuantity)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bAddQuantity)))
+                        .addGap(189, 189, 189)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCurrentOrder)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tfOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(bReviews))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                            .addGap(0, 0, Short.MAX_VALUE)
+                                            .addComponent(bCancelOrder))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(tfCurrentOrderDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(bPlaceOrder)
+                                            .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jMenu)
+                    .addComponent(jCurrentOrder))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bAddQuantity)
+                    .addComponent(bReduceQuantity)
+                    .addComponent(tfCurrentOrderDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bPlaceOrder))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCurrentOrder)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jMenu)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bCancelOrder)
-                            .addComponent(jLabel1)
-                            .addComponent(tfOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfCurrentOrderDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bPlaceOrder)
                             .addComponent(bReviews)
-                            .addComponent(rbDineIn))
-                        .addGap(0, 0, 0)
-                        .addComponent(rbTakeAway)
-                        .addGap(0, 0, 0)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(rbDelivery)
-                            .addComponent(tfNotification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfNID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bNotificationRead))
-                        .addContainerGap(23, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bNotification)
-                        .addGap(56, 56, 56))))
+                            .addComponent(bCancelOrder)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(rbDineIn)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rbTakeAway)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rbDelivery)
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -509,73 +617,80 @@ public class C_MenuFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bTransactionHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bTransactionHistoryActionPerformed
+    private void NotificationMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMousePressed
+        row3 = Notification.getSelectedRow();
+        String selector = String.valueOf(model3.getValueAt(row3, 1));
+        if (row3 != -1 && selector.contains("R")) { //Check for receipt ID identifier which starts with R
+            bNotificationReceived.setEnabled(true); //Make the receipt acknowledge button available
+        } else if (row3 != -1 && selector.contains("O")) { //Check for order ID identifier which starts with O
+            bNotificationAcknowledged.setEnabled(true); //Make the food received button available
+        }
+    }//GEN-LAST:event_NotificationMousePressed
+
+    private void bNotificationAcknowledgedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNotificationAcknowledgedActionPerformed
+        if (bNotificationAcknowledged.isEnabled()) {
+            deleteNotification();
+        }    
+    }//GEN-LAST:event_bNotificationAcknowledgedActionPerformed
+
+    private void bTransactionHistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bTransactionHistoryMouseClicked
         // TODO add your handling code here:
+    }//GEN-LAST:event_bTransactionHistoryMouseClicked
+
+    private void bTransactionHistoryMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bTransactionHistoryMousePressed
         C_TransactionHistory transactionHistoryFrame = new C_TransactionHistory();
         transactionHistoryFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         transactionHistoryFrame.setVisible(true);
-    }//GEN-LAST:event_bTransactionHistoryActionPerformed
+    }//GEN-LAST:event_bTransactionHistoryMousePressed
 
-    private void cbCuisineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCuisineActionPerformed
-        // TODO add your handling code here:
-        model.setRowCount(0);
-        populateMenuTable();
-    }//GEN-LAST:event_cbCuisineActionPerformed
-
-    private void balanceComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_balanceComponentShown
-        // TODO add your handling code here:
-    }//GEN-LAST:event_balanceComponentShown
-
-    private void bOrderHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOrderHistoryActionPerformed
-        // TODO add your handling code here:
+    private void bOrderHistoryMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bOrderHistoryMousePressed
         C_OrderHistory orderHistoryFrame = new C_OrderHistory();
         orderHistoryFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         orderHistoryFrame.setVisible(true);
-    }//GEN-LAST:event_bOrderHistoryActionPerformed
+    }//GEN-LAST:event_bOrderHistoryMousePressed
 
-    private void bReviewsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReviewsActionPerformed
-        // TODO add your handling code here:
+    private void bReviewsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bReviewsMousePressed
         C_Reviews reviewsFrame = new C_Reviews();
         reviewsFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         reviewsFrame.setVisible(true);
        
         reviewsFrame.setFoodNameText(tfDetails.getText(), String.valueOf(cbCuisine.getSelectedItem()));
-        
-    }//GEN-LAST:event_bReviewsActionPerformed
+    }//GEN-LAST:event_bReviewsMousePressed
 
-    private void CurrentOrderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CurrentOrderMouseReleased
-        // TODO add your handling code here:
-        row2 = CurrentOrder.getSelectedRow();
-        String orderID = String.valueOf(model2.getValueAt(row2, 0));
-        String details = String.valueOf(model2.getValueAt (row2, 1));
-        String quantity = String.valueOf(model2.getValueAt (row2, 2));
-        String total = String.valueOf(model2.getValueAt (row2, 3));
-        String status = String.valueOf(model2.getValueAt (row2, 4));
-        
-        tfOrderID.setText(orderID);
-        tfCurrentOrderDetails.setText(details);
-    }//GEN-LAST:event_CurrentOrderMouseReleased
+    private void CurrentOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CurrentOrderMousePressed
+            row2 = CurrentOrder.getSelectedRow();
+            String orderID = String.valueOf(model2.getValueAt(row2, 0));
+            String details = String.valueOf(model2.getValueAt (row2, 1));
+            String quantity = String.valueOf(model2.getValueAt (row2, 2));
+            String total = String.valueOf(model2.getValueAt (row2, 3));
+            String status = String.valueOf(model2.getValueAt (row2, 4));
 
-    private void bCancelOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCancelOrderActionPerformed
-        // TODO add your handling code here:
+            tfOrderID.setText(orderID);
+            tfCurrentOrderDetails.setText(details);
+    }//GEN-LAST:event_CurrentOrderMousePressed
+
+    private void bCancelOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bCancelOrderMousePressed
         deleteCurrentOrder();
-    }//GEN-LAST:event_bCancelOrderActionPerformed
+    }//GEN-LAST:event_bCancelOrderMousePressed
 
-    private void bPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPlaceOrderActionPerformed
-        // TODO add your handling code here:
+    private void bPlaceOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bPlaceOrderMousePressed
         Order order = new Order(tfNumber.getText(),String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
         
         TextEditor reader = new TextEditor();
@@ -601,15 +716,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
         }
         
         Notification notification = new Notification(customer, order.getId());
-        notification.setMessage(Notification.Messages.ORDER);
-        
-        TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification);
-        
-        
-    }//GEN-LAST:event_bPlaceOrderActionPerformed
+        TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification);  
+    }//GEN-LAST:event_bPlaceOrderMousePressed
 
-    private void MenuMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuMouseReleased
-        // TODO add your handling code here:
+    private void MenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuMousePressed
         row = Menu.getSelectedRow();
         String number = String.valueOf(model.getValueAt(row, 0));
         String details = String.valueOf(model.getValueAt (row, 1));
@@ -620,38 +730,27 @@ public class C_MenuFrame extends javax.swing.JFrame {
         tfPrice.setText(price);
         
         calculateTotal();
-    }//GEN-LAST:event_MenuMouseReleased
+    }//GEN-LAST:event_MenuMousePressed
 
-    private void rbDineInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDineInActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_rbDineInActionPerformed
+    private void bNotificationReceivedMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bNotificationReceivedMousePressed
+        if (bNotificationReceived.isEnabled()) {
+            deleteNotification();
+        }
+    }//GEN-LAST:event_bNotificationReceivedMousePressed
 
-    private void rbTakeAwayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbTakeAwayActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rbTakeAwayActionPerformed
-
-    private void rbDeliveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDeliveryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rbDeliveryActionPerformed
-
-    private void bNotificationReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNotificationReadActionPerformed
-        // TODO add your handling code here:
-        deleteNotification();
-    }//GEN-LAST:event_bNotificationReadActionPerformed
-
-    private void bLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLogOutActionPerformed
-        // TODO add your handling code here:
+    private void bLogOutMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bLogOutMousePressed
         Login_Page LP = new Login_Page();
         LP.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_bLogOutActionPerformed
+    }//GEN-LAST:event_bLogOutMousePressed
 
-    private void bNotificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNotificationActionPerformed
-        // TODO add your handling code here:
-        displayNotification();
-        tfNID.setText(notification.getOrderID());
-    }//GEN-LAST:event_bNotificationActionPerformed
+    private void bAddQuantityMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bAddQuantityMousePressed
+        addQuantity();
+    }//GEN-LAST:event_bAddQuantityMousePressed
+
+    private void bReduceQuantityMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bReduceQuantityMousePressed
+        minusQuantity();
+    }//GEN-LAST:event_bReduceQuantityMousePressed
 
     /**
      * @param args the command line arguments
@@ -694,12 +793,15 @@ public class C_MenuFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable CurrentOrder;
     private javax.swing.JTable Menu;
+    private javax.swing.JTable Notification;
+    private javax.swing.JButton bAddQuantity;
     private javax.swing.JButton bCancelOrder;
     private javax.swing.JButton bLogOut;
-    private javax.swing.JButton bNotification;
-    private javax.swing.JButton bNotificationRead;
+    private javax.swing.JButton bNotificationAcknowledged;
+    private javax.swing.JButton bNotificationReceived;
     private javax.swing.JButton bOrderHistory;
     private javax.swing.JButton bPlaceOrder;
+    private javax.swing.JButton bReduceQuantity;
     private javax.swing.JButton bReviews;
     private javax.swing.JButton bTransactionHistory;
     private javax.swing.JLabel balance;
@@ -710,6 +812,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jMenu;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel jTitle;
@@ -719,11 +822,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbTakeAway;
     private javax.swing.JTextField tfCurrentOrderDetails;
     private javax.swing.JTextField tfDetails;
-    private javax.swing.JTextField tfNID;
-    private javax.swing.JTextField tfNotification;
     private javax.swing.JTextField tfNumber;
     private javax.swing.JTextField tfOrderID;
     private javax.swing.JTextField tfPrice;
+    private javax.swing.JTextField tfQuantity;
     private javax.swing.JLabel username;
     // End of variables declaration//GEN-END:variables
 }

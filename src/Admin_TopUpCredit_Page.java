@@ -11,13 +11,11 @@ import javax.swing.table.DefaultTableModel;
 public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
     TextEditor text;
     Administrator admin;
-    Time tptime;
     Notification nt;
     public Admin_TopUpCredit_Page(){
         initComponents();
         text = new TextEditor();
         admin = new Administrator();
-        tptime = new Time();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -30,15 +28,15 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
         ViewReceipt_BTN = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         SortAll_BTN = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        Email_Label = new javax.swing.JLabel();
+        topup_Label = new javax.swing.JLabel();
         Email_TF = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        InitialBal_Label = new javax.swing.JLabel();
+        ID_Label = new javax.swing.JLabel();
         PN_TF = new javax.swing.JTextField();
         ID_TF = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        PN_Label = new javax.swing.JLabel();
         InitialBalance_TF = new javax.swing.JTextField();
         SearchID_TF = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
@@ -47,7 +45,7 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
         Regd_BTN = new javax.swing.JButton();
         Logout_BTN = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        SearchID_Label = new javax.swing.JLabel();
         Search_BTN = new javax.swing.JButton();
         AddBalance_CB = new javax.swing.JComboBox<>();
 
@@ -109,23 +107,23 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Email:");
+        Email_Label.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Email_Label.setForeground(new java.awt.Color(255, 255, 255));
+        Email_Label.setText("Email:");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Add balance: (RM)");
+        topup_Label.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        topup_Label.setForeground(new java.awt.Color(255, 255, 255));
+        topup_Label.setText("Add balance: (RM)");
 
         Email_TF.setEditable(false);
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Initial Balance: (RM)");
+        InitialBal_Label.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        InitialBal_Label.setForeground(new java.awt.Color(255, 255, 255));
+        InitialBal_Label.setText("Initial Balance: (RM)");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("ID:");
+        ID_Label.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        ID_Label.setForeground(new java.awt.Color(255, 255, 255));
+        ID_Label.setText("ID:");
 
         PN_TF.setEditable(false);
 
@@ -140,9 +138,9 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Top Up Credit");
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("PhoneNo:");
+        PN_Label.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        PN_Label.setForeground(new java.awt.Color(255, 255, 255));
+        PN_Label.setText("PhoneNo:");
 
         InitialBalance_TF.setEditable(false);
 
@@ -236,9 +234,9 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Search for ID:");
+        SearchID_Label.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        SearchID_Label.setForeground(new java.awt.Color(255, 255, 255));
+        SearchID_Label.setText("Search for ID:");
 
         Search_BTN.setBackground(new java.awt.Color(102, 153, 255));
         Search_BTN.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
@@ -263,20 +261,20 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ID_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
+                            .addComponent(ID_Label))
                         .addGap(43, 43, 43)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(Email_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Email_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(InitialBalance_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(InitialBal_Label, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(46, 46, 46)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(PN_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(PN_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(AddBalance_CB, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(topup_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -289,7 +287,7 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(Search_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(SortAll_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(SearchID_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 32, Short.MAX_VALUE)))
                         .addGap(37, 37, 37))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -324,9 +322,9 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel10)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel8))))
+                                    .addComponent(PN_Label)
+                                    .addComponent(Email_Label)
+                                    .addComponent(ID_Label))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ID_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -334,9 +332,9 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                             .addComponent(PN_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
+                            .addComponent(InitialBal_Label)
+                            .addComponent(topup_Label)
+                            .addComponent(SearchID_Label))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(InitialBalance_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -393,8 +391,6 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
             String custId = ID_TF.getText();
             double Initialbalance = Double.parseDouble(InitialBalance_TF.getText());
             int topupamount = Integer.parseInt(String.valueOf(AddBalance_CB.getSelectedItem()));
-            String date = tptime.getDay()+ "/" +tptime.getMonth()+ "/" +tptime.getYear();
-            String topuptime = tptime.toString();
             String type = "Top Up";
             Boolean generateReceipt = false;
 
@@ -417,9 +413,9 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                     }
                 }
                 if(generateReceipt){
-                    String receiptId = String.valueOf(generateReceiptID());
+                    String receiptId = text.idGenerator();
                     String notificationId = generateNotificationID();
-                    nt = new Notification(notificationId, receiptId, custId, date, topuptime, type, topupamount);
+                    nt = new Notification(notificationId, receiptId, custId, type, topupamount);
                     text.fileWrite(TextEditor.FilePaths.NOTIFICATION, nt);
                     JOptionPane.showMessageDialog(this, " You have successfully topped up, receipt has been generated!");
                 }
@@ -573,30 +569,30 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> AddBalance_CB;
     private javax.swing.JButton Confirm_BTN;
+    private javax.swing.JLabel Email_Label;
     private javax.swing.JTextField Email_TF;
+    private javax.swing.JLabel ID_Label;
     private javax.swing.JTextField ID_TF;
+    private javax.swing.JLabel InitialBal_Label;
     private javax.swing.JTextField InitialBalance_TF;
     private javax.swing.JButton Logout_BTN;
     private javax.swing.JButton ManageRecord_BTN;
     private javax.swing.JTable ManageRecord_Table;
+    private javax.swing.JLabel PN_Label;
     private javax.swing.JTextField PN_TF;
     private javax.swing.JButton Regd_BTN;
+    private javax.swing.JLabel SearchID_Label;
     private javax.swing.JTextField SearchID_TF;
     private javax.swing.JButton Search_BTN;
     private javax.swing.JButton SortAll_BTN;
     private javax.swing.JButton TopUP_BTN;
     private javax.swing.JButton ViewReceipt_BTN;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel topup_Label;
     // End of variables declaration//GEN-END:variables
 }
