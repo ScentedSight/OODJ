@@ -214,14 +214,14 @@ public class OrderDetail extends JFrame {
        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
        boolean checked=false;
         for (Object obj : container) { 
-                Order o = (Order) obj;
-                if (o.getId().equals(orderID)) {
-                    String date=o.getOrderDay()+"/"+o.getOrderMonth()+"/"+o.getOrderYear();
-                    Order no=new Order(o.getVendorID(),o.getVendorName(),o.getCustomer(),o.getFood(),o.getCost(),o.getRemark(),o.getReview(),o.getRatings(),date,time,o.setStatus(Order.Status.valueOf(status));
-                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, no);
-                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, no);     //Rewrite it all back
+                Order order = (Order) obj;
+                if (order.getId().equals(orderID)) {
+                    order.setStatus((Order.Status) comboStatus.getSelectedItem()); //Cast to status class within order class
+                    order.setTime();
+                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, order);
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order);     //Rewrite it all back
                     checked=true;
-                    break; 
+                    break; //Break out of the loop since one order can be edited at a time
                 } 
             }
         if (!checked){

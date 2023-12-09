@@ -28,6 +28,9 @@ public class C_OrderHistory extends javax.swing.JFrame {
         usernameOH.setText(customer.getId());
         populateOrderHistoryTable();
     }
+
+    private C_OrderHistory() {
+    }
     
     private void populateOrderHistoryTable() {
         // Specify the path to your menu text file

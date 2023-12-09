@@ -30,6 +30,9 @@ public class C_TransactionHistory extends javax.swing.JFrame {
  
     }
 
+    public C_TransactionHistory() {
+        
+    }
     
     private void populateTransactionHistoryTable() {
         // Specify the path to your menu text file
