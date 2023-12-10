@@ -53,26 +53,7 @@ public class VendorFrame extends JFrame {
             }
             
         }
-        
-        Set<String> uniqueDescriptions = new HashSet<>();           //like select distinct, add once only
-        List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.MENU));
-        for (Object obj : container2) { //change obj name
-            Food menu = (Food) obj;
-            
-            if (menu.getId().equals(vendor.getId()) && uniqueDescriptions.add(menu.getDescription())) {   //prevent duplicated data or wrong vendor
-                String[] MenuArray = {
-                    menu.getId()+":"+menu.getDescription(),     //get FoodID
-                    menu.getDescription(),                      //get Food Name
-                    Double.toString(menu.getCost()),          //get Food Cost
-                };
-                MenuModel.addRow(MenuArray);
-            }
-            else{
-                System.out.println("Something went wrong.");
-            }
-            
-        }
-           
+        displayMenu();
     }
 
     @SuppressWarnings("unchecked")
@@ -190,6 +171,11 @@ public class VendorFrame extends JFrame {
 
         textCost.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         textCost.setText("Cost");
+        textCost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textCostActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -327,11 +313,6 @@ public class VendorFrame extends JFrame {
         }
     }//GEN-LAST:event_btnEditMenuActionPerformed
 
-    private void MenuTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuTableMouseClicked
-        MenuRow=MenuTable.getSelectedRow();
-        
-    }//GEN-LAST:event_MenuTableMouseClicked
-
     private void OrderTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OrderTableMouseClicked
         OrderRow=OrderTable.getSelectedColumn();
     }//GEN-LAST:event_OrderTableMouseClicked
@@ -339,13 +320,13 @@ public class VendorFrame extends JFrame {
     private void btnReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReadActionPerformed
         List<Object> container3 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container3) { 
-                Notification n = (Notification) obj;
-                if (n.getOrderID().equals(OrderModel.getValueAt(OrderRow, 0))) {        //compare orderID in ordertable
-                    lblNotification.setText(n.getMessage());                                //get message.order
-                    TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
-                    break; 
-                }
+            Notification n = (Notification) obj;
+            if (n.getOrderID().equals(OrderModel.getValueAt(OrderRow, 0))) {        //compare orderID in ordertable
+                lblNotification.setText(n.getMessage());                                //get message.order
+                TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
+                break; 
             }
+        }
     }//GEN-LAST:event_btnReadActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
@@ -368,14 +349,23 @@ public class VendorFrame extends JFrame {
         if (!checker) { //Proceed to write object to textfile
             Food food = new Food(vendor, textFoodName.getText(), Double.parseDouble(textCost.getText())); //Make new food object
             TextEditor.fileWrite(TextEditor.FilePaths.MENU, food); //Write to textfile
-            menuRecord();
-            JOptionPane.showMessageDialog(null,"Add food complete!.","Warning",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Food is Added!.");
+            displayMenu();
         }
     }//GEN-LAST:event_btnAddMenuActionPerformed
 
     private void textFoodNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFoodNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textFoodNameActionPerformed
+
+    private void textCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCostActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textCostActionPerformed
+
+    private void MenuTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuTableMouseClicked
+        MenuRow=MenuTable.getSelectedRow();
+
+    }//GEN-LAST:event_MenuTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -412,23 +402,20 @@ public class VendorFrame extends JFrame {
         });
     }
     
-    public void menuRecord(){
-        int numRows = 100;
-        int numCols = 20;  
-        List<DataProvider> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.USER));
-        String[][] userDetails = new String[numRows][numCols];
-
-        int row = 0;
-
+    public void displayMenu(){
+        List<DataProvider> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.MENU));
+        Set<String> uniqueDescriptions = new HashSet<>();           //like select distinct, add once only
+        MenuModel.setRowCount(0);
         for (DataProvider obj : container) {
-            Set<String> uniqueDescriptions = new HashSet<>();           //like select distinct, add once only
-                Food menu = (Food) obj;
-                if (menu.getId().equals(vendor.getId()) && uniqueDescriptions.add(menu.getDescription())) {// Customer found by ID
-                    System.out.println(menu.getId());
-                    System.out.println(menu.getDescription());
-                    System.out.println(Double.toString(menu.getCost()));        //get Food Cost);
-                }
-            row++;
+            Food menu = (Food) obj;
+            if(menu.getVendorId().equals(vendor.getId())){
+                String[] MenuArray = {
+                menu.getId(),     //get FoodID
+                menu.getDescription(),                      //get Food Name
+                Double.toString(menu.getCost()),          //get Food Cost
+                };
+                MenuModel.addRow(MenuArray);
+            }
         }
     }
 
