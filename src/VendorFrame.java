@@ -24,12 +24,13 @@ public class VendorFrame extends JFrame {
     private String[] OrderList={"OrderID","Time","Status"};
     private int MenuRow = -1; 
     private int OrderRow = -1;    
+    private Food food;
     
     public VendorFrame(){  //Default constructor for testing
         initComponents();
         MenuModel.setColumnIdentifiers(MenuColumn);
         OrderModel.setColumnIdentifiers(OrderList);
-        VendorFrame vf=new VendorFrame();
+        VendorFrame vf =new VendorFrame();
     }
     
     public VendorFrame(Vendor vendor) {
@@ -52,7 +53,6 @@ public class VendorFrame extends JFrame {
                 };
                 OrderModel.addRow(OrderVendorArray);        //add data
             }
-            
         }
         displayMenu();
     }
@@ -162,15 +162,15 @@ public class VendorFrame extends JFrame {
             }
         });
 
-        textFoodName.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        textFoodName.setText("FoodName");
+        textFoodName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        textFoodName.setText("Food");
         textFoodName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFoodNameActionPerformed(evt);
             }
         });
 
-        textCost.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        textCost.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         textCost.setText("Cost");
         textCost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -188,16 +188,17 @@ public class VendorFrame extends JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblMenu1)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(22, 22, 22)
                                 .addComponent(btnAddMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(33, 33, 33)
                                 .addComponent(btnEditMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(textFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(textFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(textCost, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblMenu1))
+                                .addComponent(textCost, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(60, 60, 60)
@@ -245,10 +246,10 @@ public class VendorFrame extends JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -295,24 +296,25 @@ public class VendorFrame extends JFrame {
     }//GEN-LAST:event_btnViewActionPerformed
 
     private void btnEditMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditMenuActionPerformed
-        if (MenuRow != -1) {
-            List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.MENU));
-            for (Object obj : container2) { 
-                Food menu = (Food) obj;
-                if (menu.getId().equals(food.getId())){
-                    String foodName= textFoodName.getText();
-                    double foodCost= Double.parseDouble(textFoodName.getText());
-                    Food food=new Food(vendor,foodName,foodCost);
-                    TextEditor.textDelete(TextEditor.FilePaths.MENU, food);
-                    TextEditor.fileWrite(TextEditor.FilePaths.MENU, food);     //Rewrite it all back
-                    break; //Break out of the loop once done since only one menu should be edited at a time
-                }
-            }
-            displayMenu();
-        } 
-        else{
-            JOptionPane.showMessageDialog(null,"No row is selected.","Warning",JOptionPane.WARNING_MESSAGE);
+        List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.MENU));
+        int row = MenuTable.getSelectedRow();
+        if (row >= 0 && row < container2.size()) {
+            Food existingMenu = (Food) container2.get(row);
+
+            // Update the properties of the selected menu based on the table values
+                String foodName = MenuTable.getValueAt(row, 1).toString();
+                double foodCost = Double.parseDouble(MenuTable.getValueAt(row, 2).toString());
+                existingMenu.setDescription(foodName);
+                existingMenu.setCost(foodCost);
+            // Rewrite the entire list back to the file
+                TextEditor.textDelete(TextEditor.FilePaths.MENU, existingMenu); // Delete the existing file
+                TextEditor.fileWrite(TextEditor.FilePaths.MENU, existingMenu); // Rewrite the entire list back to the file
+                JOptionPane.showMessageDialog(null, "Record Updated!");
+                displayMenu(); // Assuming this method updates the JTable
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid row selection.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_btnEditMenuActionPerformed
 
     private void OrderTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OrderTableMouseClicked
@@ -356,29 +358,33 @@ public class VendorFrame extends JFrame {
         }
     }//GEN-LAST:event_btnAddMenuActionPerformed
 
+    private void MenuTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuTableMouseClicked
+        MenuTable.addMouseListener(new MouseAdapter() {
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 1) { // Check for single-click
+                int row = MenuTable.getSelectedRow();
+                if (row >= 0) {
+                    // Get data from the selected row and set it in your text fields
+                    String id = MenuTable.getModel().getValueAt(row, 0).toString();
+                    food.setId(id); 
+                    String FoodName = MenuTable.getModel().getValueAt(row, 1).toString();
+                    textFoodName.setText(FoodName);
+                    String Cost = MenuTable.getModel().getValueAt(row, 2).toString();
+                    textCost.setText(Cost);
+                }
+            }
+        }
+    });
+
+    }//GEN-LAST:event_MenuTableMouseClicked
+
     private void textFoodNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFoodNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textFoodNameActionPerformed
 
-    private void MenuTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuTableMouseClicked
-         MenuTable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1) { // Check for single-click
-                    int row = MenuTable.getSelectedRow();
-                    if (row >= 0) {
-                        // Get data from the selected row and set it in your text fields
-                        String id = MenuTable.getModel().getValueAt(row, 0).toString();
-                        
-                        String food = MenuTable.getModel().getValueAt(row, 1).toString();
-                        textFoodName.setText(food);
-                        String cost = MenuTable.getModel().getValueAt(row, 2).toString();
-                        textCost.setText(cost); 
-                    }
-                }
-            }
-        });
-    }//GEN-LAST:event_MenuTableMouseClicked
+    private void textCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCostActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textCostActionPerformed
 
     /**
      * @param args the command line arguments
@@ -417,7 +423,6 @@ public class VendorFrame extends JFrame {
     
     public int displayMenu(){
         List<DataProvider> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.MENU));
-        Set<String> uniqueDescriptions = new HashSet<>();    //like select distinct, add once only
         int row = 0;
         MenuModel.setRowCount(0);
         for (DataProvider obj : container) {
