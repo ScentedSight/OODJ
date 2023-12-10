@@ -60,6 +60,8 @@ public class C_MenuFrame extends javax.swing.JFrame {
         remarkGroup.add(rbDelivery);
     }
     
+    
+    
     private void populateComboBox() {
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.USER));
         List<String> vendors = new ArrayList<>();
