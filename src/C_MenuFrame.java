@@ -457,9 +457,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 MenuMousePressed(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                MenuMouseReleased(evt);
-            }
         });
         jScrollPane3.setViewportView(Menu);
 

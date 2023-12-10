@@ -29,7 +29,7 @@ public class C_OrderHistory extends javax.swing.JFrame {
         bRateOrder.setEnabled(false);
         model.setColumnIdentifiers(column);
         this.customer = customer;
-        usernameOH.setText(customer.getId());
+        tfUsernameOH.setText(customer.getId());
         populateOrderHistoryTable();
     }
 
@@ -62,48 +62,48 @@ public class C_OrderHistory extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        pnlOrderHistory = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        pnlOrderHistoryTable = new javax.swing.JPanel();
+        scrlpnlOrderHistoryTable = new javax.swing.JScrollPane();
         OrderHistory = new javax.swing.JTable();
         bReorder = new javax.swing.JButton();
-        usernameOH = new javax.swing.JTextField();
+        tfUsernameOH = new javax.swing.JTextField();
         tfID = new javax.swing.JTextField();
         tfVendorName = new javax.swing.JTextField();
         tfFoodDetails = new javax.swing.JTextField();
         tfQuantity = new javax.swing.JTextField();
         tfTotal = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        lblOrderHistoryPrice = new javax.swing.JLabel();
         bOrderHistoryAddReview = new javax.swing.JButton();
         bRateOrder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 255));
+        pnlOrderHistory.setBackground(new java.awt.Color(0, 0, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Order History");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlOrderHistoryLayout = new javax.swing.GroupLayout(pnlOrderHistory);
+        pnlOrderHistory.setLayout(pnlOrderHistoryLayout);
+        pnlOrderHistoryLayout.setHorizontalGroup(
+            pnlOrderHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlOrderHistoryLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        pnlOrderHistoryLayout.setVerticalGroup(
+            pnlOrderHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlOrderHistoryLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1)
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        pnlOrderHistoryTable.setBackground(new java.awt.Color(255, 255, 255));
 
         OrderHistory.setModel(model);
         OrderHistory.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -111,7 +111,7 @@ public class C_OrderHistory extends javax.swing.JFrame {
                 OrderHistoryMouseReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(OrderHistory);
+        scrlpnlOrderHistoryTable.setViewportView(OrderHistory);
 
         bReorder.setText("Reorder Last Order");
         bReorder.addActionListener(new java.awt.event.ActionListener() {
@@ -120,7 +120,7 @@ public class C_OrderHistory extends javax.swing.JFrame {
             }
         });
 
-        usernameOH.setEditable(false);
+        tfUsernameOH.setEditable(false);
 
         tfID.setEditable(false);
         tfID.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +142,7 @@ public class C_OrderHistory extends javax.swing.JFrame {
 
         tfTotal.setEditable(false);
 
-        jLabel2.setText("RM");
+        lblOrderHistoryPrice.setText("RM");
 
         bOrderHistoryAddReview.setText("Add Review");
         bOrderHistoryAddReview.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -158,16 +158,16 @@ public class C_OrderHistory extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlOrderHistoryTableLayout = new javax.swing.GroupLayout(pnlOrderHistoryTable);
+        pnlOrderHistoryTable.setLayout(pnlOrderHistoryTableLayout);
+        pnlOrderHistoryTableLayout.setHorizontalGroup(
+            pnlOrderHistoryTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlOrderHistoryTableLayout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(usernameOH, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(pnlOrderHistoryTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tfUsernameOH, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlOrderHistoryTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(pnlOrderHistoryTableLayout.createSequentialGroup()
                             .addComponent(tfID, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(tfVendorName, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -176,35 +176,35 @@ public class C_OrderHistory extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel2)
+                            .addComponent(lblOrderHistoryPrice)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(tfTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(pnlOrderHistoryTableLayout.createSequentialGroup()
                             .addComponent(bOrderHistoryAddReview)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(bRateOrder)
                             .addGap(39, 39, 39)
                             .addComponent(bReorder))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(scrlpnlOrderHistoryTable, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(14, 14, 14))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        pnlOrderHistoryTableLayout.setVerticalGroup(
+            pnlOrderHistoryTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlOrderHistoryTableLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(usernameOH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfUsernameOH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrlpnlOrderHistoryTable, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlOrderHistoryTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfVendorName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfFoodDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(lblOrderHistoryPrice))
                 .addGap(8, 8, 8)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlOrderHistoryTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bReorder)
                     .addComponent(bOrderHistoryAddReview)
                     .addComponent(bRateOrder))
@@ -215,15 +215,15 @@ public class C_OrderHistory extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlOrderHistory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlOrderHistoryTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlOrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pnlOrderHistoryTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -365,15 +365,15 @@ public class C_OrderHistory extends javax.swing.JFrame {
     private javax.swing.JButton bRateOrder;
     private javax.swing.JButton bReorder;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblOrderHistoryPrice;
+    private javax.swing.JPanel pnlOrderHistory;
+    private javax.swing.JPanel pnlOrderHistoryTable;
+    private javax.swing.JScrollPane scrlpnlOrderHistoryTable;
     private javax.swing.JTextField tfFoodDetails;
     private javax.swing.JTextField tfID;
     private javax.swing.JTextField tfQuantity;
     private javax.swing.JTextField tfTotal;
+    private javax.swing.JTextField tfUsernameOH;
     private javax.swing.JTextField tfVendorName;
-    private javax.swing.JTextField usernameOH;
     // End of variables declaration//GEN-END:variables
 }
