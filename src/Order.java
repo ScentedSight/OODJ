@@ -156,10 +156,6 @@ public class Order implements DataProvider {
     public String getRemark(){
         return remark;
     }
-        
-    public double getTotal() {
-        return total;
-    }
     
     public double getQuantity(){
         return quantity;

@@ -4,28 +4,7 @@ public class Notification implements DataProvider {
     private String userID, id, orderID, vendorID; //id here will be used as notification ID when top up, runner ID when delivering
     private String receiptID, date, time, type;
     private int topupamount;
-
-    public Notification(String vendorID, Customer customer, String orderID) { //When order is newly created insert the orderID, customer gui HAVE to set messageRunner to SEARCHING when placing delivering order
-        Time time = new Time();
-        this.time = time.toString();
-        message = message.ORDER;
-        userID = customer.getId();
-        this.orderID = orderID;
-        this.vendorID = vendorID;
-    }
     
-    public Notification(String id, String receiptID, String  userID, String type, int topupamount){ //Top up notification
-        message = Messages.RECEIPT;
-        Time time = new Time();
-        this.time = time.toString();
-        date = time.getDay() + "/" +  time.getMonth() + "/" + time.getYear();
-        this.id = id;
-        this.receiptID = "R" + receiptID;
-        this.userID = userID; //Customer's id
-        this.topupamount = topupamount;
-        this.type = type;
-    }
-
     public enum Messages { //Constants will be final so enums can be public
         
         ORDER("You have an incoming order"), //Customer set 
@@ -48,6 +27,29 @@ public class Notification implements DataProvider {
             return messages;
         }
     }
+
+    public Notification(String vendorID, Customer customer, String orderID) { //When order is newly created insert the orderID, customer gui HAVE to set messageRunner to SEARCHING when placing delivering order
+        Time time = new Time();
+        this.time = time.toString();
+        message = Messages.ORDER;
+        userID = customer.getId();
+        this.orderID = orderID;
+        this.vendorID = vendorID;
+    }
+    
+    public Notification(String id, String receiptID, String  userID, String type, int topupamount){ //Top up notification
+        message = Messages.RECEIPT;
+        Time time = new Time();
+        this.time = time.toString();
+        date = time.getDay() + "/" +  time.getMonth() + "/" + time.getYear();
+        this.id = id;
+        this.receiptID = "R" + receiptID;
+        this.userID = userID; //Customer's id
+        this.topupamount = topupamount;
+        this.type = type;
+    }
+
+    
     
     public void setID(String id) {
         this.id = id;

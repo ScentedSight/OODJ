@@ -16,7 +16,6 @@ import javax.swing.table.DefaultTableModel;
 public class C_TransactionHistory extends javax.swing.JFrame {
     private DefaultTableModel model = new DefaultTableModel();
     private String[] column = {"Date", "Time", "Details", "Amount"};
-    private int row = -1;
     
     private Customer customer;
     /**
@@ -24,10 +23,10 @@ public class C_TransactionHistory extends javax.swing.JFrame {
      */
     public C_TransactionHistory(Customer customer) {
         initComponents();
+        model.setColumnIdentifiers(column);
         this.customer = customer;
         tfUsernameTH.setText(customer.getId());
         populateTransactionHistoryTable();
- 
     }
 
     public C_TransactionHistory() {
@@ -36,8 +35,7 @@ public class C_TransactionHistory extends javax.swing.JFrame {
     
     private void populateTransactionHistoryTable() {
         // Specify the path to your menu text file
-        TextEditor reader = new TextEditor();
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY)); 
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY)); 
         
         for (Object object: container) {
             Order orderCast = (Order) object;
@@ -45,7 +43,7 @@ public class C_TransactionHistory extends javax.swing.JFrame {
             
             if (orderCast.getCustomerID().equals(customer.getId())){
                 String date = orderCast.getOrderDay()+"/"+orderCast.getOrderMonth()+"/"+orderCast.getOrderYear();
-                String[] transactionHistory = {date, orderCast.getTime(), orderCast.getVendorID(), String.valueOf(orderCast.getTotal())};
+                String[] transactionHistory = {date, orderCast.getTime(), orderCast.getVendorID(), String.valueOf(orderCast.getCost())};
                 model.addRow(transactionHistory);
             }
         }

@@ -45,7 +45,7 @@ public class C_OrderHistory extends javax.swing.JFrame {
             
             if (orderCast.getCustomerID().equals(customer.getId())){
                 String date = orderCast.getOrderDay()+"/"+orderCast.getOrderMonth()+"/"+orderCast.getOrderYear();
-                String[] orderHistory = {orderCast.getId(), orderCast.getVendorName(), orderCast.getFood(), String.valueOf(orderCast.getQuantity()), date, orderCast.getReview(), String.valueOf(orderCast.getRatings())};
+                String[] orderHistory = {orderCast.getId(), orderCast.getVendorName(), orderCast.getFood(), String.valueOf(orderCast.getQuantity()), String.valueOf(orderCast.getCost()), date, orderCast.getReview(), String.valueOf(orderCast.getRatings())};
                 model.addRow(orderHistory);
  
             }
