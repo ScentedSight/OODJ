@@ -13,8 +13,9 @@ public class Order implements DataProvider {
     private String vendorName;
     private String vendorId;
     private Customer customer;
-    Time time;
     private double quantity;
+    Time time;
+    
 
     enum Status {
         //Status Sequence for different order options (ONLY VENDOR CAN SET THESE FOLLOWING STATUSES)
@@ -138,6 +139,10 @@ public class Order implements DataProvider {
     
     public String getReview() {
         return review;
+    }
+    
+    public void setRatings(int rating) {
+        ratings = rating;
     }
     
     public int getRatings(){

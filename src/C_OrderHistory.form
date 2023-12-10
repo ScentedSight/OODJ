@@ -95,7 +95,7 @@
                       <Component id="usernameOH" min="-2" pref="131" max="-2" attributes="0"/>
                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="tfVID" min="-2" pref="50" max="-2" attributes="0"/>
+                              <Component id="tfID" min="-2" pref="50" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="tfVendorName" min="-2" pref="56" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -130,7 +130,7 @@
                   <Component id="jScrollPane1" min="-2" pref="402" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="tfVID" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="tfID" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfVendorName" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfFoodDetails" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -181,10 +181,13 @@
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="tfVID">
+        <Component class="javax.swing.JTextField" name="tfID">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfIDActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="tfVendorName">
           <Properties>
