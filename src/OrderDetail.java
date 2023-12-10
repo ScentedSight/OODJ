@@ -12,8 +12,11 @@ import javax.swing.*;
 
 
 public class OrderDetail extends JFrame {
-    private String orderID,foodID,time,remark;
+    private String orderID,foodID,remark;
+    private Time time;
+    private Customer customer;
     private String status;
+    private Vendor vendor;
      
                 
     public OrderDetail() {
@@ -27,7 +30,7 @@ public class OrderDetail extends JFrame {
         buttonGroupRemark.add(rbtnTake);
     }
     
-   public OrderDetail(String orderID, String foodID,String time,String remark,String status){           // add remark(delivery,take away)
+   public OrderDetail(String orderID, String foodID,Time time,String remark,String status){           // add remark(delivery,take away)
        this.orderID=orderID;
        this.foodID =foodID;
        this.time=time;
@@ -35,13 +38,13 @@ public class OrderDetail extends JFrame {
        this.status=status;
        inputOrderID.setText(orderID);
        inputFoodID.setText(foodID);
-       inputTime.setText(time);
+       inputTime.setText(String.valueOf(time));
        comboStatus.setSelectedItem(status);
        
        if (remark.equals("Take Away")){
            rbtnDine.isSelected();
        }
-       else if (remark.equals("Dine-in")){
+       else if (remark.equals("Dine in")){
            rbtnTake.isSelected();
        }
        
@@ -209,21 +212,21 @@ public class OrderDetail extends JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+       boolean checked=false;
         for (Object obj : container) { 
-                Order o = (Order) obj;
-                if (o.getId().equals(orderID)) {
-                    o.getVendorID();
-                    o.getVendorName();
-                    o.getCustomer();
-                    o.getFood();
-                    o.getCost();
-                    o.getTime();
-                    o.setStatus(Order.Status.valueOf(status));
-                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, o);
-                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, o);     //Rewrite it all back
-                    break; 
-                }
+                Order order = (Order) obj;
+                if (order.getId().equals(orderID)) {
+                    order.setStatus((Order.Status) comboStatus.getSelectedItem()); //Cast to status class within order class
+                    order.setTime();
+                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, order);
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order);     //Rewrite it all back
+                    checked=true;
+                    break; //Break out of the loop since one order can be edited at a time
+                } 
             }
+        if (!checked){
+            JOptionPane.showMessageDialog(null,"Order not exist.","Warning",JOptionPane.WARNING_MESSAGE);
+        }
             
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -255,9 +258,9 @@ public class OrderDetail extends JFrame {
         List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container2) { 
                 Notification n = (Notification) obj;
-                if (orderID.equals(n.getOrderID())){                //compare orderID in order table
+                if (vendor.getId().equals(n.getId()) && (n.getMessage().equals(Notification.Messages.ORDER) || n.getMessage().equals(Notification.Messages.PREPARE))){                //compare orderID in order table
                     if (status.equals("PREPARING")) {        
-                    n.setMessage(Notification.Messages.PREPARE);
+                        n.setMessage(Notification.Messages.PREPARE);
                     }
                     else if (status.equals("READY")){
                         n.setMessage(Notification.Messages.READY);

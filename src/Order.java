@@ -13,7 +13,7 @@ public class Order implements DataProvider {
     private String vendorName;
     private String vendorId;
     private Customer customer;
-    private Time time;
+    Time time;
     private double quantity;
 
     enum Status {
@@ -52,7 +52,7 @@ public class Order implements DataProvider {
     }
     
     public Order(String vendorId, String vendorName, Customer customer, String food, double foodCost,String remark,
-            String review, int ratings, String date,Time time, Status status) {
+            String review, int ratings, String date, Time time,Status status) {
         id = "O" + TextEditor.idGenerator(TextEditor.FilePaths.HISTORY); //Order ID starts with an "O" letter
         status = Status.PENDING;
         Time times = new Time();
@@ -65,7 +65,6 @@ public class Order implements DataProvider {
         this.remark=remark;
         this.review=review;
         this.ratings=ratings;
-        date=getOrderDay()+"/"+getOrderMonth()+"/"+getOrderYear();
     }
     
     public String getId() {

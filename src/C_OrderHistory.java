@@ -28,6 +28,9 @@ public class C_OrderHistory extends javax.swing.JFrame {
         usernameOH.setText(customer.getId());
         populateOrderHistoryTable();
     }
+
+    private C_OrderHistory() {
+    }
     
     private void populateOrderHistoryTable() {
         // Specify the path to your menu text file
@@ -63,7 +66,7 @@ public class C_OrderHistory extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         OrderHistory = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        bReorder = new javax.swing.JButton();
         usernameOH = new javax.swing.JTextField();
         tfVID = new javax.swing.JTextField();
         tfVendorName = new javax.swing.JTextField();
@@ -107,10 +110,10 @@ public class C_OrderHistory extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(OrderHistory);
 
-        jButton1.setText("Reorder Last Order");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bReorder.setText("Reorder Last Order");
+        bReorder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bReorderActionPerformed(evt);
             }
         });
 
@@ -155,7 +158,7 @@ public class C_OrderHistory extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(tfTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1)
+                            .addComponent(bReorder)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(14, 14, 14))
         );
@@ -175,7 +178,7 @@ public class C_OrderHistory extends javax.swing.JFrame {
                     .addComponent(tfTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(8, 8, 8)
-                .addComponent(jButton1)
+                .addComponent(bReorder)
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
@@ -209,7 +212,7 @@ public class C_OrderHistory extends javax.swing.JFrame {
         tfFoodDetails.setText(total);
     }//GEN-LAST:event_OrderHistoryMouseReleased
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void bReorderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReorderActionPerformed
         // TODO add your handling code here:
         Order order = new Order(tfVID.getText(),tfVendorName.getText(), customer, tfFoodDetails.getText(), Double.parseDouble(tfTotal.getText()));
         
@@ -233,11 +236,11 @@ public class C_OrderHistory extends javax.swing.JFrame {
             
         }
         
-        Notification notification = new Notification(customer, order.getId());
+        Notification notification = new Notification(tfVendorName.getText(), customer, order.getId());
         notification.setMessage(Notification.Messages.ORDER);
         
         TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_bReorderActionPerformed
 
     private void tfFoodDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfFoodDetailsActionPerformed
         // TODO add your handling code here:
@@ -281,7 +284,7 @@ public class C_OrderHistory extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable OrderHistory;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton bReorder;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
