@@ -182,6 +182,11 @@ public class VendorFrame extends JFrame {
 
         textFoodName.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         textFoodName.setText("FoodName");
+        textFoodName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFoodNameActionPerformed(evt);
+            }
+        });
 
         textCost.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         textCost.setText("Cost");
@@ -370,6 +375,10 @@ public class VendorFrame extends JFrame {
             TextEditor.fileWrite(TextEditor.FilePaths.MENU, food); //Write to textfile
         }
     }//GEN-LAST:event_btnAddMenuActionPerformed
+
+    private void textFoodNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFoodNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textFoodNameActionPerformed
 
     /**
      * @param args the command line arguments
