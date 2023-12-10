@@ -64,6 +64,9 @@ public class Order implements DataProvider {
     public void setReview(String review) { //Review should only be set when food status is done or delivered
         this.review = review;
     }
+    public void setFood(String food){
+        this.food = food;
+    }
     
     public String getFood() {
         return food;
@@ -124,7 +127,7 @@ public class Order implements DataProvider {
     public void setStatus(Status status) { //For vendor and customer to set statuses
         this.status = status;
     }
-    
+
     public String getStatus(){
         return String.valueOf(status);
     }

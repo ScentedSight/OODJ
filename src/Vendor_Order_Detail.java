@@ -37,7 +37,7 @@ public class Vendor_Order_Detail extends JFrame {
        this.remark=remark;
        this.status=status;
        inputOrderID.setText(orderID);
-       inputFoodID.setText(foodID);
+       //inputFoodID.setText(foodID);
        inputTime.setText(String.valueOf(time));
        comboStatus.setSelectedItem(status);
        
@@ -66,9 +66,9 @@ public class Vendor_Order_Detail extends JFrame {
         comboStatus = new javax.swing.JComboBox<>();
         btnClose = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
-        inputOrderID = new javax.swing.JLabel();
         inputTime = new javax.swing.JLabel();
         inputFoodID = new javax.swing.JLabel();
+        inputOrderID = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -127,14 +127,14 @@ public class Vendor_Order_Detail extends JFrame {
             }
         });
 
-        inputOrderID.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        inputOrderID.setText("O");
-
         inputTime.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         inputTime.setText("T");
 
         inputFoodID.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         inputFoodID.setText("F");
+
+        inputOrderID.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        inputOrderID.setText("O");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -156,9 +156,10 @@ public class Vendor_Order_Detail extends JFrame {
                             .addComponent(rbtnTake)
                             .addComponent(comboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(rbtnDine)
-                            .addComponent(inputOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(inputTime, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(inputFoodID, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(inputOrderID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(inputFoodID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSave)
                         .addGap(102, 102, 102)

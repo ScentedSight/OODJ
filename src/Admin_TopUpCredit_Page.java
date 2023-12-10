@@ -420,15 +420,6 @@ public class Admin_TopUpCredit_Page extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, " You have successfully topped up, receipt has been generated!");
                 }
             }
-
-            List<DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.NOTIFICATION));
-            for (DataProvider value : container){
-                Notification nt = (Notification) value;
-                System.out.println("NotificationID: " + nt.getId());
-                System.out.println("ReceiptID: " + nt.getReceiptID());
-                System.out.println("Customer: " + nt.getUser());
-                System.out.println("Time: " + nt.getTime());
-            }
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, " Please select a record from the table!", "ERROR",JOptionPane.ERROR_MESSAGE);
         }

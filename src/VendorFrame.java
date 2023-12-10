@@ -288,17 +288,21 @@ public class VendorFrame extends JFrame {
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-        if (OrderRow != -1) { 
+        if (!order.getId().equals("")) { 
+            Vendor_Order_Detail o = new Vendor_Order_Detail();
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 Order OH = (Order) obj;
                 if (OH.getId().equals(order.getId())) {
-                    Vendor_Order_Detail o = new Vendor_Order_Detail(OH.getId(),OH.getFood(),time,OH.getRemark(),OH.getStatus());
-                    o.isVisible();
+                    System.out.println("View button testing "+OH.getId());
+                    System.out.println("View button testing "+OH.getFood());
+                    System.out.println("View button testing "+OH.getRemark());
+                    System.out.println("View button testing "+OH.getStatus());
+                    o = new Vendor_Order_Detail(OH.getId(),OH.getFood(),time,OH.getRemark(),OH.getStatus());
                     break; //Break out of the loop once done since only one order should be edited at a time
                 }
             }
-        }
-        else{
+            o.setVisible(true);
+        }else{
             JOptionPane.showMessageDialog(null,"Please select an order.","Warning",JOptionPane.WARNING_MESSAGE);
         } 
     }//GEN-LAST:event_btnViewActionPerformed
@@ -333,7 +337,8 @@ public class VendorFrame extends JFrame {
             if (e.getClickCount() == 1) { // Check for single-click
                 int row = OrderTable.getSelectedRow();
                 if (row >= 0) {
-                    order.setId(String.valueOf(OrderTable.getModel().getValueAt(row, 0)));
+                    System.out.println(OrderTable.getValueAt(row, 0));
+                    order.setId(String.valueOf(OrderTable.getValueAt(row, 0)));
                 }
             }
         }
