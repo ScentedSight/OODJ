@@ -288,7 +288,7 @@ public class VendorFrame extends JFrame {
         }
         else{
             JOptionPane.showMessageDialog(null,"Please select an order.","Warning",JOptionPane.WARNING_MESSAGE);
-        }
+        } 
         VendorFrame v=new VendorFrame();
         v.setVisible(false);
     }//GEN-LAST:event_btnViewActionPerformed
