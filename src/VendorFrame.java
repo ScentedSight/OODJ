@@ -182,6 +182,11 @@ public class VendorFrame extends JFrame {
 
         textFoodName.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         textFoodName.setText("FoodName");
+        textFoodName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFoodNameActionPerformed(evt);
+            }
+        });
 
         textCost.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         textCost.setText("Cost");
@@ -205,7 +210,7 @@ public class VendorFrame extends JFrame {
                                 .addComponent(textFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(textCost, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblMenu1))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(60, 60, 60)
@@ -281,11 +286,6 @@ public class VendorFrame extends JFrame {
             }
         VendorFrame v=new VendorFrame();
         v.setVisible(false);
-            
-        
-        
-            
-        
     }//GEN-LAST:event_btnRevenueActionPerformed
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
@@ -368,8 +368,14 @@ public class VendorFrame extends JFrame {
         if (!checker) { //Proceed to write object to textfile
             Food food = new Food(vendor, textFoodName.getText(), Double.parseDouble(textCost.getText())); //Make new food object
             TextEditor.fileWrite(TextEditor.FilePaths.MENU, food); //Write to textfile
+            menuRecord();
+            JOptionPane.showMessageDialog(null,"Add food complete!.","Warning",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnAddMenuActionPerformed
+
+    private void textFoodNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFoodNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textFoodNameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -404,6 +410,26 @@ public class VendorFrame extends JFrame {
                 new VendorFrame().setVisible(true);
             }
         });
+    }
+    
+    public void menuRecord(){
+        int numRows = 100;
+        int numCols = 20;  
+        List<DataProvider> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.USER));
+        String[][] userDetails = new String[numRows][numCols];
+
+        int row = 0;
+
+        for (DataProvider obj : container) {
+            Set<String> uniqueDescriptions = new HashSet<>();           //like select distinct, add once only
+                Food menu = (Food) obj;
+                if (menu.getId().equals(vendor.getId()) && uniqueDescriptions.add(menu.getDescription())) {// Customer found by ID
+                    System.out.println(menu.getId());
+                    System.out.println(menu.getDescription());
+                    System.out.println(Double.toString(menu.getCost()));        //get Food Cost);
+                }
+            row++;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
