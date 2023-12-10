@@ -218,34 +218,40 @@ public class Login_Page extends javax.swing.JFrame {
     }
     
     public void userLogin(char UserChar, String ID, String Pass){
-        String user = String.valueOf(UserChar);
-        switch (user) {
-            case "C":
-                customer = new Customer(ID, Pass);
-                JOptionPane.showMessageDialog(this,"Welcome Back " +customer.getId()+ " !");
-                C_MenuFrame cmenu = new C_MenuFrame(customer);
-                cmenu.setVisible(true);
-                this.dispose();
-                break;
-            case "V":
-                vendor = new Vendor(ID, Pass);
-                JOptionPane.showMessageDialog(this,"Welcome Back " +vendor.getId()+ " !");
-                VendorFrame VF = new VendorFrame(vendor);
-                VF.setVisible(true);
-                this.dispose();
-                break;
-            case "D":
-                runner = new DeliveryRunner(ID, Pass);
-                JOptionPane.showMessageDialog(this,"Welcome Back " +runner.getId()+ " !");
-                RunnerFrame RF = new RunnerFrame(runner);
-                RF.setVisible(true);
-                this.dispose();
-                break;
-            default:
-                JOptionPane.showMessageDialog(this,"Please try again!","Error",JOptionPane.ERROR_MESSAGE);
-                break;
+        List<DataProvider> container = new ArrayList<>(text.fileReader(TextEditor.FilePaths.USER));
+        for (DataProvider value : container) {
+            if (value.getId().equals(ID)) {
+                String userChar = String.valueOf(UserChar);
+                switch (userChar) {
+                    case "C":
+                        Customer cust = (Customer) value;
+                        JOptionPane.showMessageDialog(this,"Welcome Back " +cust.getId()+ " !");
+                        C_MenuFrame cmenu = new C_MenuFrame(cust);
+                        cmenu.setVisible(true);
+                        this.dispose();
+                        break;
+                    case "V":
+                        Vendor vend = (Vendor) value;
+                        JOptionPane.showMessageDialog(this,"Welcome Back " +vend.getId()+ " !");
+                        VendorFrame VF = new VendorFrame(vend);
+                        VF.setVisible(true);
+                        this.dispose();
+                        break;
+                    case "D":
+                        DeliveryRunner drunner = (DeliveryRunner) value;
+                        JOptionPane.showMessageDialog(this,"Welcome Back " +drunner.getId()+ " !");
+                        RunnerFrame RF = new RunnerFrame(drunner);
+                        RF.setVisible(true);
+                        this.dispose();
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(this,"Please try again!","Error",JOptionPane.ERROR_MESSAGE);
+                        break;
+                }
+            }
         }
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ID_TF;
     private javax.swing.JButton Login_BTN;

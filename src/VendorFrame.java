@@ -1,4 +1,6 @@
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.table.*;
 import java.util.*;
 import javax.swing.*;
@@ -21,8 +23,7 @@ public class VendorFrame extends JFrame {
     private String[] MenuColumn={"FoodID","Description","Price"};
     private String[] OrderList={"OrderID","Time","Status"};
     private int MenuRow = -1; 
-    private int OrderRow = -1;
-    
+    private int OrderRow = -1;    
     
     public VendorFrame(){  //Default constructor for testing
         initComponents();
@@ -298,15 +299,16 @@ public class VendorFrame extends JFrame {
             List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.MENU));
             for (Object obj : container2) { 
                 Food menu = (Food) obj;
-                if (menu.getId().equals(String.valueOf(MenuModel.getValueAt(MenuRow, 0)))) {
-                    String foodName=String.valueOf(MenuModel.getValueAt(MenuRow, 1));
-                    double foodCost=Double.parseDouble(String.valueOf(MenuModel.getValueAt(MenuRow, 2)));
+                if (menu.getId().equals(food.getId())){
+                    String foodName= textFoodName.getText();
+                    double foodCost= Double.parseDouble(textFoodName.getText());
                     Food food=new Food(vendor,foodName,foodCost);
                     TextEditor.textDelete(TextEditor.FilePaths.MENU, food);
                     TextEditor.fileWrite(TextEditor.FilePaths.MENU, food);     //Rewrite it all back
                     break; //Break out of the loop once done since only one menu should be edited at a time
                 }
             }
+            displayMenu();
         } 
         else{
             JOptionPane.showMessageDialog(null,"No row is selected.","Warning",JOptionPane.WARNING_MESSAGE);
@@ -358,6 +360,26 @@ public class VendorFrame extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textFoodNameActionPerformed
 
+    private void MenuTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuTableMouseClicked
+         MenuTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) { // Check for single-click
+                    int row = MenuTable.getSelectedRow();
+                    if (row >= 0) {
+                        // Get data from the selected row and set it in your text fields
+                        String id = MenuTable.getModel().getValueAt(row, 0).toString();
+                        
+                        String food = MenuTable.getModel().getValueAt(row, 1).toString();
+                        textFoodName.setText(food);
+                        String cost = MenuTable.getModel().getValueAt(row, 2).toString();
+                        textCost.setText(cost); 
+                    }
+                }
+            }
+        });
+    }//GEN-LAST:event_MenuTableMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -393,9 +415,10 @@ public class VendorFrame extends JFrame {
         });
     }
     
-    public void displayMenu(){
+    public int displayMenu(){
         List<DataProvider> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.MENU));
-        Set<String> uniqueDescriptions = new HashSet<>();           //like select distinct, add once only
+        Set<String> uniqueDescriptions = new HashSet<>();    //like select distinct, add once only
+        int row = 0;
         MenuModel.setRowCount(0);
         for (DataProvider obj : container) {
             Food menu = (Food) obj;
@@ -406,8 +429,10 @@ public class VendorFrame extends JFrame {
                 Double.toString(menu.getCost()),          //get Food Cost
                 };
                 MenuModel.addRow(MenuArray);
+                row++;
             }
         }
+        return row;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
