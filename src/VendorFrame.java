@@ -288,7 +288,7 @@ public class VendorFrame extends JFrame {
         }
         else{
             JOptionPane.showMessageDialog(null,"Please select an order.","Warning",JOptionPane.WARNING_MESSAGE);
-        }
+        } 
         VendorFrame v=new VendorFrame();
         v.setVisible(false);
     }//GEN-LAST:event_btnViewActionPerformed
@@ -357,15 +357,6 @@ public class VendorFrame extends JFrame {
     private void textFoodNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFoodNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textFoodNameActionPerformed
-
-    private void textCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCostActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textCostActionPerformed
-
-    private void MenuTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuTableMouseClicked
-        MenuRow=MenuTable.getSelectedRow();
-
-    }//GEN-LAST:event_MenuTableMouseClicked
 
     /**
      * @param args the command line arguments
