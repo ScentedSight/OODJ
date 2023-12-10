@@ -25,6 +25,7 @@ public class VendorFrame extends JFrame {
     private int MenuRow = -1; 
     private int OrderRow = -1;    
     private Food food = new Food();
+    private Order order = new Order();
     
     public VendorFrame(){  //Default constructor for testing
         initComponents();
@@ -290,8 +291,8 @@ public class VendorFrame extends JFrame {
         if (OrderRow != -1) { 
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 Order OH = (Order) obj;
-                if (OH.getId().equals(String.valueOf(OrderModel.getValueAt(OrderRow, 0)))) {
-                    Vendor_Order_Detail o=new Vendor_Order_Detail(OH.getId(),OH.getFood(),time,OH.getRemark(),OH.getStatus());
+                if (OH.getId().equals(order.getId())) {
+                    Vendor_Order_Detail o = new Vendor_Order_Detail(OH.getId(),OH.getFood(),time,OH.getRemark(),OH.getStatus());
                     o.isVisible();
                     break; //Break out of the loop once done since only one order should be edited at a time
                 }
@@ -300,8 +301,6 @@ public class VendorFrame extends JFrame {
         else{
             JOptionPane.showMessageDialog(null,"Please select an order.","Warning",JOptionPane.WARNING_MESSAGE);
         } 
-        VendorFrame v=new VendorFrame();
-        v.setVisible(false);
     }//GEN-LAST:event_btnViewActionPerformed
 
     private void btnEditMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditMenuActionPerformed
@@ -328,7 +327,17 @@ public class VendorFrame extends JFrame {
     }//GEN-LAST:event_btnEditMenuActionPerformed
 
     private void OrderTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OrderTableMouseClicked
-        OrderRow=OrderTable.getSelectedColumn();
+        OrderTable.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 1) { // Check for single-click
+                int row = OrderTable.getSelectedRow();
+                if (row >= 0) {
+                    order.setId(String.valueOf(OrderTable.getModel().getValueAt(row, 0)));
+                }
+            }
+        }
+    });
     }//GEN-LAST:event_OrderTableMouseClicked
 
     private void btnReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReadActionPerformed

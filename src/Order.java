@@ -40,6 +40,8 @@ public class Order implements DataProvider {
         
     }
     
+    public Order(){}
+    
     public Order(String vendorId, String vendorName, Customer customer, String food, double foodCost) {
         id = "O" + TextEditor.idGenerator(TextEditor.FilePaths.HISTORY); //Order ID starts with an "O" letter
         status = Status.PENDING;
@@ -50,6 +52,9 @@ public class Order implements DataProvider {
         this.customer = customer;
         this.food = food;
         total = foodCost;
+    }
+    public void setId(String id){
+        this.id = id;
     }
     
     public String getId() {
