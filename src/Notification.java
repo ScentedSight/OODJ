@@ -12,7 +12,6 @@ public class Notification implements DataProvider {
         READY("Your food is ready"), //Vendor set 
         CANCEL("The order has been canceled"), //Customer or vendor set 
         SEARCHING("Searching for delivery runner"), //Runner set 
-        UNAVAILABLE("There are no available runner, please choose either dine-in or take-away"), //Customer set 
         DELIVERING("Your food is delivering"), //Runner set
         DELIVERED("Your food has been delivered"), //Runner set
         RECEIPT("You have successfully topped up "); //Admin set

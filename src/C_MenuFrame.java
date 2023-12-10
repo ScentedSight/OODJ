@@ -59,6 +59,23 @@ public class C_MenuFrame extends javax.swing.JFrame {
         remarkGroup.add(rbDelivery);
     }
     
+    private void reloadFrame() {
+        List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.USER));
+        for (Object obj : container) { //Reassign customer's balance
+            if (obj instanceof Customer) {
+                Customer customer = (Customer) obj;
+                if (customer.getId().equals(this.customer.getId())) {
+                    this.customer = customer;
+                }  
+            }
+        }
+        balance.setText(String.valueOf(customer.getBal()));
+        populateCurrentOrderTable();
+        populateComboBox();
+        populateMenuTable();
+        displayNotification();
+    }
+    
     private List<Order> ViewReview(int row) { //To retrieve all orders related to a specific food from a specific vendor
         String retrieveVID = String.valueOf(model.getValueAt(row, 0));
         String retrieveFDesc = String.valueOf(model.getValueAt(row, 1));
@@ -159,12 +176,15 @@ public class C_MenuFrame extends javax.swing.JFrame {
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container) {
             Notification notifyObj = (Notification) obj;
-            if (notifyObj.getUser().equals(customer.getId())) {
+            if (notifyObj.getUser().equals(customer.getId()) && (notifyObj.getMessage().equals("Your food is being prepared") || notifyObj.getMessage().equals("Your food is ready") || notifyObj.getMessage().equals("The order has been canceled"))) { //Filter to show only notification of food preparing, readied or canceled
                 String[] notifyContainer = {String.valueOf(counter), notifyObj.getOrderID(), notifyObj.getMessage(), notifyObj.getTime()};
                 model3.addRow(notifyContainer);
                 counter++;
-            }
-            if (notifyObj.getUser().equals(customer.getId()) && notifyObj.getMessage().equals("You have successfully topped up ")) {
+            } else if (notifyObj.getUser().equals(customer.getId()) && (notifyObj.getMessageRunner().equals("Your food is delivering") || notifyObj.getMessageRunner().equals("Your food has been delivered") || notifyObj.getMessageRunner().equals("Searching for delivery runner"))) { //Filter to only show delivery notifications
+                String[] notifyContainer = {String.valueOf(counter), notifyObj.getOrderID(), notifyObj.getMessageRunner(), notifyObj.getTime()};
+                model3.addRow(notifyContainer);
+                counter++;
+            } else if (notifyObj.getUser().equals(customer.getId()) && notifyObj.getMessage().equals("You have successfully topped up ")) { //Filter to only show top up notifications
                 String[] notifyContainer = {String.valueOf(counter), notifyObj.getReceiptID(), notifyObj.getMessage() + notifyObj.getTopupamount() + " on " + notifyObj.getDate(), notifyObj.getTime()};
                 model3.addRow(notifyContainer);
                 counter++;
@@ -627,26 +647,25 @@ public class C_MenuFrame extends javax.swing.JFrame {
             
     private void NotificationMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMousePressed
         row3 = Notification.getSelectedRow();
-        String selector = String.valueOf(model3.getValueAt(row3, 1));
-        String selector2 = String.valueOf(model3.getValueAt(row3, 2));
+        String selector = String.valueOf(model3.getValueAt(row3, 2));
         if (row3 != -1) {
-            if (selector.contains("O") && (selector2.contains("READY") || selector2.contains("CANCELED"))) { //Check for order ID identifier which starts with O and only allowing 3 statuses of ready and canceled to make the food received button available
-                bFoodReceived.setEnabled(true); //Make the food received button available
-            } else if (selector.contains("R")) {//Check for receipt ID identifier which starts with R
+            if (selector.equals("You have successfully topped up ") || (selector.equals("Your food is ready") || selector.equals("The order has been canceled") || selector.equals("Your food has been delivered"))) { //Check for order ID identifier which starts with O and only allowing 3 statuses of ready and canceled to make the food received button available
                 bNotificationAcknowledged.setEnabled(true); //Make the receipt acknowledge button available
             }
         }
+        reloadFrame();
     }//GEN-LAST:event_NotificationMousePressed
 
     private void cbCuisineActionPerformed(java.awt.event.ActionEvent evt) {
         model.setRowCount(0);
-        populateMenuTable();
+        reloadFrame();
     }
     
     private void bNotificationAcknowledgedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNotificationAcknowledgedActionPerformed
         if (bNotificationAcknowledged.isEnabled()) {
             deleteNotification();
-        }    
+        }
+        reloadFrame();
     }//GEN-LAST:event_bNotificationAcknowledgedActionPerformed
 
     private void bTransactionHistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bTransactionHistoryMouseClicked
@@ -657,16 +676,19 @@ public class C_MenuFrame extends javax.swing.JFrame {
         C_TransactionHistory transactionHistoryFrame = new C_TransactionHistory(customer);
         transactionHistoryFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         transactionHistoryFrame.setVisible(true);
+        reloadFrame();
     }//GEN-LAST:event_bTransactionHistoryMousePressed
 
     private void bOrderHistoryMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bOrderHistoryMousePressed
         C_OrderHistory orderHistoryFrame = new C_OrderHistory(customer);
         orderHistoryFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         orderHistoryFrame.setVisible(true);
+        reloadFrame();
     }//GEN-LAST:event_bOrderHistoryMousePressed
 
     private void CurrentOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CurrentOrderMousePressed
             row2 = CurrentOrder.getSelectedRow();
+            reloadFrame();
     }//GEN-LAST:event_CurrentOrderMousePressed
 
     private void bCancelOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bCancelOrderMousePressed
@@ -677,6 +699,8 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 Order order = (Order) obj;
                 if (order.getId().equals(model2.getValueAt(row2, 0))) {
                     order.setStatus(Order.Status.CANCELLED);
+                    order.refund();
+                    reloadFrame();
                     break;
                 }
             }
@@ -684,27 +708,32 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 Notification notification = (Notification) obj;
                 if (notification.getOrderID().equals(model2.getValueAt(row2, 0))) {
                     notification.setMessage();
+                    reloadFrame();
                 }
             }
         } else if (model2.getValueAt(row2, 3).equals(Order.Status.READY)) { //Throw error dialog to disable canceling of prepared food
             JOptionPane.showMessageDialog(null,"You cant cancel prepared or delivering food!","Warning",JOptionPane.WARNING_MESSAGE);
+            reloadFrame();
         } else if (row2 == -1) {
             JOptionPane.showMessageDialog(null,"Please select an order to cancel!","Warning",JOptionPane.WARNING_MESSAGE);
+            reloadFrame();
         }
     }//GEN-LAST:event_bCancelOrderMousePressed
 
     private void bPlaceOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bPlaceOrderMousePressed
         if (customer.getBal() >= Double.parseDouble(tfPrice.getText())) { //Check whether if the price exceeds balance
             Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
-            order.setRemark(getRemark());
+            order.setRemark(getRemark()); //Set for whether dine in or take away in order to notify vendor
+            order.payment(); //Deduct balance and pay vendor
             Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
             TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
             TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
             JOptionPane.showMessageDialog(null,"You have successfully ordered " + tfDetails.getText(),"Order Placed",JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
-            
+            reloadFrame();
         } else if (customer.getBal() < Double.parseDouble(tfPrice.getText())) {
             JOptionPane.showMessageDialog(null,"Balance is low! Please proceed to top up!","Warning",JOptionPane.WARNING_MESSAGE); //Throw error when balance is low
-        } 
+            reloadFrame();
+        }
     }//GEN-LAST:event_bPlaceOrderMousePressed
 
     private void MenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuMousePressed
@@ -723,6 +752,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
             C_Reviews review = new C_Reviews(ViewReview(row), String.valueOf(cbCuisine.getSelectedItem()), String.valueOf(model.getValueAt(row, 1)));
             review.setVisible(true);
         }
+        reloadFrame();
     }//GEN-LAST:event_MenuMousePressed
 
     private void bFoodReceivedMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bFoodReceivedMousePressed
@@ -737,10 +767,12 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
     private void bAddQuantityMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bAddQuantityMousePressed
         addQuantity();
+        reloadFrame();
     }//GEN-LAST:event_bAddQuantityMousePressed
 
     private void bReduceQuantityMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bReduceQuantityMousePressed
         minusQuantity();
+        reloadFrame();
     }//GEN-LAST:event_bReduceQuantityMousePressed
 
     private void cbCuisinePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cbCuisinePropertyChange

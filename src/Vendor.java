@@ -32,7 +32,7 @@ public class Vendor extends User{
         balance = balance + profit;
     }
     
-    
-    
-    
+    public void refund(Double total) {
+        balance = balance - total;
+    }
 }
