@@ -10,10 +10,10 @@ public class TextEditor {
 
     public enum FilePaths { //Constants will be final so enum can be public
 
-        USER("C:\\Users\\Johan\\Desktop\\USERS.txt"),
-        NOTIFICATION("C:\\Users\\Johan\\Desktop\\NOTIFICATION.txt"),
-        MENU("C:\\Users\\Johan\\Desktop\\MENU.txt"),
-        HISTORY("C:\\Users\\Johan\\Desktop\\HISTORY.txt");
+        USER("C:\\Users\\Johan\\Desktop\\USERS.TXT"),
+        NOTIFICATION("C:\\Users\\Johan\\Desktop\\NOTIFICATION.TXT"),
+        MENU("C:\\Users\\Johan\\Desktop\\MENU.TXT"),
+        HISTORY("C:\\Users\\Johan\\Desktop\\HISTORY.TXT");
 
         private String filePath;
 
@@ -97,8 +97,8 @@ public class TextEditor {
         }
     }
     
-    public static String idGenerator() { //To create a consequent order ID making sure it is unique based on the amount of existing orders in the textfile
-        List<Object> container = new ArrayList<>(fileReader(FilePaths.HISTORY));
+    public static String idGenerator(FilePaths paths) { //To create a consequent order ID making sure it is unique based on the amount of existing orders in the textfile
+        List<Object> container = new ArrayList<>(fileReader(paths));
         int counter = container.size() + 1;
         return String.valueOf(counter);
     }

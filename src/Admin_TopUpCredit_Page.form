@@ -49,23 +49,23 @@
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="ID_TF" min="-2" pref="44" max="-2" attributes="0"/>
-                              <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                              <Component id="ID_Label" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="Email_TF" min="-2" pref="160" max="-2" attributes="0"/>
-                                  <Component id="jLabel2" min="-2" pref="97" max="-2" attributes="0"/>
+                                  <Component id="Email_Label" min="-2" pref="97" max="-2" attributes="0"/>
                                   <Component id="InitialBalance_TF" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jLabel7" alignment="0" min="-2" pref="154" max="-2" attributes="0"/>
+                              <Component id="InitialBal_Label" alignment="0" min="-2" pref="154" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel10" min="-2" pref="97" max="-2" attributes="0"/>
+                              <Component id="PN_Label" min="-2" pref="97" max="-2" attributes="0"/>
                               <Component id="PN_TF" min="-2" pref="160" max="-2" attributes="0"/>
                               <Component id="AddBalance_CB" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
-                              <Component id="jLabel5" min="-2" pref="137" max="-2" attributes="0"/>
+                              <Component id="topup_Label" min="-2" pref="137" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
@@ -81,7 +81,7 @@
                                           <Component id="Search_BTN" min="-2" pref="61" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="SortAll_BTN" min="-2" pref="123" max="-2" attributes="0"/>
-                                      <Component id="jLabel6" alignment="0" min="-2" pref="154" max="-2" attributes="0"/>
+                                      <Component id="SearchID_Label" alignment="0" min="-2" pref="154" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="0" pref="32" max="32767" attributes="0"/>
                               </Group>
@@ -129,9 +129,9 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="PN_Label" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="Email_Label" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="ID_Label" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -143,9 +143,9 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="InitialBal_Label" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="topup_Label" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="SearchID_Label" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -278,7 +278,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SortAll_BTNActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel2">
+        <Component class="javax.swing.JLabel" name="Email_Label">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -289,7 +289,7 @@
             <Property name="text" type="java.lang.String" value="Email:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel5">
+        <Component class="javax.swing.JLabel" name="topup_Label">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -305,7 +305,7 @@
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel7">
+        <Component class="javax.swing.JLabel" name="InitialBal_Label">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -316,7 +316,7 @@
             <Property name="text" type="java.lang.String" value="Initial Balance: (RM)"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel8">
+        <Component class="javax.swing.JLabel" name="ID_Label">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -351,7 +351,7 @@
             <Property name="text" type="java.lang.String" value="Top Up Credit"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel10">
+        <Component class="javax.swing.JLabel" name="PN_Label">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -511,7 +511,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="jLabel6">
+        <Component class="javax.swing.JLabel" name="SearchID_Label">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>

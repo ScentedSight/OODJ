@@ -94,8 +94,8 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="usernameOH" min="-2" pref="131" max="-2" attributes="0"/>
                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="tfVID" min="-2" pref="50" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="tfID" min="-2" pref="50" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="tfVendorName" min="-2" pref="56" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -107,10 +107,14 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="tfTotal" min="-2" pref="58" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" min="-2" pref="375" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="bOrderHistoryAddReview" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="bRateOrder" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                              <Component id="bReorder" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="jScrollPane1" min="-2" pref="375" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
@@ -126,7 +130,7 @@
                   <Component id="jScrollPane1" min="-2" pref="402" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="tfVID" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="tfID" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfVendorName" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfFoodDetails" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -134,7 +138,11 @@
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="bReorder" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bOrderHistoryAddReview" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bRateOrder" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace pref="35" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -160,33 +168,70 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="bReorder">
           <Properties>
             <Property name="text" type="java.lang.String" value="Reorder Last Order"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bReorderActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="usernameOH">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="tfVID">
+        <Component class="javax.swing.JTextField" name="tfID">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfIDActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="tfVendorName">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="tfFoodDetails">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfFoodDetailsActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="tfQuantity">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="tfTotal">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
             <Property name="text" type="java.lang.String" value="RM"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="bOrderHistoryAddReview">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Add Review"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bOrderHistoryAddReviewMousePressed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="bRateOrder">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Rate"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bRateOrderActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

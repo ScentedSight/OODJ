@@ -18,13 +18,13 @@ public class C_Reviews extends javax.swing.JFrame {
     private String[] column = {"OrderID", "Comments", "Rating"};
     private int row = -1;
     
-    private Food food;
     private Order order;
     /**
      * Creates new form Reviews
      */
     public C_Reviews() {
         initComponents();
+        model.setColumnIdentifiers(column);
         populateReviewTable();   
     }
 
@@ -63,12 +63,8 @@ public class C_Reviews extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        bAddReview = new javax.swing.JButton();
-        tfRating = new javax.swing.JTextField();
-        tfComment = new javax.swing.JTextField();
         tfVendorName = new javax.swing.JTextField();
         tfFoodName = new javax.swing.JTextField();
-        tfOID = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,34 +97,14 @@ public class C_Reviews extends javax.swing.JFrame {
         jTable1.setModel(model);
         jScrollPane1.setViewportView(jTable1);
 
-        bAddReview.setText("Add Review");
-        bAddReview.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bAddReviewActionPerformed(evt);
-            }
-        });
-
-        tfRating.setText("1 - 5");
-
-        tfComment.setText("Comments");
-        tfComment.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfCommentActionPerformed(evt);
-            }
-        });
-
+        tfVendorName.setEditable(false);
         tfVendorName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfVendorNameActionPerformed(evt);
             }
         });
 
-        tfOID.setText("OrderID");
-        tfOID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfOIDActionPerformed(evt);
-            }
-        });
+        tfFoodName.setEditable(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -139,20 +115,10 @@ public class C_Reviews extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(tfOID, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfComment, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(tfRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(tfVendorName, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bAddReview)
-                .addGap(223, 223, 223))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,14 +129,7 @@ public class C_Reviews extends javax.swing.JFrame {
                     .addComponent(tfFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfComment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfOID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(bAddReview)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -191,33 +150,9 @@ public class C_Reviews extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfCommentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCommentActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfCommentActionPerformed
-
-    private void bAddReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddReviewActionPerformed
-        // TODO add your handling code here:
-         Review review = new Review(order, Integer.parseInt(tfRating.getText()),tfComment.getText());
-         
-         TextEditor reader = new TextEditor();
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
-        
-        for (Object object: container) {
-            Order addReview = (Order) object;
-            
-            tfOID.getText();
-            tfRating.getText();
-            tfComment.getText();
-        }
-    }//GEN-LAST:event_bAddReviewActionPerformed
-
     private void tfVendorNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfVendorNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfVendorNameActionPerformed
-
-    private void tfOIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfOIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfOIDActionPerformed
 
     /**
      * @param args the command line arguments
@@ -256,16 +191,12 @@ public class C_Reviews extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bAddReview;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField tfComment;
     private javax.swing.JTextField tfFoodName;
-    private javax.swing.JTextField tfOID;
-    private javax.swing.JTextField tfRating;
     private javax.swing.JTextField tfVendorName;
     // End of variables declaration//GEN-END:variables
 }

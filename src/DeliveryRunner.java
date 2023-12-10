@@ -13,4 +13,5 @@ public class DeliveryRunner extends User {
     public void addBal(double deliveryFee){ //Profit for delivering food
         balance = balance + deliveryFee;
     }
+
 }

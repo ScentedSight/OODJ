@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -15,23 +16,28 @@ import javax.swing.table.DefaultTableModel;
  */
 public class C_OrderHistory extends javax.swing.JFrame {
     private DefaultTableModel model = new DefaultTableModel();
-    private String[] column = {"VID", "Vendor", "Details", "Quantity", "Price", "Date"};
+    private String[] column = {"Order ID", "Vendor", "Details", "Quantity", "Price", "Date", "Reviews", "Ratings"};
     private int row = -1;
     
     private Customer customer;
     /**
      * Creates new form OrderHistory
      */
-    public C_OrderHistory() {
+    public C_OrderHistory(Customer customer) {
         initComponents();
+        bOrderHistoryAddReview.setEnabled(false); //Grey out buttons
+        bRateOrder.setEnabled(false);
+        model.setColumnIdentifiers(column);
+        this.customer = customer;
         usernameOH.setText(customer.getId());
         populateOrderHistoryTable();
     }
+
+    private C_OrderHistory() {
+    }
     
     private void populateOrderHistoryTable() {
-        // Specify the path to your menu text file
-        TextEditor reader = new TextEditor();
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY)); 
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY)); 
         
         for (Object object: container) {
             Order orderCast = (Order) object;
@@ -39,10 +45,9 @@ public class C_OrderHistory extends javax.swing.JFrame {
             
             if (orderCast.getCustomerID().equals(customer.getId())){
                 String date = orderCast.getOrderDay()+"/"+orderCast.getOrderMonth()+"/"+orderCast.getOrderYear();
-                String[] orderHistory = {orderCast.getVendorID(), orderCast.getVendorName(), orderCast.getFood(), String.valueOf(orderCast.getQuantity()), date};
+                String[] orderHistory = {orderCast.getId(), orderCast.getVendorName(), orderCast.getFood(), String.valueOf(orderCast.getQuantity()), date, orderCast.getReview(), String.valueOf(orderCast.getRatings())};
                 model.addRow(orderHistory);
-                
-                
+ 
             }
         }
         
@@ -62,14 +67,16 @@ public class C_OrderHistory extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         OrderHistory = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        bReorder = new javax.swing.JButton();
         usernameOH = new javax.swing.JTextField();
-        tfVID = new javax.swing.JTextField();
+        tfID = new javax.swing.JTextField();
         tfVendorName = new javax.swing.JTextField();
         tfFoodDetails = new javax.swing.JTextField();
         tfQuantity = new javax.swing.JTextField();
         tfTotal = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        bOrderHistoryAddReview = new javax.swing.JButton();
+        bRateOrder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,20 +113,50 @@ public class C_OrderHistory extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(OrderHistory);
 
-        jButton1.setText("Reorder Last Order");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bReorder.setText("Reorder Last Order");
+        bReorder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bReorderActionPerformed(evt);
             }
         });
 
+        usernameOH.setEditable(false);
+
+        tfID.setEditable(false);
+        tfID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfIDActionPerformed(evt);
+            }
+        });
+
+        tfVendorName.setEditable(false);
+
+        tfFoodDetails.setEditable(false);
         tfFoodDetails.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfFoodDetailsActionPerformed(evt);
             }
         });
 
+        tfQuantity.setEditable(false);
+
+        tfTotal.setEditable(false);
+
         jLabel2.setText("RM");
+
+        bOrderHistoryAddReview.setText("Add Review");
+        bOrderHistoryAddReview.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bOrderHistoryAddReviewMousePressed(evt);
+            }
+        });
+
+        bRateOrder.setText("Rate");
+        bRateOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bRateOrderActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -130,8 +167,8 @@ public class C_OrderHistory extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(usernameOH, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                            .addComponent(tfVID, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(tfID, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(tfVendorName, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -142,9 +179,13 @@ public class C_OrderHistory extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(tfTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(bOrderHistoryAddReview)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(bRateOrder)
+                            .addGap(39, 39, 39)
+                            .addComponent(bReorder))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(14, 14, 14))
         );
         jPanel2Layout.setVerticalGroup(
@@ -156,14 +197,17 @@ public class C_OrderHistory extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfVID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfVendorName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfFoodDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(8, 8, 8)
-                .addComponent(jButton1)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bReorder)
+                    .addComponent(bOrderHistoryAddReview)
+                    .addComponent(bRateOrder))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
@@ -192,44 +236,92 @@ public class C_OrderHistory extends javax.swing.JFrame {
         String quantity = String.valueOf(model.getValueAt (row, 3));
         String total = String.valueOf(model.getValueAt (row, 4));
         
-        tfVID.setText(fooddetails);
+        tfID.setText(fooddetails);
         tfVendorName.setText(quantity);
         tfFoodDetails.setText(total);
+        
+        String selectedRow = String.valueOf(model.getValueAt(row, 6));
+        String selectedRow2 = String.valueOf(model.getValueAt(row, 7));
+        if (row != -1) {
+            if (selectedRow.equals("")) {
+                bOrderHistoryAddReview.setEnabled(true); //Make add review button available if review has not been added
+            } else if (selectedRow2.equals("")) {
+                bRateOrder.setEnabled(true); //Make add rating button available if ratings has not been set
+            }
+        }
     }//GEN-LAST:event_OrderHistoryMouseReleased
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        Order order = new Order(tfVID.getText(),tfVendorName.getText(), customer, tfFoodDetails.getText(), Double.parseDouble(tfTotal.getText()));
-        
-        TextEditor reader = new TextEditor();
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
-        
-        for (Object object: container) {
-            Order placeOrder = (Order) object;
-            
-            tfVID.getText();
-            tfVendorName.getText();
-            placeOrder.getCustomer();
-            tfFoodDetails.getText();
-            tfTotal.getText();
-            //remark;
-            String review = "";
-            int rating = 0;
-            String date = placeOrder.getOrderDay()+"/"+placeOrder.getOrderMonth()+"/"+placeOrder.getOrderYear();
-            placeOrder.getTime();
-            placeOrder.setStatus(Order.Status.PENDING);
-            
+    private void bReorderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReorderActionPerformed
+        if (tfID.getText() != null) {
+            List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+            for (Object obj : container) {
+                Order checkOrders = (Order) obj;
+                if (checkOrders.getId().equals(tfID.getText())) {
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, new Order(checkOrders.getVendorID(), tfVendorName.getText(), customer, tfFoodDetails.getText(), Double.parseDouble(tfTotal.getText())));
+                    TextEditor.fileWrite(TextEditor.FilePaths.USER, new Notification(checkOrders.getVendorID(), customer, checkOrders.getId()));
+                    break;
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select an order to reorder", "Error", JOptionPane.ERROR_MESSAGE); //Throw error if no orders are selected
         }
-        
-        Notification notification = new Notification(customer, order.getId());
-        notification.setMessage(Notification.Messages.ORDER);
-        
-        TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_bReorderActionPerformed
 
     private void tfFoodDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfFoodDetailsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfFoodDetailsActionPerformed
+
+    private void bOrderHistoryAddReviewMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bOrderHistoryAddReviewMousePressed
+        if (bOrderHistoryAddReview.isEnabled()) {
+            List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+            for (Object object : container) {
+                Order review = (Order) object;
+                if (review.getId().equals(model.getValueAt(row, 0))) {
+                    review.setReview(JOptionPane.showInputDialog(null, "Enter review:")); //Pop out a dialog for user to enter reviews
+                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, review);
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, review);
+                    break; //Break out of loop to speed up processing
+                }
+            }
+        }
+    }//GEN-LAST:event_bOrderHistoryAddReviewMousePressed
+
+    private void bRateOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRateOrderActionPerformed
+        if (bRateOrder.isEnabled()) {
+            List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+            for (Object object : container) {
+                Order review = (Order) object;
+                if (review.getId().equals(model.getValueAt(row, 0))) {
+                    int rating;
+                    while (true) {
+                        try {
+                            String input = JOptionPane.showInputDialog(null, "Enter rating from value of 1 - 5:");
+                            if (input == null) {
+                                // User clicked Cancel or closed the dialog
+                                return;
+                            }
+                            rating = Integer.parseInt(input);
+                            if (rating >= 1 && rating <= 5) { //Input validation to check if within range
+                                break; // Valid input, break out of the loop
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Invalid input. Please enter a number from 1 to 5.");
+                            }
+                        } catch (NumberFormatException e) {
+                            JOptionPane.showMessageDialog(null, "Invalid input. Please enter a number from 1 to 5.");
+                        }
+                    }
+                    review.setRatings(rating);
+                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, review);
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, review);
+                    break; // Break out of the loop to speed up processing
+                }
+            }
+        }
+    }//GEN-LAST:event_bRateOrderActionPerformed
+
+    private void tfIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfIDActionPerformed
 
     /**
      * @param args the command line arguments
@@ -269,16 +361,18 @@ public class C_OrderHistory extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable OrderHistory;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton bOrderHistoryAddReview;
+    private javax.swing.JButton bRateOrder;
+    private javax.swing.JButton bReorder;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField tfFoodDetails;
+    private javax.swing.JTextField tfID;
     private javax.swing.JTextField tfQuantity;
     private javax.swing.JTextField tfTotal;
-    private javax.swing.JTextField tfVID;
     private javax.swing.JTextField tfVendorName;
     private javax.swing.JTextField usernameOH;
     // End of variables declaration//GEN-END:variables

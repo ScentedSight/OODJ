@@ -20,7 +20,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        Title_Label = new javax.swing.JLabel();
         VN_Label = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         Role_CB = new javax.swing.JComboBox<>();
@@ -69,9 +69,9 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(153, 204, 255));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Registration");
+        Title_Label.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        Title_Label.setForeground(new java.awt.Color(255, 255, 255));
+        Title_Label.setText("Registration");
 
         VN_Label.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         VN_Label.setForeground(new java.awt.Color(255, 255, 255));
@@ -248,7 +248,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(258, 258, 258)
                                 .addComponent(jLabel5))
-                            .addComponent(jLabel3))
+                            .addComponent(Title_Label))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
@@ -256,7 +256,7 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(55, 55, 55)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Title_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(VN_Label)
@@ -364,9 +364,9 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
         String gender = buttonGroup1.getSelection().getActionCommand().trim();
         Object role = Role_CB.getSelectedItem();
 
-        int countCustomer = 0;
-        int countVendor = 0;
-        int countRunner = 0;
+        int countCustomer = 1;
+        int countVendor = 1;
+        int countRunner = 1;
         int numRows = 100;
         int numCols = 20;        
         
@@ -454,54 +454,25 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
             invalid = true;
         }
         
-        if(!invalid){
-            for (DataProvider value : container) {
-                String id = generateID(role, countCustomer, countVendor, countRunner);
-                if (role.equals("Customer") && value instanceof Customer) {
-                    customer = new Customer(id, email, phoneNo, gender, address, password);
-                    TextEditor.fileWrite(TextEditor.FilePaths.USER, customer);
-                    JOptionPane.showMessageDialog(this, "Your Registration was Successful");
-                    JOptionPane.showMessageDialog(this, "Generated ID is " + id);
-                    break;
-                } else if (role.equals("Vendor") && value instanceof Vendor) {
-                    vendor = new Vendor(id, vendorName, email, phoneNo, gender, password);
-                    TextEditor.fileWrite(TextEditor.FilePaths.USER, vendor);
-                    JOptionPane.showMessageDialog(this, "Your Registration was Successful");
-                    JOptionPane.showMessageDialog(this, "Generated ID is " + id);                
-                    break;
-                } else if (role.equals("Delivery Runner") && value instanceof DeliveryRunner) {
-                    deliveryrunner = new DeliveryRunner(id, email, phoneNo, gender, password);
-                    TextEditor.fileWrite(TextEditor.FilePaths.USER, deliveryrunner);
-                    JOptionPane.showMessageDialog(this, "Your Registration was Successful");
-                    JOptionPane.showMessageDialog(this, "Generated ID is " + id);
-                    break;
-                }
+        if (!invalid) {
+            String id = generateID(role, countCustomer, countVendor, countRunner);
+            if (role.equals("Customer")) {
+                customer = new Customer(id, email, phoneNo, gender, address, password);
+                TextEditor.fileWrite(TextEditor.FilePaths.USER, customer);
+                JOptionPane.showMessageDialog(this, "Your Registration was Successful");
+                JOptionPane.showMessageDialog(this, "Generated ID is " + id);
+            } else if (role.equals("Vendor")) {
+                vendor = new Vendor(id, vendorName, email, phoneNo, gender, password);
+                TextEditor.fileWrite(TextEditor.FilePaths.USER, vendor);
+                JOptionPane.showMessageDialog(this, "Your Registration was Successful");
+                JOptionPane.showMessageDialog(this, "Generated ID is " + id);
+            } else if (role.equals("Delivery Runner")) {
+                deliveryrunner = new DeliveryRunner(id, email, phoneNo, gender, password);
+                TextEditor.fileWrite(TextEditor.FilePaths.USER, deliveryrunner);
+                JOptionPane.showMessageDialog(this, "Your Registration was Successful");
+                JOptionPane.showMessageDialog(this, "Generated ID is " + id);
             }
         }
-                
-        // Print information for testing purposes
-        List<DataProvider> container1 = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.USER));
-        for (DataProvider value : container1) {
-            if (value instanceof Vendor) {
-                Vendor vend = (Vendor) value;
-                System.out.println("VendorID: " + vend.getId());
-                System.out.println("Name: " + vend.getName());
-                System.out.println("Email: " + vend.getEmail());
-                System.out.println("Phone Number: " + vend.getPhoneNo());
-            } else if (value instanceof Customer) {
-                Customer cust = (Customer) value;
-                System.out.println("CustomerID: " + cust.getId());
-                System.out.println("Email: " + cust.getEmail());
-                System.out.println("Phone Number: " + cust.getPhoneNo());
-            } else if (value instanceof DeliveryRunner) {
-                DeliveryRunner drunner = (DeliveryRunner) value;
-                System.out.println("RunnerID: " + drunner.getId());
-                System.out.println("Email: " + drunner.getEmail());
-                System.out.println("Phone Number: " + drunner.getPhoneNo());
-            }
-        }
-
-
     }//GEN-LAST:event_Regd_BTNActionPerformed
 
     private void Back_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Back_BTNActionPerformed
@@ -620,11 +591,11 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
     private javax.swing.JButton Regd_BTN;
     private javax.swing.JComboBox<String> Role_CB;
     private javax.swing.JLabel Role_Label;
+    private javax.swing.JLabel Title_Label;
     private javax.swing.JLabel VN_Label;
     private javax.swing.JTextField VN_TF;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;

@@ -95,24 +95,12 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="tfOID" min="-2" pref="71" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="tfComment" min="-2" pref="295" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                          <Component id="tfRating" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
                           <Component id="tfVendorName" min="-2" pref="71" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="tfFoodName" min="-2" pref="207" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="bAddReview" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="223" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -126,15 +114,7 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="309" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="tfRating" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="tfComment" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="tfOID" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="bAddReview" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="33" max="32767" attributes="0"/>
+                  <EmptySpace pref="108" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -156,41 +136,18 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="bAddReview">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Add Review"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bAddReviewActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JTextField" name="tfRating">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="1 - 5"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="tfComment">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Comments"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfCommentActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JTextField" name="tfVendorName">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfVendorNameActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="tfFoodName">
-        </Component>
-        <Component class="javax.swing.JTextField" name="tfOID">
           <Properties>
-            <Property name="text" type="java.lang.String" value="OrderID"/>
+            <Property name="editable" type="boolean" value="false"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfOIDActionPerformed"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
