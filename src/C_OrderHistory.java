@@ -63,7 +63,7 @@ public class C_OrderHistory extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlOrderHistory = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblOrderHistory = new javax.swing.JLabel();
         pnlOrderHistoryTable = new javax.swing.JPanel();
         scrlpnlOrderHistoryTable = new javax.swing.JScrollPane();
         OrderHistory = new javax.swing.JTable();
@@ -82,9 +82,9 @@ public class C_OrderHistory extends javax.swing.JFrame {
 
         pnlOrderHistory.setBackground(new java.awt.Color(0, 0, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Order History");
+        lblOrderHistory.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblOrderHistory.setForeground(new java.awt.Color(255, 255, 255));
+        lblOrderHistory.setText("Order History");
 
         javax.swing.GroupLayout pnlOrderHistoryLayout = new javax.swing.GroupLayout(pnlOrderHistory);
         pnlOrderHistory.setLayout(pnlOrderHistoryLayout);
@@ -92,14 +92,14 @@ public class C_OrderHistory extends javax.swing.JFrame {
             pnlOrderHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlOrderHistoryLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jLabel1)
+                .addComponent(lblOrderHistory)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlOrderHistoryLayout.setVerticalGroup(
             pnlOrderHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlOrderHistoryLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jLabel1)
+                .addComponent(lblOrderHistory)
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -364,7 +364,7 @@ public class C_OrderHistory extends javax.swing.JFrame {
     private javax.swing.JButton bOrderHistoryAddReview;
     private javax.swing.JButton bRateOrder;
     private javax.swing.JButton bReorder;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblOrderHistory;
     private javax.swing.JLabel lblOrderHistoryPrice;
     private javax.swing.JPanel pnlOrderHistory;
     private javax.swing.JPanel pnlOrderHistoryTable;

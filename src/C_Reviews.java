@@ -1,51 +1,31 @@
-
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 
-
-/**
- *
- * @author User
- */
 public class C_Reviews extends javax.swing.JFrame {
-    private DefaultTableModel model = new DefaultTableModel();
-    private String[] column = {"OrderID", "Comments", "Rating"};
-    private int row = -1;
     
-    private Order order;
-    /**
-     * Creates new form Reviews
-     */
-    public C_Reviews() {
+    private DefaultTableModel model = new DefaultTableModel();
+    private String[] column = {"OrderID", "Reviews", "Rating(1-5)", "Time", "Date"};
+    private List<Order> order;
+
+    public C_Reviews(List<Order> order, String vendorName, String foodName) {
         initComponents();
+        tfFoodName.setText(foodName);
+        tfVendorName.setText(vendorName);
+        this.order = order;
         model.setColumnIdentifiers(column);
         populateReviewTable();   
     }
 
-    public void setFoodNameText(String text, String vendorName) {
-        tfFoodName.setText(text);
-        tfVendorName.setText(vendorName);
+    private C_Reviews() { //Obsolete
+
     }
-    
+
     private void populateReviewTable() {
-        TextEditor reader = new TextEditor();
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.MENU));
-        
-        for (Object object: container) {
-            Review review = (Review) object;
-            
-            if (tfFoodName.getText().equals(food.getDescription()) && tfVendorName.getText().equals(food.getVendor())){
-                String[] menu = {review.getOrderId(), review.getComment(), String.valueOf(review.getRating())};
-                model.addRow(menu);
-            }
+        for (Order orders : order) {
+            String[] menu = {orders.getId(), orders.getReview(), String.valueOf(orders.getRatings()), orders.getTime(), orders.getOrderDay() + "/" + orders.getOrderMonth() + "/" + orders.getOrderYear()};
+            model.addRow(menu);
         }
-        
     }
     
     
@@ -112,12 +92,12 @@ public class C_Reviews extends javax.swing.JFrame {
             pnlReviewTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlReviewTableLayout.createSequentialGroup()
                 .addGap(44, 44, 44)
-                .addGroup(pnlReviewTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlReviewTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(scrlpnReviewTable, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlReviewTableLayout.createSequentialGroup()
-                        .addComponent(tfVendorName, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlReviewTableLayout.createSequentialGroup()
+                        .addComponent(tfVendorName, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tfFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlReviewTableLayout.setVerticalGroup(
@@ -128,8 +108,8 @@ public class C_Reviews extends javax.swing.JFrame {
                     .addComponent(tfVendorName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrlpnReviewTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addComponent(scrlpnReviewTable, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

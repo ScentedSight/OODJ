@@ -48,7 +48,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
         model2.setColumnIdentifiers(column2);
         model3.setColumnIdentifiers(column3);
         balance.setText(String.valueOf(customer.getBal()));
-        username.setText(customer.getId());
+        lblUsername.setText(customer.getId());
         
         populateCurrentOrderTable();
         populateComboBox();
@@ -60,7 +60,19 @@ public class C_MenuFrame extends javax.swing.JFrame {
         remarkGroup.add(rbDelivery);
     }
     
-
+    private List<Order> ViewReview(int row) { //To retrieve all orders related to a specific food from a specific vendor
+        String retrieveVID = String.valueOf(model.getValueAt(row, 0));
+        String retrieveFDesc = String.valueOf(model.getValueAt(row, 1));
+        List<Object> reader = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+        List<Order> container = new ArrayList<>();
+        for (Object obj : reader) {
+            Order order = (Order) obj;
+            if ((order.getVendorID() + ":" + order.getFood()).equals(retrieveVID + ":" +  retrieveFDesc)) { //Combination of vendor ID + food description = food ID
+                container.add(order); //Adds to the array list and return it for further processing
+            }
+        }
+        return container;
+    }
     
     private void populateComboBox() {
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.USER));
@@ -88,19 +100,17 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void populateCurrentOrderTable() {
-        // Specify the path to your menu text file
-        TextEditor reader = new TextEditor();
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY)); 
-        
-        for (Object object: container){
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+
+        for (Object object : container) {
             Order order = (Order) object;
-            if (order.getStatus().equals("PENDING") && order.getCustomerID().equals(customer.getId())) {
+            if (order.getCustomerID().equals(customer.getId()) && (order.getStatus().equals(Order.Status.PREPARING) || order.getStatus().equals(Order.Status.PENDING)) || order.getStatus().equals(Order.Status.SEARCHING) || order.getStatus().equals(Order.Status.DELIVERING) || order.getStatus().equals(Order.Status.READY)) {
                 String[] currentOrder = {order.getId(), order.getFood(), String.valueOf(order.getTotal()), String.valueOf(order.getStatus())};
                 model2.addRow(currentOrder);
             }
-        }    
+        }
     }
     
     private void deleteCurrentOrder() {
@@ -190,18 +200,18 @@ public class C_MenuFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        pnlC_MenuFrame = new javax.swing.JPanel();
         jTitle = new javax.swing.JLabel();
         balance = new javax.swing.JLabel();
         jBalance = new javax.swing.JLabel();
         bTransactionHistory = new javax.swing.JButton();
-        username = new javax.swing.JLabel();
+        lblUsername = new javax.swing.JLabel();
         bOrderHistory = new javax.swing.JButton();
         jUsername = new javax.swing.JLabel();
         bLogOut = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        pnlC_MenuFrameTables = new javax.swing.JPanel();
         cbCuisine = new javax.swing.JComboBox<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        scrlpnlC_MenuFrameCurrentOrderTable = new javax.swing.JScrollPane();
         CurrentOrder = new javax.swing.JTable();
         jMenu = new javax.swing.JLabel();
         jCurrentOrder = new javax.swing.JLabel();
@@ -213,22 +223,22 @@ public class C_MenuFrame extends javax.swing.JFrame {
         bAddQuantity = new javax.swing.JButton();
         bReduceQuantity = new javax.swing.JButton();
         tfQuantity = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        lblC_MenuFramePrice = new javax.swing.JLabel();
+        scrlpnlC_MenuFrameMenuTable = new javax.swing.JScrollPane();
         Menu = new javax.swing.JTable();
         tfOrderID = new javax.swing.JTextField();
         tfCurrentOrderDetails = new javax.swing.JTextField();
         rbDineIn = new javax.swing.JRadioButton();
         rbTakeAway = new javax.swing.JRadioButton();
         rbDelivery = new javax.swing.JRadioButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrlpnlC_MenuFrameNotification = new javax.swing.JScrollPane();
         Notification = new javax.swing.JTable();
         bNotificationReceived = new javax.swing.JButton();
         bNotificationAcknowledged = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 255));
+        pnlC_MenuFrame.setBackground(new java.awt.Color(0, 0, 255));
 
         jTitle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jTitle.setForeground(new java.awt.Color(255, 255, 255));
@@ -254,10 +264,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
         });
 
-        username.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        username.setForeground(new java.awt.Color(255, 255, 255));
-        username.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        username.setText(" ");
+        lblUsername.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblUsername.setForeground(new java.awt.Color(255, 255, 255));
+        lblUsername.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblUsername.setText(" ");
 
         bOrderHistory.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         bOrderHistory.setForeground(new java.awt.Color(0, 0, 255));
@@ -280,52 +290,48 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlC_MenuFrameLayout = new javax.swing.GroupLayout(pnlC_MenuFrame);
+        pnlC_MenuFrame.setLayout(pnlC_MenuFrameLayout);
+        pnlC_MenuFrameLayout.setHorizontalGroup(
+            pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlC_MenuFrameLayout.createSequentialGroup()
                 .addGap(273, 273, 273)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(balance, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(188, 188, 188))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(bTransactionHistory, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jBalance, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlC_MenuFrameLayout.createSequentialGroup()
+                        .addGroup(pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(balance, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bTransactionHistory)
+                            .addComponent(jBalance))
+                        .addGap(118, 118, 118)
+                        .addGroup(pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(bOrderHistory)
                             .addComponent(jUsername)
-                            .addComponent(username, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblUsername, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jTitle))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlC_MenuFrameLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        pnlC_MenuFrameLayout.setVerticalGroup(
+            pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlC_MenuFrameLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBalance)
                     .addComponent(jUsername))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlC_MenuFrameLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(balance, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(pnlC_MenuFrameLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(username)))
+                        .addComponent(lblUsername)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bTransactionHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bOrderHistory))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -333,7 +339,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 .addContainerGap(10, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        pnlC_MenuFrameTables.setBackground(new java.awt.Color(255, 255, 255));
 
         cbCuisine.setModel(comboBoxModel);
         cbCuisine.addActionListener(new java.awt.event.ActionListener() {
@@ -353,7 +359,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 CurrentOrderMousePressed(evt);
             }
         });
-        jScrollPane2.setViewportView(CurrentOrder);
+        scrlpnlC_MenuFrameCurrentOrderTable.setViewportView(CurrentOrder);
 
         jMenu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMenu.setForeground(new java.awt.Color(0, 0, 255));
@@ -401,7 +407,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
         tfQuantity.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfQuantity.setText("1");
 
-        jLabel1.setText("RM");
+        lblC_MenuFramePrice.setText("RM");
 
         Menu.setModel(model);
         Menu.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -409,7 +415,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 MenuMousePressed(evt);
             }
         });
-        jScrollPane3.setViewportView(Menu);
+        scrlpnlC_MenuFrameMenuTable.setViewportView(Menu);
 
         tfOrderID.setEditable(false);
 
@@ -442,7 +448,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 NotificationMousePressed(evt);
             }
         });
-        jScrollPane1.setViewportView(Notification);
+        scrlpnlC_MenuFrameNotification.setViewportView(Notification);
 
         bNotificationReceived.setText("Food Received");
         bNotificationReceived.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -458,29 +464,29 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlC_MenuFrameTablesLayout = new javax.swing.GroupLayout(pnlC_MenuFrameTables);
+        pnlC_MenuFrameTables.setLayout(pnlC_MenuFrameTablesLayout);
+        pnlC_MenuFrameTablesLayout.setHorizontalGroup(
+            pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
+                        .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
                                     .addComponent(jMenu)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(scrlpnlC_MenuFrameMenuTable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(rbDineIn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(rbTakeAway, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
                                 .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(tfDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel1)
+                                .addComponent(lblC_MenuFramePrice)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -491,65 +497,65 @@ public class C_MenuFrame extends javax.swing.JFrame {
                                 .addComponent(bAddQuantity))
                             .addComponent(rbDelivery, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlC_MenuFrameTablesLayout.createSequentialGroup()
                                 .addComponent(tfOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(13, 13, 13)
                                 .addComponent(tfCurrentOrderDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(bPlaceOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(scrlpnlC_MenuFrameCurrentOrderTable, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jCurrentOrder)
                             .addComponent(bCancelOrder, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(9, 9, 9))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
+                    .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
+                        .addComponent(scrlpnlC_MenuFrameNotification)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bNotificationAcknowledged)
                             .addComponent(bNotificationReceived))))
                 .addGap(25, 25, 25))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        pnlC_MenuFrameTablesLayout.setVerticalGroup(
+            pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jMenu)
                     .addComponent(jCurrentOrder))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scrlpnlC_MenuFrameMenuTable, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scrlpnlC_MenuFrameCurrentOrderTable, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
+                    .addComponent(lblC_MenuFramePrice)
                     .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bAddQuantity)
                     .addComponent(bReduceQuantity)
                     .addComponent(tfCurrentOrderDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bPlaceOrder))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bCancelOrder))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(rbDineIn)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
                         .addComponent(rbTakeAway)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(rbDelivery)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(scrlpnlC_MenuFrameNotification, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE))
+                    .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(bNotificationReceived)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -561,15 +567,15 @@ public class C_MenuFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlC_MenuFrameTables, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlC_MenuFrame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlC_MenuFrame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pnlC_MenuFrameTables, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -644,14 +650,15 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_bCancelOrderMousePressed
 
     private void bPlaceOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bPlaceOrderMousePressed
-        if (customer.getBal() <= Double.parseDouble(tfPrice.getText())) { //Check whether if the price exceeds balance
+        if (customer.getBal() >= Double.parseDouble(tfPrice.getText())) { //Check whether if the price exceeds balance
             Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
             order.setRemark(getRemark());
             Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
             TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
             TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
+            JOptionPane.showMessageDialog(null,"You have successfully ordered " + tfDetails.getText(),"Order Placed",JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
             
-        } else {
+        } else if (customer.getBal() < Double.parseDouble(tfPrice.getText())) {
             JOptionPane.showMessageDialog(null,"Balance is low! Please proceed to top up!","Warning",JOptionPane.WARNING_MESSAGE); //Throw error when balance is low
         } 
     }//GEN-LAST:event_bPlaceOrderMousePressed
@@ -667,6 +674,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
         tfPrice.setText(price);
         
         calculateTotal();
+        
+        if (evt.getClickCount() == 2 && row != -1) { //Check for double click then redirects the user to the review page of the selected food and pass respective food details
+            C_Reviews review = new C_Reviews(ViewReview(row), String.valueOf(cbCuisine.getSelectedItem()), String.valueOf(model.getValueAt(row, 1)));
+            review.setVisible(true);
+        }
     }//GEN-LAST:event_MenuMousePressed
 
     private void bNotificationReceivedMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bNotificationReceivedMousePressed
@@ -748,24 +760,24 @@ public class C_MenuFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbCuisine;
     private javax.swing.JLabel jBalance;
     private javax.swing.JLabel jCurrentOrder;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jMenu;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel jTitle;
     private javax.swing.JLabel jUsername;
+    private javax.swing.JLabel lblC_MenuFramePrice;
+    private javax.swing.JLabel lblUsername;
+    private javax.swing.JPanel pnlC_MenuFrame;
+    private javax.swing.JPanel pnlC_MenuFrameTables;
     private javax.swing.JRadioButton rbDelivery;
     private javax.swing.JRadioButton rbDineIn;
     private javax.swing.JRadioButton rbTakeAway;
+    private javax.swing.JScrollPane scrlpnlC_MenuFrameCurrentOrderTable;
+    private javax.swing.JScrollPane scrlpnlC_MenuFrameMenuTable;
+    private javax.swing.JScrollPane scrlpnlC_MenuFrameNotification;
     private javax.swing.JTextField tfCurrentOrderDetails;
     private javax.swing.JTextField tfDetails;
     private javax.swing.JTextField tfNumber;
     private javax.swing.JTextField tfOrderID;
     private javax.swing.JTextField tfPrice;
     private javax.swing.JTextField tfQuantity;
-    private javax.swing.JLabel username;
     // End of variables declaration//GEN-END:variables
 }
