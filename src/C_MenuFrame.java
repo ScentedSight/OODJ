@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -710,32 +711,15 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_bCancelOrderMousePressed
 
     private void bPlaceOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bPlaceOrderMousePressed
-        Order order = new Order(tfNumber.getText(),String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
-        
-        TextEditor reader = new TextEditor();
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
-        
-        for (Object object: container) {
-            Order placeOrder = (Order) object;
+        if (Double.parseDouble(balance.getText()) <= Double.parseDouble(tfPrice.getText())) { //Check whether if the price exceeds balance
+            Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
+            Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
+            TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
+            TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
             
-            tfNumber.getText();
-            String.valueOf(cbCuisine.getSelectedIndex());
-            placeOrder.getCustomer();
-            tfDetails.getText();
-            Double.parseDouble(tfPrice.getText());
-            getRemark();
-            String review = "";
-            int rating = 0;
-            String date = placeOrder.getOrderDay()+"/"+placeOrder.getOrderMonth()+"/"+placeOrder.getOrderYear();
-            placeOrder.getTime();
-            placeOrder.setStatus(Order.Status.PENDING);
-            placeOrder.getId();
-            
-            break;
-        }
-        
-        Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
-        TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification);  
+        } else {
+            JOptionPane.showMessageDialog(null,"Balance is low! Please proceed to top up!","Warning",JOptionPane.WARNING_MESSAGE); //Throw error when balance is low
+        } 
     }//GEN-LAST:event_bPlaceOrderMousePressed
 
     private void MenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuMousePressed
