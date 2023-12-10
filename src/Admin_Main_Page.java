@@ -538,12 +538,9 @@ public class Admin_Main_Page extends javax.swing.JFrame {
                     int row = ManageRecord_Table.getSelectedRow();
                     if (row >= 0) {
                         // Get data from the selected row and set it in your text fields
-                        String ID = ManageRecord_Table.getModel().getValueAt(row, 0).toString();
-                        ID_TF.setText(ID);
-                        String VN = ManageRecord_Table.getModel().getValueAt(row, 1).toString();
-                        VN_TF.setText(VN);
-                        String Email = ManageRecord_Table.getModel().getValueAt(row, 2).toString();
-                        Email_TF.setText(Email); 
+                        ID_TF.setText(ManageRecord_Table.getModel().getValueAt(row, 0).toString());
+                        VN_TF.setText(ManageRecord_Table.getModel().getValueAt(row, 1).toString());
+                        Email_TF.setText(ManageRecord_Table.getModel().getValueAt(row, 2).toString()); 
                         String PhoneNo = ManageRecord_Table.getModel().getValueAt(row, 3).toString();
                         PN_TF.setText(PhoneNo); 
                         String Address = ManageRecord_Table.getModel().getValueAt(row, 5).toString();

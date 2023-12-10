@@ -302,6 +302,7 @@ public class VendorFrame extends JFrame {
             Food existingMenu = (Food) container2.get(row);
 
             // Update the properties of the selected menu based on the table values
+            if(existingMenu.equals(food.getId())){
                 String foodName = MenuTable.getValueAt(row, 1).toString();
                 double foodCost = Double.parseDouble(MenuTable.getValueAt(row, 2).toString());
                 existingMenu.setDescription(foodName);
@@ -311,6 +312,7 @@ public class VendorFrame extends JFrame {
                 TextEditor.fileWrite(TextEditor.FilePaths.MENU, existingMenu); // Rewrite the entire list back to the file
                 JOptionPane.showMessageDialog(null, "Record Updated!");
                 displayMenu(); // Assuming this method updates the JTable
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Invalid row selection.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -360,17 +362,15 @@ public class VendorFrame extends JFrame {
 
     private void MenuTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuTableMouseClicked
         MenuTable.addMouseListener(new MouseAdapter() {
+        @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 1) { // Check for single-click
                 int row = MenuTable.getSelectedRow();
                 if (row >= 0) {
                     // Get data from the selected row and set it in your text fields
-                    String id = MenuTable.getModel().getValueAt(row, 0).toString();
-                    food.setId(id); 
-                    String FoodName = MenuTable.getModel().getValueAt(row, 1).toString();
-                    textFoodName.setText(FoodName);
-                    String Cost = MenuTable.getModel().getValueAt(row, 2).toString();
-                    textCost.setText(Cost);
+                    food.setId(String.valueOf(MenuTable.getModel().getValueAt(row, 0))); 
+                    textFoodName.setText(String.valueOf(MenuTable.getModel().getValueAt(row, 1)));
+                    textCost.setText(String.valueOf(MenuTable.getModel().getValueAt(row, 2)));
                 }
             }
         }
