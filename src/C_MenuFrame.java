@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -60,9 +61,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }
     
     private void populateComboBox() {
-        TextEditor reader = new TextEditor();
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.USER));
-
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.USER));
         List<String> vendors = new ArrayList<>();
 
         for (Object object: container) {
@@ -70,14 +69,13 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 Vendor vendor = (Vendor) object;
                 String vendorName = vendor.getName();
                 vendors.add(vendorName);
-            }
-            comboBoxModel.addAll(vendors);
+            } 
         }
+        comboBoxModel.addAll(vendors);
     }
     
     private void populateMenuTable() {
-        TextEditor reader = new TextEditor();
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.MENU));
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.MENU));
         
         for (Object object: container) {
             Food food = (Food) object;
@@ -650,6 +648,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void bOrderHistoryActionPerformed(java.awt.event.MouseEvent evt) {
+        
+    }
+    
     private void NotificationMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMousePressed
         row3 = Notification.getSelectedRow();
         String selector = String.valueOf(model3.getValueAt(row3, 1));
@@ -663,6 +665,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_NotificationMousePressed
 
+    private void cbCuisineActionPerformed(java.awt.event.ActionEvent evt) {
+        model.setRowCount(0);
+        populateMenuTable();
+    }
+    
     private void bNotificationAcknowledgedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNotificationAcknowledgedActionPerformed
         if (bNotificationAcknowledged.isEnabled()) {
             deleteNotification();
@@ -710,32 +717,16 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_bCancelOrderMousePressed
 
     private void bPlaceOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bPlaceOrderMousePressed
-        Order order = new Order(tfNumber.getText(),String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
-        
-        TextEditor reader = new TextEditor();
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY));
-        
-        for (Object object: container) {
-            Order placeOrder = (Order) object;
+        if (Double.parseDouble(balance.getText()) <= Double.parseDouble(tfPrice.getText())) { //Check whether if the price exceeds balance
+            Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
+            order.setRemark(getRemark());
+            Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
+            TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
+            TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
             
-            tfNumber.getText();
-            String.valueOf(cbCuisine.getSelectedIndex());
-            placeOrder.getCustomer();
-            tfDetails.getText();
-            Double.parseDouble(tfPrice.getText());
-            getRemark();
-            String review = "";
-            int rating = 0;
-            String date = placeOrder.getOrderDay()+"/"+placeOrder.getOrderMonth()+"/"+placeOrder.getOrderYear();
-            placeOrder.getTime();
-            placeOrder.setStatus(Order.Status.PENDING);
-            placeOrder.getId();
-            
-            break;
-        }
-        
-        Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
-        TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification);  
+        } else {
+            JOptionPane.showMessageDialog(null,"Balance is low! Please proceed to top up!","Warning",JOptionPane.WARNING_MESSAGE); //Throw error when balance is low
+        } 
     }//GEN-LAST:event_bPlaceOrderMousePressed
 
     private void MenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuMousePressed
@@ -772,8 +763,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_bReduceQuantityMousePressed
 
     private void cbCuisinePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cbCuisinePropertyChange
-        model.setRowCount(0);
-        populateMenuTable();
+        
     }//GEN-LAST:event_cbCuisinePropertyChange
 
     /**

@@ -51,22 +51,6 @@ public class Order implements DataProvider {
         total = foodCost;
     }
     
-    public Order(String vendorId, String vendorName, Customer customer, String food, double foodCost,String remark,
-            String review, int ratings, String date, Time time,Status status) {
-        id = "O" + TextEditor.idGenerator(TextEditor.FilePaths.HISTORY); //Order ID starts with an "O" letter
-        status = Status.PENDING;
-        Time times = new Time();
-        time= times;
-        this.vendorId = vendorId;
-        this.vendorName = vendorName;
-        this.customer = customer;
-        this.food = food;
-        total = foodCost;
-        this.remark=remark;
-        this.review=review;
-        this.ratings=ratings;
-    }
-    
     public String getId() {
         return id;
     }
@@ -158,6 +142,10 @@ public class Order implements DataProvider {
     
     public int getRatings(){
         return ratings;
+    }
+    
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
     
     public String getRemark(){
