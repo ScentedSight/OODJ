@@ -23,22 +23,22 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel2" max="32767" attributes="0"/>
-          <Component id="jPanel1" max="32767" attributes="0"/>
+          <Component id="pnlC_MenuFrameTables" max="32767" attributes="0"/>
+          <Component id="pnlC_MenuFrame" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <Component id="jPanel1" max="32767" attributes="0"/>
+              <Component id="pnlC_MenuFrame" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+              <Component id="pnlC_MenuFrameTables" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="pnlC_MenuFrame">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="0" red="0" type="rgb"/>
@@ -61,7 +61,7 @@
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="bOrderHistory" min="-2" max="-2" attributes="0"/>
                               <Component id="jUsername" min="-2" max="-2" attributes="0"/>
-                              <Component id="username" alignment="0" min="-2" pref="129" max="-2" attributes="0"/>
+                              <Component id="lblUsername" alignment="0" min="-2" pref="129" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jTitle" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -92,7 +92,7 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="username" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblUsername" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -160,7 +160,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bTransactionHistoryActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="username">
+        <Component class="javax.swing.JLabel" name="lblUsername">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -210,7 +210,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel2">
+    <Container class="javax.swing.JPanel" name="pnlC_MenuFrameTables">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -231,7 +231,7 @@
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Component id="cbCuisine" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jScrollPane3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="scrlpnlC_MenuFrameMenuTable" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="rbDineIn" min="-2" pref="98" max="-2" attributes="0"/>
                               <Component id="rbTakeAway" alignment="0" min="-2" pref="98" max="-2" attributes="0"/>
@@ -240,7 +240,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="tfDetails" min="-2" pref="208" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblC_MenuFramePrice" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="tfPrice" min="-2" pref="60" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -261,14 +261,14 @@
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="bPlaceOrder" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="jScrollPane2" alignment="0" min="-2" pref="409" max="-2" attributes="0"/>
+                              <Component id="scrlpnlC_MenuFrameCurrentOrderTable" alignment="0" min="-2" pref="409" max="-2" attributes="0"/>
                               <Component id="jCurrentOrder" min="-2" max="-2" attributes="0"/>
                               <Component id="bCancelOrder" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Component id="jScrollPane1" max="32767" attributes="0"/>
+                          <Component id="scrlpnlC_MenuFrameNotification" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="bNotificationAcknowledged" min="-2" max="-2" attributes="0"/>
@@ -291,15 +291,15 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane3" min="-2" pref="330" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="330" max="-2" attributes="0"/>
+                      <Component id="scrlpnlC_MenuFrameMenuTable" min="-2" pref="330" max="-2" attributes="0"/>
+                      <Component id="scrlpnlC_MenuFrameCurrentOrderTable" min="-2" pref="330" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="tfNumber" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfDetails" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfPrice" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblC_MenuFramePrice" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="bAddQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="bReduceQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -324,7 +324,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="rbDelivery" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="123" max="32767" attributes="0"/>
+                          <Component id="scrlpnlC_MenuFrameNotification" pref="123" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -353,7 +353,7 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+        <Container class="javax.swing.JScrollPane" name="scrlpnlC_MenuFrameCurrentOrderTable">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
@@ -453,12 +453,12 @@
             <Property name="text" type="java.lang.String" value="1"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Component class="javax.swing.JLabel" name="lblC_MenuFramePrice">
           <Properties>
             <Property name="text" type="java.lang.String" value="RM"/>
           </Properties>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+        <Container class="javax.swing.JScrollPane" name="scrlpnlC_MenuFrameMenuTable">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
@@ -512,7 +512,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbDeliveryActionPerformed"/>
           </Events>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+        <Container class="javax.swing.JScrollPane" name="scrlpnlC_MenuFrameNotification">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
