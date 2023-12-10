@@ -249,11 +249,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
         balance.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         balance.setForeground(new java.awt.Color(255, 255, 255));
-        balance.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                balanceComponentShown(evt);
-            }
-        });
 
         jBalance.setForeground(new java.awt.Color(255, 255, 255));
         jBalance.setText("Balance");
@@ -268,11 +263,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bTransactionHistoryMousePressed(evt);
-            }
-        });
-        bTransactionHistory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bTransactionHistoryActionPerformed(evt);
             }
         });
 
@@ -290,11 +280,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 bOrderHistoryMousePressed(evt);
             }
         });
-        bOrderHistory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bOrderHistoryActionPerformed(evt);
-            }
-        });
 
         jUsername.setForeground(new java.awt.Color(255, 255, 255));
         jUsername.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -304,11 +289,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
         bLogOut.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bLogOutMousePressed(evt);
-            }
-        });
-        bLogOut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bLogOutActionPerformed(evt);
             }
         });
 
@@ -380,9 +360,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 CurrentOrderMousePressed(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                CurrentOrderMouseReleased(evt);
-            }
         });
         scrlpnlC_MenuFrameCurrentOrderTable.setViewportView(CurrentOrder);
 
@@ -400,21 +377,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 bPlaceOrderMousePressed(evt);
             }
         });
-        bPlaceOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bPlaceOrderActionPerformed(evt);
-            }
-        });
 
         bCancelOrder.setText("Cancel Order");
         bCancelOrder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bCancelOrderMousePressed(evt);
-            }
-        });
-        bCancelOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bCancelOrderActionPerformed(evt);
             }
         });
 
@@ -430,21 +397,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 bAddQuantityMousePressed(evt);
             }
         });
-        bAddQuantity.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bAddQuantityActionPerformed(evt);
-            }
-        });
 
         bReduceQuantity.setText("-");
         bReduceQuantity.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bReduceQuantityMousePressed(evt);
-            }
-        });
-        bReduceQuantity.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bReduceQuantityActionPerformed(evt);
             }
         });
 
@@ -458,9 +415,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
         Menu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 MenuMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                MenuMouseReleased(evt);
             }
         });
         scrlpnlC_MenuFrameMenuTable.setViewportView(Menu);
@@ -502,11 +456,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
         bNotificationReceived.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bNotificationReceivedMousePressed(evt);
-            }
-        });
-        bNotificationReceived.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bNotificationReceivedActionPerformed(evt);
             }
         });
 
