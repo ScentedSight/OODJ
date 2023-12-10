@@ -48,9 +48,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
         model3.setColumnIdentifiers(column3);
         balance.setText(String.valueOf(customer.getBal()));
         username.setText(customer.getId());
-        populateMenuTable();
+        
         populateCurrentOrderTable();
         populateComboBox();
+        populateMenuTable();
         displayNotification();
         
         remarkGroup.add(rbDineIn);
@@ -86,7 +87,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 model.addRow(menu);
             }
         }
-        
     }
     
     private void populateCurrentOrderTable() {
@@ -400,6 +400,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
         cbCuisine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbCuisineActionPerformed(evt);
+            }
+        });
+        cbCuisine.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                cbCuisinePropertyChange(evt);
             }
         });
 
@@ -765,6 +770,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
     private void bReduceQuantityMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bReduceQuantityMousePressed
         minusQuantity();
     }//GEN-LAST:event_bReduceQuantityMousePressed
+
+    private void cbCuisinePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cbCuisinePropertyChange
+        model.setRowCount(0);
+        populateMenuTable();
+    }//GEN-LAST:event_cbCuisinePropertyChange
 
     /**
      * @param args the command line arguments
