@@ -289,7 +289,7 @@ public class VendorFrame extends JFrame {
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         if (!order.getId().equals("")) { 
-            Vendor_Order_Detail o = new Vendor_Order_Detail();
+            Order_Detail_Demo o = new Order_Detail_Demo();
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 Order OH = (Order) obj;
                 if (OH.getId().equals(order.getId())) {
@@ -297,7 +297,8 @@ public class VendorFrame extends JFrame {
                     System.out.println("View button testing "+OH.getFood());
                     System.out.println("View button testing "+OH.getRemark());
                     System.out.println("View button testing "+OH.getStatus());
-                    o = new Vendor_Order_Detail(OH.getId(),OH.getFood(),time,OH.getRemark(),OH.getStatus());
+                    
+                    o = new Order_Detail_Demo(vendor, OH.getId(), OH.getFood(), OH.getTime(),  OH.getRemark(), OH.getStatus());
                     break; //Break out of the loop once done since only one order should be edited at a time
                 }
             }

@@ -36,9 +36,9 @@ public class Vendor_Order_Detail extends JFrame {
        this.time=time;
        this.remark=remark;
        this.status=status;
-       inputOrderID.setText(orderID);
-       //inputFoodID.setText(foodID);
-       inputTime.setText(String.valueOf(time));
+       //jTextField1.setText(orderID);
+       //inputOrderID1.setText(foodID);
+       //inputOrderID2.setText(String.valueOf(time));
        comboStatus.setSelectedItem(status);
        
        if (remark.equals("Take Away")){
@@ -47,6 +47,8 @@ public class Vendor_Order_Detail extends JFrame {
        else if (remark.equals("Dine in")){
            rbtnTake.isSelected();
        }
+       
+       
        
    }
 
