@@ -1,7 +1,3 @@
- /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ButtonGroup;
@@ -28,15 +24,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
     private DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
     
     private Customer customer;
-    
+
     private ButtonGroup remarkGroup = new ButtonGroup();
     
-    private String remark;
     
-    
-    /**
-     * Creates new form Menu
-     */
     public C_MenuFrame(){}
     
     public C_MenuFrame(Customer customer) {
@@ -157,19 +148,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
         double newPrice = doublePrice * Double.parseDouble(tfQuantity.getText());
         tfPrice.setText(Double.toString(newPrice));
     }
-
-    private String getRemark(){
-        if (rbDineIn.isSelected()) {
-            remark = "Dine In";
-        }
-        else if (rbTakeAway.isSelected()) {
-            remark = "Take Away";
-        }
-        else {
-            remark = "Delivery";
-        }
-        return remark;
-    }
     
     private void displayNotification() { //Display notifications function
         int counter = 1;
@@ -256,11 +234,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
         balance.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         balance.setForeground(new java.awt.Color(255, 255, 255));
-        balance.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                balanceComponentShown(evt);
-            }
-        });
 
         jBalance.setForeground(new java.awt.Color(255, 255, 255));
         jBalance.setText("Balance");
@@ -275,11 +248,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bTransactionHistoryMousePressed(evt);
-            }
-        });
-        bTransactionHistory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bTransactionHistoryActionPerformed(evt);
             }
         });
 
@@ -297,11 +265,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 bOrderHistoryMousePressed(evt);
             }
         });
-        bOrderHistory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bOrderHistoryActionPerformed(evt);
-            }
-        });
 
         jUsername.setForeground(new java.awt.Color(255, 255, 255));
         jUsername.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -311,11 +274,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
         bLogOut.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bLogOutMousePressed(evt);
-            }
-        });
-        bLogOut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bLogOutActionPerformed(evt);
             }
         });
 
@@ -365,7 +323,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                     .addComponent(bOrderHistory))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         pnlC_MenuFrameTables.setBackground(new java.awt.Color(255, 255, 255));
@@ -387,9 +345,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 CurrentOrderMousePressed(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                CurrentOrderMouseReleased(evt);
-            }
         });
         scrlpnlC_MenuFrameCurrentOrderTable.setViewportView(CurrentOrder);
 
@@ -407,21 +362,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 bPlaceOrderMousePressed(evt);
             }
         });
-        bPlaceOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bPlaceOrderActionPerformed(evt);
-            }
-        });
 
         bCancelOrder.setText("Cancel Order");
         bCancelOrder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bCancelOrderMousePressed(evt);
-            }
-        });
-        bCancelOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bCancelOrderActionPerformed(evt);
             }
         });
 
@@ -437,21 +382,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 bAddQuantityMousePressed(evt);
             }
         });
-        bAddQuantity.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bAddQuantityActionPerformed(evt);
-            }
-        });
 
         bReduceQuantity.setText("-");
         bReduceQuantity.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bReduceQuantityMousePressed(evt);
-            }
-        });
-        bReduceQuantity.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bReduceQuantityActionPerformed(evt);
             }
         });
 
@@ -465,9 +400,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
         Menu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 MenuMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                MenuMouseReleased(evt);
             }
         });
         scrlpnlC_MenuFrameMenuTable.setViewportView(Menu);
@@ -507,11 +439,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 bFoodReceivedMousePressed(evt);
             }
         });
-        bFoodReceived.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bFoodReceivedActionPerformed(evt);
-            }
-        });
 
         bNotificationAcknowledged.setText("Acknowledged");
         bNotificationAcknowledged.addActionListener(new java.awt.event.ActionListener() {
@@ -529,12 +456,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
                         .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
-                                    .addComponent(jMenu)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(scrlpnlC_MenuFrameMenuTable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
                                 .addComponent(rbDineIn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -554,7 +475,13 @@ public class C_MenuFrame extends javax.swing.JFrame {
                                 .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(bAddQuantity))
-                            .addComponent(rbDelivery, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(rbDelivery, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlC_MenuFrameTablesLayout.createSequentialGroup()
+                                    .addComponent(jMenu)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(scrlpnlC_MenuFrameMenuTable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(scrlpnlC_MenuFrameCurrentOrderTable, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -574,11 +501,12 @@ public class C_MenuFrame extends javax.swing.JFrame {
         pnlC_MenuFrameTablesLayout.setVerticalGroup(
             pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(8, 8, 8)
                 .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jMenu)
-                    .addComponent(jCurrentOrder))
+                    .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jCurrentOrder)
+                        .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(scrlpnlC_MenuFrameMenuTable, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -634,15 +562,15 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void rbDineInActionPerformed(java.awt.event.ActionEvent evt) {
-        
+        reloadFrame();
     }
     
     private void rbTakeAwayActionPerformed(java.awt.event.ActionEvent evt) {
-        
+        reloadFrame();
     }
     
     private void rbDeliveryActionPerformed(java.awt.event.ActionEvent evt) {
-        
+        reloadFrame();
     }
             
     private void NotificationMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMousePressed
@@ -695,19 +623,19 @@ public class C_MenuFrame extends javax.swing.JFrame {
         if (model2.getValueAt(row2, 3).equals(Order.Status.PENDING) || model2.getValueAt(row2, 3).equals(Order.Status.PREPARING) || model2.getValueAt(row2, 3).equals(Order.Status.SEARCHING)) { //Filter which order can be canceled
             List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
             List<Object> notifyContainer = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
-            for (Object obj : container) {
+            for (Object obj : container) { //Set order status to canceled
                 Order order = (Order) obj;
                 if (order.getId().equals(model2.getValueAt(row2, 0))) {
                     order.setStatus(Order.Status.CANCELLED);
-                    order.refund();
+                    order.refund(); //Refund all
                     reloadFrame();
                     break;
                 }
             }
-            for (Object obj : notifyContainer) {
+            for (Object obj : notifyContainer) { //Set notification status to canceled
                 Notification notification = (Notification) obj;
                 if (notification.getOrderID().equals(model2.getValueAt(row2, 0))) {
-                    notification.setMessage();
+                    notification.setMessageBackUp(4);
                     reloadFrame();
                 }
             }
@@ -722,16 +650,36 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
     private void bPlaceOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bPlaceOrderMousePressed
         if (customer.getBal() >= Double.parseDouble(tfPrice.getText())) { //Check whether if the price exceeds balance
-            Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
-            order.setRemark(getRemark()); //Set for whether dine in or take away in order to notify vendor
-            order.payment(); //Deduct balance and pay vendor
-            Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
-            TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
-            TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
-            JOptionPane.showMessageDialog(null,"You have successfully ordered " + tfDetails.getText(),"Order Placed",JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
-            reloadFrame();
+            if (rbDineIn.isSelected()) { //Set remark to dine in to notify vendor
+                Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
+                order.setRemark("Dine in"); //Set for whether dine in or take away in order to notify vendor
+                order.payment(); //Deduct balance and pay vendor
+                Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
+                TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
+                TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
+                JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Order Placed", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
+                reloadFrame();
+            } else if (rbTakeAway.isSelected()) { //Set remark to take away to notify vendor
+                Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
+                order.setRemark("Take Away"); //Set for whether dine in or take away in order to notify vendor
+                order.payment(); //Deduct balance and pay vendor
+                Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
+                TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
+                TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
+                JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Take Away", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
+                reloadFrame();
+            } else if (rbDelivery.isSelected()) { //Creates delivery order object
+                DeliveryOrder order = new DeliveryOrder(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
+                order.setRemark("Delivery"); //Set for whether dine in or take away in order to notify vendor
+                order.payment(); //Deduct balance and pay vendor
+                Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
+                TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
+                TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
+                JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Delivery", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
+                reloadFrame();
+            }
         } else if (customer.getBal() < Double.parseDouble(tfPrice.getText())) {
-            JOptionPane.showMessageDialog(null,"Balance is low! Please proceed to top up!","Warning",JOptionPane.WARNING_MESSAGE); //Throw error when balance is low
+            JOptionPane.showMessageDialog(null, "Balance is low! Please proceed to top up!", "Warning", JOptionPane.WARNING_MESSAGE); //Throw error when balance is low
             reloadFrame();
         }
     }//GEN-LAST:event_bPlaceOrderMousePressed
