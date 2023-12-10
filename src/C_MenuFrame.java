@@ -402,6 +402,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 cbCuisineActionPerformed(evt);
             }
         });
+        cbCuisine.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                cbCuisinePropertyChange(evt);
+            }
+        });
 
         CurrentOrder.setModel(model2);
         CurrentOrder.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -765,6 +770,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
     private void bReduceQuantityMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bReduceQuantityMousePressed
         minusQuantity();
     }//GEN-LAST:event_bReduceQuantityMousePressed
+
+    private void cbCuisinePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cbCuisinePropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbCuisinePropertyChange
 
     /**
      * @param args the command line arguments
