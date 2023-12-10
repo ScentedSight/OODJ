@@ -23,23 +23,16 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-          </Group>
+          <Component id="jPanel2" max="32767" attributes="0"/>
+          <Component id="jPanel1" pref="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <Component id="jPanel1" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -56,7 +49,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace min="-2" pref="608" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="273" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -75,17 +68,17 @@
                                   <Component id="jUsername" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="386" max="-2" attributes="0"/>
                           <Component id="balance" min="-2" pref="78" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="jTitle" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="bLogOut" min="-2" pref="93" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="217" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jTitle" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="bLogOut" min="-2" pref="93" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="206" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -95,10 +88,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jTitle" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                              <Component id="bLogOut" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jTitle" min="-2" pref="50" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jBalance" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -117,7 +107,9 @@
                           <Component id="balance" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="74" max="32767" attributes="0"/>
+                  <EmptySpace pref="37" max="32767" attributes="0"/>
+                  <Component id="bLogOut" min="-2" pref="37" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -235,13 +227,13 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace min="-2" pref="574" max="-2" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Group type="102" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
                                       <Component id="jMenu" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Component id="cbCuisine" min="-2" max="-2" attributes="0"/>
@@ -265,52 +257,39 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="bAddQuantity" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <Component id="rbDelivery" alignment="0" min="-2" pref="98" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="bNotificationAcknowledged" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="rbDelivery" min="-2" pref="98" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="bNotificationReceived" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <EmptySpace min="-2" pref="108" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="tfOrderID" min="-2" pref="71" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="bCancelOrder" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
+                                  <Component id="tfOrderID" min="-2" pref="71" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                                   <Component id="tfCurrentOrderDetails" min="-2" pref="219" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="bPlaceOrder" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="bPlaceOrder" max="32767" attributes="0"/>
                               </Group>
+                              <Component id="jScrollPane2" alignment="0" min="-2" pref="409" max="-2" attributes="0"/>
+                              <Component id="jCurrentOrder" min="-2" max="-2" attributes="0"/>
+                              <Component id="bCancelOrder" alignment="1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="jScrollPane1" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="bNotificationAcknowledged" min="-2" max="-2" attributes="0"/>
+                              <Component id="bNotificationReceived" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="jScrollPane2" alignment="0" pref="409" max="32767" attributes="0"/>
-                      <Component id="jCurrentOrder" min="-2" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="cbCuisine" min="-2" max="-2" attributes="0"/>
@@ -336,7 +315,7 @@
                       <Component id="bPlaceOrder" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="bCancelOrder" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -345,25 +324,23 @@
                           <Component id="rbDineIn" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="rbTakeAway" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="rbDelivery" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="bNotificationReceived" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="rbDelivery" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="bNotificationAcknowledged" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="123" max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="31" max="32767" attributes="0"/>
-                          <Component id="jScrollPane1" min="-2" pref="98" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="bNotificationReceived" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
+                          <Component id="bNotificationAcknowledged" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
