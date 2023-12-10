@@ -6,6 +6,10 @@ public class Food implements DataProvider {
     private Vendor vendor;
     private String vendorName; //Pass vendor's details when food is created to list it under the vendor's menu
     
+    public Food(){
+        
+    }
+    
     public Food(Vendor vendor, String name, double cost) { //Ask for food's details the instance the object is created
         description = name;
         this.cost = cost;

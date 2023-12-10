@@ -24,7 +24,7 @@ public class VendorFrame extends JFrame {
     private String[] OrderList={"OrderID","Time","Status"};
     private int MenuRow = -1; 
     private int OrderRow = -1;    
-    private Food food;
+    private Food food = new Food();
     
     public VendorFrame(){  //Default constructor for testing
         initComponents();
@@ -37,7 +37,7 @@ public class VendorFrame extends JFrame {
         initComponents();
         this.vendor=vendor;
         lblWelcome.setText("Welcome " + vendor.getId());            //welcome vendor
-        MenuModel.setColumnIdentifiers(MenuColumn);
+        MenuModel.setColumnIdentifiers(MenuColumn); 
         OrderModel.setColumnIdentifiers(OrderList);
         
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
