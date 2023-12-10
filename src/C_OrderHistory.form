@@ -23,22 +23,22 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" max="32767" attributes="0"/>
-          <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
+          <Component id="pnlOrderHistory" max="32767" attributes="0"/>
+          <Component id="pnlOrderHistoryTable" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <Component id="pnlOrderHistory" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="jPanel2" max="32767" attributes="0"/>
+              <Component id="pnlOrderHistoryTable" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="pnlOrderHistory">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="0" red="0" type="rgb"/>
@@ -79,7 +79,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel2">
+    <Container class="javax.swing.JPanel" name="pnlOrderHistoryTable">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -92,7 +92,7 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace pref="16" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="usernameOH" min="-2" pref="131" max="-2" attributes="0"/>
+                      <Component id="tfUsernameOH" min="-2" pref="131" max="-2" attributes="0"/>
                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="tfID" min="-2" pref="50" max="-2" attributes="0"/>
@@ -103,7 +103,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="tfQuantity" min="-2" pref="49" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblOrderHistoryPrice" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="tfTotal" min="-2" pref="58" max="-2" attributes="0"/>
                           </Group>
@@ -114,7 +114,7 @@
                               <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                               <Component id="bReorder" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane1" min="-2" pref="375" max="-2" attributes="0"/>
+                          <Component id="scrlpnlOrderHistoryTable" min="-2" pref="375" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
@@ -125,9 +125,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                  <Component id="usernameOH" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfUsernameOH" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" min="-2" pref="402" max="-2" attributes="0"/>
+                  <Component id="scrlpnlOrderHistoryTable" min="-2" pref="402" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="tfID" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -135,7 +135,7 @@
                       <Component id="tfFoodDetails" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tfTotal" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblOrderHistoryPrice" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -149,7 +149,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+        <Container class="javax.swing.JScrollPane" name="scrlpnlOrderHistoryTable">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
@@ -176,7 +176,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bReorderActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="usernameOH">
+        <Component class="javax.swing.JTextField" name="tfUsernameOH">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
@@ -212,7 +212,7 @@
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel2">
+        <Component class="javax.swing.JLabel" name="lblOrderHistoryPrice">
           <Properties>
             <Property name="text" type="java.lang.String" value="RM"/>
           </Properties>
