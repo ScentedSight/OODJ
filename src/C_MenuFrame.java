@@ -48,9 +48,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
         model3.setColumnIdentifiers(column3);
         balance.setText(String.valueOf(customer.getBal()));
         username.setText(customer.getId());
-        populateMenuTable();
+        
         populateCurrentOrderTable();
         populateComboBox();
+        populateMenuTable();
         displayNotification();
         
         remarkGroup.add(rbDineIn);
@@ -86,7 +87,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 model.addRow(menu);
             }
         }
-        
     }
     
     private void populateCurrentOrderTable() {
@@ -772,7 +772,8 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_bReduceQuantityMousePressed
 
     private void cbCuisinePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cbCuisinePropertyChange
-        // TODO add your handling code here:
+        model.setRowCount(0);
+        populateMenuTable();
     }//GEN-LAST:event_cbCuisinePropertyChange
 
     /**
