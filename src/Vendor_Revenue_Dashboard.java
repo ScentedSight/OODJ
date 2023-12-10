@@ -12,7 +12,7 @@ import javax.swing.table.*;
  *
  * @author huach
  */
-public class RevenueDashboardVendor extends JFrame {
+public class Vendor_Revenue_Dashboard extends JFrame {
 
     private String id,date,remark;
     private String year,month;
@@ -23,13 +23,13 @@ public class RevenueDashboardVendor extends JFrame {
     
     TextEditor reader = new TextEditor();       // for order history
     
-    public RevenueDashboardVendor() {
+    public Vendor_Revenue_Dashboard() {
         initComponents();
         revenueModel.setColumnIdentifiers(revenuecol);
         setTitle("Revenue Dashboard");
     }
     
-    public RevenueDashboardVendor(String vendorID) {
+    public Vendor_Revenue_Dashboard(String vendorID) {
         initComponents();
         setTitle("Revenue Dashboard");
         revenueModel.setColumnIdentifiers(revenuecol);
@@ -343,7 +343,7 @@ public class RevenueDashboardVendor extends JFrame {
     private void btnQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitActionPerformed
             VendorFrame v=new VendorFrame();
             v.setVisible(true);
-            RevenueDashboardVendor o= new RevenueDashboardVendor();
+            Vendor_Revenue_Dashboard o= new Vendor_Revenue_Dashboard();
             o.setVisible(false);
     }//GEN-LAST:event_btnQuitActionPerformed
 
@@ -399,7 +399,7 @@ public class RevenueDashboardVendor extends JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RevenueDashboardVendor().setVisible(true);
+                new Vendor_Revenue_Dashboard().setVisible(true);
             }
         });
     }

@@ -11,7 +11,7 @@ import java.util.*;
 import javax.swing.*;
 
 
-public class OrderDetail extends JFrame {
+public class Vendor_Order_Detail extends JFrame {
     private String orderID,foodID,remark;
     private Time time;
     private Customer customer;
@@ -19,7 +19,7 @@ public class OrderDetail extends JFrame {
     private Vendor vendor;
      
                 
-    public OrderDetail() {
+    public Vendor_Order_Detail() {
         initComponents();
               
         setTitle("Order Detail");
@@ -30,7 +30,7 @@ public class OrderDetail extends JFrame {
         buttonGroupRemark.add(rbtnTake);
     }
     
-   public OrderDetail(String orderID, String foodID,Time time,String remark,String status){           // add remark(delivery,take away)
+   public Vendor_Order_Detail(String orderID, String foodID,Time time,String remark,String status){           // add remark(delivery,take away)
        this.orderID=orderID;
        this.foodID =foodID;
        this.time=time;
@@ -279,18 +279,18 @@ public class OrderDetail extends JFrame {
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         VendorFrame v=new VendorFrame();
         v.setVisible(true);
-        OrderDetail o=new OrderDetail();
+        Vendor_Order_Detail o=new Vendor_Order_Detail();
         o.setVisible(false);
     }//GEN-LAST:event_btnCloseActionPerformed
 
     
     public static void main(String args[]) {
-        OrderDetail o= new OrderDetail();
+        Vendor_Order_Detail o= new Vendor_Order_Detail();
         
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new OrderDetail().setVisible(true);
+                new Vendor_Order_Detail().setVisible(true);
             }
         });
     }

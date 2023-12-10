@@ -267,7 +267,7 @@ public class VendorFrame extends JFrame {
         for (Object obj : container) { 
                 Order rd = (Order) obj;
                 if (rd.getVendorName().equals(vendor.getName())) {
-                    RevenueDashboardVendor r=new RevenueDashboardVendor(rd.getVendorID());
+                    Vendor_Revenue_Dashboard r=new Vendor_Revenue_Dashboard(rd.getVendorID());
                     r.setVisible(true);
                     break;  
                 }
@@ -282,7 +282,7 @@ public class VendorFrame extends JFrame {
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 Order OH = (Order) obj;
                 if (OH.getId().equals(String.valueOf(OrderModel.getValueAt(OrderRow, 0)))) {
-                    OrderDetail o=new OrderDetail(OH.getId(),OH.getFood(),time,OH.getRemark(),OH.getStatus());
+                    Vendor_Order_Detail o=new Vendor_Order_Detail(OH.getId(),OH.getFood(),time,OH.getRemark(),OH.getStatus());
                     o.isVisible();
                     break; //Break out of the loop once done since only one order should be edited at a time
                 }
@@ -300,16 +300,15 @@ public class VendorFrame extends JFrame {
         int row = MenuTable.getSelectedRow();
         if (row >= 0 && row < container2.size()) {
             Food existingMenu = (Food) container2.get(row);
-
             // Update the properties of the selected menu based on the table values
-            if(existingMenu.equals(food.getId())){
-                String foodName = MenuTable.getValueAt(row, 1).toString();
-                double foodCost = Double.parseDouble(MenuTable.getValueAt(row, 2).toString());
-                existingMenu.setDescription(foodName);
-                existingMenu.setCost(foodCost);
+            String selectedFoodId = food.getId();
+            if(existingMenu.getId().equals(selectedFoodId)){
+                String foodName = textFoodName.getText();
+                double foodCost = Double.parseDouble(textCost.getText());
+                Food updatedFood = new Food(vendor,foodName, foodCost);
             // Rewrite the entire list back to the file
                 TextEditor.textDelete(TextEditor.FilePaths.MENU, existingMenu); // Delete the existing file
-                TextEditor.fileWrite(TextEditor.FilePaths.MENU, existingMenu); // Rewrite the entire list back to the file
+                TextEditor.fileWrite(TextEditor.FilePaths.MENU, updatedFood); // Rewrite the entire list back to the file
                 JOptionPane.showMessageDialog(null, "Record Updated!");
                 displayMenu(); // Assuming this method updates the JTable
             }
