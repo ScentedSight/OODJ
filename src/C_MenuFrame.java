@@ -60,12 +60,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
         remarkGroup.add(rbDelivery);
     }
     
-    private Order viewReviews(int row) {
-        C_Reviews reviewsFrame = new C_Reviews();
-        reviewsFrame.setVisible(true);
-       
-        reviewsFrame.setFoodNameText(tfDetails.getText(), String.valueOf(cbCuisine.getSelectedItem()));
-    }
+
     
     private void populateComboBox() {
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.USER));
@@ -242,11 +237,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
         balance.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         balance.setForeground(new java.awt.Color(255, 255, 255));
-        balance.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                balanceComponentShown(evt);
-            }
-        });
 
         jBalance.setForeground(new java.awt.Color(255, 255, 255));
         jBalance.setText("Balance");
@@ -261,11 +251,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bTransactionHistoryMousePressed(evt);
-            }
-        });
-        bTransactionHistory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bTransactionHistoryActionPerformed(evt);
             }
         });
 
@@ -283,11 +268,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 bOrderHistoryMousePressed(evt);
             }
         });
-        bOrderHistory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bOrderHistoryActionPerformed(evt);
-            }
-        });
 
         jUsername.setForeground(new java.awt.Color(255, 255, 255));
         jUsername.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -299,11 +279,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 bLogOutMousePressed(evt);
             }
         });
-        bLogOut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bLogOutActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -313,50 +288,49 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 .addGap(273, 273, 273)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(bTransactionHistory)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(bOrderHistory))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGap(245, 245, 245)
-                                .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(balance, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(188, 188, 188))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jBalance)
-                                .addGap(280, 280, 280)
-                                .addComponent(jUsername)))
-                        .addGap(386, 386, 386)
-                        .addComponent(balance, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(bTransactionHistory, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jBalance, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(bOrderHistory)
+                            .addComponent(jUsername)
+                            .addComponent(username, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jTitle))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(206, 206, 206))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBalance)
+                    .addComponent(jUsername))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jBalance)
-                            .addComponent(jUsername))
-                        .addGap(0, 0, 0)
-                        .addComponent(username)
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bTransactionHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bOrderHistory)))
+                        .addGap(20, 20, 20)
+                        .addComponent(balance, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(balance)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(username)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bTransactionHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bOrderHistory))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -378,9 +352,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 CurrentOrderMousePressed(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                CurrentOrderMouseReleased(evt);
-            }
         });
         jScrollPane2.setViewportView(CurrentOrder);
 
@@ -398,21 +369,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 bPlaceOrderMousePressed(evt);
             }
         });
-        bPlaceOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bPlaceOrderActionPerformed(evt);
-            }
-        });
 
         bCancelOrder.setText("Cancel Order");
         bCancelOrder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bCancelOrderMousePressed(evt);
-            }
-        });
-        bCancelOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bCancelOrderActionPerformed(evt);
             }
         });
 
@@ -428,21 +389,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 bAddQuantityMousePressed(evt);
             }
         });
-        bAddQuantity.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bAddQuantityActionPerformed(evt);
-            }
-        });
 
         bReduceQuantity.setText("-");
         bReduceQuantity.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bReduceQuantityMousePressed(evt);
-            }
-        });
-        bReduceQuantity.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bReduceQuantityActionPerformed(evt);
             }
         });
 
@@ -497,11 +448,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
         bNotificationReceived.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bNotificationReceivedMousePressed(evt);
-            }
-        });
-        bNotificationReceived.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bNotificationReceivedActionPerformed(evt);
             }
         });
 
@@ -616,7 +562,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -629,10 +575,18 @@ public class C_MenuFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bOrderHistoryActionPerformed(java.awt.event.MouseEvent evt) {
+    private void rbDineInActionPerformed(java.awt.event.ActionEvent evt) {
         
     }
     
+    private void rbTakeAwayActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void rbDeliveryActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+            
     private void NotificationMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMousePressed
         row3 = Notification.getSelectedRow();
         String selector = String.valueOf(model3.getValueAt(row3, 1));
