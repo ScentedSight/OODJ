@@ -14,6 +14,10 @@ public class Food implements DataProvider {
         id = vendor.getId() + ":" + description; //Food id consists of vendor's ID + description with a delimiter of ":"
     }
     
+    public void setId(String id){
+        this.id = id;
+    }
+    
     public String getId() {
         return id;
     }
