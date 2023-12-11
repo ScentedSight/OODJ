@@ -40,9 +40,11 @@ public class VendorFrame extends JFrame {
         lblWelcome.setText("Welcome " + vendor.getId());            //welcome vendor
         MenuModel.setColumnIdentifiers(MenuColumn); 
         OrderModel.setColumnIdentifiers(OrderList);
+        setTitle("Vendor HomePage");
         
         displayOrder();
         displayMenu();
+        displayNotification();
     }
 
     @SuppressWarnings("unchecked")
@@ -316,11 +318,16 @@ public class VendorFrame extends JFrame {
                 String foodName = textFoodName.getText();
                 double foodCost = Double.parseDouble(textCost.getText());
                 Food updatedFood = new Food(vendor,foodName, foodCost);
-            // Rewrite the entire list back to the file
+                if (existingMenu.getDescription().equals(textFoodName.getText())){
+                    JOptionPane.showMessageDialog(null, "Food is exist.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                // Rewrite the entire list back to the file
                 TextEditor.textDelete(TextEditor.FilePaths.MENU, existingMenu); // Delete the existing file
                 TextEditor.fileWrite(TextEditor.FilePaths.MENU, updatedFood); // Rewrite the entire list back to the file
                 JOptionPane.showMessageDialog(null, "Record Updated!");
                 displayMenu(); // Assuming this method updates the JTable
+                }
             }
         } else {
             JOptionPane.showMessageDialog(null, "Invalid row selection.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -347,12 +354,12 @@ public class VendorFrame extends JFrame {
         List<Object> container3 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container3) { 
             Notification n = (Notification) obj;
-            if (n.getId().equals(OrderModel.getValueAt(OrderRow, 0))) {        //compare orderID in ordertable
-                lblNotification.setText(n.getMessage());                                //get message.order
-                TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
+            if (lblNotification.getText().contains(n.getId())) {       
+                TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);   
                 break; 
             }
         }
+        displayNotification();
     }//GEN-LAST:event_btnReadActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
@@ -484,7 +491,8 @@ public class VendorFrame extends JFrame {
             Order O = (Order) obj1;
             if(O.getVendorID().equals(vendor.getId())){
                 String status= O.getStatus();     
-                if (!status.equals("PICKED_UP") && !status.equals("COMPLETED") && !status.equals("CANCELLED")) {
+                if (!status.equals("PICKED_UP") && !status.equals("COMPLETED") && 
+                        !status.equals("CANCELLED")) {
                     String[] OrderVendorArray = {
                         O.getId(),          //get OrderID
                         O.getTime(),        //get Order Time
@@ -494,6 +502,18 @@ public class VendorFrame extends JFrame {
             }
             }            
         }
+    }
+    
+    private void displayNotification() { //Display notification  int counter = 1;
+        String notification = "";
+        List<Object> container3 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
+        for (Object obj : container3) {
+            Notification n = (Notification) obj;
+            if (n.getVendorID().equals(vendor.getName()) && (n.getMessage().contains("You have an incoming order") || n.getMessage().contains("The order has been canceled"))) { //Making sure its not null so error wont pop out
+                notification = n.getTime()+ " [" + n.getId() + "]" + n.getMessage();
+            }
+        }
+        lblNotification.setText(notification);
     }
     
 

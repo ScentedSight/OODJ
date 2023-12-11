@@ -66,7 +66,7 @@ public class Notification implements DataProvider {
     }
 
     public String getMessage() {
-        return message.toString();
+        return message.getMessages();
     }
 
     public void setMessageBackUp(int changer) { //Using switch case since for some reason Messages enum class cant be referred and passed to the original method in customer's frame
@@ -124,6 +124,10 @@ public class Notification implements DataProvider {
     
     public String getUser() {
         return userID;
+    }
+    
+    public String getVendorID() {
+        return vendorID;
     }
     
     public void setVendorID(String vendorID) {

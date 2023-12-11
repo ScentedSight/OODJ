@@ -34,8 +34,8 @@ public class DeliveryOrder extends Order{
     }
     
     @Override
-    public void payment() {
-        super.payment(); //Call Order's payment method to deduct customer's balance and add to vendor's balance
+    public void payment(Customer customer) {
+        super.payment(customer); //Call Order's payment method to deduct customer's balance and add to vendor's balance
         runner.addBal(deliveryFee); //Pay runner
         
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.USER));

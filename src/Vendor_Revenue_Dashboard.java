@@ -40,24 +40,39 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
         comboYear.setSelectedIndex(-1);       //do not selected item in initial
         
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-        for (Object obj : container) {          
-            Order O = (Order) obj;
-            String status=O.getStatus();     
-            
-            if (O.getVendorID().equals(id) && status.equals("COMPLETED" )|| status.equals("PICKED_UP")) {
-                if (status.equals("COMPLETED")){
-                    remark="Dine in";
+        for (Object obj : container) {
+            if (obj instanceof Order) {
+                Order O = (Order) obj;
+                String status = O.getStatus();
+
+                if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
+                    if (status.equals("COMPLETED")) {
+                        remark = "Dine in";
+                    } else if (status.equals("PICKED_UP")) {        //delivery use deliveryOrder, do not same
+                        remark = "Take away";
+                    } else {
+                        remark = " ";
+                    }
                 }
-                else if(status.equals("PICKED_UP")){        //delivery use deliveryOrder, do not same
-                    remark="Take away";
+            } else if (obj instanceof DeliveryOrder) {
+                DeliveryOrder O = (DeliveryOrder) obj;
+                String status = O.getStatus();
+
+                if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
+                    if (status.equals("COMPLETED")) {
+                        remark = "Dine in";
+                    } else if (status.equals("PICKED_UP")) {        //delivery use deliveryOrder, do not same
+                        remark = "Take away";
+                    } else {
+                        remark = " ";
+                    }
                 }
-                else{
-                    remark=" ";
-                }
+
             }
+            viewAllOrderHistory(vendor.getId());
         }
-        viewAllOrderHistory(vendor.getId());
     }
+    
     public String filterMonth(){
         int i=comboMonth.getSelectedIndex();        //get selected month
         
@@ -326,26 +341,47 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
         double totalProfit = 0;
         // Clear existing rows in the model
         revenueModel.setRowCount(0);
-        for (Object obj : container){
-            Order O = (Order) obj;
-            String status = O.getStatus();
-            if (O.getVendorID().equals(id) && status.equals("READY")) {
-                if (String.valueOf(O.getOrderYear()).equals(year) && String.valueOf(O.getOrderMonth()).equals(month)) {
+        for (Object obj : container) {
+            if (obj instanceof Order) {
+                Order O = (Order) obj;
+                String status = O.getStatus();
+                if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
+                    if (String.valueOf(O.getOrderYear()).equals(year) && String.valueOf(O.getOrderMonth()).equals(month)) {
                         String[] OrderHistVendorArray = {
-                        O.getId(),
-                        O.getFood(),
-                        O.getReview(),
-                        String.valueOf(O.getRatings()),
-                        date = O.getOrderDay() + "/" + O.getOrderMonth() + "/" + O.getOrderYear(),
-                        O.getTime(),
-                        remark,
-                        Double.toString(O.getCost()),
-                        };
+                            O.getId(),
+                            O.getFood(),
+                            O.getReview(),
+                            String.valueOf(O.getRatings()),
+                            date = O.getOrderDay() + "/" + O.getOrderMonth() + "/" + O.getOrderYear(),
+                            O.getTime(),
+                            O.getRemark(),
+                            Double.toString(O.getCost()),};
                         totalProfit += O.getCost();
                         rowCount++;
                         revenueModel.addRow(OrderHistVendorArray);
+                    }
+                }
+            } else if (obj instanceof DeliveryOrder) {
+                DeliveryOrder O = (DeliveryOrder) obj;
+                String status = O.getStatus();
+                if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
+                    if (String.valueOf(O.getOrderYear()).equals(year) && String.valueOf(O.getOrderMonth()).equals(month)) {
+                        String[] OrderHistVendorArray = {
+                            O.getId(),
+                            O.getFood(),
+                            O.getReview(),
+                            String.valueOf(O.getRatings()),
+                            date = O.getOrderDay() + "/" + O.getOrderMonth() + "/" + O.getOrderYear(),
+                            O.getTime(),
+                            O.getRemark(),
+                            Double.toString(O.getCost()),};
+                        totalProfit += O.getCost();
+                        rowCount++;
+                        revenueModel.addRow(OrderHistVendorArray);
+                    }
                 }
             }
+
         }
         // Update the labels with total profit and average income
         LabelTotal.setText("RM" + totalProfit);
@@ -354,33 +390,53 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
     }
 
     
-    public void viewAllOrderHistory(String id){
+    public void viewAllOrderHistory(String id) {
         int rowCount = 0;
         double totalProfit = 0;
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-        for (Object obj : container) {          
-            Order O = (Order) obj;
-            String status=O.getStatus();     
-            if(O.getVendorID().equals(id) && O.getStatus().equals("READY")){
-                // filter for year only, show all result for months
-                String[] OrderHistVendorArray = {
-                    O.getId(),
-                    O.getFood(),
-                    O.getReview(),
-                    String.valueOf(O.getRatings()),
-                    date=O.getOrderDay()+"/"+O.getOrderMonth()+"/"+O.getOrderYear(),
-                    O.getTime(),
-                    remark,
-                    Double.toString(O.getCost()),
-                };
-                totalProfit += O.getCost();
-                rowCount++;
-                revenueModel.addRow(OrderHistVendorArray);
+        for (Object obj : container) {
+            if (obj instanceof Order) {
+                Order O = (Order) obj;
+                String status = O.getStatus();
+                if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
+                    // filter for year only, show all result for months
+                    String[] OrderHistVendorArray = {
+                        O.getId(),
+                        O.getFood(),
+                        O.getReview(),
+                        String.valueOf(O.getRatings()),
+                        date = O.getOrderDay() + "/" + O.getOrderMonth() + "/" + O.getOrderYear(),
+                        O.getTime(),
+                        O.getRemark(),
+                        Double.toString(O.getCost()),};
+                    totalProfit += O.getCost();
+                    rowCount++;
+                    revenueModel.addRow(OrderHistVendorArray);
+                }
+            } else if (obj instanceof DeliveryOrder) {
+                Order O = (Order) obj;
+                String status = O.getStatus();
+                if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
+                    // filter for year only, show all result for months
+                    String[] OrderHistVendorArray = {
+                        O.getId(),
+                        O.getFood(),
+                        O.getReview(),
+                        String.valueOf(O.getRatings()),
+                        date = O.getOrderDay() + "/" + O.getOrderMonth() + "/" + O.getOrderYear(),
+                        O.getTime(),
+                        O.getRemark(),
+                        Double.toString(O.getCost()),};
+                    totalProfit += O.getCost();
+                    rowCount++;
+                    revenueModel.addRow(OrderHistVendorArray);
+                }
+
             }
-        }   
-        LabelTotal.setText("RM" + totalProfit);
-        DecimalFormat df = new DecimalFormat("0.00");
-        LabelAverageIncome.setText("RM" + df.format(totalProfit / rowCount));
+            LabelTotal.setText("RM" + totalProfit);
+            DecimalFormat df = new DecimalFormat("0.00");
+            LabelAverageIncome.setText("RM" + df.format(totalProfit / rowCount));
+        }
     }
 
 
