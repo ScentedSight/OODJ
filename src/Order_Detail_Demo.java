@@ -13,14 +13,15 @@ import javax.swing.JOptionPane;
  * @author 110ti
  */
 public class Order_Detail_Demo extends javax.swing.JFrame {
-    private String orderID,foodID,remark,time;
+    private String orderID,foodID,custID,remark,time,cost;
     private Customer customer;
     private String status;
     private Vendor vendor;
+    private Order order = new Order();
     
     public Order_Detail_Demo(){}
     
-    public Order_Detail_Demo(Vendor vendor, String orderID, String foodID, String time, String remark, String status) {
+    public Order_Detail_Demo(Vendor vendor, String orderID, String foodID, String custID, String time, String remark, String status, String cost) {
         initComponents();
         this.vendor = vendor;
         this.orderID= orderID;
@@ -28,6 +29,8 @@ public class Order_Detail_Demo extends javax.swing.JFrame {
         this.time= time;
         this.remark=remark;
         this.status=status;
+        this.cost = cost;
+        this.custID = custID;
         inputOrderID_TF.setEditable(false);
         inputFoodID_TF.setEditable(false);
         inputTime_TF.setEditable(false);
@@ -35,13 +38,13 @@ public class Order_Detail_Demo extends javax.swing.JFrame {
         inputFoodID_TF.setText(foodID);
         inputTime_TF.setText(time);
         
-        Dine_Rbtn.setActionCommand("Dine-in");
+        Dine_Rbtn.setActionCommand("Dine In");
         TakeAway_Rbtn.setActionCommand("Take Away");
 
-        if (remark.equals("Dine-in")) {
+        if (remark.equals("Dine In")) {
             Dine_Rbtn.setSelected(true);
             TakeAway_Rbtn.setSelected(false);
-        } else {
+        } else if(remark.equals("Take Away")){
             Dine_Rbtn.setSelected(false);
             TakeAway_Rbtn.setSelected(true);
         }
@@ -100,7 +103,7 @@ public class Order_Detail_Demo extends javax.swing.JFrame {
         jLabel4.setText("Remark:");
 
         buttonGroup1.add(Dine_Rbtn);
-        Dine_Rbtn.setText("Dine-in");
+        Dine_Rbtn.setText("Dine in");
 
         buttonGroup1.add(TakeAway_Rbtn);
         TakeAway_Rbtn.setText("Take Away");
@@ -215,79 +218,84 @@ public class Order_Detail_Demo extends javax.swing.JFrame {
     }//GEN-LAST:event_TakeAway_RbtnActionPerformed
 
     private void Status_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Status_CBActionPerformed
-    switch (Status_CB.getSelectedIndex()) {           //add status
-        case 0:
-            status="PENDING";
-            break;
-        case 1:
-            status="PREPARING";
-            break;
-        case 2:
-            status="READY";
-            break;
-        case 3:
-            status="COMPLETED";
-            break;
-        case 4:
-            status="PICKED_UP";
-            break;
-        case 5:
-            status="CANCELLED";
-            break;
-        default:
-            break;
-    }
-
     List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
+    order.setUpdateStatus(Status_CB.getSelectedIndex());
     for (Object obj : container2) { 
             Notification n = (Notification) obj;
             if (vendor.getId().equals(n.getId()) && (n.getMessage().equals(Notification.Messages.ORDER) || n.getMessage().equals(Notification.Messages.PREPARE))){                //compare orderID in order table
-                if (status.equals("PREPARING")) {        
+                if (order.getStatus().equals("PREPARING")) {        
                     n.setMessage(Notification.Messages.PREPARE);
                 }
-                else if (status.equals("READY")){
+                else if (order.getStatus().equals("READY")){
                     n.setMessage(Notification.Messages.READY);
                 }
-                else if (status.equals("CANCELLED")){
+                else if (order.getStatus().equals("CANCELLED")){
                     n.setMessage(Notification.Messages.CANCEL);
                 }
                 TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
                 TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
             }
-
         }
     }//GEN-LAST:event_Status_CBActionPerformed
 
     private void Back_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Back_btnActionPerformed
-        VendorFrame VF = new VendorFrame();
-        VF.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_Back_btnActionPerformed
 
     private void Save_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Save_btnActionPerformed
         List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-        boolean checked = false;
-
+        String custid = null;
+        double foodCost = 0;
+        boolean check = false;
+        boolean cancelled = false;
+        
         for (Object obj : container) {
             Order order = (Order) obj;
 
             if (order.getId().equals(orderID)) {
-                Order.Status selectedStatus = (Order.Status) Status_CB.getSelectedItem();                
-                order.setStatus(selectedStatus);
-                order.setTime();
-                TextEditor.textDelete(TextEditor.FilePaths.HISTORY, order);
-                TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order);
-                checked = true;
-                JOptionPane.showMessageDialog(null, "Order Updated!");
-                break; // Break out of the loop since one order can be edited at a time
+                if (Status_CB.getSelectedItem().equals(Order.Status.CANCELLED)) {
+                    updateCustomerBalance(order.getCustomerID(), order.getCost());
+                    order.setStatus(Order.Status.CANCELLED);
+                    order.setTime();
+                    updateOrder(order);
+                    JOptionPane.showMessageDialog(null, "Order Cancelled!");
+                    check = true;
+                    break;
+                } else {
+                    custid = order.getCustomerID();
+                    foodCost = order.getCost();
+                    order.setUpdateStatus(Status_CB.getSelectedIndex());
+                    order.setTime();
+                    System.out.println("New Status: " + order.getStatus());
+                    updateOrder(order);
+                    JOptionPane.showMessageDialog(null, "Order Updated!");
+                    check = true;
+                    cancelled = true;
+                    break;
+                }
             }
         }
 
-        if (!checked) {
-            JOptionPane.showMessageDialog(null, "Order not exist.", "Warning", JOptionPane.WARNING_MESSAGE);
+        if (!check) {
+            JOptionPane.showMessageDialog(null, "Order not exist!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
-
-
+        if (check && cancelled) {
+            System.out.println("Please check: ");
+            List<DataProvider> container2 = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.USER));
+            for (DataProvider obj : container2) {
+                if (obj instanceof Customer) {
+                    Customer cust = (Customer) obj;
+                    if (cust.getId().equals(custid)) {
+                        double newBal = cust.getBal() + foodCost;
+                        cust.setBal(String.valueOf(newBal));
+                        System.out.println("New Balance: " + cust.getBal());
+                        TextEditor.textDelete(TextEditor.FilePaths.USER, cust);
+                        TextEditor.fileWrite(TextEditor.FilePaths.USER, cust);
+                        break;
+                    }
+                }
+            }
+        }
 
     }//GEN-LAST:event_Save_btnActionPerformed
 
@@ -325,6 +333,31 @@ public class Order_Detail_Demo extends javax.swing.JFrame {
             }
         });
     }
+    
+    public String updateCustomerBalance(String id, double cost) {
+        System.out.println("Please check: ");
+        List<DataProvider> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.USER));
+        for (DataProvider obj : container) {
+            Customer cust = (Customer) obj;
+            if (cust.getId().equals(id)) {
+                double newBal = cust.getBal() + cost;
+                cust.setBal(String.valueOf(newBal));
+                System.out.println("New Balance: "+cust.getBal());
+                TextEditor.textDelete(TextEditor.FilePaths.USER, cust);
+                TextEditor.fileWrite(TextEditor.FilePaths.USER, cust);
+                break;
+            }
+        }
+        // Return null or throw an exception or return a default customer object
+        return "Refunded";
+    }
+    
+    // Separate method to update the order in the file
+    private void updateOrder(Order order) {
+        TextEditor.textDelete(TextEditor.FilePaths.HISTORY, order);
+        TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order);
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Back_btn;

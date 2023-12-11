@@ -297,8 +297,9 @@ public class VendorFrame extends JFrame {
                     System.out.println("View button testing "+OH.getFood());
                     System.out.println("View button testing "+OH.getRemark());
                     System.out.println("View button testing "+OH.getStatus());
-                    
-                    o = new Order_Detail_Demo(vendor, OH.getId(), OH.getFood(), OH.getTime(),  OH.getRemark(), OH.getStatus());
+                    System.out.println("Cost "+OH.getCost());
+                    System.out.println("Customer ID: "+OH.getCustomerID());
+                    o = new Order_Detail_Demo(vendor, OH.getId(), OH.getFood(), OH.getCustomerID(), OH.getTime(),  OH.getRemark(), OH.getStatus(), String.valueOf(OH.getCost()));
                     break; //Break out of the loop once done since only one order should be edited at a time
                 }
             }
@@ -478,6 +479,8 @@ public class VendorFrame extends JFrame {
         }
         return row;
     }
+    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable MenuTable;
