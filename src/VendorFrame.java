@@ -273,16 +273,18 @@ public class VendorFrame extends JFrame {
 
     private void btnRevenueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevenueActionPerformed
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-        for (Object obj : container) { 
+        for (Object obj : container) {
+            if (obj instanceof Order) {
                 Order rd = (Order) obj;
-                if (rd.getVendorName().equals(vendor.getName())) {
-                    Vendor_Revenue_Dashboard r=new Vendor_Revenue_Dashboard(rd.getVendorID());
+                if (vendor.getName() != null && vendor.getName().equals(rd.getVendorName())) {
+                    Vendor_Revenue_Dashboard r = new Vendor_Revenue_Dashboard(rd.getVendorID());
                     r.setVisible(true);
-                    break;  
+                    break;
                 }
             }
-        VendorFrame v=new VendorFrame();
-        v.setVisible(false);
+        }
+        VendorFrame VF = new VendorFrame();
+        VF.setVisible(false);
     }//GEN-LAST:event_btnRevenueActionPerformed
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
@@ -292,11 +294,11 @@ public class VendorFrame extends JFrame {
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 Order OH = (Order) obj;
                 if (OH.getId().equals(order.getId())) {
-                    System.out.println("View button testing "+OH.getId());
-                    System.out.println("View button testing "+OH.getFood());
-                    System.out.println("View button testing "+OH.getRemark());
-                    System.out.println("View button testing "+OH.getStatus());
-                    System.out.println("Cost "+OH.getCost());
+                    System.out.println("OrderID: "+OH.getId());
+                    System.out.println("FoodID: "+OH.getFood());
+                    System.out.println("Remark: "+OH.getRemark());
+                    System.out.println("Status: "+OH.getStatus());
+                    System.out.println("Cost: "+OH.getCost());
                     System.out.println("Customer ID: "+OH.getCustomerID());
                     o = new Order_Detail_Demo(vendor, OH.getId(), OH.getFood(), OH.getCustomerID(), OH.getTime(),  OH.getRemark(), OH.getStatus(), String.valueOf(OH.getCost()));
                     break; //Break out of the loop once done since only one order should be edited at a time
