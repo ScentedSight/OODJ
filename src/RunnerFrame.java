@@ -498,18 +498,20 @@ public class RunnerFrame extends javax.swing.JFrame {
         
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) { //Conditional statement to filter revenue based on year, month and days
-            DeliveryOrder dOrder = (DeliveryOrder) obj;
-            if (dOrder.getStatusRunner().equals("DELIVERED") && dOrder.getRunner().equals(runner.getId())) {
-                if (dOrder.getOrderYear() == year) {
-                    yearFeeTxt += dOrder.getFee();
-                    if (dOrder.getOrderMonth() == month) {
-                        monthFeeTxt += dOrder.getFee();
-                        if (dOrder.getOrderDay() == day) {
-                            dayFeeTxt += dOrder.getFee();
+            if (obj instanceof DeliveryOrder) {
+                DeliveryOrder dOrder = (DeliveryOrder) obj;
+                if (dOrder.getStatusRunner().equals("DELIVERED") && dOrder.getRunner().equals(runner.getId())) {
+                    if (dOrder.getOrderYear() == year) {
+                        yearFeeTxt += dOrder.getFee();
+                        if (dOrder.getOrderMonth() == month) {
+                            monthFeeTxt += dOrder.getFee();
+                            if (dOrder.getOrderDay() == day) {
+                                dayFeeTxt += dOrder.getFee();
+                            }
                         }
-                    }        
-                }    
-            }        
+                    }
+                }
+            }          
         }
         runnerHomeYeartxt.setText(String.valueOf("$" + yearFeeTxt));
         runnerHomeMonthtxt.setText(String.valueOf("$" + monthFeeTxt));

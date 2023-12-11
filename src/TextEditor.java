@@ -64,6 +64,7 @@ public class TextEditor {
         List<DataProvider> container = new ArrayList<>();
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(paths.getFilePath()))) {
+
             while (true) {
                 try {
                     container.add((DataProvider) ois.readObject());
@@ -72,8 +73,9 @@ public class TextEditor {
                     break;
                 }
             }
+
         } catch (IOException e) {
-            System.out.println("Database file not found!");
+            System.out.println("Database file not found or empty records!");
         } catch (ClassNotFoundException e) {
             System.out.println("Mismatch serializable ID in the database file!");
         }

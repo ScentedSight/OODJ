@@ -110,7 +110,8 @@ public class Order implements DataProvider {
     
     public void payment() {
         customer.deductBal(total);
-        TextEditor reader = new TextEditor();
+        TextEditor.textDelete(TextEditor.FilePaths.USER, customer);
+        TextEditor.fileWrite(TextEditor.FilePaths.USER, customer); //Rewrite the changed balance back
         
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.USER));
         for (Object obj : container) { //Adds profit to the vendor object
@@ -119,7 +120,24 @@ public class Order implements DataProvider {
                 vendor.addProfit(total);
                 TextEditor.textDelete(TextEditor.FilePaths.USER, vendor);
                 TextEditor.fileWrite(TextEditor.FilePaths.USER, vendor); //Rewrite it all back
-                break; //Break out of the loop once done since payment is only given to one vendor per order
+                break; //Break out of the loop to speed up the process
+            }
+        }
+    }
+    
+    public void refund() {
+        customer.addBal(total);;
+        TextEditor.textDelete(TextEditor.FilePaths.USER, customer);
+        TextEditor.fileWrite(TextEditor.FilePaths.USER, customer); //Rewrite the changed balance back
+        
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.USER));
+        for (Object obj : container) { //Adds profit to the vendor object
+            Vendor vendor = (Vendor) obj;
+            if (vendor.getId().equals(vendorId)) {
+                vendor.refund(total);
+                TextEditor.textDelete(TextEditor.FilePaths.USER, vendor);
+                TextEditor.fileWrite(TextEditor.FilePaths.USER, vendor); //Rewrite it all back
+                break; //Break out of the loop to speed up the process
             }
         }
     }
@@ -163,10 +181,6 @@ public class Order implements DataProvider {
     
     public String getRemark(){
         return remark;
-    }
-        
-    public double getTotal() {
-        return total;
     }
     
     public double getQuantity(){
