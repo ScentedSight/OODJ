@@ -1,7 +1,3 @@
- /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ButtonGroup;
@@ -22,33 +18,28 @@ public class C_MenuFrame extends javax.swing.JFrame {
     private int row2 = -1;
    
     private DefaultTableModel model3 = new DefaultTableModel();
-    private String[] column3 = {"No", "ID", "Notifications", "Time"};
+    private String[] column3 = {"No", "ID", "Messages", "Time"};
     private int row3 = -1;
     
     private DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
     
     private Customer customer;
-    
+
     private ButtonGroup remarkGroup = new ButtonGroup();
     
-    private String remark;
     
-    
-    /**
-     * Creates new form Menu
-     */
     public C_MenuFrame(){}
     
     public C_MenuFrame(Customer customer) {
-        initComponents();
-        bNotificationReceived.setEnabled(false); //Grey out buttons
-        bNotificationAcknowledged.setEnabled(false);
+        initComponents(); 
+        bNotificationAcknowledged.setEnabled(false);//Grey out buttons
+        bFoodReceived.setEnabled(false);
         this.customer = customer;
         model.setColumnIdentifiers(column);
         model2.setColumnIdentifiers(column2);
         model3.setColumnIdentifiers(column3);
         balance.setText(String.valueOf(customer.getBal()));
-        username.setText(customer.getId());
+        lblUsername.setText(customer.getId());
         
         populateCurrentOrderTable();
         populateComboBox();
@@ -58,11 +49,50 @@ public class C_MenuFrame extends javax.swing.JFrame {
         remarkGroup.add(rbDineIn);
         remarkGroup.add(rbTakeAway);
         remarkGroup.add(rbDelivery);
+        rbDineIn.setSelected(true); //Make the first radio button selected default
     }
     
+    private void reloadFrame() {
+        List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.USER));
+        for (Object obj : container) { //Reassign customer's balance
+            if (obj instanceof Customer) {
+                Customer customer = (Customer) obj;
+                if (customer.getId().equals(this.customer.getId())) {
+                    this.customer = customer;
+                }  
+            }
+        }
+        balance.setText(String.valueOf(customer.getBal()));
+        populateCurrentOrderTable();
+        populateMenuTable();
+        displayNotification();
+    }
     
+    private List<Order> ViewReview(int row) { //To retrieve all orders related to a specific food from a specific vendor
+        String retrieveVID = String.valueOf(model.getValueAt(row, 0));
+        String retrieveFDesc = String.valueOf(model.getValueAt(row, 1));
+        List<Object> reader = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+        List<Order> container = new ArrayList<>();
+        for (Object obj : reader) {
+            if (obj instanceof Order) {
+                Order order = (Order) obj;
+                if ((order.getVendorID() + ":" + order.getFood()).equals(retrieveVID + ":" + retrieveFDesc)) { //Combination of vendor ID + food description = food ID
+                    container.add(order); //Adds to the array list and return it for further processing
+                }
+            } else if (obj instanceof DeliveryOrder) {
+                DeliveryOrder order = (DeliveryOrder) obj;
+                if ((order.getVendorID() + ":" + order.getFood()).equals(retrieveVID + ":" + retrieveFDesc)) { //Combination of vendor ID + food description = food ID
+                    container.add(order); //Adds to the array list and return it for further processing
+                }
+
+            }
+
+        }
+        return container;
+    }
     
     private void populateComboBox() {
+        comboBoxModel.removeAllElements(); //Remove everything first to prevent stacking
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.USER));
         List<String> vendors = new ArrayList<>();
 
@@ -77,6 +107,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }
     
     private void populateMenuTable() {
+        model.setRowCount(0);
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.MENU));
         
         for (Object object: container) {
@@ -88,36 +119,27 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
         }
     }
-    
-    private void populateCurrentOrderTable() {
-        // Specify the path to your menu text file
-        TextEditor reader = new TextEditor();
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY)); 
-        
-        for (Object object: container){
-            Order order = (Order) object;
-            if (order.getStatus().equals("PENDING") && order.getCustomerID().equals(customer.getId())) {
-                String[] currentOrder = {order.getId(), order.getFood(), String.valueOf(order.getTotal()), String.valueOf(order.getStatus())};
-                model2.addRow(currentOrder);
-            }
-        }    
-    }
-    
-    private void deleteCurrentOrder() {
-        TextEditor reader = new TextEditor();
-        List<Object> container = new ArrayList(reader.fileReader(TextEditor.FilePaths.HISTORY)); 
-        
-        for (Object object: container){
-            Order orderDelete = (Order) object;
 
-            if (tfOrderID.getText().equals(orderDelete.getId())) {
-                orderDelete.setStatus(Order.Status.CANCELLED);
-                reader.textDelete(TextEditor.FilePaths.HISTORY, orderDelete);
-                reader.fileWrite(TextEditor.FilePaths.HISTORY, orderDelete);
+    private void populateCurrentOrderTable() {
+        model2.setRowCount(0);
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+
+        for (Object object : container) { //Load orders into the current order table
+            if (object instanceof Order) {
+                Order order = (Order) object;
+                if (order.getCustomerID().equals(customer.getId()) && (order.getStatus().equals(Order.Status.PREPARING) || order.getStatus().equals(Order.Status.PENDING)) || order.getStatus().equals(Order.Status.READY)) { //Filters out completed, canceled, delivered and pick up status since they are only displayed in notification
+                    String[] currentOrder = {order.getId(), order.getFood(), String.valueOf(order.getCost()), String.valueOf(order.getStatus())};
+                    model2.addRow(currentOrder);
+                }
+            } else if (object instanceof DeliveryOrder) { //Load delivery orders into the current order table
+                DeliveryOrder dOrder = (DeliveryOrder) object;
+                if (dOrder.getCustomerID().equals(customer.getId()) && (dOrder.getStatusRunner().equals(Order.Status.DELIVERING) || (dOrder.getStatusRunner().equals(Order.Status.SEARCHING)))) {
+                    String[] currentOrder = {dOrder.getId(), dOrder.getFood(), String.valueOf(dOrder.getCost()), String.valueOf(dOrder.getStatus())};
+                    model2.addRow(currentOrder);
+                }
             }
         }
     }
-    
     
     private void addQuantity() {
         String currentText = tfQuantity.getText();
@@ -139,31 +161,22 @@ public class C_MenuFrame extends javax.swing.JFrame {
         double newPrice = doublePrice * Double.parseDouble(tfQuantity.getText());
         tfPrice.setText(Double.toString(newPrice));
     }
-
-    private String getRemark(){
-        if (rbDineIn.isSelected()) {
-            remark = "Dine In";
-        }
-        else if (rbTakeAway.isSelected()) {
-            remark = "Take Away";
-        }
-        else {
-            remark = "Delivery";
-        }
-        return remark;
-    }
     
     private void displayNotification() { //Display notifications function
+        model3.setRowCount(0);
         int counter = 1;
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container) {
             Notification notifyObj = (Notification) obj;
-            if (notifyObj.getUser().equals(customer.getId())) {
-                String[] notifyContainer = {String.valueOf(counter), notifyObj.getOrderID() + "\n" + notifyObj.getMessageRunner(), notifyObj.getMessage(), notifyObj.getTime()};
+            if (notifyObj.getUser().equals(customer.getId()) && (notifyObj.getMessage().equals("Your food is being prepared") || notifyObj.getMessage().equals("Your food is ready") || notifyObj.getMessage().equals("The order has been canceled"))) { //Filter to show only notification of food preparing, readied or canceled
+                String[] notifyContainer = {String.valueOf(counter), notifyObj.getOrderID(), notifyObj.getMessage(), notifyObj.getTime()};
                 model3.addRow(notifyContainer);
                 counter++;
-            }
-            if (notifyObj.getUser().equals(customer.getId()) && notifyObj.getMessage().equals("You have successfully topped up ")) {
+            } else if (notifyObj.getUser().equals(customer.getId()) && (notifyObj.getMessageRunner().equals("Your food is delivering") || notifyObj.getMessageRunner().equals("Your food has been delivered") || notifyObj.getMessageRunner().equals("Searching for delivery runner"))) { //Filter to only show delivery notifications
+                String[] notifyContainer = {String.valueOf(counter), notifyObj.getOrderID(), notifyObj.getMessageRunner(), notifyObj.getTime()};
+                model3.addRow(notifyContainer);
+                counter++;
+            } else if (notifyObj.getUser().equals(customer.getId()) && notifyObj.getMessage().equals("You have successfully topped up ")) { //Filter to only show top up notifications
                 String[] notifyContainer = {String.valueOf(counter), notifyObj.getReceiptID(), notifyObj.getMessage() + notifyObj.getTopupamount() + " on " + notifyObj.getDate(), notifyObj.getTime()};
                 model3.addRow(notifyContainer);
                 counter++;
@@ -190,46 +203,43 @@ public class C_MenuFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        pnlC_MenuFrame = new javax.swing.JPanel();
         jTitle = new javax.swing.JLabel();
         balance = new javax.swing.JLabel();
         jBalance = new javax.swing.JLabel();
         bTransactionHistory = new javax.swing.JButton();
-        username = new javax.swing.JLabel();
+        lblUsername = new javax.swing.JLabel();
         bOrderHistory = new javax.swing.JButton();
         jUsername = new javax.swing.JLabel();
         bLogOut = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        Notification = new javax.swing.JTable();
-        bNotificationReceived = new javax.swing.JButton();
-        bNotificationAcknowledged = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        pnlC_MenuFrameTables = new javax.swing.JPanel();
         cbCuisine = new javax.swing.JComboBox<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        scrlpnlC_MenuFrameCurrentOrderTable = new javax.swing.JScrollPane();
         CurrentOrder = new javax.swing.JTable();
         jMenu = new javax.swing.JLabel();
         jCurrentOrder = new javax.swing.JLabel();
         bPlaceOrder = new javax.swing.JButton();
         bCancelOrder = new javax.swing.JButton();
-        bReviews = new javax.swing.JButton();
         tfNumber = new javax.swing.JTextField();
         tfDetails = new javax.swing.JTextField();
         tfPrice = new javax.swing.JTextField();
         bAddQuantity = new javax.swing.JButton();
         bReduceQuantity = new javax.swing.JButton();
         tfQuantity = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        lblC_MenuFramePrice = new javax.swing.JLabel();
+        scrlpnlC_MenuFrameMenuTable = new javax.swing.JScrollPane();
         Menu = new javax.swing.JTable();
-        tfOrderID = new javax.swing.JTextField();
-        tfCurrentOrderDetails = new javax.swing.JTextField();
         rbDineIn = new javax.swing.JRadioButton();
         rbTakeAway = new javax.swing.JRadioButton();
         rbDelivery = new javax.swing.JRadioButton();
+        scrlpnlC_MenuFrameNotification = new javax.swing.JScrollPane();
+        Notification = new javax.swing.JTable();
+        bFoodReceived = new javax.swing.JButton();
+        bNotificationAcknowledged = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 255));
+        pnlC_MenuFrame.setBackground(new java.awt.Color(0, 0, 255));
 
         jTitle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jTitle.setForeground(new java.awt.Color(255, 255, 255));
@@ -265,10 +275,10 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
         });
 
-        username.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        username.setForeground(new java.awt.Color(255, 255, 255));
-        username.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        username.setText(" ");
+        lblUsername.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblUsername.setForeground(new java.awt.Color(255, 255, 255));
+        lblUsername.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblUsername.setText(" ");
 
         bOrderHistory.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         bOrderHistory.setForeground(new java.awt.Color(0, 0, 255));
@@ -301,100 +311,56 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
         });
 
-        Notification.setModel(model3);
-        Notification.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                NotificationMousePressed(evt);
-            }
-        });
-        jScrollPane1.setViewportView(Notification);
-
-        bNotificationReceived.setText("Food Received");
-        bNotificationReceived.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                bNotificationReceivedMousePressed(evt);
-            }
-        });
-        bNotificationReceived.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bNotificationReceivedActionPerformed(evt);
-            }
-        });
-
-        bNotificationAcknowledged.setText("Acknowledged");
-        bNotificationAcknowledged.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bNotificationAcknowledgedActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+        javax.swing.GroupLayout pnlC_MenuFrameLayout = new javax.swing.GroupLayout(pnlC_MenuFrame);
+        pnlC_MenuFrame.setLayout(pnlC_MenuFrameLayout);
+        pnlC_MenuFrameLayout.setHorizontalGroup(
+            pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlC_MenuFrameLayout.createSequentialGroup()
+                .addGap(273, 273, 273)
+                .addGroup(pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlC_MenuFrameLayout.createSequentialGroup()
+                        .addGroup(pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(balance, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bTransactionHistory)
+                            .addComponent(jBalance))
+                        .addGap(118, 118, 118)
+                        .addGroup(pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(bOrderHistory)
+                            .addComponent(jUsername)
+                            .addComponent(lblUsername, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jTitle))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlC_MenuFrameLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        pnlC_MenuFrameLayout.setVerticalGroup(
+            pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlC_MenuFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addGroup(pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBalance)
+                    .addComponent(jUsername))
+                .addGroup(pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlC_MenuFrameLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(balance, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlC_MenuFrameLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(lblUsername)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(413, 413, 413)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(bTransactionHistory)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(bOrderHistory))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(balance, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jBalance)
-                                    .addGap(280, 280, 280)
-                                    .addComponent(jUsername)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTitle)
-                                .addGap(83, 83, 83)
-                                .addComponent(bLogOut))))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(bNotificationReceived, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bNotificationAcknowledged, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(26, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(bNotificationReceived)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bNotificationAcknowledged))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(bLogOut))
-                            .addGap(0, 0, 0)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jBalance)
-                                .addComponent(jUsername))
-                            .addGap(0, 0, 0)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(balance)
-                                .addComponent(username))
-                            .addGap(3, 3, 3)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(bTransactionHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(bOrderHistory)))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGroup(pnlC_MenuFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bTransactionHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bOrderHistory))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        pnlC_MenuFrameTables.setBackground(new java.awt.Color(255, 255, 255));
 
         cbCuisine.setModel(comboBoxModel);
         cbCuisine.addActionListener(new java.awt.event.ActionListener() {
@@ -417,11 +383,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 CurrentOrderMouseReleased(evt);
             }
         });
-        jScrollPane2.setViewportView(CurrentOrder);
+        scrlpnlC_MenuFrameCurrentOrderTable.setViewportView(CurrentOrder);
 
         jMenu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMenu.setForeground(new java.awt.Color(0, 0, 255));
-        jMenu.setText("MENU");
+        jMenu.setText("MENU (Double click the elements for review)");
 
         jCurrentOrder.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jCurrentOrder.setForeground(new java.awt.Color(0, 0, 255));
@@ -448,18 +414,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
         bCancelOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bCancelOrderActionPerformed(evt);
-            }
-        });
-
-        bReviews.setText("Reviews");
-        bReviews.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                bReviewsMousePressed(evt);
-            }
-        });
-        bReviews.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bReviewsActionPerformed(evt);
             }
         });
 
@@ -497,7 +451,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
         tfQuantity.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfQuantity.setText("1");
 
-        jLabel1.setText("RM");
+        lblC_MenuFramePrice.setText("RM");
 
         Menu.setModel(model);
         Menu.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -508,11 +462,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 MenuMouseReleased(evt);
             }
         });
-        jScrollPane3.setViewportView(Menu);
-
-        tfOrderID.setEditable(false);
-
-        tfCurrentOrderDetails.setEditable(false);
+        scrlpnlC_MenuFrameMenuTable.setViewportView(Menu);
 
         rbDineIn.setText("Dine in");
         rbDineIn.addActionListener(new java.awt.event.ActionListener() {
@@ -535,147 +485,227 @@ public class C_MenuFrame extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(140, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rbDelivery, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
+        scrlpnlC_MenuFrameNotification.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Notifications", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+
+        Notification.setModel(model3);
+        Notification.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                NotificationMousePressed(evt);
+            }
+        });
+        scrlpnlC_MenuFrameNotification.setViewportView(Notification);
+
+        bFoodReceived.setText("Food Received");
+        bFoodReceived.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bFoodReceivedMousePressed(evt);
+            }
+        });
+        bFoodReceived.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bFoodReceivedActionPerformed(evt);
+            }
+        });
+
+        bNotificationAcknowledged.setText("Acknowledged");
+        bNotificationAcknowledged.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bNotificationAcknowledgedActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlC_MenuFrameTablesLayout = new javax.swing.GroupLayout(pnlC_MenuFrameTables);
+        pnlC_MenuFrameTables.setLayout(pnlC_MenuFrameTablesLayout);
+        pnlC_MenuFrameTablesLayout.setHorizontalGroup(
+            pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
+                        .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rbTakeAway, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rbDelivery, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
+                                .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
+                                        .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tfDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(lblC_MenuFramePrice))
+                                    .addComponent(rbDineIn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
+                                        .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(bReduceQuantity)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(bAddQuantity))
+                                    .addComponent(bPlaceOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlC_MenuFrameTablesLayout.createSequentialGroup()
                                     .addComponent(jMenu)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(rbDineIn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(rbTakeAway, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bReduceQuantity)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bAddQuantity)))
-                        .addGap(189, 189, 189)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(scrlpnlC_MenuFrameMenuTable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCurrentOrder)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(tfOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(bReviews))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                            .addGap(0, 0, Short.MAX_VALUE)
-                                            .addComponent(bCancelOrder))
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                            .addComponent(tfCurrentOrderDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(bPlaceOrder)
-                                            .addGap(0, 0, Short.MAX_VALUE))))
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(140, Short.MAX_VALUE))
+                            .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlC_MenuFrameTablesLayout.createSequentialGroup()
+                                    .addGap(181, 181, 181)
+                                    .addComponent(bFoodReceived)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(bCancelOrder))
+                                .addComponent(scrlpnlC_MenuFrameCurrentOrderTable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(9, 9, 9))
+                    .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
+                        .addComponent(scrlpnlC_MenuFrameNotification)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bNotificationAcknowledged)))
+                .addGap(25, 25, 25))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        pnlC_MenuFrameTablesLayout.setVerticalGroup(
+            pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jMenu)
-                    .addComponent(jCurrentOrder))
+                    .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jCurrentOrder)
+                        .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scrlpnlC_MenuFrameMenuTable, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scrlpnlC_MenuFrameCurrentOrderTable, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
+                    .addComponent(lblC_MenuFramePrice)
                     .addComponent(tfQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bAddQuantity)
                     .addComponent(bReduceQuantity)
-                    .addComponent(tfCurrentOrderDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bPlaceOrder))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addComponent(bCancelOrder)
+                    .addComponent(bFoodReceived))
+                .addGap(11, 11, 11)
+                .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rbDineIn)
+                    .addComponent(bPlaceOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(1, 1, 1)
+                .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
+                        .addComponent(rbTakeAway)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bReviews)
-                            .addComponent(bCancelOrder)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(rbDineIn)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rbTakeAway)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rbDelivery)
-                .addContainerGap(67, Short.MAX_VALUE))
+                        .addComponent(rbDelivery)
+                        .addGap(18, 18, 18)
+                        .addComponent(scrlpnlC_MenuFrameNotification, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE))
+                    .addGroup(pnlC_MenuFrameTablesLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bNotificationAcknowledged)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(pnlC_MenuFrameTables, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlC_MenuFrame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(pnlC_MenuFrame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pnlC_MenuFrameTables, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bOrderHistoryActionPerformed(java.awt.event.MouseEvent evt) {
+    private void bFoodReceivedActionPerformed(java.awt.event.ActionEvent evt) {
         
     }
     
+    private void bAddQuantityActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void bCancelOrderActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void bPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void bOrderHistoryActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void bTransactionHistoryActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void CurrentOrderMouseReleased(java.awt.event.MouseEvent evt) {
+        
+    }
+    
+    private void balanceComponentShown(java.awt.event.ComponentEvent evt) {
+        
+    }
+    
+    private void bLogOutActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void bReduceQuantityActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void MenuMouseReleased(java.awt.event.MouseEvent evt) {
+        
+    }
+    
+    private void rbDineInActionPerformed(java.awt.event.ActionEvent evt) {
+        reloadFrame();
+    }
+    
+    private void rbTakeAwayActionPerformed(java.awt.event.ActionEvent evt) {
+        reloadFrame();
+    }
+    
+    private void rbDeliveryActionPerformed(java.awt.event.ActionEvent evt) {
+        reloadFrame();
+    }
+            
     private void NotificationMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMousePressed
         row3 = Notification.getSelectedRow();
-        String selector = String.valueOf(model3.getValueAt(row3, 1));
-        String selector2 = String.valueOf(model3.getValueAt(row3, 2));
+        String selector = String.valueOf(model3.getValueAt(row3, 2));
         if (row3 != -1) {
-            if (selector.contains("O") && (selector2.contains("READY") || selector2.contains("CANCELED"))) { //Check for order ID identifier which starts with O and only allowing 3 statuses of ready and canceled to make the food received button available
-                bNotificationReceived.setEnabled(true); //Make the food received button available
-            } else if (selector.contains("R")) {//Check for receipt ID identifier which starts with R
+            if (selector.equals("You have successfully topped up ") || (selector.equals("Your food is ready") || selector.equals("The order has been canceled") || selector.equals("Your food has been delivered"))) { //Check for order ID identifier which starts with O and only allowing 3 statuses of ready and canceled to make the food received button available
                 bNotificationAcknowledged.setEnabled(true); //Make the receipt acknowledge button available
             }
         }
+        reloadFrame();
     }//GEN-LAST:event_NotificationMousePressed
 
     private void cbCuisineActionPerformed(java.awt.event.ActionEvent evt) {
         model.setRowCount(0);
-        populateMenuTable();
+        reloadFrame();
     }
     
     private void bNotificationAcknowledgedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNotificationAcknowledgedActionPerformed
         if (bNotificationAcknowledged.isEnabled()) {
             deleteNotification();
-        }    
+        }
+        row3 = -1;
+        reloadFrame();
     }//GEN-LAST:event_bNotificationAcknowledgedActionPerformed
 
     private void bTransactionHistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bTransactionHistoryMouseClicked
@@ -686,49 +716,112 @@ public class C_MenuFrame extends javax.swing.JFrame {
         C_TransactionHistory transactionHistoryFrame = new C_TransactionHistory(customer);
         transactionHistoryFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         transactionHistoryFrame.setVisible(true);
+        reloadFrame();
     }//GEN-LAST:event_bTransactionHistoryMousePressed
 
     private void bOrderHistoryMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bOrderHistoryMousePressed
         C_OrderHistory orderHistoryFrame = new C_OrderHistory(customer);
         orderHistoryFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         orderHistoryFrame.setVisible(true);
+        reloadFrame();
     }//GEN-LAST:event_bOrderHistoryMousePressed
 
-    private void bReviewsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bReviewsMousePressed
-        C_Reviews reviewsFrame = new C_Reviews();
-        reviewsFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        reviewsFrame.setVisible(true);
-       
-        reviewsFrame.setFoodNameText(tfDetails.getText(), String.valueOf(cbCuisine.getSelectedItem()));
-    }//GEN-LAST:event_bReviewsMousePressed
-
     private void CurrentOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CurrentOrderMousePressed
-            row2 = CurrentOrder.getSelectedRow();
-            String orderID = String.valueOf(model2.getValueAt(row2, 0));
-            String details = String.valueOf(model2.getValueAt (row2, 1));
-            String quantity = String.valueOf(model2.getValueAt (row2, 2));
-            String total = String.valueOf(model2.getValueAt (row2, 3));
-            String status = String.valueOf(model2.getValueAt (row2, 4));
-
-            tfOrderID.setText(orderID);
-            tfCurrentOrderDetails.setText(details);
+        row2 = CurrentOrder.getSelectedRow();
+        String selector = String.valueOf(model2.getValueAt(row2, 3));
+        if (row2 != -1) {
+            if (selector.equals("READY")) { //Check for order ID identifier which starts with O and only allowing 3 statuses of ready and canceled to make the food received button available
+                bFoodReceived.setEnabled(true); //Make the receipt acknowledge button available
+            }
+        }
+        reloadFrame();
     }//GEN-LAST:event_CurrentOrderMousePressed
 
     private void bCancelOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bCancelOrderMousePressed
-        deleteCurrentOrder();
+        if (row2 == -1) { //Filter which order can be canceled
+            JOptionPane.showMessageDialog(null, "Please select an order to cancel!", "Warning", JOptionPane.WARNING_MESSAGE);
+            reloadFrame();
+        } else if (model2.getValueAt(row2, 3).equals(Order.Status.READY)) { //Throw error dialog to disable canceling of prepared food
+            JOptionPane.showMessageDialog(null, "You cant cancel prepared or delivering food!", "Warning", JOptionPane.WARNING_MESSAGE);
+            reloadFrame();
+            row2 = -1;
+        } else if (model2.getValueAt(row2, 3).equals(Order.Status.PENDING) || model2.getValueAt(row2, 3).equals(Order.Status.PREPARING) || model2.getValueAt(row2, 3).equals(Order.Status.SEARCHING)) {
+            List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+            List<Object> notifyContainer = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
+            for (Object obj : container) { //Set order status to canceled
+                if (obj instanceof Order) {
+                    Order order = (Order) obj;
+                    if (order.getId().equals(model2.getValueAt(row2, 0))) {
+                        order.setStatus(Order.Status.CANCELLED);
+                        order.refund(); //Refund all
+                        break;
+                    }
+                } else if (obj instanceof DeliveryOrder) {
+                    DeliveryOrder order = (DeliveryOrder) obj;
+                    if (order.getId().equals(model2.getValueAt(row2, 0))) {
+                        order.setStatus(Order.Status.CANCELLED);
+                        order.refund(); //Refund all
+                        break;
+                    }
+                }
+            }
+            for (Object obj : notifyContainer) { //Set notification status to canceled
+                Notification notification = (Notification) obj;
+                if (notification.getOrderID().equals(model2.getValueAt(row2, 0))) {
+                    notification.setMessageBackUp(4);
+                    break;
+                }
+            }
+            row2 = -1;
+            reloadFrame();
+        }
     }//GEN-LAST:event_bCancelOrderMousePressed
 
     private void bPlaceOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bPlaceOrderMousePressed
-        if (Double.parseDouble(balance.getText()) <= Double.parseDouble(tfPrice.getText())) { //Check whether if the price exceeds balance
-            Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
-            order.setRemark(getRemark());
-            Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
-            TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
-            TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
-            
+        if (row != -1) {
+            if (customer.getBal() >= Double.parseDouble(tfPrice.getText())) { //Check if the balance is enough to pay
+                if (rbDineIn.isSelected()) { //Set remark to dine in to notify vendor
+                    Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
+                    order.setRemark("Dine in"); //Set for whether dine in or take away in order to notify vendor
+                    order.payment(); //Deduct balance and pay vendor
+                    Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
+                    TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
+                    JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Order Placed", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
+                    reloadFrame();
+                    row = -1;
+                } else if (rbTakeAway.isSelected()) { //Set remark to take away to notify vendor
+                    Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
+                    order.setRemark("Take Away"); //Set for whether dine in or take away in order to notify vendor
+                    order.payment(); //Deduct balance and pay vendor
+                    Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
+                    TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
+                    JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Take Away", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
+                    reloadFrame();
+                    row = -1;
+                } else if (rbDelivery.isSelected()) { //Creates delivery order object
+                    DeliveryOrder order = new DeliveryOrder(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
+                    order.setRemark("Delivery"); //Set for whether dine in or take away in order to notify vendor
+                    order.payment(); //Deduct balance and pay vendor
+                    Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
+                    TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
+                    JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Delivery", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
+                    reloadFrame();
+                    row = -1;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Balance is low! Please proceed to top up!", "Warning", JOptionPane.WARNING_MESSAGE); //Throw error when balance is low
+                reloadFrame();
+                row = -1;
+            }
+
         } else {
-            JOptionPane.showMessageDialog(null,"Balance is low! Please proceed to top up!","Warning",JOptionPane.WARNING_MESSAGE); //Throw error when balance is low
-        } 
+            JOptionPane.showMessageDialog(null, "Please select an order to place!", "No order selected", JOptionPane.WARNING_MESSAGE); //Throw error when nothing is selected
+            row = -1;
+            reloadFrame();
+        }
     }//GEN-LAST:event_bPlaceOrderMousePressed
 
     private void MenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuMousePressed
@@ -742,13 +835,31 @@ public class C_MenuFrame extends javax.swing.JFrame {
         tfPrice.setText(price);
         
         calculateTotal();
+        
+        if (evt.getClickCount() == 2 && row != -1) { //Check for double click then redirects the user to the review page of the selected food and pass respective food details
+            C_Reviews review = new C_Reviews(ViewReview(row), String.valueOf(cbCuisine.getSelectedItem()), String.valueOf(model.getValueAt(row, 1)));
+            review.setVisible(true);
+        }
+        reloadFrame();
     }//GEN-LAST:event_MenuMousePressed
 
-    private void bNotificationReceivedMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bNotificationReceivedMousePressed
-        if (bNotificationReceived.isEnabled()) {
-            deleteNotification();
+    private void bFoodReceivedMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bFoodReceivedMousePressed
+        if (bFoodReceived.isEnabled()) {
+            List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+            for (Object obj : container) {
+                if (obj instanceof Order) {
+                    Order order = (Order) obj;
+                    if (order.getId().equals(model2.getValueAt(row2, 0)) && order.getRemark().equals("Dine in")) { //Check for whether dine in or take away to set proper status
+                        order.setStatus(Order.Status.COMPLETED);
+                    } else if (order.getId().equals(model2.getValueAt(row2, 0)) && order.getRemark().equals("Take Away")) {
+                        order.setStatus(Order.Status.PICKED_UP);
+                    }
+                }
+            }
         }
-    }//GEN-LAST:event_bNotificationReceivedMousePressed
+        row2 = -1;
+        reloadFrame();
+    }//GEN-LAST:event_bFoodReceivedMousePressed
 
     private void bLogOutMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bLogOutMousePressed
         Login_Page LP = new Login_Page();
@@ -758,10 +869,12 @@ public class C_MenuFrame extends javax.swing.JFrame {
 
     private void bAddQuantityMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bAddQuantityMousePressed
         addQuantity();
+        reloadFrame();
     }//GEN-LAST:event_bAddQuantityMousePressed
 
     private void bReduceQuantityMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bReduceQuantityMousePressed
         minusQuantity();
+        reloadFrame();
     }//GEN-LAST:event_bReduceQuantityMousePressed
 
     private void cbCuisinePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cbCuisinePropertyChange
@@ -812,36 +925,33 @@ public class C_MenuFrame extends javax.swing.JFrame {
     private javax.swing.JTable Notification;
     private javax.swing.JButton bAddQuantity;
     private javax.swing.JButton bCancelOrder;
+    private javax.swing.JButton bFoodReceived;
     private javax.swing.JButton bLogOut;
     private javax.swing.JButton bNotificationAcknowledged;
-    private javax.swing.JButton bNotificationReceived;
     private javax.swing.JButton bOrderHistory;
     private javax.swing.JButton bPlaceOrder;
     private javax.swing.JButton bReduceQuantity;
-    private javax.swing.JButton bReviews;
     private javax.swing.JButton bTransactionHistory;
     private javax.swing.JLabel balance;
     private javax.swing.JComboBox<String> cbCuisine;
     private javax.swing.JLabel jBalance;
     private javax.swing.JLabel jCurrentOrder;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jMenu;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel jTitle;
     private javax.swing.JLabel jUsername;
+    private javax.swing.JLabel lblC_MenuFramePrice;
+    private javax.swing.JLabel lblUsername;
+    private javax.swing.JPanel pnlC_MenuFrame;
+    private javax.swing.JPanel pnlC_MenuFrameTables;
     private javax.swing.JRadioButton rbDelivery;
     private javax.swing.JRadioButton rbDineIn;
     private javax.swing.JRadioButton rbTakeAway;
-    private javax.swing.JTextField tfCurrentOrderDetails;
+    private javax.swing.JScrollPane scrlpnlC_MenuFrameCurrentOrderTable;
+    private javax.swing.JScrollPane scrlpnlC_MenuFrameMenuTable;
+    private javax.swing.JScrollPane scrlpnlC_MenuFrameNotification;
     private javax.swing.JTextField tfDetails;
     private javax.swing.JTextField tfNumber;
-    private javax.swing.JTextField tfOrderID;
     private javax.swing.JTextField tfPrice;
     private javax.swing.JTextField tfQuantity;
-    private javax.swing.JLabel username;
     // End of variables declaration//GEN-END:variables
 }

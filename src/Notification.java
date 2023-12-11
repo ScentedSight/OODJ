@@ -4,11 +4,11 @@ public class Notification implements DataProvider {
     private String userID, id, orderID, vendorID; //id here will be used as notification ID when top up, runner ID when delivering
     private String receiptID, date, time, type;
     private int topupamount;
-
+    
     public Notification(String vendorID, Customer customer, String orderID) { //When order is newly created insert the orderID, customer gui HAVE to set messageRunner to SEARCHING when placing delivering order
         Time time = new Time();
         this.time = time.toString();
-        message = message.ORDER;
+        message = Messages.ORDER;
         userID = customer.getId();
         this.orderID = orderID;
         this.vendorID = vendorID;
@@ -33,7 +33,6 @@ public class Notification implements DataProvider {
         READY("Your food is ready"), //Vendor set 
         CANCEL("The order has been canceled"), //Customer or vendor set 
         SEARCHING("Searching for delivery runner"), //Runner set 
-        UNAVAILABLE("There are no available runner, please choose either dine-in or take-away"), //Customer set 
         DELIVERING("Your food is delivering"), //Runner set
         DELIVERED("Your food has been delivered"), //Runner set
         RECEIPT("You have successfully topped up "); //Admin set
@@ -66,6 +65,39 @@ public class Notification implements DataProvider {
         return message.toString();
     }
 
+    public void setMessageBackUp(int changer) { //Using switch case since for some reason Messages enum class cant be referred and passed to the original method in customer's frame
+        Time time = new Time();
+        this.time = time.toString();
+        
+        switch (changer) { 
+            case 1:
+                this.message = Messages.ORDER;
+                break;
+            case 2:
+                this.message = Messages.PREPARE;
+                break;
+            case 3:
+                this.message = Messages.READY;
+                break;
+            case 4:
+                this.message = Messages.CANCEL;
+                break;
+            case 5:
+                this.message = Messages.SEARCHING;
+                break;
+            case 6:
+                this.message = Messages.DELIVERING;
+                break;
+            case 7:
+                this.message = Messages.DELIVERED;
+                break;
+            case 8:
+                this.message = Messages.RECEIPT;
+            default:
+                throw new IllegalArgumentException("Invalid message value: " + changer);    
+        }
+    }
+    
     public void setMessage(Messages message) {
         Time time = new Time();
         this.time = time.toString();
