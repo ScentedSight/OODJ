@@ -316,11 +316,16 @@ public class VendorFrame extends JFrame {
                 String foodName = textFoodName.getText();
                 double foodCost = Double.parseDouble(textCost.getText());
                 Food updatedFood = new Food(vendor,foodName, foodCost);
-            // Rewrite the entire list back to the file
+                if (existingMenu.getDescription().equals(textFoodName.getText())){
+                    JOptionPane.showMessageDialog(null, "Food is exist.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                // Rewrite the entire list back to the file
                 TextEditor.textDelete(TextEditor.FilePaths.MENU, existingMenu); // Delete the existing file
                 TextEditor.fileWrite(TextEditor.FilePaths.MENU, updatedFood); // Rewrite the entire list back to the file
                 JOptionPane.showMessageDialog(null, "Record Updated!");
                 displayMenu(); // Assuming this method updates the JTable
+                }
             }
         } else {
             JOptionPane.showMessageDialog(null, "Invalid row selection.", "Error", JOptionPane.ERROR_MESSAGE);
