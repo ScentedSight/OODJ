@@ -116,7 +116,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
 
         jLabel5.setText("Status:");
 
-        Status_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PENDING", "PREPARING", "READY", "COMPLETED", "CANCELLED" }));
+        Status_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PENDING", "PREPARING", "READY", "COMPLETED", "PICKED_UP", "CANCELLED" }));
         Status_CB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Status_CBActionPerformed(evt);
