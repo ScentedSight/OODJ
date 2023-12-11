@@ -491,7 +491,7 @@ public class VendorFrame extends JFrame {
             Order O = (Order) obj1;
             String status=O.getStatus();     
             
-            if (!status.equals("PICKED_UP") || !status.equals("COMPLETED")) {
+            if (!status.equals("PICKED_UP") || !status.equals("COMPLETED") || !status.equals("CANCELLED")) {
                 String[] OrderVendorArray = {
                     O.getId(),          //get OrderID
                     O.getTime(),        //get Order Time
