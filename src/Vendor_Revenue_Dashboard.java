@@ -386,7 +386,7 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
                         String.valueOf(O.getRatings()),
                         date = O.getOrderDay() + "/" + O.getOrderMonth() + "/" + O.getOrderYear(),
                         O.getTime(),
-                        remark,
+                        O.getRemark(),
                         Double.toString(O.getCost()),};
                     totalProfit += O.getCost();
                     rowCount++;
@@ -404,7 +404,7 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
                         String.valueOf(O.getRatings()),
                         date = O.getOrderDay() + "/" + O.getOrderMonth() + "/" + O.getOrderYear(),
                         O.getTime(),
-                        remark,
+                        O.getRemark(),
                         Double.toString(O.getCost()),};
                     totalProfit += O.getCost();
                     rowCount++;
