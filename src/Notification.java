@@ -126,6 +126,10 @@ public class Notification implements DataProvider {
         return userID;
     }
     
+    public String getVendorID() {
+        return vendorID;
+    }
+    
     public void setVendorID(String vendorID) {
         this.vendorID = vendorID;
     }

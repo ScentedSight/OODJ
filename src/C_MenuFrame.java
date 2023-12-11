@@ -177,7 +177,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container) {
             Notification notification = (Notification) obj;
-            if (notification.getReceiptID().equals(model3.getValueAt(row3, 1)) || notification.getId().equals(model3.getValueAt(row3, 1))) {
+            if ((notification.getReceiptID() != null && notification.getReceiptID().equals(model3.getValueAt(row3, 1))) || (notification.getId() != null && notification.getId().equals(model3.getValueAt(row3, 1)))) {
                 TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, notification);
             }
         }

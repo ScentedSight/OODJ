@@ -354,13 +354,12 @@ public class VendorFrame extends JFrame {
         List<Object> container3 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container3) { 
             Notification n = (Notification) obj;
-            if (n.getId().equals(OrderModel.getValueAt(OrderRow, 0))) {        //compare orderID in ordertable
-                lblNotification.setText(n.getMessage());                                //get message.order
-                TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
-                TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
+            if (lblNotification.getText().contains(n.getId())) {       
+                TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);   
                 break; 
             }
         }
+        displayNotification();
     }//GEN-LAST:event_btnReadActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
@@ -510,8 +509,8 @@ public class VendorFrame extends JFrame {
         List<Object> container3 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container3) {
             Notification n = (Notification) obj;
-            if (n.getUser().equals(vendor.getId())) { //Making sure its not null so error wont pop out
-                notification = n.getTime()+ "\n" + n.getMessage();
+            if (n.getVendorID().equals(vendor.getName()) && (n.getMessage().contains("You have an incoming order") || n.getMessage().contains("The order has been canceled"))) { //Making sure its not null so error wont pop out
+                notification = n.getTime()+ " [" + n.getId() + "]" + n.getMessage();
             }
         }
         lblNotification.setText(notification);
