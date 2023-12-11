@@ -315,10 +315,11 @@ public class Vendor_Revenue_Dashboard_Demo extends javax.swing.JFrame {
     
     public void viewOrderHistory(String id){
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+        int rowcount = 0;
+        double TotalProfit = 0;
         for (Object obj : container) {          
             Order O = (Order) obj;
             String status=O.getStatus();    
-            int row =0;
             if(O.getVendorID().equals(id) && O.getStatus().equals("READY")){
                 if (!(String.valueOf(O.getOrderMonth()).equals("null"))){
                     if(String.valueOf(O.getOrderMonth()).equals(month) && String.valueOf(O.getOrderYear()).equals(year)){
@@ -334,8 +335,8 @@ public class Vendor_Revenue_Dashboard_Demo extends javax.swing.JFrame {
                         Double.toString(O.getCost()),
                     };
                     revenueModel.addRow(OrderHistVendorArray);
-                    profit= profit+O.getCost();
-                    row++;
+                    TotalProfit += O.getCost();
+                    rowcount++;
                     }
                 }
                 else if (month.equals("null") && String.valueOf(O.getOrderYear()).equals(year)){
@@ -350,15 +351,13 @@ public class Vendor_Revenue_Dashboard_Demo extends javax.swing.JFrame {
                             remark,
                             Double.toString(O.getCost()),
                         };
-                        revenueModel.addRow(OrderHistVendorArray);
-                        profit= profit+O.getCost();
-                        row++;
+                        TotalProfit += O.getCost();
+                        rowcount++;
                     }
                 }
             }   
-            LabelTotal.setText("RM"+profit);
-            rowsCount= revenueModel.getRowCount();
-            LabelAverageIncome.setText("RM"+profit/rowsCount);                    
+            LabelTotal.setText("RM"+TotalProfit);
+            LabelAverageIncome.setText("RM"+TotalProfit/rowcount);                    
     }
     
     public void viewAllOrderHistory(String id){
@@ -366,7 +365,7 @@ public class Vendor_Revenue_Dashboard_Demo extends javax.swing.JFrame {
         for (Object obj : container) {          
             Order O = (Order) obj;
             String status=O.getStatus();     
-            if(O.getVendorID().equals(id)){
+            if(O.getVendorID().equals(id) && O.getStatus().equals("READY")){
                 // filter for year only, show all result for months
                 String[] OrderHistVendorArray = {
                     O.getId(),
