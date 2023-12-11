@@ -44,6 +44,7 @@ public class VendorFrame extends JFrame {
         
         displayOrder();
         displayMenu();
+        displayNotification();
     }
 
     @SuppressWarnings("unchecked")
@@ -356,6 +357,7 @@ public class VendorFrame extends JFrame {
             if (n.getId().equals(OrderModel.getValueAt(OrderRow, 0))) {        //compare orderID in ordertable
                 lblNotification.setText(n.getMessage());                                //get message.order
                 TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
+                TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
                 break; 
             }
         }
@@ -501,6 +503,18 @@ public class VendorFrame extends JFrame {
             }
             }            
         }
+    }
+    
+    private void displayNotification() { //Display notification  int counter = 1;
+        String notification = "";
+        List<Object> container3 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
+        for (Object obj : container3) {
+            Notification n = (Notification) obj;
+            if (n.getUser().equals(vendor.getId())) { //Making sure its not null so error wont pop out
+                notification = n.getTime()+ "\n" + n.getMessage();
+            }
+        }
+        lblNotification.setText(notification);
     }
     
 
