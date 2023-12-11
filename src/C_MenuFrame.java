@@ -82,6 +82,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }
     
     private void populateComboBox() {
+        comboBoxModel.removeAllElements(); //Remove everything first to prevent stacking
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.USER));
         List<String> vendors = new ArrayList<>();
 
