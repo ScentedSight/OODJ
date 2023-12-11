@@ -493,7 +493,6 @@ public class VendorFrame extends JFrame {
                 OrderModel.addRow(OrderVendorArray);        //add data
             }
             }            
-   
         }
     }
     

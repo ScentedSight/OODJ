@@ -48,19 +48,6 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
             Dine_Rbtn.setSelected(false);
             TakeAway_Rbtn.setSelected(true);
         }
-        
-        
-        List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
-        for(Object obj : container2){
-            Notification n = (Notification) obj;
-            if(n.getId().equals(orderID)){
-                System.out.println("Old Notification Section");
-                System.out.println("User ID: "+n.getUser());
-                System.out.println("Order ID: "+n.getId());
-                System.out.println("Message: "+n.getMessage());
-                System.out.println("Time: "+n.getTime());
-            }
-        }
     }
 
     /**
@@ -273,17 +260,6 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
                     check = true;
                     break;
                 }
-            }
-        }
-        List<Object> container1 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
-        for(Object obj : container1){
-            Notification n = (Notification) obj;
-            if((n.getId().equals(orderID))){
-                System.out.println("Old Notification Section");
-                System.out.println("User ID: "+n.getUser());
-                System.out.println("Order ID: "+n.getId());
-                System.out.println("Message: "+n.getMessage());
-                System.out.println("Time: "+n.getTime());
             }
         }
 
