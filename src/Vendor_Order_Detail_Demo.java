@@ -218,24 +218,7 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
     }//GEN-LAST:event_TakeAway_RbtnActionPerformed
 
     private void Status_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Status_CBActionPerformed
-    List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
     order.setUpdateStatus(Status_CB.getSelectedIndex());
-    for (Object obj : container2) { 
-        Notification n = (Notification) obj;
-        if (vendor.getId().equals(n.getId()) && (n.getMessage().equals(Notification.Messages.ORDER) || n.getMessage().equals(Notification.Messages.PREPARE))){                //compare orderID in order table
-            if (order.getStatus().equals("PREPARING")) {        
-                n.setMessage(Notification.Messages.PREPARE);
-            }
-            else if (order.getStatus().equals("READY")){
-                n.setMessage(Notification.Messages.READY);
-            }
-            else if (order.getStatus().equals("CANCELLED")){
-                n.setMessage(Notification.Messages.CANCEL);
-            }
-            TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
-            TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
-        }
-    }
     }//GEN-LAST:event_Status_CBActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -336,7 +319,31 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
     }
 
     
-    // Separate method to update the order in the file
+    // Separate method to update the order in the file    
+    public void sendOrderNotification(){
+        List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
+        for (Object obj : container2) { 
+            Notification n = (Notification) obj;
+            if (vendor.getId().equals(n.getId()) && (n.getMessage().equals(Notification.Messages.ORDER) || n.getMessage().equals(Notification.Messages.PREPARE))){                //compare orderID in order table
+                if (order.getStatus().equals("PREPARING")) {        
+                    n.setMessage(Notification.Messages.PREPARE);
+                }
+                else if (order.getStatus().equals("READY")){
+                    n.setMessage(Notification.Messages.READY);
+                }
+                else if (order.getStatus().equals("CANCELLED")){
+                    n.setMessage(Notification.Messages.CANCEL);
+                }
+                updateNotification(n);
+            }
+        }
+    }
+    
+    private void updateNotification(Notification n){
+        TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
+        TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
+    }
+    
     private void updateOrder(Order order) {
         TextEditor.textDelete(TextEditor.FilePaths.HISTORY, order);
         TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order);

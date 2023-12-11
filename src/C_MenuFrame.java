@@ -654,7 +654,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
             if (rbDineIn.isSelected()) { //Set remark to dine in to notify vendor
                 Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
                 order.setRemark("Dine in"); //Set for whether dine in or take away in order to notify vendor
-                //order.payment(); //Deduct balance and pay vendor
+                order.payment(); //Deduct balance and pay vendor
                 Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
                 TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
                 TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
@@ -663,7 +663,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
             } else if (rbTakeAway.isSelected()) { //Set remark to take away to notify vendor
                 Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
                 order.setRemark("Take Away"); //Set for whether dine in or take away in order to notify vendor
-                //order.payment(); //Deduct balance and pay vendor
+                order.payment(); //Deduct balance and pay vendor
                 Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
                 TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
                 TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
