@@ -247,14 +247,12 @@
                                   <Component id="bAddQuantity" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="rbDelivery" alignment="0" min="-2" pref="98" max="-2" attributes="0"/>
-                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jMenu" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="cbCuisine" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="scrlpnlC_MenuFrameMenuTable" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jMenu" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="cbCuisine" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <Component id="scrlpnlC_MenuFrameMenuTable" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">

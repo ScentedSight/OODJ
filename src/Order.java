@@ -108,7 +108,7 @@ public class Order implements DataProvider {
         return customer;
     }
     
-    public void payment() {
+    /*public void payment() {
         customer.deductBal(total);
         TextEditor.textDelete(TextEditor.FilePaths.USER, customer);
         TextEditor.fileWrite(TextEditor.FilePaths.USER, customer); //Rewrite the changed balance back
@@ -124,6 +124,7 @@ public class Order implements DataProvider {
             }
         }
     }
+*/
     
     public void refund() {
         customer.addBal(total);;

@@ -489,16 +489,18 @@ public class VendorFrame extends JFrame {
         OrderModel.setRowCount(0);
         for (Object obj1 : container) { //change obj name
             Order O = (Order) obj1;
-            String status=O.getStatus();     
-            
-            if (!status.equals("PICKED_UP") || !status.equals("COMPLETED") || !status.equals("CANCELLED")) {
-                String[] OrderVendorArray = {
-                    O.getId(),          //get OrderID
-                    O.getTime(),        //get Order Time
-                    status,             //get Order Status
+            if(O.getVendorID().equals(vendor.getId())){
+                String status= O.getStatus();     
+                if (!status.equals("PICKED_UP") && !status.equals("COMPLETED") && !status.equals("CANCELLED")) {
+                    String[] OrderVendorArray = {
+                        O.getId(),          //get OrderID
+                        O.getTime(),        //get Order Time
+                        status,             //get Order Status
                 };
                 OrderModel.addRow(OrderVendorArray);        //add data
             }
+            }            
+   
         }
     }
     

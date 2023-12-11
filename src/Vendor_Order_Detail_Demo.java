@@ -38,10 +38,10 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
         inputFoodID_TF.setText(foodID);
         inputTime_TF.setText(time);
         
-        Dine_Rbtn.setActionCommand("Dine In");
+        Dine_Rbtn.setActionCommand("Dine in");
         TakeAway_Rbtn.setActionCommand("Take Away");
 
-        if (remark.equals("Dine In")) {
+        if (remark.equals("Dine in")) {
             Dine_Rbtn.setSelected(true);
             TakeAway_Rbtn.setSelected(false);
         } else if(remark.equals("Take Away")){
@@ -221,21 +221,21 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
     List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
     order.setUpdateStatus(Status_CB.getSelectedIndex());
     for (Object obj : container2) { 
-            Notification n = (Notification) obj;
-            if (vendor.getId().equals(n.getId()) && (n.getMessage().equals(Notification.Messages.ORDER) || n.getMessage().equals(Notification.Messages.PREPARE))){                //compare orderID in order table
-                if (order.getStatus().equals("PREPARING")) {        
-                    n.setMessage(Notification.Messages.PREPARE);
-                }
-                else if (order.getStatus().equals("READY")){
-                    n.setMessage(Notification.Messages.READY);
-                }
-                else if (order.getStatus().equals("CANCELLED")){
-                    n.setMessage(Notification.Messages.CANCEL);
-                }
-                TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
-                TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
+        Notification n = (Notification) obj;
+        if (vendor.getId().equals(n.getId()) && (n.getMessage().equals(Notification.Messages.ORDER) || n.getMessage().equals(Notification.Messages.PREPARE))){                //compare orderID in order table
+            if (order.getStatus().equals("PREPARING")) {        
+                n.setMessage(Notification.Messages.PREPARE);
             }
+            else if (order.getStatus().equals("READY")){
+                n.setMessage(Notification.Messages.READY);
+            }
+            else if (order.getStatus().equals("CANCELLED")){
+                n.setMessage(Notification.Messages.CANCEL);
+            }
+            TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
+            TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
         }
+    }
     }//GEN-LAST:event_Status_CBActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -253,10 +253,11 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
             Order order = (Order) obj;
 
             if (order.getId().equals(orderID)) {
-                if (Status_CB.getSelectedItem().equals(Order.Status.CANCELLED)) {
+                if (Status_CB.getSelectedItem().equals("CANCELLED")) {
                     updateCustomerBalance(order.getCustomerID(), order.getCost());
                     order.setStatus(Order.Status.CANCELLED);
                     order.setTime();
+                    System.out.println("New Status: " + order.getStatus());
                     updateOrder(order);
                     JOptionPane.showMessageDialog(null, "Order Cancelled!");
                     check = true;
@@ -268,9 +269,8 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
                     order.setTime();
                     System.out.println("New Status: " + order.getStatus());
                     updateOrder(order);
-                    JOptionPane.showMessageDialog(null, "Order Updated!");
+                    JOptionPane.showMessageDialog(null, "Order Status Updated!");
                     check = true;
-                    cancelled = true;
                     break;
                 }
             }
@@ -278,22 +278,6 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
 
         if (!check) {
             JOptionPane.showMessageDialog(null, "Order not exist!", "Warning", JOptionPane.WARNING_MESSAGE);
-        }
-        if (check && cancelled) {
-            List<DataProvider> container2 = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.USER));
-            for (DataProvider obj : container2) {
-                if (obj instanceof Customer) {
-                    Customer cust = (Customer) obj;
-                    if (cust.getId().equals(custid)) {
-                        double newBal = cust.getBal() + foodCost;
-                        cust.setBal(String.valueOf(newBal));
-                        System.out.println("New Balance: " + cust.getBal());
-                        TextEditor.textDelete(TextEditor.FilePaths.USER, cust);
-                        TextEditor.fileWrite(TextEditor.FilePaths.USER, cust);
-                        break;
-                    }
-                }
-            }
         }
 
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -334,23 +318,23 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
         });
     }
     
-    public String updateCustomerBalance(String id, double cost) {
-        System.out.println("Please check: ");
+    public void updateCustomerBalance(String id, double cost) {
         List<DataProvider> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.USER));
         for (DataProvider obj : container) {
-            Customer cust = (Customer) obj;
-            if (cust.getId().equals(id)) {
-                double newBal = cust.getBal() + cost;
-                cust.setBal(String.valueOf(newBal));
-                System.out.println("New Balance: "+cust.getBal());
-                TextEditor.textDelete(TextEditor.FilePaths.USER, cust);
-                TextEditor.fileWrite(TextEditor.FilePaths.USER, cust);
-                break;
+            if (obj instanceof Customer) {
+                Customer cust = (Customer) obj;
+                if (cust.getId().equals(id)) {
+                    double newBalance = cust.getBal() + cost;
+                    cust.setBal(String.valueOf(newBalance));
+                    System.out.println("New Balance: " + cust.getBal());
+                    TextEditor.textDelete(TextEditor.FilePaths.USER, cust);
+                    TextEditor.fileWrite(TextEditor.FilePaths.USER, cust);
+                    break;
+                }
             }
         }
-        // Return null or throw an exception or return a default customer object
-        return "Refunded";
     }
+
     
     // Separate method to update the order in the file
     private void updateOrder(Order order) {
