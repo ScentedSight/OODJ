@@ -108,8 +108,8 @@ public class Order implements DataProvider {
         return customer;
     }
     
-    public void payment() {
-        customer.deductBal(total);
+    public void payment(Customer customer) {
+        customer.deductBal(total); //Pass customer object since this customer object will be outdated
         TextEditor.textDelete(TextEditor.FilePaths.USER, customer);
         TextEditor.fileWrite(TextEditor.FilePaths.USER, customer); //Rewrite the changed balance back
 
@@ -127,8 +127,8 @@ public class Order implements DataProvider {
         }
     }
     
-    public void refund() {
-        customer.addBal(total);;
+    public void refund(Customer customer) {
+        customer.addBal(total);; //Pass customer object since this customer object will be outdated
         TextEditor.textDelete(TextEditor.FilePaths.USER, customer);
         TextEditor.fileWrite(TextEditor.FilePaths.USER, customer); //Rewrite the changed balance back
 

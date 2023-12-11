@@ -165,7 +165,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 String[] notifyContainer = {String.valueOf(counter), notifyObj.getId(), notifyObj.getMessageRunner(), notifyObj.getTime()};
                 model3.addRow(notifyContainer);
                 counter++;
-            } else if (notifyObj.getUser().equals(customer.getId()) && notifyObj.getMessage().equals("You have successfully topped up ")) { //Filter to only show top up notifications
+            } else if (notifyObj.getUser().equals(customer.getId()) && notifyObj.getMessage().contains("You have successfully topped up ")) { //Filter to only show top up notifications
                 String[] notifyContainer = {String.valueOf(counter), notifyObj.getReceiptID(), notifyObj.getMessage() + notifyObj.getTopupamount() + " on " + notifyObj.getDate(), notifyObj.getTime()};
                 model3.addRow(notifyContainer);
                 counter++;
@@ -178,7 +178,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
         for (Object obj : container) {
             Notification notification = (Notification) obj;
             if (notification.getReceiptID().equals(model3.getValueAt(row3, 1)) || notification.getId().equals(model3.getValueAt(row3, 1))) {
-                TextEditor.textDelete(TextEditor.FilePaths.USER, notification);
+                TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, notification);
             }
         }
     }
@@ -682,9 +682,9 @@ public class C_MenuFrame extends javax.swing.JFrame {
             
     private void NotificationMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotificationMousePressed
         row3 = Notification.getSelectedRow();
-        String selector = String.valueOf(model3.getValueAt(row3, 2));
         if (row3 != -1) {
-            if (selector.equals("You have successfully topped up ") || (selector.equals("Your food is ready") || selector.equals("The order has been canceled") || selector.equals("Your food has been delivered"))) { //Check for order ID identifier which starts with O and only allowing 3 statuses of ready and canceled to make the food received button available
+            String selector = String.valueOf(model3.getValueAt(row3, 2));
+            if (selector.contains("You have successfully topped up ") || selector.equals("Your food is ready") || selector.equals("The order has been canceled") || selector.equals("Your food has been delivered")) { //Check for order ID identifier which starts with O and only allowing 3 statuses of ready and canceled to make the food received button available
                 bNotificationAcknowledged.setEnabled(true); //Make the receipt acknowledge button available
             }
         }
@@ -697,7 +697,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }
     
     private void bNotificationAcknowledgedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bNotificationAcknowledgedActionPerformed
-        if (bNotificationAcknowledged.isEnabled()) {
+        if (bNotificationAcknowledged.isEnabled() && row3 != -1) {
             deleteNotification();
         }
         row3 = -1;
@@ -747,7 +747,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                     Order order = (Order) obj;
                     if (order.getId().equals(model2.getValueAt(row2, 0))) {
                         order.setStatus(Order.Status.CANCELLED);
-                        order.refund(); //Refund all
+                        order.refund(customer); //Refund all
                         TextEditor.textDelete(TextEditor.FilePaths.HISTORY, order);
                         TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order);
                         break;
@@ -756,7 +756,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                     DeliveryOrder order = (DeliveryOrder) obj;
                     if (order.getId().equals(model2.getValueAt(row2, 0))) {
                         order.setStatus(Order.Status.CANCELLED);
-                        order.refund(); //Refund all
+                        order.refund(customer); //Refund all
                         TextEditor.textDelete(TextEditor.FilePaths.HISTORY, order);
                         TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order);
                         break;
@@ -783,7 +783,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 if (rbDineIn.isSelected()) { //Set remark to dine in to notify vendor
                     Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
                     order.setRemark("Dine in"); //Set for whether dine in or take away in order to notify vendor
-                    order.payment(); //Deduct balance and pay vendor
+                    order.payment(customer); //Deduct balance and pay vendor
                     Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
                     TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
                     TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
@@ -793,7 +793,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 } else if (rbTakeAway.isSelected()) { //Set remark to take away to notify vendor
                     Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
                     order.setRemark("Take Away"); //Set for whether dine in or take away in order to notify vendor
-                    order.payment(); //Deduct balance and pay vendor
+                    order.payment(customer); //Deduct balance and pay vendor
                     Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
                     TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
                     TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
@@ -802,7 +802,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                     row = -1;
                 } else if (rbDelivery.isSelected()) { //Creates delivery order object
                     Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
-                    order.payment(); //Create order object to use overriden method
+                    order.payment(customer); //Create order object to use overriden method
                     DeliveryOrder dOrder = new DeliveryOrder(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
                     dOrder.setRemark("Delivery"); //Set for whether dine in or take away in order to notify vendor
                     Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, dOrder.getId());
@@ -852,8 +852,23 @@ public class C_MenuFrame extends javax.swing.JFrame {
                     Order order = (Order) obj;
                     if (order.getId().equals(model2.getValueAt(row2, 0)) && order.getRemark().equals("Dine in")) { //Check for whether dine in or take away to set proper status
                         order.setStatus(Order.Status.COMPLETED);
+                        TextEditor.textDelete(TextEditor.FilePaths.HISTORY, order);
+                        TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order);
                     } else if (order.getId().equals(model2.getValueAt(row2, 0)) && order.getRemark().equals("Take Away")) {
                         order.setStatus(Order.Status.PICKED_UP);
+                        TextEditor.textDelete(TextEditor.FilePaths.HISTORY, order);
+                        TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order);
+                    }
+                } else if (obj instanceof DeliveryOrder) {
+                    DeliveryOrder dOrder = (DeliveryOrder) obj;
+                    if (dOrder.getId().equals(model2.getValueAt(row2, 0))) {
+                        int result = JOptionPane.showConfirmDialog(null, "This is a delivery order, are you sure you have received it?", "Confirmation", JOptionPane.YES_NO_OPTION); //Check whether if the customer intended to pe rform this action
+                        if (result == JOptionPane.YES_OPTION) {
+                            dOrder.payment(customer); //Pay vendor, delivery runner and deduct from customer after completion
+                            dOrder.setStatus(Order.Status.PICKED_UP);
+                            TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
+                            TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder);
+                        }
                     }
                 }
             }

@@ -631,7 +631,6 @@ public class RunnerFrame extends javax.swing.JFrame {
                     if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
                         dOrder.setRunnerStatus(Order.Status.DELIVERED); //Set status
                         dOrder.setTime(); //Set current time
-                        dOrder.payment(); //Pay runner and vendor
                         setNotificationMessages(dOrder.getId(), Notification.Messages.DELIVERED, false); //Set notification status to DELIVERED to notify customer and remove runner ID from notification to remove the notification from runner gui
                         TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
                         TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back

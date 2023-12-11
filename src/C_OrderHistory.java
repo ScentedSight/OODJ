@@ -266,7 +266,7 @@ public class C_OrderHistory extends javax.swing.JFrame {
     }//GEN-LAST:event_OrderHistoryMouseReleased
 
     private void bReorderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReorderActionPerformed
-        if (tfID.getText() != null) {
+        if (row != -1) {
             if (customer.getBal() >= Double.parseDouble((String) model.getValueAt(row, 4))) { //Check if the balance is enough to pay
                 List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
                 for (Object obj : container) {
