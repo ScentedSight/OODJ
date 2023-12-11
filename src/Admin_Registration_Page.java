@@ -179,6 +179,11 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
         Male_RB.setForeground(new java.awt.Color(255, 255, 255));
         Male_RB.setSelected(true);
         Male_RB.setText("Male");
+        Male_RB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Male_RBActionPerformed(evt);
+            }
+        });
 
         Female_RB.setBackground(new java.awt.Color(153, 204, 255));
         buttonGroup1.add(Female_RB);
@@ -488,6 +493,10 @@ public class Admin_Registration_Page extends javax.swing.JFrame {
     private void Pass_FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Pass_FieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Pass_FieldActionPerformed
+
+    private void Male_RBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Male_RBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Male_RBActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

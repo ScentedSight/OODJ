@@ -25,6 +25,7 @@ public class VendorFrame extends JFrame {
     private int MenuRow = -1; 
     private int OrderRow = -1;    
     private Food food = new Food();
+    private Order order = new Order();
     
     public VendorFrame(){  //Default constructor for testing
         initComponents();
@@ -40,20 +41,7 @@ public class VendorFrame extends JFrame {
         MenuModel.setColumnIdentifiers(MenuColumn); 
         OrderModel.setColumnIdentifiers(OrderList);
         
-        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-        for (Object obj1 : container) { //change obj name
-            Order O = (Order) obj1;
-            String status=O.getStatus();     
-            
-            if (!status.equals("PICKED_UP") || !status.equals("COMPLETED")) {
-                String[] OrderVendorArray = {
-                    O.getId(),          //get OrderID
-                    O.getTime(),        //get Order Time
-                    status,             //get Order Status
-                };
-                OrderModel.addRow(OrderVendorArray);        //add data
-            }
-        }
+        displayOrder();
         displayMenu();
     }
 
@@ -77,6 +65,8 @@ public class VendorFrame extends JFrame {
         btnAddMenu = new javax.swing.JButton();
         textFoodName = new javax.swing.JTextField();
         textCost = new javax.swing.JTextField();
+        btnDeleteMenu = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,6 +114,7 @@ public class VendorFrame extends JFrame {
 
         OrderTable.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         OrderTable.setModel(OrderModel);
+        OrderTable.setColumnSelectionAllowed(true);
         OrderTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 OrderTableMouseClicked(evt);
@@ -178,6 +169,22 @@ public class VendorFrame extends JFrame {
             }
         });
 
+        btnDeleteMenu.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        btnDeleteMenu.setText("Delete");
+        btnDeleteMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteMenuActionPerformed(evt);
+            }
+        });
+
+        btnRefresh.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        btnRefresh.setText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -185,31 +192,6 @@ public class VendorFrame extends JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblMenu1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(btnAddMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
-                                .addComponent(btnEditMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(textFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(textCost, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(60, 60, 60)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(18, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(51, 51, 51))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblNotification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -222,7 +204,34 @@ public class VendorFrame extends JFrame {
                                 .addGap(132, 132, 132)
                                 .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btnRevenue, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblMenu1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnAddMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnEditMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(textFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnDeleteMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(textCost, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,15 +256,17 @@ public class VendorFrame extends JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textFoodName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnEditMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(btnAddMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnAddMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDeleteMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -264,35 +275,34 @@ public class VendorFrame extends JFrame {
 
     private void btnRevenueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevenueActionPerformed
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-        for (Object obj : container) { 
+        Vendor_Revenue_Dashboard r = new Vendor_Revenue_Dashboard();
+        for (Object obj : container) {
+            if (obj instanceof Order) {
                 Order rd = (Order) obj;
-                if (rd.getVendorName().equals(vendor.getName())) {
-                    Vendor_Revenue_Dashboard r=new Vendor_Revenue_Dashboard(rd.getVendorID());
-                    r.setVisible(true);
-                    break;  
+                if (vendor.getName() != null && vendor.getName().equals(rd.getVendorName())) {
+                    r = new Vendor_Revenue_Dashboard(vendor);
+                    break;
                 }
             }
-        VendorFrame v=new VendorFrame();
-        v.setVisible(false);
+        }
+        r.setVisible(true);
     }//GEN-LAST:event_btnRevenueActionPerformed
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-        if (OrderRow != -1) { 
+        if (order.getId() != null) { 
+            Vendor_Order_Detail o = new Vendor_Order_Detail();
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 Order OH = (Order) obj;
-                if (OH.getId().equals(String.valueOf(OrderModel.getValueAt(OrderRow, 0)))) {
-                    Vendor_Order_Detail o=new Vendor_Order_Detail(OH.getId(),OH.getFood(),time,OH.getRemark(),OH.getStatus());
-                    o.isVisible();
+                if (OH.getId().equals(order.getId())) {
+                    o = new Vendor_Order_Detail(vendor, OH.getId(), OH.getFood(), OH.getCustomerID(), OH.getTime(),  OH.getRemark(), OH.getStatus(), String.valueOf(OH.getCost()));
                     break; //Break out of the loop once done since only one order should be edited at a time
                 }
             }
-        }
-        else{
+            o.setVisible(true);
+        }else{
             JOptionPane.showMessageDialog(null,"Please select an order.","Warning",JOptionPane.WARNING_MESSAGE);
         } 
-        VendorFrame v=new VendorFrame();
-        v.setVisible(false);
     }//GEN-LAST:event_btnViewActionPerformed
 
     private void btnEditMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditMenuActionPerformed
@@ -319,7 +329,18 @@ public class VendorFrame extends JFrame {
     }//GEN-LAST:event_btnEditMenuActionPerformed
 
     private void OrderTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OrderTableMouseClicked
-        OrderRow=OrderTable.getSelectedColumn();
+        OrderTable.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 1) { // Check for single-click
+                int row = OrderTable.getSelectedRow();
+                if (row >= 0) {
+                    System.out.println(OrderTable.getValueAt(row, 0));
+                    order.setId(String.valueOf(OrderTable.getValueAt(row, 0)));
+                }
+            }
+        }
+    });
     }//GEN-LAST:event_OrderTableMouseClicked
 
     private void btnReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReadActionPerformed
@@ -385,6 +406,26 @@ public class VendorFrame extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textCostActionPerformed
 
+    private void btnDeleteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteMenuActionPerformed
+        List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.MENU));
+        int row = MenuTable.getSelectedRow();
+        if (row >= 0 && row < container2.size()) {
+            Food existingMenu = (Food) container2.get(row);
+            if(existingMenu.getId().equals(food.getId())){
+                TextEditor.textDelete(TextEditor.FilePaths.MENU, existingMenu); // Delete the existing file
+                JOptionPane.showMessageDialog(null, "Record Deleted!");
+                displayMenu(); // Assuming this method updates the JTable
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid row selection.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnDeleteMenuActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        displayOrder();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -420,9 +461,8 @@ public class VendorFrame extends JFrame {
         });
     }
     
-    public int displayMenu(){
+    public void displayMenu(){
         List<DataProvider> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.MENU));
-        int row = 0;
         MenuModel.setRowCount(0);
         for (DataProvider obj : container) {
             Food menu = (Food) obj;
@@ -433,19 +473,40 @@ public class VendorFrame extends JFrame {
                 Double.toString(menu.getCost()),          //get Food Cost
                 };
                 MenuModel.addRow(MenuArray);
-                row++;
             }
         }
-        return row;
     }
+    
+    public void displayOrder(){
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+        OrderModel.setRowCount(0);
+        for (Object obj1 : container) { //change obj name
+            Order O = (Order) obj1;
+            if(O.getVendorID().equals(vendor.getId())){
+                String status= O.getStatus();     
+                if (!status.equals("PICKED_UP") && !status.equals("COMPLETED") && !status.equals("CANCELLED")) {
+                    String[] OrderVendorArray = {
+                        O.getId(),          //get OrderID
+                        O.getTime(),        //get Order Time
+                        status,             //get Order Status
+                };
+                OrderModel.addRow(OrderVendorArray);        //add data
+            }
+            }            
+        }
+    }
+    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable MenuTable;
     private javax.swing.JTable OrderTable;
     private javax.swing.JButton btnAddMenu;
+    private javax.swing.JButton btnDeleteMenu;
     private javax.swing.JButton btnEditMenu;
     private javax.swing.JButton btnLogOut;
     private javax.swing.JButton btnRead;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRevenue;
     private javax.swing.JButton btnView;
     private javax.swing.JScrollPane jScrollPane1;

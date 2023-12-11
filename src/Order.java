@@ -40,6 +40,8 @@ public class Order implements DataProvider {
         
     }
     
+    public Order(){}
+    
     public Order(String vendorId, String vendorName, Customer customer, String food, double foodCost) {
         id = "O" + TextEditor.idGenerator(TextEditor.FilePaths.HISTORY); //Order ID starts with an "O" letter
         status = Status.PENDING;
@@ -51,6 +53,9 @@ public class Order implements DataProvider {
         this.food = food;
         total = foodCost;
     }
+    public void setId(String id){
+        this.id = id;
+    }
     
     public String getId() {
         return id;
@@ -58,6 +63,9 @@ public class Order implements DataProvider {
 
     public void setReview(String review) { //Review should only be set when food status is done or delivered
         this.review = review;
+    }
+    public void setFood(String food){
+        this.food = food;
     }
     
     public String getFood() {
@@ -141,7 +149,7 @@ public class Order implements DataProvider {
     public void setStatus(Status status) { //For vendor and customer to set statuses
         this.status = status;
     }
-    
+
     public String getStatus(){
         return String.valueOf(status);
     }
@@ -181,5 +189,31 @@ public class Order implements DataProvider {
     
     public double getQuantity(){
         return quantity;
+    }
+    
+    public void setUpdateStatus(int updateStatus){
+        switch (updateStatus) {           //add status
+            case 0:
+                this.status = Status.PENDING;
+                break;
+            case 1:
+                this.status = Status.PREPARING;
+                break;
+            case 2:
+                this.status = Status.READY;
+                break;
+            case 3:
+                this.status = Status.COMPLETED;
+                break;
+            case 4:
+                this.status = Status.PICKED_UP;
+                break;
+            case 5:
+                this.status = Status.CANCELLED;
+                break;
+            default:
+                break;
+        }
+
     }
 }
