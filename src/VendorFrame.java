@@ -429,7 +429,6 @@ public class VendorFrame extends JFrame {
     }//GEN-LAST:event_btnDeleteMenuActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        
         displayOrder();
     }//GEN-LAST:event_btnRefreshActionPerformed
 

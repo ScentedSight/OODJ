@@ -48,6 +48,19 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
             Dine_Rbtn.setSelected(false);
             TakeAway_Rbtn.setSelected(true);
         }
+        
+        
+        List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
+        for(Object obj : container2){
+            Notification n = (Notification) obj;
+            if(n.getOrderID().equals(orderID)){
+                System.out.println("Old Notification Section");
+                System.out.println("User ID: "+n.getUser());
+                System.out.println("Order ID: "+n.getOrderID());
+                System.out.println("Message: "+n.getMessage());
+                System.out.println("Time: "+n.getTime());
+            }
+        }
     }
 
     /**
@@ -218,7 +231,7 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
     }//GEN-LAST:event_TakeAway_RbtnActionPerformed
 
     private void Status_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Status_CBActionPerformed
-    order.setUpdateStatus(Status_CB.getSelectedIndex());
+        order.setUpdateStatus(Status_CB.getSelectedIndex());
     }//GEN-LAST:event_Status_CBActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -226,6 +239,8 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        
+        
         List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         String custid = null;
         double foodCost = 0;
@@ -258,11 +273,22 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
                 }
             }
         }
+        List<Object> container1 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
+        for(Object obj : container1){
+            Notification n = (Notification) obj;
+            if((n.getOrderID().equals(orderID))){
+                System.out.println("Old Notification Section");
+                System.out.println("User ID: "+n.getUser());
+                System.out.println("Order ID: "+n.getOrderID());
+                System.out.println("Message: "+n.getMessage());
+                System.out.println("Time: "+n.getTime());
+            }
+        }
 
         if (!check) {
             JOptionPane.showMessageDialog(null, "Order not exist!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
-
+    
     }//GEN-LAST:event_btnSaveActionPerformed
 
     /**
@@ -320,28 +346,36 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
 
     
     // Separate method to update the order in the file    
-    public void sendOrderNotification(){
+    public void updateNotification(String orderId){
         List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container2) { 
             Notification n = (Notification) obj;
-            if (vendor.getId().equals(n.getId()) && (n.getMessage().equals(Notification.Messages.ORDER) || n.getMessage().equals(Notification.Messages.PREPARE))){                //compare orderID in order table
+            if (n.getOrderID().equals(orderID)){                //compare orderID in order table
                 if (order.getStatus().equals("PREPARING")) {        
                     n.setMessage(Notification.Messages.PREPARE);
+                    n.setTime(time);
+                    TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
+                    TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
+                    JOptionPane.showMessageDialog(null, "Order Status Updated!");
+                    break;
                 }
                 else if (order.getStatus().equals("READY")){
                     n.setMessage(Notification.Messages.READY);
+                    TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
+                    TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
+                    JOptionPane.showMessageDialog(null, "Order Status Updated!");
+                    break;
                 }
                 else if (order.getStatus().equals("CANCELLED")){
                     n.setMessage(Notification.Messages.CANCEL);
+                    n.setTime(time);
+                    TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
+                    TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
+                    JOptionPane.showMessageDialog(null, "Order Status Updated!");
+                    break;
                 }
-                updateNotification(n);
             }
         }
-    }
-    
-    private void updateNotification(Notification n){
-        TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
-        TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
     }
     
     private void updateOrder(Order order) {
