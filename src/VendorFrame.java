@@ -275,12 +275,12 @@ public class VendorFrame extends JFrame {
 
     private void btnRevenueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevenueActionPerformed
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-        Vendor_Revenue_Dashboard_Demo r = new Vendor_Revenue_Dashboard_Demo();
+        Vendor_Revenue_Dashboard r = new Vendor_Revenue_Dashboard();
         for (Object obj : container) {
             if (obj instanceof Order) {
                 Order rd = (Order) obj;
                 if (vendor.getName() != null && vendor.getName().equals(rd.getVendorName())) {
-                    r = new Vendor_Revenue_Dashboard_Demo(vendor);
+                    r = new Vendor_Revenue_Dashboard(vendor);
                     break;
                 }
             }
@@ -291,11 +291,11 @@ public class VendorFrame extends JFrame {
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         if (order.getId() != null) { 
-            Vendor_Order_Detail_Demo o = new Vendor_Order_Detail_Demo();
+            Vendor_Order_Detail o = new Vendor_Order_Detail();
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 Order OH = (Order) obj;
                 if (OH.getId().equals(order.getId())) {
-                    o = new Vendor_Order_Detail_Demo(vendor, OH.getId(), OH.getFood(), OH.getCustomerID(), OH.getTime(),  OH.getRemark(), OH.getStatus(), String.valueOf(OH.getCost()));
+                    o = new Vendor_Order_Detail(vendor, OH.getId(), OH.getFood(), OH.getCustomerID(), OH.getTime(),  OH.getRemark(), OH.getStatus(), String.valueOf(OH.getCost()));
                     break; //Break out of the loop once done since only one order should be edited at a time
                 }
             }
