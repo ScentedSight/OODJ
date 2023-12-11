@@ -257,6 +257,7 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
                     order.setTime();
                     System.out.println("New Status: " + order.getStatus());
                     updateOrder(order);
+                    updateNotification(orderID);
                     JOptionPane.showMessageDialog(null, "Order Cancelled!");
                     check = true;
                     break;
@@ -267,6 +268,7 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
                     order.setTime();
                     System.out.println("New Status: " + order.getStatus());
                     updateOrder(order);
+                    updateNotification(orderID);
                     JOptionPane.showMessageDialog(null, "Order Status Updated!");
                     check = true;
                     break;

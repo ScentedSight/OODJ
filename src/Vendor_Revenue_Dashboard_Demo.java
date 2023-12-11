@@ -321,14 +321,7 @@ public class Vendor_Revenue_Dashboard_Demo extends javax.swing.JFrame {
     }//GEN-LAST:event_comboYearActionPerformed
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
-        int selectedRow=tableRevenue.getSelectedColumn();              
-        if (selectedRow != -1) {        // Check if a row is selected
-            int modelRow = tableRevenue.convertRowIndexToModel(selectedRow);
-            System.out.println("Selected Model Row: " + modelRow);  
-        }   
-        else {
-            System.out.println("No row selected.");
-        }
+        
     }//GEN-LAST:event_btnViewActionPerformed
 
     /**
