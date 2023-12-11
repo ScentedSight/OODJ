@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Vendor_Revenue_Dashboard_Demo extends javax.swing.JFrame {
     private String id,date,remark;
-    private String year,month; 
+    private String year,month;
     private double profit;
     private DefaultTableModel revenueModel = new DefaultTableModel();
     private String[] revenuecol={"OrderID","Food Name","Review","Ratings","Date","Time","Remarks","Income(RM)"};
@@ -31,9 +31,9 @@ public class Vendor_Revenue_Dashboard_Demo extends javax.swing.JFrame {
     
     public Vendor_Revenue_Dashboard_Demo(Vendor vendor) {
         initComponents();
-        this.vendor = vendor;
         setTitle("Revenue Dashboard");
         revenueModel.setColumnIdentifiers(revenuecol);
+        this.vendor = vendor;
         comboMonth.setSelectedIndex(-1);        //do not selected item in initial
         comboYear.setSelectedIndex(-1);       //do not selected item in initial
         
@@ -53,46 +53,9 @@ public class Vendor_Revenue_Dashboard_Demo extends javax.swing.JFrame {
                     remark=" ";
                 }
             }
-            
-            if (!(String.valueOf(O.getOrderMonth()).equals("null"))){
-                if(String.valueOf(O.getOrderMonth()).equals(month) && String.valueOf(O.getOrderYear()).equals(year)){
-                //filter month & year together
-                String[] OrderHistVendorArray = {
-                    O.getId(),
-                    O.getFood(),
-                    O.getReview(),
-                    String.valueOf(O.getRatings()),
-                    date=O.getOrderDay()+"/"+month+"/"+year,
-                    O.getTime(),
-                    remark,
-                    Double.toString(O.getCost()),
-                };
-                revenueModel.addRow(OrderHistVendorArray);
-                profit=profit+O.getCost();
-                }
-            }
-            else if (month.equals("null") && String.valueOf(O.getOrderYear()).equals(year)){
-                // filter for year only, show all result for months
-                String[] OrderHistVendorArray = {
-                    O.getId(),
-                    O.getFood(),
-                    O.getReview(),
-                    String.valueOf(O.getRatings()),
-                    date=O.getOrderDay()+"/"+O.getOrderMonth()+"/"+year,
-                    O.getTime(),
-                    remark,
-                    Double.toString(O.getCost()),
-                };
-                revenueModel.addRow(OrderHistVendorArray);
-                profit=profit+O.getCost();
-                }
-            }
-            LabelTotal.setText("RM"+profit);
-            rowsCount=tableRevenue.getRowCount();
-            LabelAverageIncome.setText("RM"+profit/rowsCount);
-        
+        }
+        viewAllOrderHistory(vendor.getId());
     }
-    
     public String filterMonth(){
         int i=comboMonth.getSelectedIndex();        //get selected month
         
@@ -205,17 +168,7 @@ public class Vendor_Revenue_Dashboard_Demo extends javax.swing.JFrame {
             }
         });
 
-        tableRevenue.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
+        tableRevenue.setModel(revenueModel);
         jScrollPane1.setViewportView(tableRevenue);
 
         jLabel2.setText("Total Revenue:");
@@ -321,7 +274,7 @@ public class Vendor_Revenue_Dashboard_Demo extends javax.swing.JFrame {
     }//GEN-LAST:event_comboYearActionPerformed
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
-        
+        viewOrderHistory(vendor.getId());
     }//GEN-LAST:event_btnViewActionPerformed
 
     /**
@@ -358,6 +311,78 @@ public class Vendor_Revenue_Dashboard_Demo extends javax.swing.JFrame {
             }
         });
     }
+    
+    
+    public void viewOrderHistory(String id){
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+        for (Object obj : container) {          
+            Order O = (Order) obj;
+            String status=O.getStatus();    
+            int row =0;
+            if(O.getVendorID().equals(id) && O.getStatus().equals("READY")){
+                if (!(String.valueOf(O.getOrderMonth()).equals("null"))){
+                    if(String.valueOf(O.getOrderMonth()).equals(month) && String.valueOf(O.getOrderYear()).equals(year)){
+                    //filter month & year together
+                    String[] OrderHistVendorArray = {
+                        O.getId(),
+                        O.getFood(),
+                        O.getReview(),
+                        String.valueOf(O.getRatings()),
+                        date=O.getOrderDay()+"/"+O.getOrderMonth()+"/"+O.getOrderYear(),
+                        O.getTime(),
+                        remark,
+                        Double.toString(O.getCost()),
+                    };
+                    revenueModel.addRow(OrderHistVendorArray);
+                    profit= profit+O.getCost();
+                    row++;
+                    }
+                }
+                else if (month.equals("null") && String.valueOf(O.getOrderYear()).equals(year)){
+                        // filter for year only, show all result for months
+                        String[] OrderHistVendorArray = {
+                            O.getId(),
+                            O.getFood(),
+                            O.getReview(),
+                            String.valueOf(O.getRatings()),
+                            date=O.getOrderDay()+"/"+O.getOrderMonth()+"/"+O.getOrderYear(),
+                            O.getTime(),
+                            remark,
+                            Double.toString(O.getCost()),
+                        };
+                        revenueModel.addRow(OrderHistVendorArray);
+                        profit= profit+O.getCost();
+                        row++;
+                    }
+                }
+            }   
+            LabelTotal.setText("RM"+profit);
+            rowsCount= revenueModel.getRowCount();
+            LabelAverageIncome.setText("RM"+profit/rowsCount);                    
+    }
+    
+    public void viewAllOrderHistory(String id){
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+        for (Object obj : container) {          
+            Order O = (Order) obj;
+            String status=O.getStatus();     
+            if(O.getVendorID().equals(id)){
+                // filter for year only, show all result for months
+                String[] OrderHistVendorArray = {
+                    O.getId(),
+                    O.getFood(),
+                    O.getReview(),
+                    String.valueOf(O.getRatings()),
+                    date=O.getOrderDay()+"/"+O.getOrderMonth()+"/"+O.getOrderYear(),
+                    O.getTime(),
+                    remark,
+                    Double.toString(O.getCost()),
+                };
+                revenueModel.addRow(OrderHistVendorArray);
+            }
+        }   
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelAverageIncome;

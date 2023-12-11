@@ -114,6 +114,7 @@ public class VendorFrame extends JFrame {
 
         OrderTable.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         OrderTable.setModel(OrderModel);
+        OrderTable.setColumnSelectionAllowed(true);
         OrderTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 OrderTableMouseClicked(evt);
@@ -285,7 +286,6 @@ public class VendorFrame extends JFrame {
             }
         }
         r.setVisible(true);
-        this.setVisible(false);
     }//GEN-LAST:event_btnRevenueActionPerformed
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
@@ -295,12 +295,6 @@ public class VendorFrame extends JFrame {
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 Order OH = (Order) obj;
                 if (OH.getId().equals(order.getId())) {
-                    System.out.println("OrderID: "+OH.getId());
-                    System.out.println("FoodID: "+OH.getFood());
-                    System.out.println("Remark: "+OH.getRemark());
-                    System.out.println("Status: "+OH.getStatus());
-                    System.out.println("Cost: "+OH.getCost());
-                    System.out.println("Customer ID: "+OH.getCustomerID());
                     o = new Vendor_Order_Detail_Demo(vendor, OH.getId(), OH.getFood(), OH.getCustomerID(), OH.getTime(),  OH.getRemark(), OH.getStatus(), String.valueOf(OH.getCost()));
                     break; //Break out of the loop once done since only one order should be edited at a time
                 }

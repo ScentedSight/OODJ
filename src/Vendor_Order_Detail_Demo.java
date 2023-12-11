@@ -53,10 +53,10 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
         List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for(Object obj : container2){
             Notification n = (Notification) obj;
-            if(n.getOrderID().equals(orderID)){
+            if(n.getId().equals(orderID)){
                 System.out.println("Old Notification Section");
                 System.out.println("User ID: "+n.getUser());
-                System.out.println("Order ID: "+n.getOrderID());
+                System.out.println("Order ID: "+n.getId());
                 System.out.println("Message: "+n.getMessage());
                 System.out.println("Time: "+n.getTime());
             }
@@ -278,10 +278,10 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
         List<Object> container1 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for(Object obj : container1){
             Notification n = (Notification) obj;
-            if((n.getOrderID().equals(orderID))){
+            if((n.getId().equals(orderID))){
                 System.out.println("Old Notification Section");
                 System.out.println("User ID: "+n.getUser());
-                System.out.println("Order ID: "+n.getOrderID());
+                System.out.println("Order ID: "+n.getId());
                 System.out.println("Message: "+n.getMessage());
                 System.out.println("Time: "+n.getTime());
             }
@@ -352,7 +352,7 @@ public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
         List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container2) { 
             Notification n = (Notification) obj;
-            if (n.getOrderID().equals(orderID)){                //compare orderID in order table
+            if (n.getId().equals(orderID)){                //compare orderID in order table
                 if (order.getStatus().equals("PREPARING")) {        
                     n.setMessage(Notification.Messages.PREPARE);
                     n.setTime(time);
