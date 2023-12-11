@@ -371,17 +371,19 @@ public class RunnerFrame extends javax.swing.JFrame {
         taskListModel.setRowCount(0); //Clearing the model before adding
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) {
-            DeliveryOrder dOrder = (DeliveryOrder) obj;
-            if (dOrder.getStatusRunner().equals("SEARCHING")) {
-                String[] rowDataArray = {
+            if (obj instanceof DeliveryOrder) {
+                DeliveryOrder dOrder = (DeliveryOrder) obj;
+                if (dOrder.getStatusRunner().equals("SEARCHING")) {
+                    String[] rowDataArray = {
                         dOrder.getId(), //Retrieve order ID
                         dOrder.getTime(), //Retrieve time when order was placed
                         dOrder.getVendorName(), //Retrieve vendor's name
                         dOrder.getCustomerID(), //Retrieve customer ID
                         dOrder.getFood(), //Retrieve food name
                         dOrder.getAddress() //Retrieve address
-                };
-                taskListModel.addRow(rowDataArray);
+                    };
+                    taskListModel.addRow(rowDataArray);
+                }
             }
         }
     }
@@ -390,28 +392,32 @@ public class RunnerFrame extends javax.swing.JFrame {
         tasksModel.setRowCount(0); //Clearing the model before adding
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) {
-            DeliveryOrder dOrder = (DeliveryOrder) obj;
-            if (dOrder.getStatusRunner().equals("DELIVERING") && dOrder.getRunner().equals(runner.getId())) {
-                String[] rowDataArray = {
-                    dOrder.getId(), //Retrieve order ID
-                    dOrder.getTime(), //Retrieve time when order was placed
-                    dOrder.getVendorName(), //Retrieve vendor's name
-                    dOrder.getCustomerID(), //Retrieve customer ID
-                    dOrder.getFood(), //Retrieve food name
-                    dOrder.getAddress() //Retrieve address
-                };
-                tasksModel.addRow(rowDataArray);
+            if (obj instanceof DeliveryOrder) {
+                DeliveryOrder dOrder = (DeliveryOrder) obj;
+                if (dOrder.getStatusRunner().equals("DELIVERING") && dOrder.getRunner().equals(runner.getId())) {
+                    String[] rowDataArray = {
+                        dOrder.getId(), //Retrieve order ID
+                        dOrder.getTime(), //Retrieve time when order was placed
+                        dOrder.getVendorName(), //Retrieve vendor's name
+                        dOrder.getCustomerID(), //Retrieve customer ID
+                        dOrder.getFood(), //Retrieve food name
+                        dOrder.getAddress() //Retrieve address
+                    };
+                    tasksModel.addRow(rowDataArray);
+                }
             }
         }
-    }    
+    } 
     
     private void generateTotalRevenue() { //Private internal function to generate total revenue earned by runner
         double total = 0;
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) {
-            DeliveryOrder dOrder = (DeliveryOrder) obj;
-            if (dOrder.getStatusRunner().equals("DELIVERED") && dOrder.getRunner().equals(runner.getId())) {
-                total += dOrder.getFee();
+            if (obj instanceof DeliveryOrder) {
+                DeliveryOrder dOrder = (DeliveryOrder) obj;
+                if (dOrder.getStatusRunner().equals("DELIVERED") && dOrder.getRunner().equals(runner.getId())) {
+                    total += dOrder.getFee();
+                }
             }
         }
         runnerHomeTotaltxt.setText("$" + String.valueOf(total));
@@ -423,7 +429,7 @@ public class RunnerFrame extends javax.swing.JFrame {
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container) {
             Notification notifyObj = (Notification) obj;
-            if (notifyObj.getRunnerID().equals(runner.getId())) {
+            if (notifyObj.getRunnerID() != null && notifyObj.getRunnerID().equals(runner.getId())) { //Making sure its not null so error wont pop out
                 String placeHolder = "[" + notifyObj.getTime() + "]" + " " + notifyObj.getMessage();
                 notification = notification + "   " + counter + ". " + placeHolder;
                 counter++;
@@ -549,15 +555,17 @@ public class RunnerFrame extends javax.swing.JFrame {
         if (taskListRow != -1) { //Fill tasks table with accepted deliveries
             List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
-                DeliveryOrder dOrder = (DeliveryOrder) obj;
-                if (dOrder.getId().equals(String.valueOf(taskListModel.getValueAt(taskListRow, 0)))) {
-                    dOrder.setRunner(runner); //Set the current runner
-                    dOrder.setRunnerStatus(Order.Status.DELIVERING); //Set status
-                    dOrder.setTime(); //Set current time
-                    setNotificationMessages(dOrder.getId(), Notification.Messages.DELIVERING, true); //Set notification status to DELIVERING to notify customer and inserts runner ID into notification for future processing
-                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
-                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
-                    break; //Break out of the loop once done since only one order should be edited at a time
+                if (obj instanceof DeliveryOrder) {
+                    DeliveryOrder dOrder = (DeliveryOrder) obj;
+                    if (dOrder.getId().equals(String.valueOf(taskListModel.getValueAt(taskListRow, 0)))) {
+                        dOrder.setRunner(runner); //Set the current runner
+                        dOrder.setRunnerStatus(Order.Status.DELIVERING); //Set status
+                        dOrder.setTime(); //Set current time
+                        setNotificationMessages(dOrder.getId(), Notification.Messages.DELIVERING, true); //Set notification status to DELIVERING to notify customer and inserts runner ID into notification for future processing
+                        TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
+                        TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
+                        break; //Break out of the loop once done since only one order should be edited at a time
+                    }
                 }
             }
             taskListRow = -1; //Reset to no selected row after clicking
@@ -571,13 +579,15 @@ public class RunnerFrame extends javax.swing.JFrame {
         if (tasksRow != -1) { //Remove row after delivery failed and set status
             List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
-                DeliveryOrder dOrder = (DeliveryOrder) obj;
-                if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
-                    dOrder.setRunnerStatus(Order.Status.SEARCHING); //Set status
-                    setNotificationMessages(dOrder.getId(), Notification.Messages.SEARCHING, false); //Set notification status to SEARCHING to notify customer and removes runner ID from notification for other runners
-                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
-                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
-                    break; //Break out of the loop once done since only one order should be edited at a time
+                if (obj instanceof DeliveryOrder) {
+                    DeliveryOrder dOrder = (DeliveryOrder) obj;
+                    if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
+                        dOrder.setRunnerStatus(Order.Status.SEARCHING); //Set status
+                        setNotificationMessages(dOrder.getId(), Notification.Messages.SEARCHING, false); //Set notification status to SEARCHING to notify customer and removes runner ID from notification for other runners
+                        TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
+                        TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
+                        break; //Break out of the loop once done since only one order should be edited at a time
+                    }
                 }
             }
             tasksRow = -1; //Reset to no selected row after clicking
@@ -590,19 +600,21 @@ public class RunnerFrame extends javax.swing.JFrame {
     private void runnerHomeTaskHistbtnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_runnerHomeTaskHistbtnMousePressed
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) {
-            DeliveryOrder dOrder = (DeliveryOrder) obj;
-            if (dOrder.getStatusRunner().equals("DELIVERED") && dOrder.getRunner().equals(runner.getId())) {
-                String[] rowDataArray = {
-                    dOrder.getId(), //Retrieve order ID
-                    dOrder.getTime(), //Retrieve time when order was placed
-                    dOrder.getVendorName(), //Retrieve vendor's name
-                    dOrder.getCustomerID(), //Retrieve customer ID
-                    dOrder.getFood(), //Retrieve food name
-                    dOrder.getAddress(), //Retrieve address
-                    String.valueOf(dOrder.getFee()), //Retrieve runner profits
-                    dOrder.getReview() //Retrieve reviews
-                };
-                taskHistory.addRow(rowDataArray);
+            if (obj instanceof DeliveryOrder) {
+                DeliveryOrder dOrder = (DeliveryOrder) obj;
+                if (dOrder.getStatusRunner().equals("DELIVERED") && dOrder.getRunner().equals(runner.getId())) {
+                    String[] rowDataArray = {
+                        dOrder.getId(), //Retrieve order ID
+                        dOrder.getTime(), //Retrieve time when order was placed
+                        dOrder.getVendorName(), //Retrieve vendor's name
+                        dOrder.getCustomerID(), //Retrieve customer ID
+                        dOrder.getFood(), //Retrieve food name
+                        dOrder.getAddress(), //Retrieve address
+                        String.valueOf(dOrder.getFee()), //Retrieve runner profits
+                        dOrder.getReview() //Retrieve reviews
+                    };
+                    taskHistory.addRow(rowDataArray);
+                }
             }
         }
         runnerTskHistorydialog.setVisible(true); //Opens up a new dialog
@@ -614,15 +626,17 @@ public class RunnerFrame extends javax.swing.JFrame {
         if (tasksRow != -1) { //Remove row after delivery success and set status
             List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
-                DeliveryOrder dOrder = (DeliveryOrder) obj;
-                if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
-                    dOrder.setRunnerStatus(Order.Status.DELIVERED); //Set status
-                    dOrder.setTime(); //Set current time
-                    dOrder.payment(); //Pay runner and vendor
-                    setNotificationMessages(dOrder.getId(), Notification.Messages.DELIVERED, false); //Set notification status to DELIVERED to notify customer and remove runner ID from notification to remove the notification from runner gui
-                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
-                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
-                    break; //Break out of the loop once done since only one order should be edited at a time
+                if (obj instanceof DeliveryOrder) {
+                    DeliveryOrder dOrder = (DeliveryOrder) obj;
+                    if (dOrder.getId().equals(String.valueOf(tasksModel.getValueAt(tasksRow, 0)))) {
+                        dOrder.setRunnerStatus(Order.Status.DELIVERED); //Set status
+                        dOrder.setTime(); //Set current time
+                        dOrder.payment(); //Pay runner and vendor
+                        setNotificationMessages(dOrder.getId(), Notification.Messages.DELIVERED, false); //Set notification status to DELIVERED to notify customer and remove runner ID from notification to remove the notification from runner gui
+                        TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
+                        TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Rewrite it all back
+                        break; //Break out of the loop once done since only one order should be edited at a time
+                    }
                 }
             }
             tasksRow = -1; //Reset to no selected row after clicking
