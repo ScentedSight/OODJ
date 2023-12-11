@@ -107,6 +107,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }
     
     private void populateMenuTable() {
+        model.setRowCount(0);
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.MENU));
         
         for (Object object: container) {
@@ -120,6 +121,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }
 
     private void populateCurrentOrderTable() {
+        model2.setRowCount(0);
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
 
         for (Object object : container) { //Load orders into the current order table
@@ -161,6 +163,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }
     
     private void displayNotification() { //Display notifications function
+        model3.setRowCount(0);
         int counter = 1;
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container) {
@@ -546,7 +549,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlC_MenuFrameTablesLayout.createSequentialGroup()
                                     .addComponent(jMenu)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cbCuisine, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(scrlpnlC_MenuFrameMenuTable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(pnlC_MenuFrameTablesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -775,43 +778,48 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_bCancelOrderMousePressed
 
     private void bPlaceOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bPlaceOrderMousePressed
-        if ((customer.getBal() >= Double.parseDouble(tfPrice.getText())) && row != -1) { //Check whether if the price exceeds balance
-            if (rbDineIn.isSelected()) { //Set remark to dine in to notify vendor
-                Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
-                order.setRemark("Dine in"); //Set for whether dine in or take away in order to notify vendor
-                order.payment(); //Deduct balance and pay vendor
-                Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
-                TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
-                TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
-                JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Order Placed", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
-                reloadFrame();
-                row = -1;
-            } else if (rbTakeAway.isSelected()) { //Set remark to take away to notify vendor
-                Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
-                order.setRemark("Take Away"); //Set for whether dine in or take away in order to notify vendor
-                order.payment(); //Deduct balance and pay vendor
-                Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
-                TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
-                TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
-                JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Take Away", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
-                reloadFrame();
-                row = -1;
-            } else if (rbDelivery.isSelected()) { //Creates delivery order object
-                DeliveryOrder order = new DeliveryOrder(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
-                order.setRemark("Delivery"); //Set for whether dine in or take away in order to notify vendor
-                order.payment(); //Deduct balance and pay vendor
-                Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
-                TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
-                TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
-                JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Delivery", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
-                reloadFrame();
-                row = -1;
+        if (row != -1) {
+            if (customer.getBal() >= Double.parseDouble(tfPrice.getText())) { //Check if the balance is enough to pay
+                if (rbDineIn.isSelected()) { //Set remark to dine in to notify vendor
+                    Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
+                    order.setRemark("Dine in"); //Set for whether dine in or take away in order to notify vendor
+                    order.payment(); //Deduct balance and pay vendor
+                    Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
+                    TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
+                    JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Order Placed", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
+                    reloadFrame();
+                    row = -1;
+                } else if (rbTakeAway.isSelected()) { //Set remark to take away to notify vendor
+                    Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
+                    order.setRemark("Take Away"); //Set for whether dine in or take away in order to notify vendor
+                    order.payment(); //Deduct balance and pay vendor
+                    Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
+                    TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
+                    JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Take Away", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
+                    reloadFrame();
+                    row = -1;
+                } else if (rbDelivery.isSelected()) { //Creates delivery order object
+                    DeliveryOrder order = new DeliveryOrder(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
+                    order.setRemark("Delivery"); //Set for whether dine in or take away in order to notify vendor
+                    order.payment(); //Deduct balance and pay vendor
+                    Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
+                    TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
+                    JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Delivery", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
+                    reloadFrame();
+                    row = -1;
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Please choose an order!", "No order selected", JOptionPane.WARNING_MESSAGE); //Throw error when no orders are selected
+                JOptionPane.showMessageDialog(null, "Balance is low! Please proceed to top up!", "Warning", JOptionPane.WARNING_MESSAGE); //Throw error when balance is low
+                reloadFrame();
                 row = -1;
             }
-        } else if ((customer.getBal() < Double.parseDouble(tfPrice.getText())) && row == -1) {
-            JOptionPane.showMessageDialog(null, "Balance is low! Please proceed to top up!", "Warning", JOptionPane.WARNING_MESSAGE); //Throw error when balance is low
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select an order to place!", "No order selected", JOptionPane.WARNING_MESSAGE); //Throw error when nothing is selected
+            row = -1;
             reloadFrame();
         }
     }//GEN-LAST:event_bPlaceOrderMousePressed
