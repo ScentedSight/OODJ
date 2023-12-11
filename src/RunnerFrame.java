@@ -423,7 +423,7 @@ public class RunnerFrame extends javax.swing.JFrame {
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container) {
             Notification notifyObj = (Notification) obj;
-            if (notifyObj.getRunnerID().equals(runner.getId())) {
+            if (notifyObj.getRunnerID() != null && notifyObj.getRunnerID().equals(runner.getId())) { //Making sure its not null so error wont pop out
                 String placeHolder = "[" + notifyObj.getTime() + "]" + " " + notifyObj.getMessage();
                 notification = notification + "   " + counter + ". " + placeHolder;
                 counter++;
