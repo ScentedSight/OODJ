@@ -483,6 +483,7 @@ public class VendorFrame extends JFrame {
     
     public void displayOrder(){
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+        OrderModel.setRowCount(0);
         for (Object obj1 : container) { //change obj name
             Order O = (Order) obj1;
             String status=O.getStatus();     
