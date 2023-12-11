@@ -747,18 +747,18 @@ public class C_MenuFrame extends javax.swing.JFrame {
                     Order order = (Order) obj;
                     if (order.getId().equals(model2.getValueAt(row2, 0))) {
                         order.setStatus(Order.Status.CANCELLED);
+                        order.refund(); //Refund all
                         TextEditor.textDelete(TextEditor.FilePaths.HISTORY, order);
                         TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order);
-                        order.refund(); //Refund all
                         break;
                     }
                 } else if (obj instanceof DeliveryOrder) {
                     DeliveryOrder order = (DeliveryOrder) obj;
                     if (order.getId().equals(model2.getValueAt(row2, 0))) {
                         order.setStatus(Order.Status.CANCELLED);
+                        order.refund(); //Refund all
                         TextEditor.textDelete(TextEditor.FilePaths.HISTORY, order);
                         TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order);
-                        order.refund(); //Refund all
                         break;
                     }
                 }
@@ -787,7 +787,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                     Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
                     TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
                     TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
-                    JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Order Placed", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
+                    JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Order Placed", JOptionPane.INFORMATION_MESSAGE); //Throw success message
                     reloadFrame();
                     row = -1;
                 } else if (rbTakeAway.isSelected()) { //Set remark to take away to notify vendor
@@ -797,17 +797,18 @@ public class C_MenuFrame extends javax.swing.JFrame {
                     Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
                     TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
                     TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
-                    JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Take Away", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
+                    JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Take Away", JOptionPane.INFORMATION_MESSAGE); //Throw success message
                     reloadFrame();
                     row = -1;
                 } else if (rbDelivery.isSelected()) { //Creates delivery order object
-                    DeliveryOrder order = new DeliveryOrder(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
-                    order.setRemark("Delivery"); //Set for whether dine in or take away in order to notify vendor
-                    order.payment(); //Deduct balance and pay vendor
-                    Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, order.getId());
+                    Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
+                    order.payment(); //Create order object to use overriden method
+                    DeliveryOrder dOrder = new DeliveryOrder(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
+                    dOrder.setRemark("Delivery"); //Set for whether dine in or take away in order to notify vendor
+                    Notification notification = new Notification(String.valueOf(cbCuisine.getSelectedItem()), customer, dOrder.getId());
                     TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notification); //Writes notification to database
-                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
-                    JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Delivery", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder); //Writes order to database
+                    JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Delivery", JOptionPane.INFORMATION_MESSAGE); //Throw success message
                     reloadFrame();
                     row = -1;
                 }
