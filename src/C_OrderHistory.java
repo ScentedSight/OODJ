@@ -35,24 +35,30 @@ public class C_OrderHistory extends javax.swing.JFrame {
 
     private C_OrderHistory() {
     }
-    
-    private void populateOrderHistoryTable() {
-        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY)); 
-        
-        for (Object object: container) {
-            Order orderCast = (Order) object;
-            
-            
-            if (orderCast.getCustomerID().equals(customer.getId())){
-                String date = orderCast.getOrderDay()+"/"+orderCast.getOrderMonth()+"/"+orderCast.getOrderYear();
-                String[] orderHistory = {orderCast.getId(), orderCast.getVendorName(), orderCast.getFood(), String.valueOf(orderCast.getQuantity()), String.valueOf(orderCast.getCost()), date, orderCast.getReview(), String.valueOf(orderCast.getRatings())};
-                model.addRow(orderHistory);
- 
-            }
-        }
-        
-    }
 
+    private void populateOrderHistoryTable() {
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+
+        for (Object object : container) {
+            if (object instanceof Order) {
+                Order orderCast = (Order) object;
+                if (orderCast.getCustomerID().equals(customer.getId())) {
+                    String date = orderCast.getOrderDay() + "/" + orderCast.getOrderMonth() + "/" + orderCast.getOrderYear();
+                    String[] orderHistory = {orderCast.getId(), orderCast.getVendorName(), orderCast.getFood(), String.valueOf(orderCast.getQuantity()), String.valueOf(orderCast.getCost()), date, orderCast.getReview(), String.valueOf(orderCast.getRatings())};
+                    model.addRow(orderHistory);
+                }
+            } else if (object instanceof DeliveryOrder) {
+                DeliveryOrder orderCast = (DeliveryOrder) object;
+                if (orderCast.getCustomerID().equals(customer.getId())) {
+                    String date = orderCast.getOrderDay() + "/" + orderCast.getOrderMonth() + "/" + orderCast.getOrderYear();
+                    String[] orderHistory = {orderCast.getId(), orderCast.getVendorName(), orderCast.getFood(), String.valueOf(orderCast.getQuantity()), String.valueOf(orderCast.getCost()), date, orderCast.getReview(), String.valueOf(orderCast.getRatings())};
+                    model.addRow(orderHistory);
+                }
+
+            }
+
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -255,11 +261,20 @@ public class C_OrderHistory extends javax.swing.JFrame {
         if (tfID.getText() != null) {
             List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
             for (Object obj : container) {
-                Order checkOrders = (Order) obj;
-                if (checkOrders.getId().equals(tfID.getText())) {
-                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, new Order(checkOrders.getVendorID(), tfVendorName.getText(), customer, tfFoodDetails.getText(), Double.parseDouble(tfTotal.getText())));
-                    TextEditor.fileWrite(TextEditor.FilePaths.USER, new Notification(checkOrders.getVendorID(), customer, checkOrders.getId()));
-                    break;
+                if (obj instanceof Order) {
+                    Order checkOrders = (Order) obj;
+                    if (checkOrders.getId().equals(tfID.getText())) {
+                        TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, new Order(checkOrders.getVendorID(), tfVendorName.getText(), customer, tfFoodDetails.getText(), Double.parseDouble(tfTotal.getText())));
+                        TextEditor.fileWrite(TextEditor.FilePaths.USER, new Notification(checkOrders.getVendorID(), customer, checkOrders.getId()));
+                        break;
+                    }
+                } else if (obj instanceof DeliveryOrder) {
+                    DeliveryOrder checkOrders = (DeliveryOrder) obj;
+                    if (checkOrders.getId().equals(tfID.getText())) {
+                        TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, new Order(checkOrders.getVendorID(), tfVendorName.getText(), customer, tfFoodDetails.getText(), Double.parseDouble(tfTotal.getText())));
+                        TextEditor.fileWrite(TextEditor.FilePaths.USER, new Notification(checkOrders.getVendorID(), customer, checkOrders.getId()));
+                        break;
+                    }
                 }
             }
         } else {
@@ -275,14 +290,26 @@ public class C_OrderHistory extends javax.swing.JFrame {
         if (bOrderHistoryAddReview.isEnabled()) {
             List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
             for (Object object : container) {
-                Order review = (Order) object;
-                if (review.getId().equals(model.getValueAt(row, 0))) {
-                    review.setReview(JOptionPane.showInputDialog(null, "Enter review:")); //Pop out a dialog for user to enter reviews
-                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, review);
-                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, review);
-                    break; //Break out of loop to speed up processing
+                if (object instanceof Order) {
+                    Order review = (Order) object;
+                    if (review.getId().equals(model.getValueAt(row, 0))) {
+                        review.setReview(JOptionPane.showInputDialog(null, "Enter review:")); //Pop out a dialog for user to enter reviews
+                        TextEditor.textDelete(TextEditor.FilePaths.HISTORY, review);
+                        TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, review);
+                        break; //Break out of loop to speed up processing
+                    }
+                } else if (object instanceof DeliveryOrder) {
+                    DeliveryOrder review = (DeliveryOrder) object;
+                    if (review.getId().equals(model.getValueAt(row, 0))) {
+                        review.setReview(JOptionPane.showInputDialog(null, "Enter review:")); //Pop out a dialog for user to enter reviews
+                        TextEditor.textDelete(TextEditor.FilePaths.HISTORY, review);
+                        TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, review);
+                        break; //Break out of loop to speed up processing
+                    }
                 }
+
             }
+            row = -1;
         }
     }//GEN-LAST:event_bOrderHistoryAddReviewMousePressed
 
@@ -290,32 +317,61 @@ public class C_OrderHistory extends javax.swing.JFrame {
         if (bRateOrder.isEnabled()) {
             List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
             for (Object object : container) {
-                Order review = (Order) object;
-                if (review.getId().equals(model.getValueAt(row, 0))) {
-                    int rating;
-                    while (true) {
-                        try {
-                            String input = JOptionPane.showInputDialog(null, "Enter rating from value of 1 - 5:");
-                            if (input == null) {
-                                // User clicked Cancel or closed the dialog
-                                return;
-                            }
-                            rating = Integer.parseInt(input);
-                            if (rating >= 1 && rating <= 5) { //Input validation to check if within range
-                                break; // Valid input, break out of the loop
-                            } else {
+                if (object instanceof Order) {
+                    Order review = (Order) object;
+                    if (review.getId().equals(model.getValueAt(row, 0))) {
+                        int rating;
+                        while (true) {
+                            try {
+                                String input = JOptionPane.showInputDialog(null, "Enter rating from value of 1 - 5:");
+                                if (input == null) {
+                                    // User clicked Cancel or closed the dialog
+                                    return;
+                                }
+                                rating = Integer.parseInt(input);
+                                if (rating >= 1 && rating <= 5) { //Input validation to check if within range
+                                    break; // Valid input, break out of the loop
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Invalid input. Please enter a number from 1 to 5.");
+                                }
+                            } catch (NumberFormatException e) {
                                 JOptionPane.showMessageDialog(null, "Invalid input. Please enter a number from 1 to 5.");
                             }
-                        } catch (NumberFormatException e) {
-                            JOptionPane.showMessageDialog(null, "Invalid input. Please enter a number from 1 to 5.");
                         }
+                        review.setRatings(rating);
+                        TextEditor.textDelete(TextEditor.FilePaths.HISTORY, review);
+                        TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, review);
+                        break; // Break out of the loop to speed up processing
                     }
-                    review.setRatings(rating);
-                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, review);
-                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, review);
-                    break; // Break out of the loop to speed up processing
+                } else if (object instanceof DeliveryOrder) {
+                    DeliveryOrder review = (DeliveryOrder) object;
+                    if (review.getId().equals(model.getValueAt(row, 0))) {
+                        int rating;
+                        while (true) {
+                            try {
+                                String input = JOptionPane.showInputDialog(null, "Enter rating from value of 1 - 5:");
+                                if (input == null) {
+                                    // User clicked Cancel or closed the dialog
+                                    return;
+                                }
+                                rating = Integer.parseInt(input);
+                                if (rating >= 1 && rating <= 5) { //Input validation to check if within range
+                                    break; // Valid input, break out of the loop
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Invalid input. Please enter a number from 1 to 5.");
+                                }
+                            } catch (NumberFormatException e) {
+                                JOptionPane.showMessageDialog(null, "Invalid input. Please enter a number from 1 to 5.");
+                            }
+                        }
+                        review.setRatings(rating);
+                        TextEditor.textDelete(TextEditor.FilePaths.HISTORY, review);
+                        TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, review);
+                        break; // Break out of the loop to speed up processing
+                    }
                 }
             }
+            row = -1;
         }
     }//GEN-LAST:event_bRateOrderActionPerformed
 

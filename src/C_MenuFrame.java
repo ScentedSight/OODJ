@@ -33,6 +33,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
     public C_MenuFrame(Customer customer) {
         initComponents(); 
         bNotificationAcknowledged.setEnabled(false);//Grey out buttons
+        bFoodReceived.setEnabled(false);
         this.customer = customer;
         model.setColumnIdentifiers(column);
         model2.setColumnIdentifiers(column2);
@@ -48,6 +49,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
         remarkGroup.add(rbDineIn);
         remarkGroup.add(rbTakeAway);
         remarkGroup.add(rbDelivery);
+        rbDineIn.setSelected(true); //Make the first radio button selected default
     }
     
     private void reloadFrame() {
@@ -62,7 +64,6 @@ public class C_MenuFrame extends javax.swing.JFrame {
         }
         balance.setText(String.valueOf(customer.getBal()));
         populateCurrentOrderTable();
-        populateComboBox();
         populateMenuTable();
         displayNotification();
     }
@@ -73,10 +74,19 @@ public class C_MenuFrame extends javax.swing.JFrame {
         List<Object> reader = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         List<Order> container = new ArrayList<>();
         for (Object obj : reader) {
-            Order order = (Order) obj;
-            if ((order.getVendorID() + ":" + order.getFood()).equals(retrieveVID + ":" +  retrieveFDesc)) { //Combination of vendor ID + food description = food ID
-                container.add(order); //Adds to the array list and return it for further processing
+            if (obj instanceof Order) {
+                Order order = (Order) obj;
+                if ((order.getVendorID() + ":" + order.getFood()).equals(retrieveVID + ":" + retrieveFDesc)) { //Combination of vendor ID + food description = food ID
+                    container.add(order); //Adds to the array list and return it for further processing
+                }
+            } else if (obj instanceof DeliveryOrder) {
+                DeliveryOrder order = (DeliveryOrder) obj;
+                if ((order.getVendorID() + ":" + order.getFood()).equals(retrieveVID + ":" + retrieveFDesc)) { //Combination of vendor ID + food description = food ID
+                    container.add(order); //Adds to the array list and return it for further processing
+                }
+
             }
+
         }
         return container;
     }
@@ -615,6 +625,50 @@ public class C_MenuFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void bFoodReceivedActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void bAddQuantityActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void bCancelOrderActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void bPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void bOrderHistoryActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void bTransactionHistoryActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void CurrentOrderMouseReleased(java.awt.event.MouseEvent evt) {
+        
+    }
+    
+    private void balanceComponentShown(java.awt.event.ComponentEvent evt) {
+        
+    }
+    
+    private void bLogOutActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void bReduceQuantityActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    
+    private void MenuMouseReleased(java.awt.event.MouseEvent evt) {
+        
+    }
+    
     private void rbDineInActionPerformed(java.awt.event.ActionEvent evt) {
         reloadFrame();
     }
@@ -647,6 +701,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
         if (bNotificationAcknowledged.isEnabled()) {
             deleteNotification();
         }
+        row3 = -1;
         reloadFrame();
     }//GEN-LAST:event_bNotificationAcknowledgedActionPerformed
 
@@ -669,41 +724,58 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_bOrderHistoryMousePressed
 
     private void CurrentOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CurrentOrderMousePressed
-            row2 = CurrentOrder.getSelectedRow();
-            reloadFrame();
+        row2 = CurrentOrder.getSelectedRow();
+        String selector = String.valueOf(model2.getValueAt(row2, 3));
+        if (row2 != -1) {
+            if (selector.equals("READY")) { //Check for order ID identifier which starts with O and only allowing 3 statuses of ready and canceled to make the food received button available
+                bFoodReceived.setEnabled(true); //Make the receipt acknowledge button available
+            }
+        }
+        reloadFrame();
     }//GEN-LAST:event_CurrentOrderMousePressed
 
     private void bCancelOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bCancelOrderMousePressed
-        if (model2.getValueAt(row2, 3).equals(Order.Status.PENDING) || model2.getValueAt(row2, 3).equals(Order.Status.PREPARING) || model2.getValueAt(row2, 3).equals(Order.Status.SEARCHING)) { //Filter which order can be canceled
+        if (row2 == -1) { //Filter which order can be canceled
+            JOptionPane.showMessageDialog(null, "Please select an order to cancel!", "Warning", JOptionPane.WARNING_MESSAGE);
+            reloadFrame();
+        } else if (model2.getValueAt(row2, 3).equals(Order.Status.READY)) { //Throw error dialog to disable canceling of prepared food
+            JOptionPane.showMessageDialog(null, "You cant cancel prepared or delivering food!", "Warning", JOptionPane.WARNING_MESSAGE);
+            reloadFrame();
+            row2 = -1;
+        } else if (model2.getValueAt(row2, 3).equals(Order.Status.PENDING) || model2.getValueAt(row2, 3).equals(Order.Status.PREPARING) || model2.getValueAt(row2, 3).equals(Order.Status.SEARCHING)) {
             List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
             List<Object> notifyContainer = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
             for (Object obj : container) { //Set order status to canceled
-                Order order = (Order) obj;
-                if (order.getId().equals(model2.getValueAt(row2, 0))) {
-                    order.setStatus(Order.Status.CANCELLED);
-                    order.refund(); //Refund all
-                    reloadFrame();
-                    break;
+                if (obj instanceof Order) {
+                    Order order = (Order) obj;
+                    if (order.getId().equals(model2.getValueAt(row2, 0))) {
+                        order.setStatus(Order.Status.CANCELLED);
+                        order.refund(); //Refund all
+                        break;
+                    }
+                } else if (obj instanceof DeliveryOrder) {
+                    DeliveryOrder order = (DeliveryOrder) obj;
+                    if (order.getId().equals(model2.getValueAt(row2, 0))) {
+                        order.setStatus(Order.Status.CANCELLED);
+                        order.refund(); //Refund all
+                        break;
+                    }
                 }
             }
             for (Object obj : notifyContainer) { //Set notification status to canceled
                 Notification notification = (Notification) obj;
                 if (notification.getOrderID().equals(model2.getValueAt(row2, 0))) {
                     notification.setMessageBackUp(4);
-                    reloadFrame();
+                    break;
                 }
             }
-        } else if (model2.getValueAt(row2, 3).equals(Order.Status.READY)) { //Throw error dialog to disable canceling of prepared food
-            JOptionPane.showMessageDialog(null,"You cant cancel prepared or delivering food!","Warning",JOptionPane.WARNING_MESSAGE);
-            reloadFrame();
-        } else if (row2 == -1) {
-            JOptionPane.showMessageDialog(null,"Please select an order to cancel!","Warning",JOptionPane.WARNING_MESSAGE);
+            row2 = -1;
             reloadFrame();
         }
     }//GEN-LAST:event_bCancelOrderMousePressed
 
     private void bPlaceOrderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bPlaceOrderMousePressed
-        if (customer.getBal() >= Double.parseDouble(tfPrice.getText())) { //Check whether if the price exceeds balance
+        if ((customer.getBal() >= Double.parseDouble(tfPrice.getText())) && row != -1) { //Check whether if the price exceeds balance
             if (rbDineIn.isSelected()) { //Set remark to dine in to notify vendor
                 Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
                 order.setRemark("Dine in"); //Set for whether dine in or take away in order to notify vendor
@@ -713,6 +785,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
                 JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Order Placed", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
                 reloadFrame();
+                row = -1;
             } else if (rbTakeAway.isSelected()) { //Set remark to take away to notify vendor
                 Order order = new Order(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
                 order.setRemark("Take Away"); //Set for whether dine in or take away in order to notify vendor
@@ -722,6 +795,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
                 JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Take Away", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
                 reloadFrame();
+                row = -1;
             } else if (rbDelivery.isSelected()) { //Creates delivery order object
                 DeliveryOrder order = new DeliveryOrder(tfNumber.getText(), String.valueOf(cbCuisine.getSelectedItem()), customer, tfDetails.getText(), Double.parseDouble(tfPrice.getText()));
                 order.setRemark("Delivery"); //Set for whether dine in or take away in order to notify vendor
@@ -731,8 +805,12 @@ public class C_MenuFrame extends javax.swing.JFrame {
                 TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order); //Writes order to database
                 JOptionPane.showMessageDialog(null, "You have successfully ordered " + tfDetails.getText(), "Delivery", JOptionPane.INFORMATION_MESSAGE); //Throw error when balance is low
                 reloadFrame();
+                row = -1;
+            } else {
+                JOptionPane.showMessageDialog(null, "Please choose an order!", "No order selected", JOptionPane.WARNING_MESSAGE); //Throw error when no orders are selected
+                row = -1;
             }
-        } else if (customer.getBal() < Double.parseDouble(tfPrice.getText())) {
+        } else if ((customer.getBal() < Double.parseDouble(tfPrice.getText())) && row == -1) {
             JOptionPane.showMessageDialog(null, "Balance is low! Please proceed to top up!", "Warning", JOptionPane.WARNING_MESSAGE); //Throw error when balance is low
             reloadFrame();
         }
@@ -758,7 +836,21 @@ public class C_MenuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_MenuMousePressed
 
     private void bFoodReceivedMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bFoodReceivedMousePressed
-
+        if (bFoodReceived.isEnabled()) {
+            List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+            for (Object obj : container) {
+                if (obj instanceof Order) {
+                    Order order = (Order) obj;
+                    if (order.getId().equals(model2.getValueAt(row2, 0)) && order.getRemark().equals("Dine in")) { //Check for whether dine in or take away to set proper status
+                        order.setStatus(Order.Status.COMPLETED);
+                    } else if (order.getId().equals(model2.getValueAt(row2, 0)) && order.getRemark().equals("Take Away")) {
+                        order.setStatus(Order.Status.PICKED_UP);
+                    }
+                }
+            }
+        }
+        row2 = -1;
+        reloadFrame();
     }//GEN-LAST:event_bFoodReceivedMousePressed
 
     private void bLogOutMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bLogOutMousePressed
