@@ -341,26 +341,47 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
         double totalProfit = 0;
         // Clear existing rows in the model
         revenueModel.setRowCount(0);
-        for (Object obj : container){
-            Order O = (Order) obj;
-            String status = O.getStatus();
-            if (O.getVendorID().equals(id) && status.equals("COMPLETED" )|| status.equals("PICKED_UP")) {
-                if (String.valueOf(O.getOrderYear()).equals(year) && String.valueOf(O.getOrderMonth()).equals(month)) {
+        for (Object obj : container) {
+            if (obj instanceof Order) {
+                Order O = (Order) obj;
+                String status = O.getStatus();
+                if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
+                    if (String.valueOf(O.getOrderYear()).equals(year) && String.valueOf(O.getOrderMonth()).equals(month)) {
                         String[] OrderHistVendorArray = {
-                        O.getId(),
-                        O.getFood(),
-                        O.getReview(),
-                        String.valueOf(O.getRatings()),
-                        date = O.getOrderDay() + "/" + O.getOrderMonth() + "/" + O.getOrderYear(),
-                        O.getTime(),
-                        remark,
-                        Double.toString(O.getCost()),
-                        };
+                            O.getId(),
+                            O.getFood(),
+                            O.getReview(),
+                            String.valueOf(O.getRatings()),
+                            date = O.getOrderDay() + "/" + O.getOrderMonth() + "/" + O.getOrderYear(),
+                            O.getTime(),
+                            O.getRemark(),
+                            Double.toString(O.getCost()),};
                         totalProfit += O.getCost();
                         rowCount++;
                         revenueModel.addRow(OrderHistVendorArray);
+                    }
+                }
+            } else if (obj instanceof DeliveryOrder) {
+                DeliveryOrder O = (DeliveryOrder) obj;
+                String status = O.getStatus();
+                if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
+                    if (String.valueOf(O.getOrderYear()).equals(year) && String.valueOf(O.getOrderMonth()).equals(month)) {
+                        String[] OrderHistVendorArray = {
+                            O.getId(),
+                            O.getFood(),
+                            O.getReview(),
+                            String.valueOf(O.getRatings()),
+                            date = O.getOrderDay() + "/" + O.getOrderMonth() + "/" + O.getOrderYear(),
+                            O.getTime(),
+                            O.getRemark(),
+                            Double.toString(O.getCost()),};
+                        totalProfit += O.getCost();
+                        rowCount++;
+                        revenueModel.addRow(OrderHistVendorArray);
+                    }
                 }
             }
+
         }
         // Update the labels with total profit and average income
         LabelTotal.setText("RM" + totalProfit);
