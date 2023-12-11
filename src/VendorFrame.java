@@ -41,20 +41,7 @@ public class VendorFrame extends JFrame {
         MenuModel.setColumnIdentifiers(MenuColumn); 
         OrderModel.setColumnIdentifiers(OrderList);
         
-        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-        for (Object obj1 : container) { //change obj name
-            Order O = (Order) obj1;
-            String status=O.getStatus();     
-            
-            if (!status.equals("PICKED_UP") || !status.equals("COMPLETED")) {
-                String[] OrderVendorArray = {
-                    O.getId(),          //get OrderID
-                    O.getTime(),        //get Order Time
-                    status,             //get Order Status
-                };
-                OrderModel.addRow(OrderVendorArray);        //add data
-            }
-        }
+        displayOrder();
         displayMenu();
     }
 
@@ -79,6 +66,7 @@ public class VendorFrame extends JFrame {
         textFoodName = new javax.swing.JTextField();
         textCost = new javax.swing.JTextField();
         btnDeleteMenu = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -188,6 +176,14 @@ public class VendorFrame extends JFrame {
             }
         });
 
+        btnRefresh.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        btnRefresh.setText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -195,6 +191,19 @@ public class VendorFrame extends JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblNotification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnRead)
+                                .addGap(132, 132, 132)
+                                .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnRevenue, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -210,29 +219,18 @@ public class VendorFrame extends JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(textCost, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(20, 20, 20)))
+                        .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(40, 40, 40)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(18, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(51, 51, 51))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblNotification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnRead)
-                                .addGap(132, 132, 132)
-                                .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnRevenue, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,7 +263,8 @@ public class VendorFrame extends JFrame {
                     .addComponent(btnEditMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAddMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDeleteMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnDeleteMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -426,6 +425,11 @@ public class VendorFrame extends JFrame {
 
     }//GEN-LAST:event_btnDeleteMenuActionPerformed
 
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        
+        displayOrder();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -461,9 +465,8 @@ public class VendorFrame extends JFrame {
         });
     }
     
-    public int displayMenu(){
+    public void displayMenu(){
         List<DataProvider> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.MENU));
-        int row = 0;
         MenuModel.setRowCount(0);
         for (DataProvider obj : container) {
             Food menu = (Food) obj;
@@ -474,10 +477,25 @@ public class VendorFrame extends JFrame {
                 Double.toString(menu.getCost()),          //get Food Cost
                 };
                 MenuModel.addRow(MenuArray);
-                row++;
             }
         }
-        return row;
+    }
+    
+    public void displayOrder(){
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+        for (Object obj1 : container) { //change obj name
+            Order O = (Order) obj1;
+            String status=O.getStatus();     
+            
+            if (!status.equals("PICKED_UP") || !status.equals("COMPLETED")) {
+                String[] OrderVendorArray = {
+                    O.getId(),          //get OrderID
+                    O.getTime(),        //get Order Time
+                    status,             //get Order Status
+                };
+                OrderModel.addRow(OrderVendorArray);        //add data
+            }
+        }
     }
     
 
@@ -490,6 +508,7 @@ public class VendorFrame extends JFrame {
     private javax.swing.JButton btnEditMenu;
     private javax.swing.JButton btnLogOut;
     private javax.swing.JButton btnRead;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRevenue;
     private javax.swing.JButton btnView;
     private javax.swing.JScrollPane jScrollPane1;

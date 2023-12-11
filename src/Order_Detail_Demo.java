@@ -71,8 +71,8 @@ public class Order_Detail_Demo extends javax.swing.JFrame {
         TakeAway_Rbtn = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
         Status_CB = new javax.swing.JComboBox<>();
-        Save_btn = new javax.swing.JButton();
-        Back_btn = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,17 +122,17 @@ public class Order_Detail_Demo extends javax.swing.JFrame {
             }
         });
 
-        Save_btn.setText("Save");
-        Save_btn.addActionListener(new java.awt.event.ActionListener() {
+        btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Save_btnActionPerformed(evt);
+                btnSaveActionPerformed(evt);
             }
         });
 
-        Back_btn.setText("Back");
-        Back_btn.addActionListener(new java.awt.event.ActionListener() {
+        btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Back_btnActionPerformed(evt);
+                btnBackActionPerformed(evt);
             }
         });
 
@@ -142,11 +142,11 @@ public class Order_Detail_Demo extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(61, 61, 61)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Save_btn)
-                        .addGap(82, 82, 82)
-                        .addComponent(Back_btn))
+                        .addComponent(btnSave)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBack))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
@@ -164,7 +164,7 @@ public class Order_Detail_Demo extends javax.swing.JFrame {
                             .addComponent(Status_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(TakeAway_Rbtn)
                             .addComponent(Dine_Rbtn))))
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,8 +193,8 @@ public class Order_Detail_Demo extends javax.swing.JFrame {
                     .addComponent(Status_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Save_btn)
-                    .addComponent(Back_btn))
+                    .addComponent(btnSave)
+                    .addComponent(btnBack))
                 .addGap(47, 47, 47))
         );
 
@@ -238,11 +238,11 @@ public class Order_Detail_Demo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_Status_CBActionPerformed
 
-    private void Back_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Back_btnActionPerformed
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         this.dispose();
-    }//GEN-LAST:event_Back_btnActionPerformed
+    }//GEN-LAST:event_btnBackActionPerformed
 
-    private void Save_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Save_btnActionPerformed
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         String custid = null;
         double foodCost = 0;
@@ -280,7 +280,6 @@ public class Order_Detail_Demo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Order not exist!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
         if (check && cancelled) {
-            System.out.println("Please check: ");
             List<DataProvider> container2 = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.USER));
             for (DataProvider obj : container2) {
                 if (obj instanceof Customer) {
@@ -297,7 +296,7 @@ public class Order_Detail_Demo extends javax.swing.JFrame {
             }
         }
 
-    }//GEN-LAST:event_Save_btnActionPerformed
+    }//GEN-LAST:event_btnSaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -360,11 +359,11 @@ public class Order_Detail_Demo extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Back_btn;
     private javax.swing.JRadioButton Dine_Rbtn;
-    private javax.swing.JButton Save_btn;
     private javax.swing.JComboBox<String> Status_CB;
     private javax.swing.JRadioButton TakeAway_Rbtn;
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnSave;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField inputFoodID_TF;
     private javax.swing.JTextField inputOrderID_TF;
