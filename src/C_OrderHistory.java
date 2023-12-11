@@ -36,7 +36,14 @@ public class C_OrderHistory extends javax.swing.JFrame {
     private C_OrderHistory() {
     }
 
+    private void reloadFrame() {
+        populateOrderHistoryTable();
+        bOrderHistoryAddReview.setEnabled(false);
+        bRateOrder.setEnabled(false);
+    }
+    
     private void populateOrderHistoryTable() {
+        model.setRowCount(0);
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
 
         for (Object object : container) {
@@ -241,22 +248,23 @@ public class C_OrderHistory extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void OrderHistoryMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OrderHistoryMouseReleased
-        // TODO add your handling code here:
+        bOrderHistoryAddReview.setEnabled(false); //Grey out buttons first
+        bRateOrder.setEnabled(false);
         row = OrderHistory.getSelectedRow();
-        String fooddetails = String.valueOf(model.getValueAt(row, 2));
-        String quantity = String.valueOf(model.getValueAt (row, 3));
-        String total = String.valueOf(model.getValueAt (row, 4));
-        
-        tfID.setText(fooddetails);
-        tfVendorName.setText(quantity);
-        tfFoodDetails.setText(total);
-        
-        String selectedRow = String.valueOf(model.getValueAt(row, 6));
-        String selectedRow2 = String.valueOf(model.getValueAt(row, 7));
+
+        tfID.setText(String.valueOf(model.getValueAt(row, 0))); //Fill order details
+        tfVendorName.setText(String.valueOf(model.getValueAt(row, 1)));
+        tfFoodDetails.setText(String.valueOf(model.getValueAt(row, 2)));
+        tfQuantity.setText(String.valueOf(model.getValueAt(row, 3)));
+        tfTotal.setText(String.valueOf(model.getValueAt(row, 4)));
+
+        Object selectedRow = model.getValueAt(row, 6);
+        int selectedRow2 = Integer.parseInt((String) model.getValueAt(row, 7));
         if (row != -1) {
-            if (selectedRow.equals("")) {
+            if (selectedRow == null) {
                 bOrderHistoryAddReview.setEnabled(true); //Make add review button available if review has not been added
-            } else if (selectedRow2.equals("")) {
+            }
+            if (selectedRow2 == 0) {
                 bRateOrder.setEnabled(true); //Make add rating button available if ratings has not been set
             }
         }
@@ -264,23 +272,29 @@ public class C_OrderHistory extends javax.swing.JFrame {
 
     private void bReorderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bReorderActionPerformed
         if (tfID.getText() != null) {
-            List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-            for (Object obj : container) {
-                if (obj instanceof Order) {
-                    Order checkOrders = (Order) obj;
-                    if (checkOrders.getId().equals(tfID.getText())) {
-                        TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, new Order(checkOrders.getVendorID(), tfVendorName.getText(), customer, tfFoodDetails.getText(), Double.parseDouble(tfTotal.getText())));
-                        TextEditor.fileWrite(TextEditor.FilePaths.USER, new Notification(checkOrders.getVendorID(), customer, checkOrders.getId()));
-                        break;
-                    }
-                } else if (obj instanceof DeliveryOrder) {
-                    DeliveryOrder checkOrders = (DeliveryOrder) obj;
-                    if (checkOrders.getId().equals(tfID.getText())) {
-                        TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, new Order(checkOrders.getVendorID(), tfVendorName.getText(), customer, tfFoodDetails.getText(), Double.parseDouble(tfTotal.getText())));
-                        TextEditor.fileWrite(TextEditor.FilePaths.USER, new Notification(checkOrders.getVendorID(), customer, checkOrders.getId()));
-                        break;
+            if (customer.getBal() >= Double.parseDouble((String) model.getValueAt(row, 4))) { //Check if the balance is enough to pay
+                List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
+                for (Object obj : container) {
+                    if (obj instanceof Order) {
+                        Order checkOrders = (Order) obj;
+                        if (checkOrders.getId().equals(model.getValueAt(row, 0))) {
+                            TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, new Order(checkOrders.getVendorID(), tfVendorName.getText(), customer, tfFoodDetails.getText(), Double.parseDouble(tfTotal.getText())));
+                            TextEditor.fileWrite(TextEditor.FilePaths.USER, new Notification(checkOrders.getVendorID(), customer, checkOrders.getId()));
+                            JOptionPane.showMessageDialog(null, "You have successfully reordered! ", "Success", JOptionPane.INFORMATION_MESSAGE); //Throw success message
+                            break;
+                        }
+                    } else if (obj instanceof DeliveryOrder) {
+                        DeliveryOrder checkOrders = (DeliveryOrder) obj;
+                        if (checkOrders.getId().equals(model.getValueAt(row, 0))) {
+                            TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, new Order(checkOrders.getVendorID(), tfVendorName.getText(), customer, tfFoodDetails.getText(), Double.parseDouble(tfTotal.getText())));
+                            TextEditor.fileWrite(TextEditor.FilePaths.USER, new Notification(checkOrders.getVendorID(), customer, checkOrders.getId()));
+                            JOptionPane.showMessageDialog(null, "You have successfully reordered! ", "Success", JOptionPane.INFORMATION_MESSAGE); //Throw success message
+                            break;
+                        }
                     }
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Balance is low! Please proceed to top up!", "Warning", JOptionPane.WARNING_MESSAGE); //Throw error when balance is low
             }
         } else {
             JOptionPane.showMessageDialog(null, "Please select an order to reorder", "Error", JOptionPane.ERROR_MESSAGE); //Throw error if no orders are selected
@@ -314,6 +328,7 @@ public class C_OrderHistory extends javax.swing.JFrame {
                 }
 
             }
+            reloadFrame();
             row = -1;
         }
     }//GEN-LAST:event_bOrderHistoryAddReviewMousePressed
@@ -376,6 +391,7 @@ public class C_OrderHistory extends javax.swing.JFrame {
                     }
                 }
             }
+            reloadFrame();
             row = -1;
         }
     }//GEN-LAST:event_bRateOrderActionPerformed

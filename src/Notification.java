@@ -1,7 +1,7 @@
 public class Notification implements DataProvider {
 
     private Messages message, messageRunner;
-    private String userID, id, orderID, vendorID; //id here will be used as notification ID when top up, runner ID when delivering
+    private String userID, id, vendorID, runnerID; //id here will be used as notification ID when top up, order ID when ordering ,
     private String receiptID, date, time, type;
     private int topupamount;
     
@@ -10,7 +10,7 @@ public class Notification implements DataProvider {
         this.time = time.toString();
         message = Messages.ORDER;
         userID = customer.getId();
-        this.orderID = orderID;
+        this.id = orderID;
         this.vendorID = vendorID;
     }
     
@@ -52,13 +52,17 @@ public class Notification implements DataProvider {
         this.id = id;
     }
     
+    public void setRunnerID (String id) {
+        runnerID = id;
+    }
+    
+    public String getRunnerID() {
+        return runnerID;
+    }
+    
     @Override
     public String getId(){
         return id;
-    }
-    
-    public String getOrderID() {
-        return orderID;
     }
 
     public String getMessage() {
