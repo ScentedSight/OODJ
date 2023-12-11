@@ -12,16 +12,16 @@ import javax.swing.JOptionPane;
  *
  * @author 110ti
  */
-public class Order_Detail_Demo extends javax.swing.JFrame {
+public class Vendor_Order_Detail_Demo extends javax.swing.JFrame {
     private String orderID,foodID,custID,remark,time,cost;
     private Customer customer;
     private String status;
     private Vendor vendor;
     private Order order = new Order();
     
-    public Order_Detail_Demo(){}
+    public Vendor_Order_Detail_Demo(){}
     
-    public Order_Detail_Demo(Vendor vendor, String orderID, String foodID, String custID, String time, String remark, String status, String cost) {
+    public Vendor_Order_Detail_Demo(Vendor vendor, String orderID, String foodID, String custID, String time, String remark, String status, String cost) {
         initComponents();
         this.vendor = vendor;
         this.orderID= orderID;
@@ -315,20 +315,21 @@ public class Order_Detail_Demo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Order_Detail_Demo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Vendor_Order_Detail_Demo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Order_Detail_Demo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Vendor_Order_Detail_Demo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Order_Detail_Demo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Vendor_Order_Detail_Demo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Order_Detail_Demo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Vendor_Order_Detail_Demo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Order_Detail_Demo().setVisible(true);
+                new Vendor_Order_Detail_Demo().setVisible(true);
             }
         });
     }
