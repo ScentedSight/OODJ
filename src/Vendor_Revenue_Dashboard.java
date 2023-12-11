@@ -58,6 +58,7 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
         }
         viewAllOrderHistory(vendor.getId());
     }
+    
     public String filterMonth(){
         int i=comboMonth.getSelectedIndex();        //get selected month
         
@@ -329,7 +330,7 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
         for (Object obj : container){
             Order O = (Order) obj;
             String status = O.getStatus();
-            if (O.getVendorID().equals(id) && status.equals("READY")) {
+            if (O.getVendorID().equals(id) && status.equals("COMPLETED" )|| status.equals("PICKED_UP")) {
                 if (String.valueOf(O.getOrderYear()).equals(year) && String.valueOf(O.getOrderMonth()).equals(month)) {
                         String[] OrderHistVendorArray = {
                         O.getId(),
@@ -361,7 +362,7 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
         for (Object obj : container) {          
             Order O = (Order) obj;
             String status=O.getStatus();     
-            if(O.getVendorID().equals(id) && O.getStatus().equals("READY")){
+            if(O.getVendorID().equals(id) && status.equals("COMPLETED" )|| status.equals("PICKED_UP")){
                 // filter for year only, show all result for months
                 String[] OrderHistVendorArray = {
                     O.getId(),
