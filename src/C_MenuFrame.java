@@ -158,11 +158,11 @@ public class C_MenuFrame extends javax.swing.JFrame {
         for (Object obj : container) {
             Notification notifyObj = (Notification) obj;
             if (notifyObj.getUser().equals(customer.getId()) && (notifyObj.getMessage().equals("Your food is being prepared") || notifyObj.getMessage().equals("Your food is ready") || notifyObj.getMessage().equals("The order has been canceled"))) { //Filter to show only notification of food preparing, readied or canceled
-                String[] notifyContainer = {String.valueOf(counter), notifyObj.getOrderID(), notifyObj.getMessage(), notifyObj.getTime()};
+                String[] notifyContainer = {String.valueOf(counter), notifyObj.getId(), notifyObj.getMessage(), notifyObj.getTime()};
                 model3.addRow(notifyContainer);
                 counter++;
             } else if (notifyObj.getUser().equals(customer.getId()) && (notifyObj.getMessageRunner().equals("Your food is delivering") || notifyObj.getMessageRunner().equals("Your food has been delivered") || notifyObj.getMessageRunner().equals("Searching for delivery runner"))) { //Filter to only show delivery notifications
-                String[] notifyContainer = {String.valueOf(counter), notifyObj.getOrderID(), notifyObj.getMessageRunner(), notifyObj.getTime()};
+                String[] notifyContainer = {String.valueOf(counter), notifyObj.getId(), notifyObj.getMessageRunner(), notifyObj.getTime()};
                 model3.addRow(notifyContainer);
                 counter++;
             } else if (notifyObj.getUser().equals(customer.getId()) && notifyObj.getMessage().equals("You have successfully topped up ")) { //Filter to only show top up notifications
@@ -177,7 +177,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container) {
             Notification notification = (Notification) obj;
-            if (notification.getReceiptID().equals(model3.getValueAt(row3, 1)) || notification.getOrderID().equals(model3.getValueAt(row3, 1))) {
+            if (notification.getReceiptID().equals(model3.getValueAt(row3, 1)) || notification.getId().equals(model3.getValueAt(row3, 1))) {
                 TextEditor.textDelete(TextEditor.FilePaths.USER, notification);
             }
         }
@@ -766,7 +766,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
             List<Object> notifyContainer = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
             for (Object obj : notifyContainer) { //Set notification status to canceled
                 Notification notification = (Notification) obj;
-                if (notification.getUser().equals(model2.getValueAt(row2, 0))) {
+                if (notification.getId().equals(model2.getValueAt(row2, 0))) {
                     notification.setMessageBackUp(4);
                     break;
                 }

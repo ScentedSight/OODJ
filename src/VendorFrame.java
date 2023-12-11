@@ -353,7 +353,7 @@ public class VendorFrame extends JFrame {
         List<Object> container3 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container3) { 
             Notification n = (Notification) obj;
-            if (n.getOrderID().equals(OrderModel.getValueAt(OrderRow, 0))) {        //compare orderID in ordertable
+            if (n.getId().equals(OrderModel.getValueAt(OrderRow, 0))) {        //compare orderID in ordertable
                 lblNotification.setText(n.getMessage());                                //get message.order
                 TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
                 break; 
