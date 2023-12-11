@@ -40,14 +40,14 @@ public class C_TransactionHistory extends javax.swing.JFrame {
         for (Object object : container) {
             if (object instanceof Order) {
                 Order orderCast = (Order) object;
-                if (orderCast.getCustomerID().equals(customer.getId())) {
+                if (orderCast.getCustomerID().equals(customer.getId()) && orderCast.getStatus().equals("CUSTOMER")) {
                     String date = orderCast.getOrderDay() + "/" + orderCast.getOrderMonth() + "/" + orderCast.getOrderYear();
                     String[] transactionHistory = {date, orderCast.getTime(), orderCast.getVendorID(), String.valueOf(orderCast.getCost())};
                     model.addRow(transactionHistory);
                 }
             } else if (object instanceof DeliveryOrder) {
                 DeliveryOrder orderCast = (DeliveryOrder) object;
-                if (orderCast.getCustomerID().equals(customer.getId())) {
+                if (orderCast.getCustomerID().equals(customer.getId()) && orderCast.getStatus().equals("PICKED_UP")) {
                     String date = orderCast.getOrderDay() + "/" + orderCast.getOrderMonth() + "/" + orderCast.getOrderYear();
                     String[] transactionHistory = {date, orderCast.getTime(), orderCast.getVendorID(), String.valueOf(orderCast.getCost())};
                     model.addRow(transactionHistory);
