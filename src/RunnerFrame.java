@@ -423,7 +423,7 @@ public class RunnerFrame extends javax.swing.JFrame {
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container) {
             Notification notifyObj = (Notification) obj;
-            if (notifyObj.getUser().equals(runner.getId())) {
+            if (notifyObj.getRunnerID().equals(runner.getId())) {
                 String placeHolder = "[" + notifyObj.getTime() + "]" + " " + notifyObj.getMessage();
                 notification = notification + "   " + counter + ". " + placeHolder;
                 counter++;
@@ -436,12 +436,12 @@ public class RunnerFrame extends javax.swing.JFrame {
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container) {
             Notification notifyObj = (Notification) obj;
-            if (notifyObj.getOrderID().equals(orderID)) {
+            if (notifyObj.getId().equals(orderID)) {
                 notifyObj.setMessageRunner(message);
                 if (gateWay) { //For accepting a delivery, inserting runner id into the notification attribute
-                    notifyObj.setID(runner.getId());
+                    notifyObj.setRunnerID(runner.getId());
                 } else if (!gateWay) { //For canceling a delivery, removing runner id from the notification attribute
-                    notifyObj.setID(null);
+                    notifyObj.setRunnerID(null);
                 }
                 TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, notifyObj);
                 TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, notifyObj);
