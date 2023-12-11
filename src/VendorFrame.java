@@ -40,6 +40,7 @@ public class VendorFrame extends JFrame {
         lblWelcome.setText("Welcome " + vendor.getId());            //welcome vendor
         MenuModel.setColumnIdentifiers(MenuColumn); 
         OrderModel.setColumnIdentifiers(OrderList);
+        setTitle("Vendor HomePage");
         
         displayOrder();
         displayMenu();
@@ -489,7 +490,8 @@ public class VendorFrame extends JFrame {
             Order O = (Order) obj1;
             if(O.getVendorID().equals(vendor.getId())){
                 String status= O.getStatus();     
-                if (!status.equals("PICKED_UP") && !status.equals("COMPLETED") && !status.equals("CANCELLED")) {
+                if (!status.equals("PICKED_UP") && !status.equals("COMPLETED") && 
+                        !status.equals("CANCELLED")) {
                     String[] OrderVendorArray = {
                         O.getId(),          //get OrderID
                         O.getTime(),        //get Order Time
