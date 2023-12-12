@@ -163,6 +163,11 @@ public class C_OrderHistory extends javax.swing.JFrame {
                 bOrderHistoryAddReviewMousePressed(evt);
             }
         });
+        bOrderHistoryAddReview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bOrderHistoryAddReviewActionPerformed(evt);
+            }
+        });
 
         bRateOrder.setText("Rate");
         bRateOrder.addActionListener(new java.awt.event.ActionListener() {
@@ -394,6 +399,10 @@ public class C_OrderHistory extends javax.swing.JFrame {
     private void tfIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfIDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfIDActionPerformed
+
+    private void bOrderHistoryAddReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOrderHistoryAddReviewActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bOrderHistoryAddReviewActionPerformed
 
     /**
      * @param args the command line arguments

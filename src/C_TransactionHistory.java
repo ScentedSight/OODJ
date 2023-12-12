@@ -40,7 +40,7 @@ public class C_TransactionHistory extends javax.swing.JFrame {
         for (Object object : container) {
             if (object instanceof Order) {
                 Order orderCast = (Order) object;
-                if (orderCast.getCustomerID().equals(customer.getId()) && orderCast.getStatus().equals("CUSTOMER")) {
+                if (orderCast.getCustomerID().equals(customer.getId()) && orderCast.getStatus().equals("COMPLETED")) {
                     String date = orderCast.getOrderDay() + "/" + orderCast.getOrderMonth() + "/" + orderCast.getOrderYear();
                     String[] transactionHistory = {date, orderCast.getTime(), orderCast.getVendorID(), String.valueOf(orderCast.getCost())};
                     model.addRow(transactionHistory);
@@ -100,6 +100,7 @@ public class C_TransactionHistory extends javax.swing.JFrame {
 
         pnlTransactionHistoryTable.setBackground(new java.awt.Color(255, 255, 255));
 
+        TransactionHistory.setModel(model);
         scrlpnlTransactionHistoryTable.setViewportView(TransactionHistory);
 
         tfUsernameTH.setEditable(false);
