@@ -509,7 +509,7 @@ public class VendorFrame extends JFrame {
         List<Object> container3 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
         for (Object obj : container3) {
             Notification n = (Notification) obj;
-            if (n.getVendorID().equals(vendor.getName()) && (n.getMessage().contains("You have an incoming order") || n.getMessage().contains("The order has been canceled"))) { //Making sure its not null so error wont pop out
+            if ((n.getVendorID() != null && n.getVendorID().equals(vendor.getName())) && (n.getMessage().contains("You have an incoming order") || n.getMessage().contains("The order has been canceled"))) { //Making sure its not null so error wont pop out
                 notification = n.getTime()+ " [" + n.getId() + "]" + n.getMessage();
             }
         }
