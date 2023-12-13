@@ -18,7 +18,10 @@ public class DeliveryOrder extends Order{
     }
     
     public String getRunner() {
-        return runner.getId();
+        if (runner != null) {
+            return runner.getId();
+        }
+        return null;
     }
     
     public String getStatusRunner() {
@@ -47,6 +50,26 @@ public class DeliveryOrder extends Order{
                     TextEditor.textDelete(TextEditor.FilePaths.USER, vendor);
                     TextEditor.fileWrite(TextEditor.FilePaths.USER, vendor); //Rewrite it all back
                     break; //Break out of the loop once done since payment is only given to one vendor per order
+                }
+            }
+        }
+    }
+    
+    @Override
+    public void refund(Customer customer) {
+        customer.addBal(super.getCost() - deliveryFee);; //Pass customer object since this customer object will be outdated
+        TextEditor.textDelete(TextEditor.FilePaths.USER, customer);
+        TextEditor.fileWrite(TextEditor.FilePaths.USER, customer); //Rewrite the changed balance back
+
+        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.USER));
+        for (Object obj : container) { //Adds profit to the vendor object
+            if (obj instanceof Vendor) {
+                Vendor vendor = (Vendor) obj;
+                if (vendor.getId().equals(super.getVendorID())) {
+                    vendor.refund(super.getCost() - deliveryFee);
+                    TextEditor.textDelete(TextEditor.FilePaths.USER, vendor);
+                    TextEditor.fileWrite(TextEditor.FilePaths.USER, vendor); //Rewrite it all back
+                    break; //Break out of the loop to speed up the process
                 }
             }
         }

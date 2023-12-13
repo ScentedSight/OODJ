@@ -102,6 +102,39 @@ public class Notification implements DataProvider {
         }
     }
     
+    public void setMessageRunnerBackUp(int changer) { //Using switch case since for some reason Messages enum class cant be referred and passed to the original method in customer's frame
+        Time time = new Time();
+        this.time = time.toString();
+        
+        switch (changer) { 
+            case 1:
+                this.messageRunner = Messages.ORDER;
+                break;
+            case 2:
+                this.messageRunner = Messages.PREPARE;
+                break;
+            case 3:
+                this.messageRunner = Messages.READY;
+                break;
+            case 4:
+                this.messageRunner = Messages.CANCEL;
+                break;
+            case 5:
+                this.messageRunner = Messages.SEARCHING;
+                break;
+            case 6:
+                this.messageRunner = Messages.DELIVERING;
+                break;
+            case 7:
+                this.messageRunner = Messages.DELIVERED;
+                break;
+            case 8:
+                this.messageRunner = Messages.RECEIPT;
+            default:
+                throw new IllegalArgumentException("Invalid message value: " + changer);    
+        }
+    }
+    
     public void setMessage(Messages message) {
         Time time = new Time();
         this.time = time.toString();
@@ -109,7 +142,10 @@ public class Notification implements DataProvider {
     }
     
     public String getMessageRunner() {
-        return String.valueOf(messageRunner);
+        if (messageRunner != null) {
+            return messageRunner.getMessages();
+        }
+        return null;
     } 
     
     public void setMessageRunner(Messages message) {

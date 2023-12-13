@@ -38,16 +38,16 @@ public class C_TransactionHistory extends javax.swing.JFrame {
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
 
         for (Object object : container) {
-            if (object instanceof Order) {
-                Order orderCast = (Order) object;
-                if (orderCast.getCustomerID().equals(customer.getId()) && orderCast.getStatus().equals("COMPLETED")) {
+            if (object instanceof DeliveryOrder) {
+                DeliveryOrder orderCast = (DeliveryOrder) object;
+                if (orderCast.getCustomerID().equals(customer.getId()) && orderCast.getStatus().equals("PICKED_UP")) {
                     String date = orderCast.getOrderDay() + "/" + orderCast.getOrderMonth() + "/" + orderCast.getOrderYear();
                     String[] transactionHistory = {date, orderCast.getTime(), orderCast.getVendorID(), String.valueOf(orderCast.getCost())};
                     model.addRow(transactionHistory);
                 }
-            } else if (object instanceof DeliveryOrder) {
-                DeliveryOrder orderCast = (DeliveryOrder) object;
-                if (orderCast.getCustomerID().equals(customer.getId()) && orderCast.getStatus().equals("PICKED_UP")) {
+            } else if (object instanceof Order) {
+                Order orderCast = (Order) object;
+                if (orderCast.getCustomerID().equals(customer.getId()) && orderCast.getStatus().equals("COMPLETED")) {
                     String date = orderCast.getOrderDay() + "/" + orderCast.getOrderMonth() + "/" + orderCast.getOrderYear();
                     String[] transactionHistory = {date, orderCast.getTime(), orderCast.getVendorID(), String.valueOf(orderCast.getCost())};
                     model.addRow(transactionHistory);

@@ -10,10 +10,10 @@ public class TextEditor {
 
     public enum FilePaths { //Constants will be final so enum can be public
 
-        USER("C:\\Users\\User\\Desktop\\APU\\Degree Lvl 2\\OODJ\\OODJ_txt\\USERS.txt"),
-        NOTIFICATION("C:\\Users\\User\\Desktop\\APU\\Degree Lvl 2\\OODJ\\OODJ_txt\\NOTIFICATION.txt"),
-        MENU("C:\\Users\\User\\Desktop\\APU\\Degree Lvl 2\\OODJ\\OODJ_txt\\MENU.txt"),
-        HISTORY("C:\\Users\\User\\Desktop\\APU\\Degree Lvl 2\\OODJ\\OODJ_txt\\HISTORY.txt");
+        USER("C:\\Users\\Johan\\Desktop\\USERS.txt"),
+        NOTIFICATION("C:\\Users\\Johan\\Desktop\\NOTIFICATION.txt"),
+        MENU("C:\\Users\\Johan\\Desktop\\MENU.txt"),
+        HISTORY("C:\\Users\\Johan\\Desktop\\HISTORY.txt");
 
         private String filePath;
 

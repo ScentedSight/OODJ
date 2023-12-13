@@ -103,7 +103,7 @@ public class Order implements DataProvider {
     public String getTime() {
         return time.toString();
     }
-
+    
     public Customer getCustomer() { //Getter for delivery order child class usage
         return customer;
     }
@@ -185,6 +185,10 @@ public class Order implements DataProvider {
     
     public String getRemark(){
         return remark;
+    }
+    
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
     }
     
     public double getQuantity(){
