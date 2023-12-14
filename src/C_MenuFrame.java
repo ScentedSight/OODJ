@@ -749,7 +749,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                     if (dOrder.getId().equals(model2.getValueAt(row2, 0))) {
                         dOrder.setStatus(Order.Status.CANCELLED);
                         dOrder.setRunnerStatus(Order.Status.CANCELLED);
-                        dOrder.refund(customer); //Refund all
+                        dOrder.refund(customer.getId()); //Refund all
                         TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
                         TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder);
                         break;
@@ -758,7 +758,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
                     Order order = (Order) obj;
                     if (order.getId().equals(model2.getValueAt(row2, 0))) {
                         order.setStatus(Order.Status.CANCELLED);
-                        order.refund(customer); //Refund all
+                        order.refund(customer.getId()); //Refund all
                         TextEditor.textDelete(TextEditor.FilePaths.HISTORY, order);
                         TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order);
                         break;

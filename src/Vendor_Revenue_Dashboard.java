@@ -47,13 +47,10 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
                 if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
                     if (status.equals("COMPLETED")) {
                         remark = "Dine in";
-                        break;
                     } else if (status.equals("PICKED_UP")) {        //delivery use deliveryOrder, do not same
                         remark = "Take away";
-                        break;
                     } else {
                         remark = " ";
-                        break;
                     }
                 }
             } else if (obj instanceof Order) {
@@ -62,13 +59,10 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
                 if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
                     if (status.equals("COMPLETED")) {
                         remark = "Dine in";
-                        break;
                     } else if (status.equals("PICKED_UP")) {        //delivery use deliveryOrder, do not same
                         remark = "Take away";
-                        break;
                     } else {
                         remark = " ";
-                        break;
                     }
                 }
             }

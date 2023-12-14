@@ -56,11 +56,7 @@ public class DeliveryOrder extends Order{
     }
     
     @Override
-    public void refund(Customer customer) {
-        customer.addBal(super.getCost() - deliveryFee);; //Pass customer object since this customer object will be outdated
-        TextEditor.textDelete(TextEditor.FilePaths.USER, customer);
-        TextEditor.fileWrite(TextEditor.FilePaths.USER, customer); //Rewrite the changed balance back
-
+    public void refund(String customerID) {
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.USER));
         for (Object obj : container) { //Adds profit to the vendor object
             if (obj instanceof Vendor) {
@@ -69,7 +65,13 @@ public class DeliveryOrder extends Order{
                     vendor.refund(super.getCost() - deliveryFee);
                     TextEditor.textDelete(TextEditor.FilePaths.USER, vendor);
                     TextEditor.fileWrite(TextEditor.FilePaths.USER, vendor); //Rewrite it all back
-                    break; //Break out of the loop to speed up the process
+                }
+            } else if (obj instanceof Customer) {
+                Customer customer = (Customer) obj;
+                if (customer.getId().equals(customerID)) {
+                    customer.addBal(super.getCost() - deliveryFee);
+                    TextEditor.textDelete(TextEditor.FilePaths.USER, customer);
+                    TextEditor.fileWrite(TextEditor.FilePaths.USER, customer); //Rewrite the changed balance back
                 }
             }
         }

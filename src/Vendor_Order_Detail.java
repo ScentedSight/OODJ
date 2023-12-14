@@ -267,7 +267,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
     }//GEN-LAST:event_TakeAway_RbtnActionPerformed
 
     private void Status_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Status_CBActionPerformed
-        order.setStatus((Order.Status) Status_CB.getSelectedItem());
+
     }//GEN-LAST:event_Status_CBActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -285,7 +285,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
             if (obj instanceof DeliveryOrder) {
                 DeliveryOrder dOrder = (DeliveryOrder) obj;
                 if (String.valueOf(Status_CB.getSelectedItem()).equals("CANCELLED")) {
-                    updateCustomerBalance(dOrder.getCustomerID(), dOrder.getCost());
+                    dOrder.refund(dOrder.getCustomerID());
                 }
                 if (dOrder.getId().equals(orderID)) {
                     custid = dOrder.getCustomerID();
@@ -302,7 +302,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
             } else if (obj instanceof Order) {
                 Order order = (Order) obj;
                 if (String.valueOf(Status_CB.getSelectedItem()).equals("CANCELLED")) {
-                    updateCustomerBalance(order.getCustomerID(), order.getCost());
+                    order.refund(order.getCustomerID());
                 }
                 if (order.getId().equals(orderID)) {
                     custid = order.getCustomerID();
@@ -365,25 +365,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
             }
         });
     }
-    
-    public void updateCustomerBalance(String id, double cost) {
-        List<DataProvider> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.USER));
-        for (DataProvider obj : container) {
-            if (obj instanceof Customer) {
-                Customer cust = (Customer) obj;
-                if (cust.getId().equals(id)) {
-                    double newBalance = cust.getBal() + cost;
-                    cust.setBal(String.valueOf(newBalance));
-                    System.out.println("New Balance: " + cust.getBal());
-                    TextEditor.textDelete(TextEditor.FilePaths.USER, cust);
-                    TextEditor.fileWrite(TextEditor.FilePaths.USER, cust);
-                    break;
-                }
-            }
-        }
-    }
 
-    
     // Separate method to update the order in the file    
     public void updateNotification(String orderId){
         List<Object> container2 = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.NOTIFICATION));
