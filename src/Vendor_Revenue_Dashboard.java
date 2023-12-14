@@ -173,7 +173,7 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
 
         jLabel1.setText("Revenue Dashboard");
 
-        comboMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
+        comboMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "       ", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
         comboMonth.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboMonthActionPerformed(evt);
@@ -280,6 +280,7 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
 
     private void comboMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMonthActionPerformed
        filterMonth();
+       
     }//GEN-LAST:event_comboMonthActionPerformed
 
     private void btnQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitActionPerformed
@@ -293,7 +294,7 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_comboYearActionPerformed
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
-        if (year != null && !year.isEmpty() && month != null && !month.isEmpty() ) {
+        if (year != null && !year.isEmpty()&& month != null && !month.isEmpty()) {   
             viewOrderHistory(vendor.getId());
         }else{
             JOptionPane.showMessageDialog(this, "Please select the year and month!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -349,7 +350,7 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
                 DeliveryOrder O = (DeliveryOrder) obj;
                 String status = O.getStatus();
                 if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
-                    if (String.valueOf(O.getOrderYear()).equals(year) && String.valueOf(O.getOrderMonth()).equals(month)) {
+                    if (String.valueOf(O.getOrderYear()).equals(year)|| String.valueOf(O.getOrderMonth()).equals(month)){
                         String[] OrderHistVendorArray = {
                             O.getId(),
                             O.getFood(),

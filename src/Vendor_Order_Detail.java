@@ -321,7 +321,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
         if (!check) {
             JOptionPane.showMessageDialog(null, "Order not exist!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
-    
+        this.dispose();
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void inputFoodID_TF1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputFoodID_TF1ActionPerformed
