@@ -173,7 +173,7 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
 
         jLabel1.setText("Revenue Dashboard");
 
-        comboMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "       ", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
+        comboMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
         comboMonth.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboMonthActionPerformed(evt);
