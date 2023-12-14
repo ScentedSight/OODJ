@@ -27,7 +27,7 @@ public class RunnerFrame extends javax.swing.JFrame {
         }        
     };
     private final String[] taskListColumns = {"Order ID", "Order Placed", "Vendor", "Customer ID", "Food", "Quantity", "Address"};
-    private final String[] tasksColumns = {"Order ID", "Time Elapsed", "Vendor", "Customer ID", "Food", "Quantity", "Address"};
+    private final String[] tasksColumns = {"Order ID", "Time Elapsed", "Vendor", "Customer ID", "Food", "Quantity","Status" , "Address"};
     private final String[] taskHistoryColumns = {"Order ID", "Order Completion", "Vendor", "Customer", "Food", "Quantity", "Address", "Profit", "Review"};
     private int taskListRow = -1; //-1 = absence of a selected row, can be used as conditions
     private int tasksRow = -1; //Different row selector for different tables   
