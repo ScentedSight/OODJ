@@ -729,6 +729,8 @@ public class C_MenuFrame extends javax.swing.JFrame {
         if (row2 != -1) {
             if (selector.equals("READY") || selector.equals("DELIVERED")) { //Check for order ID identifier which starts with O and only allowing 3 statuses of ready and canceled to make the food received button available
                 bFoodReceived.setEnabled(true); //Make the receipt acknowledge button available
+            } else {
+                bFoodReceived.setEnabled(false); //Disable the button for all other statuses
             }
         }
     }//GEN-LAST:event_CurrentOrderMousePressed

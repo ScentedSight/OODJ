@@ -165,6 +165,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
 
         lblQuantity.setText("Quantity:");
 
+        inputFoodID_TF1.setEditable(false);
         inputFoodID_TF1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputFoodID_TF1ActionPerformed(evt);

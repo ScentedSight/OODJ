@@ -42,8 +42,9 @@ public class VendorFrame extends JFrame {
         OrderModel.setColumnIdentifiers(OrderList);
         setTitle("Vendor HomePage");
         
-        displayOrder();
+        
         displayMenu();
+        displayOrder();
         displayNotification();
     }
 
@@ -345,7 +346,9 @@ public class VendorFrame extends JFrame {
         for (Object obj : container3) { 
             Notification n = (Notification) obj;
             if (lblNotification.getText().contains(n.getId())) {       
-                TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);   
+                n.setVendorID(null); //Remove vendor ID from notification to clear it
+                TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);
+                TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
                 break; 
             }
         }
@@ -421,6 +424,7 @@ public class VendorFrame extends JFrame {
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         displayOrder();
+        displayNotification();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     /**
