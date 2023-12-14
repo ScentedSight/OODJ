@@ -359,7 +359,7 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
                             O.getTime(),
                             O.getRemark(),
                             Double.toString(O.getCost()),};
-                        totalProfit += O.getCost();
+                        totalProfit += (O.getCost()-2);         //not include delivery fee
                         rowCount++;
                         revenueModel.addRow(OrderHistVendorArray);
                     }
@@ -411,7 +411,7 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
                         O.getTime(),
                         O.getRemark(),
                         Double.toString(O.getCost()),};
-                    totalProfit += O.getCost();
+                    totalProfit += (O.getCost()-2);         //not include delivery fee
                     rowCount++;
                     revenueModel.addRow(OrderHistVendorArray);
                 }
