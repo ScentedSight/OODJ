@@ -194,30 +194,4 @@ public class Order implements DataProvider {
     public double getQuantity(){
         return quantity;
     }
-    
-    public void setUpdateStatus(int updateStatus){
-        switch (updateStatus) {           //add status
-            case 0:
-                this.status = Status.PENDING;
-                break;
-            case 1:
-                this.status = Status.PREPARING;
-                break;
-            case 2:
-                this.status = Status.READY;
-                break;
-            case 3:
-                this.status = Status.COMPLETED;
-                break;
-            case 4:
-                this.status = Status.PICKED_UP;
-                break;
-            case 5:
-                this.status = Status.CANCELLED;
-                break;
-            default:
-                break;
-        }
-
-    }
 }

@@ -42,7 +42,9 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
         setTitle("Order Detail");
         
         Dine_Rbtn.setActionCommand("Dine in");
+        Dine_Rbtn.setEnabled(false); //Disable radio button
         TakeAway_Rbtn.setActionCommand("Take Away");
+        TakeAway_Rbtn.setEnabled(false); //Disable radio button
 
         if (remark.equals("Dine in")) {
             Dine_Rbtn.setSelected(true);
@@ -53,6 +55,25 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
         }
     }
 
+    private Order.Status statusConvert(String index) { //convert combobox string to status object in order
+        switch (index) {
+            case "PENDING":
+                return Order.Status.PENDING;
+            case "PREPARING":
+                return Order.Status.PREPARING;
+            case "READY":
+                return Order.Status.READY;
+            case "COMPLETED":
+                return Order.Status.COMPLETED;
+            case "PICKED_UP":
+                return Order.Status.PICKED_UP;
+            case "CANCELLED":
+                return Order.Status.CANCELLED;
+            default:
+                throw new IllegalArgumentException("Invalid status: " + index);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -246,7 +267,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
     }//GEN-LAST:event_TakeAway_RbtnActionPerformed
 
     private void Status_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Status_CBActionPerformed
-        order.setUpdateStatus(Status_CB.getSelectedIndex());
+        order.setStatus((Order.Status) Status_CB.getSelectedItem());
     }//GEN-LAST:event_Status_CBActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -254,32 +275,39 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        
-        
+
         List<Object> container = new ArrayList<>(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         String custid = null;
         double foodCost = 0;
         boolean check = false;
-        boolean cancelled = false;
-        
-        for (Object obj : container) {
-            Order order = (Order) obj;
 
-            if (order.getId().equals(orderID)) {
-                if (Status_CB.getSelectedItem().equals("CANCELLED")) {
-                    updateCustomerBalance(order.getCustomerID(), order.getCost());
-                    order.setStatus(Order.Status.CANCELLED);
-                    order.setTime();
-                    System.out.println("New Status: " + order.getStatus());
-                    updateOrder(order);
+        for (Object obj : container) {
+            if (obj instanceof DeliveryOrder) {
+                DeliveryOrder dOrder = (DeliveryOrder) obj;
+                if (String.valueOf(Status_CB.getSelectedItem()).equals("CANCELLED")) {
+                    updateCustomerBalance(dOrder.getCustomerID(), dOrder.getCost());
+                }
+                if (dOrder.getId().equals(orderID)) {
+                    custid = dOrder.getCustomerID();
+                    foodCost = dOrder.getCost();
+                    dOrder.setStatus(statusConvert(String.valueOf(Status_CB.getSelectedItem())));
+                    dOrder.setTime();
+                    System.out.println("New Status: " + dOrder.getStatus());
+                    updateOrder(dOrder);
                     updateNotification(orderID);
-                    JOptionPane.showMessageDialog(null, "Order Cancelled!");
+                    JOptionPane.showMessageDialog(null, "Order Status Updated!");
                     check = true;
                     break;
-                } else {
+                }
+            } else if (obj instanceof Order) {
+                Order order = (Order) obj;
+                if (String.valueOf(Status_CB.getSelectedItem()).equals("CANCELLED")) {
+                    updateCustomerBalance(order.getCustomerID(), order.getCost());
+                }
+                if (order.getId().equals(orderID)) {
                     custid = order.getCustomerID();
                     foodCost = order.getCost();
-                    order.setUpdateStatus(Status_CB.getSelectedIndex());
+                    order.setStatus(statusConvert(String.valueOf(Status_CB.getSelectedItem())));
                     order.setTime();
                     System.out.println("New Status: " + order.getStatus());
                     updateOrder(order);
@@ -290,7 +318,6 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
                 }
             }
         }
-
         if (!check) {
             JOptionPane.showMessageDialog(null, "Order not exist!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
