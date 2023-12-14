@@ -54,7 +54,8 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
                         remark = " ";
                     }
                 }
-            } else if (obj instanceof DeliveryOrder) {
+            } 
+            else if (obj instanceof DeliveryOrder) {
                 DeliveryOrder O = (DeliveryOrder) obj;
                 String status = O.getStatus();
 

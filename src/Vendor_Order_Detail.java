@@ -45,7 +45,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
         if (remark.equals("Dine in")) {
             Dine_Rbtn.setSelected(true);
             TakeAway_Rbtn.setSelected(false);
-        } else if(remark.equals("Take Away")){
+        } else if(remark.equals("Take Away") || remark.equals("Delivery")){
             Dine_Rbtn.setSelected(false);
             TakeAway_Rbtn.setSelected(true);
         }
