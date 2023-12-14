@@ -126,7 +126,7 @@ public class C_MenuFrame extends javax.swing.JFrame {
             if (object instanceof DeliveryOrder) {
                 DeliveryOrder dOrder = (DeliveryOrder) object;
                 if (dOrder.getCustomerID().equals(customer.getId())) {
-                    if (dOrder.getStatusRunner().equals("SEARCHING") || dOrder.getStatusRunner().equals("DELIVERING") || dOrder.getStatusRunner().equals("DELIVERED")) {
+                    if ((!dOrder.getStatus().equals("COMPLETED") && !dOrder.getStatus().equals("PICKED_UP")) && (dOrder.getStatusRunner().equals("SEARCHING") || dOrder.getStatusRunner().equals("DELIVERING") || dOrder.getStatusRunner().equals("DELIVERED"))) {
                         String[] currentOrder = {dOrder.getId(), dOrder.getFood(), String.valueOf(dOrder.getQuantity()), String.valueOf(dOrder.getCost()), String.valueOf(dOrder.getStatus())};
                         model2.addRow(currentOrder);
                     }
@@ -687,6 +687,8 @@ public class C_MenuFrame extends javax.swing.JFrame {
             String selector = String.valueOf(model3.getValueAt(row3, 2));
             if (selector.contains("You have successfully topped up ") || selector.equals("Your food is ready") || selector.equals("The order has been canceled") || selector.equals("Your food has been delivered")) { //Check for order ID identifier which starts with O and only allowing 3 statuses of ready and canceled to make the food received button available
                 bNotificationAcknowledged.setEnabled(true); //Make the receipt acknowledge button available
+            } else {
+                bNotificationAcknowledged.setEnabled(false);
             }
         }
 

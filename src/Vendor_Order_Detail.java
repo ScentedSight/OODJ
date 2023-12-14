@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  * @author 110ti
  */
 public class Vendor_Order_Detail extends javax.swing.JFrame {
-    private String orderID,foodID,custID,remark,time,cost, quantity;
+    private String orderID,foodID,custID,remark,time,cost, quantity, runner;
     private Customer customer;
     private String status;
     private Vendor vendor;
@@ -41,20 +41,62 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
         inputTime_TF.setText(time);
         setTitle("Order Detail");
         
-        Dine_Rbtn.setActionCommand("Dine in");
         Dine_Rbtn.setEnabled(false); //Disable radio button
-        TakeAway_Rbtn.setActionCommand("Take Away");
-        TakeAway_Rbtn.setEnabled(false); //Disable radio button
+        TakeAway_Rbtn.setEnabled(false);
+        Delivery_Rbtn.setEnabled(false);
+        
+        remarkChecker();
+    }
+    
+    public Vendor_Order_Detail(Vendor vendor, String orderID, String foodID, String custID, String time, String remark, String status, String cost, Double quantity, String runner) { //For deliveries
+        initComponents();
+        this.vendor = vendor;
+        this.orderID= orderID;
+        this.foodID = foodID;
+        this.time= time;
+        this.remark=remark;
+        this.status=status;
+        this.quantity = String.valueOf(quantity);
+        this.cost = cost;
+        this.custID = custID;
+        this.runner = runner;
+        inputOrderID_TF.setEditable(false);
+        txtQuantity.setEditable(false);
+        inputTime_TF.setEditable(false);
+        inputOrderID_TF.setText(orderID);
+        txtQuantity.setText(this.quantity);
+        inputFoodID_TF1.setText(foodID);
+        inputTime_TF.setText(time);
+        setTitle("Order Detail");
+        if (runner == null) { //Set to empty space if runner is null
+            lblRunner.setText("");
+        } else {
+            lblRunner.setText("Delivery Runner: " + runner);
+        }
+        
+        Dine_Rbtn.setEnabled(false); //Disable radio button
+        TakeAway_Rbtn.setEnabled(false);
+        Delivery_Rbtn.setEnabled(false);
+        
+        remarkChecker();
+    }
 
+    private void remarkChecker() {
         if (remark.equals("Dine in")) {
             Dine_Rbtn.setSelected(true);
             TakeAway_Rbtn.setSelected(false);
-        } else if(remark.equals("Take Away") || remark.equals("Delivery")){
+            Delivery_Rbtn.setSelected(false);
+        } else if(remark.equals("Take Away")){
             Dine_Rbtn.setSelected(false);
             TakeAway_Rbtn.setSelected(true);
+            Delivery_Rbtn.setSelected(false);
+        } else if (remark.equals("Delivery")) {
+            Dine_Rbtn.setSelected(false);
+            TakeAway_Rbtn.setSelected(false);
+            Delivery_Rbtn.setSelected(true);
         }
     }
-
+    
     private Order.Status statusConvert(String index) { //convert combobox string to status object in order
         switch (index) {
             case "PENDING":
@@ -99,6 +141,8 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         lblQuantity = new javax.swing.JLabel();
         inputFoodID_TF1 = new javax.swing.JTextField();
+        Delivery_Rbtn = new javax.swing.JRadioButton();
+        lblRunner = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -172,6 +216,14 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(Delivery_Rbtn);
+        Delivery_Rbtn.setText("Delivery");
+        Delivery_Rbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Delivery_RbtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -179,15 +231,15 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(inputOrderID_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(btnSave)
+                            .addComponent(jLabel5)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnBack))
+                            .addComponent(Status_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel4)
-                                .addComponent(jLabel5)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(1, 1, 1)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,14 +254,20 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
                                     .addGap(65, 65, 65)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(inputTime_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(Status_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(TakeAway_Rbtn)
                                         .addComponent(Dine_Rbtn)
-                                        .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(Delivery_Rbtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(TakeAway_Rbtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(66, 66, 66)
-                                    .addComponent(inputFoodID_TF1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addComponent(inputOrderID_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(inputFoodID_TF1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(lblRunner)
+                                .addComponent(btnSave))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBack))))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -223,7 +281,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(inputFoodID_TF1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblQuantity)
                     .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -235,17 +293,21 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(Dine_Rbtn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TakeAway_Rbtn)
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(Status_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Delivery_Rbtn)
+                    .addComponent(lblRunner))
+                .addGap(13, 13, 13)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Status_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack)
                     .addComponent(btnSave))
-                .addGap(36, 36, 36))
+                .addGap(22, 22, 22))
         );
 
         pack();
@@ -294,7 +356,9 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
                     dOrder.setStatus(statusConvert(String.valueOf(Status_CB.getSelectedItem())));
                     dOrder.setTime();
                     System.out.println("New Status: " + dOrder.getStatus());
-                    updateOrder(dOrder);
+                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, dOrder);
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, dOrder);
+                    this.order = dOrder;
                     updateNotification(orderID);
                     JOptionPane.showMessageDialog(null, "Order Status Updated!");
                     check = true;
@@ -311,7 +375,9 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
                     order.setStatus(statusConvert(String.valueOf(Status_CB.getSelectedItem())));
                     order.setTime();
                     System.out.println("New Status: " + order.getStatus());
-                    updateOrder(order);
+                    TextEditor.textDelete(TextEditor.FilePaths.HISTORY, order);
+                    TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order);
+                    this.order = order;
                     updateNotification(orderID);
                     JOptionPane.showMessageDialog(null, "Order Status Updated!");
                     check = true;
@@ -328,6 +394,10 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
     private void inputFoodID_TF1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputFoodID_TF1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputFoodID_TF1ActionPerformed
+
+    private void Delivery_RbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Delivery_RbtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Delivery_RbtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -378,35 +448,24 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
                     n.setTime(time);
                     TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
                     TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
-                    JOptionPane.showMessageDialog(null, "Order Status Updated!");
-                    break;
                 }
                 else if (order.getStatus().equals("READY")){
                     n.setMessage(Notification.Messages.READY);
                     TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
                     TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
-                    JOptionPane.showMessageDialog(null, "Order Status Updated!");
-                    break;
                 }
                 else if (order.getStatus().equals("CANCELLED")){
                     n.setMessage(Notification.Messages.CANCEL);
                     n.setTime(time);
                     TextEditor.textDelete(TextEditor.FilePaths.NOTIFICATION, n);    //Rewrite it all back
                     TextEditor.fileWrite(TextEditor.FilePaths.NOTIFICATION, n);
-                    JOptionPane.showMessageDialog(null, "Order Status Updated!");
-                    break;
                 }
             }
         }
     }
-    
-    private void updateOrder(Order order) {
-        TextEditor.textDelete(TextEditor.FilePaths.HISTORY, order);
-        TextEditor.fileWrite(TextEditor.FilePaths.HISTORY, order);
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton Delivery_Rbtn;
     private javax.swing.JRadioButton Dine_Rbtn;
     private javax.swing.JComboBox<String> Status_CB;
     private javax.swing.JRadioButton TakeAway_Rbtn;
@@ -422,6 +481,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lblQuantity;
+    private javax.swing.JLabel lblRunner;
     private javax.swing.JTextField txtQuantity;
     // End of variables declaration//GEN-END:variables
 }

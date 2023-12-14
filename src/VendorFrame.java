@@ -284,19 +284,27 @@ public class VendorFrame extends JFrame {
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-        if (order.getId() != null) { 
+        if (order.getId() != null) {
             Vendor_Order_Detail o = new Vendor_Order_Detail();
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
-                Order OH = (Order) obj;
-                if (OH.getId().equals(order.getId())) {
-                    o = new Vendor_Order_Detail(vendor, OH.getId(), OH.getFood(), OH.getCustomerID(), OH.getTime(),  OH.getRemark(), OH.getStatus(), String.valueOf(OH.getCost()), OH.getQuantity());
-                    break; //Break out of the loop once done since only one order should be edited at a time
+                if (obj instanceof DeliveryOrder) {
+                    DeliveryOrder dOrder = (DeliveryOrder) obj;
+                    if (dOrder.getId().equals(order.getId())) {
+                        o = new Vendor_Order_Detail(vendor, dOrder.getId(), dOrder.getFood(), dOrder.getCustomerID(), dOrder.getTime(), dOrder.getRemark(), dOrder.getStatus(), String.valueOf(dOrder.getCost()), dOrder.getQuantity(), dOrder.getRunner());
+                        break; //Break out of the loop once done since only one order should be edited at a time
+                    }
+                } else if (obj instanceof Order) {
+                    Order orders = (Order) obj;
+                    if (orders.getId().equals(order.getId())) {
+                        o = new Vendor_Order_Detail(vendor, orders.getId(), orders.getFood(), orders.getCustomerID(), orders.getTime(), orders.getRemark(), orders.getStatus(), String.valueOf(orders.getCost()), orders.getQuantity());
+                        break;
+                    }
                 }
             }
             o.setVisible(true);
-        }else{
-            JOptionPane.showMessageDialog(null,"Please select an order.","Warning",JOptionPane.WARNING_MESSAGE);
-        } 
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select an order.", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnViewActionPerformed
 
     private void btnEditMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditMenuActionPerformed

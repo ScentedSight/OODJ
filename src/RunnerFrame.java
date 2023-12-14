@@ -427,6 +427,7 @@ public class RunnerFrame extends javax.swing.JFrame {
                         dOrder.getCustomerID(), //Retrieve customer ID
                         dOrder.getFood(), //Retrieve food name
                         String.valueOf(dOrder.getQuantity()), //Retrieve quantity
+                        dOrder.getStatus(), //Retrieve status
                         dOrder.getAddress() //Retrieve address
                     };
                     tasksModel.addRow(rowDataArray);
