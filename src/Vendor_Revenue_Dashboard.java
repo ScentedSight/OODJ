@@ -350,7 +350,7 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
                 DeliveryOrder O = (DeliveryOrder) obj;
                 String status = O.getStatus();
                 if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
-                    if (String.valueOf(O.getOrderYear()).equals(year)|| String.valueOf(O.getOrderMonth()).equals(month)){
+                    if (String.valueOf(O.getOrderYear()).equals(year)&& String.valueOf(O.getOrderMonth()).equals(month)){
                         String[] OrderHistVendorArray = {
                             O.getId(),
                             O.getFood(),
