@@ -278,6 +278,7 @@ public class VendorFrame extends JFrame {
     private void btnRevenueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevenueActionPerformed
         Vendor_Revenue_Dashboard r = new Vendor_Revenue_Dashboard(vendor);
         r.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRevenueActionPerformed
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
