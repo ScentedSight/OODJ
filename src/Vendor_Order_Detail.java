@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  * @author 110ti
  */
 public class Vendor_Order_Detail extends javax.swing.JFrame {
-    private String orderID,foodID,custID,remark,time,cost;
+    private String orderID,foodID,custID,remark,time,cost, quantity;
     private Customer customer;
     private String status;
     private Vendor vendor;
@@ -21,7 +21,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
     
     public Vendor_Order_Detail(){}
     
-    public Vendor_Order_Detail(Vendor vendor, String orderID, String foodID, String custID, String time, String remark, String status, String cost) {
+    public Vendor_Order_Detail(Vendor vendor, String orderID, String foodID, String custID, String time, String remark, String status, String cost, Double quantity) {
         initComponents();
         this.vendor = vendor;
         this.orderID= orderID;
@@ -29,13 +29,15 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
         this.time= time;
         this.remark=remark;
         this.status=status;
+        this.quantity = String.valueOf(quantity);
         this.cost = cost;
         this.custID = custID;
         inputOrderID_TF.setEditable(false);
-        inputFoodID_TF.setEditable(false);
+        txtQuantity.setEditable(false);
         inputTime_TF.setEditable(false);
         inputOrderID_TF.setText(orderID);
-        inputFoodID_TF.setText(foodID);
+        txtQuantity.setText(this.quantity);
+        inputFoodID_TF1.setText(foodID);
         inputTime_TF.setText(time);
         setTitle("Order Detail");
         
@@ -63,7 +65,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         inputOrderID_TF = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        inputFoodID_TF = new javax.swing.JTextField();
+        txtQuantity = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         inputTime_TF = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -74,6 +76,8 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
         Status_CB = new javax.swing.JComboBox<>();
         btnSave = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        lblQuantity = new javax.swing.JLabel();
+        inputFoodID_TF1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,13 +89,14 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
 
         jLabel1.setText("Order ID:");
 
-        inputFoodID_TF.addActionListener(new java.awt.event.ActionListener() {
+        txtQuantity.setEditable(false);
+        txtQuantity.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputFoodID_TFActionPerformed(evt);
+                txtQuantityActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("Food");
+        jLabel2.setText("Food:");
 
         inputTime_TF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -99,7 +104,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Time");
+        jLabel3.setText("Time:");
 
         jLabel4.setText("Remark:");
 
@@ -137,48 +142,70 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
             }
         });
 
+        lblQuantity.setText("Quantity:");
+
+        inputFoodID_TF1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputFoodID_TF1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSave)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBack))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel2))
-                            .addComponent(jLabel1))
-                        .addGap(65, 65, 65)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(inputFoodID_TF, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(inputOrderID_TF, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(inputTime_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(Status_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TakeAway_Rbtn)
-                            .addComponent(Dine_Rbtn))))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addGap(60, 60, 60)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnSave)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBack))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel5)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(1, 1, 1)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel1)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(lblQuantity)
+                                    .addGap(13, 13, 13)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(65, 65, 65)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(inputTime_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(Status_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(TakeAway_Rbtn)
+                                        .addComponent(Dine_Rbtn)
+                                        .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(66, 66, 66)
+                                    .addComponent(inputFoodID_TF1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(inputOrderID_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(inputOrderID_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(inputOrderID_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(inputFoodID_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(inputFoodID_TF1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblQuantity)
+                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(inputTime_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -196,7 +223,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack)
                     .addComponent(btnSave))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addGap(36, 36, 36))
         );
 
         pack();
@@ -206,9 +233,9 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputOrderID_TFActionPerformed
 
-    private void inputFoodID_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputFoodID_TFActionPerformed
+    private void txtQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantityActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_inputFoodID_TFActionPerformed
+    }//GEN-LAST:event_txtQuantityActionPerformed
 
     private void inputTime_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTime_TFActionPerformed
         // TODO add your handling code here:
@@ -269,6 +296,10 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
         }
     
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void inputFoodID_TF1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputFoodID_TF1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputFoodID_TF1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -372,7 +403,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnSave;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JTextField inputFoodID_TF;
+    private javax.swing.JTextField inputFoodID_TF1;
     private javax.swing.JTextField inputOrderID_TF;
     private javax.swing.JTextField inputTime_TF;
     private javax.swing.JLabel jLabel1;
@@ -380,5 +411,7 @@ public class Vendor_Order_Detail extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel lblQuantity;
+    private javax.swing.JTextField txtQuantity;
     // End of variables declaration//GEN-END:variables
 }

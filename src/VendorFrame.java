@@ -21,7 +21,7 @@ public class VendorFrame extends JFrame {
     private Vendor vendor;
     private Time time;
     private String[] MenuColumn={"FoodID","Description","Price"};
-    private String[] OrderList={"OrderID","Time","Status"};
+    private String[] OrderList={"OrderID","Time", "Quantity" ,"Status"};
     private int MenuRow = -1; 
     private int OrderRow = -1;    
     private Food food = new Food();
@@ -276,17 +276,7 @@ public class VendorFrame extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRevenueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevenueActionPerformed
-        List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
-        Vendor_Revenue_Dashboard r = new Vendor_Revenue_Dashboard();
-        for (Object obj : container) {
-            if (obj instanceof Order) {
-                Order rd = (Order) obj;
-                if (vendor.getName() != null && vendor.getName().equals(rd.getVendorName())) {
-                    r = new Vendor_Revenue_Dashboard(vendor);
-                    break;
-                }
-            }
-        }
+        Vendor_Revenue_Dashboard r = new Vendor_Revenue_Dashboard(vendor);
         r.setVisible(true);
     }//GEN-LAST:event_btnRevenueActionPerformed
 
@@ -297,7 +287,7 @@ public class VendorFrame extends JFrame {
             for (Object obj : container) { //Finalise delivery order by plugging in extra properties
                 Order OH = (Order) obj;
                 if (OH.getId().equals(order.getId())) {
-                    o = new Vendor_Order_Detail(vendor, OH.getId(), OH.getFood(), OH.getCustomerID(), OH.getTime(),  OH.getRemark(), OH.getStatus(), String.valueOf(OH.getCost()));
+                    o = new Vendor_Order_Detail(vendor, OH.getId(), OH.getFood(), OH.getCustomerID(), OH.getTime(),  OH.getRemark(), OH.getStatus(), String.valueOf(OH.getCost()), OH.getQuantity());
                     break; //Break out of the loop once done since only one order should be edited at a time
                 }
             }
@@ -342,7 +332,6 @@ public class VendorFrame extends JFrame {
             if (e.getClickCount() == 1) { // Check for single-click
                 int row = OrderTable.getSelectedRow();
                 if (row >= 0) {
-                    System.out.println(OrderTable.getValueAt(row, 0));
                     order.setId(String.valueOf(OrderTable.getValueAt(row, 0)));
                 }
             }
@@ -496,6 +485,7 @@ public class VendorFrame extends JFrame {
                     String[] OrderVendorArray = {
                         O.getId(),          //get OrderID
                         O.getTime(),        //get Order Time
+                        String.valueOf(O.getQuantity()), //get quantity
                         status,             //get Order Status
                 };
                 OrderModel.addRow(OrderVendorArray);        //add data

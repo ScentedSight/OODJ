@@ -41,34 +41,36 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
         
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) {
-            if (obj instanceof Order) {
-                Order O = (Order) obj;
-                String status = O.getStatus();
-
-                if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
-                    if (status.equals("COMPLETED")) {
-                        remark = "Dine in";
-                    } else if (status.equals("PICKED_UP")) {        //delivery use deliveryOrder, do not same
-                        remark = "Take away";
-                    } else {
-                        remark = " ";
-                    }
-                }
-            } 
-            else if (obj instanceof DeliveryOrder) {
+            if (obj instanceof DeliveryOrder) {
                 DeliveryOrder O = (DeliveryOrder) obj;
                 String status = O.getStatus();
-
                 if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
                     if (status.equals("COMPLETED")) {
                         remark = "Dine in";
+                        break;
                     } else if (status.equals("PICKED_UP")) {        //delivery use deliveryOrder, do not same
                         remark = "Take away";
+                        break;
                     } else {
                         remark = " ";
+                        break;
                     }
                 }
-
+            } else if (obj instanceof Order) {
+                Order O = (Order) obj;
+                String status = O.getStatus();
+                if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
+                    if (status.equals("COMPLETED")) {
+                        remark = "Dine in";
+                        break;
+                    } else if (status.equals("PICKED_UP")) {        //delivery use deliveryOrder, do not same
+                        remark = "Take away";
+                        break;
+                    } else {
+                        remark = " ";
+                        break;
+                    }
+                }
             }
             viewAllOrderHistory(vendor.getId());
         }
@@ -343,26 +345,7 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
         // Clear existing rows in the model
         revenueModel.setRowCount(0);
         for (Object obj : container) {
-            if (obj instanceof Order) {
-                Order O = (Order) obj;
-                String status = O.getStatus();
-                if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
-                    if (String.valueOf(O.getOrderYear()).equals(year) && String.valueOf(O.getOrderMonth()).equals(month)) {
-                        String[] OrderHistVendorArray = {
-                            O.getId(),
-                            O.getFood(),
-                            O.getReview(),
-                            String.valueOf(O.getRatings()),
-                            date = O.getOrderDay() + "/" + O.getOrderMonth() + "/" + O.getOrderYear(),
-                            O.getTime(),
-                            O.getRemark(),
-                            Double.toString(O.getCost()),};
-                        totalProfit += O.getCost();
-                        rowCount++;
-                        revenueModel.addRow(OrderHistVendorArray);
-                    }
-                }
-            } else if (obj instanceof DeliveryOrder) {
+            if (obj instanceof DeliveryOrder) {
                 DeliveryOrder O = (DeliveryOrder) obj;
                 String status = O.getStatus();
                 if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
@@ -381,8 +364,26 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
                         revenueModel.addRow(OrderHistVendorArray);
                     }
                 }
+            } else if (obj instanceof Order) {
+                Order O = (Order) obj;
+                String status = O.getStatus();
+                if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
+                    if (String.valueOf(O.getOrderYear()).equals(year) && String.valueOf(O.getOrderMonth()).equals(month)) {
+                        String[] OrderHistVendorArray = {
+                            O.getId(),
+                            O.getFood(),
+                            O.getReview(),
+                            String.valueOf(O.getRatings()),
+                            date = O.getOrderDay() + "/" + O.getOrderMonth() + "/" + O.getOrderYear(),
+                            O.getTime(),
+                            O.getRemark(),
+                            Double.toString(O.getCost()),};
+                        totalProfit += O.getCost();
+                        rowCount++;
+                        revenueModel.addRow(OrderHistVendorArray);
+                    }
+                }
             }
-
         }
         // Update the labels with total profit and average income
         LabelTotal.setText("RM" + totalProfit);
@@ -396,7 +397,25 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
         double totalProfit = 0;
         List<Object> container = new ArrayList(TextEditor.fileReader(TextEditor.FilePaths.HISTORY));
         for (Object obj : container) {
-            if (obj instanceof Order) {
+            if (obj instanceof DeliveryOrder) {
+                DeliveryOrder O = (DeliveryOrder) obj;
+                String status = O.getStatus();
+                if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
+                    // filter for year only, show all result for months
+                    String[] OrderHistVendorArray = {
+                        O.getId(),
+                        O.getFood(),
+                        O.getReview(),
+                        String.valueOf(O.getRatings()),
+                        date = O.getOrderDay() + "/" + O.getOrderMonth() + "/" + O.getOrderYear(),
+                        O.getTime(),
+                        O.getRemark(),
+                        Double.toString(O.getCost()),};
+                    totalProfit += O.getCost();
+                    rowCount++;
+                    revenueModel.addRow(OrderHistVendorArray);
+                }
+            } else if (obj instanceof Order) {
                 Order O = (Order) obj;
                 String status = O.getStatus();
                 if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
@@ -414,25 +433,6 @@ public class Vendor_Revenue_Dashboard extends javax.swing.JFrame {
                     rowCount++;
                     revenueModel.addRow(OrderHistVendorArray);
                 }
-            } else if (obj instanceof DeliveryOrder) {
-                Order O = (Order) obj;
-                String status = O.getStatus();
-                if (O.getVendorID().equals(id) && status.equals("COMPLETED") || status.equals("PICKED_UP")) {
-                    // filter for year only, show all result for months
-                    String[] OrderHistVendorArray = {
-                        O.getId(),
-                        O.getFood(),
-                        O.getReview(),
-                        String.valueOf(O.getRatings()),
-                        date = O.getOrderDay() + "/" + O.getOrderMonth() + "/" + O.getOrderYear(),
-                        O.getTime(),
-                        O.getRemark(),
-                        Double.toString(O.getCost()),};
-                    totalProfit += O.getCost();
-                    rowCount++;
-                    revenueModel.addRow(OrderHistVendorArray);
-                }
-
             }
             LabelTotal.setText("RM" + totalProfit);
             DecimalFormat df = new DecimalFormat("0.00");
